@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Embeddable World Clock Widget | GlobeTimeZone</title>
+  <meta name="description" content="Add a free world clock widget to your website. Customizable cities, light/dark theme, compact or full size. Copy and paste the embed code in seconds." />
+  <meta name="keywords" content="world clock widget, embeddable clock, free website clock, time zone widget embed, iframe world clock" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://globetimezone.com/embed-widget" />
+    <!-- PWA & Social -->
+  <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+  <link rel="manifest" href="../manifest.json" />
+  <meta name="twitter:card" content="summary_large_image" />
+  
+  <link rel="stylesheet" href="../css/style.min.css" />
+  <style>
+    .code-block {
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 16px 20px;
+      border-radius: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      position: relative;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.75rem;
+    }
+    .preview-frame {
+      width: 100%;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .option-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 8px 0;
+    }
+    .option-btn {
+      padding: 6px 16px;
+      border: 2px solid var(--border);
+      background: white;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .option-btn.active {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: white;
+    }
+  </style>
+  <!-- Google Analytics 4 -->
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script src="../js/ga4.min.js"></script>
+</head>
+<body>
+
+<!-- ===== Accessibility: Skip to main content ===== -->
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<header>
+  <div class="header-inner">
+    <a href="../" class="logo">🌍 Globe<span>TimeZone</span></a>
+    <nav> aria-label="Main navigation"
+      <a href="../">Converter</a>
+      <a href="world-clock.html">World Clock</a>
+      <a href="meeting-scheduler.html">Meeting Scheduler</a>
+    </nav>
+  </div>
+</header>
+<nav class="breadcrumb" style="padding:12px 24px;max-width:1200px;margin:0 auto;font-size:0.875rem;color:#595959;">
+  <a href="../" style="color:#2563eb;text-decoration:none;">Home</a> &gt; <span>Embed World Clock Widget</span>
+</nav>
+
+<main style="max-width:1100px;margin:0 auto;padding:20px 24px;" id="main-content" role="main">
+  <div style="text-align:center;padding:40px 0 32px;">
+    <h1 class="section-title" style="font-size:2rem;">🆓 Free World Clock Widget</h1>
+    <p style="color:#595959;font-size:1.1rem;max-width:600px;margin:12px auto 0;">Add a live world clock to your website for free. Customize cities, theme, and size — then copy and paste one line of HTML.</p>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;">
+    
+    <!-- Left: Configurator -->
+    <section class="card">
+      <h2 class="card-title">⚙️ Customize Your Widget</h2>
+      
+      <div style="margin-top:20px;">
+        <label style="font-size:0.875rem;font-weight:600;display:block;margin-bottom:8px;">🏙️ Select Cities (up to 6)</label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;" id="city-selector">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <div style="margin-top:20px;">
+        <label style="font-size:0.875rem;font-weight:600;display:block;margin-bottom:8px;">🎨 Theme</label>
+        <div class="option-row">
+          <button class="option-btn active" onclick="setOption('theme','light',this)">☀️ Light</button>
+          <button class="option-btn" onclick="setOption('theme','dark',this)">🌙 Dark</button>
+        </div>
+      </div>
+
+      <div style="margin-top:20px;">
+        <label style="font-size:0.875rem;font-weight:600;display:block;margin-bottom:8px;">📐 Size</label>
+        <div class="option-row">
+          <button class="option-btn active" onclick="setOption('size','normal',this)">Normal</button>
+          <button class="option-btn" onclick="setOption('size','compact',this)">Compact</button>
+        </div>
+      </div>
+
+      <div style="margin-top:24px;">
+        <button class="btn btn-primary" style="width:100%;" onclick="generateCode()">
+          🔄 Generate Embed Code
+        </button>
+      </div>
+    </section>
+
+    <!-- Right: Preview -->
+    <section>
+      <div class="card" style="margin-bottom:20px;">
+        <h2 class="card-title">👁️ Live Preview</h2>
+        <div style="margin-top:16px;">
+          <iframe id="widget-preview" src="../widget/world-clock.html?cities=New+York,London,Tokyo,Beijing&theme=light&size=normal" class="preview-frame" style="height:300px;" frameborder="0" scrolling="no"></iframe>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h2 class="card-title">📋 Embed Code</h2>
+        <div class="code-block" style="margin-top:16px;" id="code-container">
+          <button class="copy-btn" onclick="copyCode()">Copy</button>
+          <pre id="embed-code" style="white-space:pre-wrap;word-break:break-all;">&lt;iframe src="https://globetimezone.com/widget/world-clock.html?cities=New+York,London,Tokyo,Beijing" width="300" height="300" frameborder="0" scrolling="no" style="border-radius:12px;"&gt;&lt;/iframe&gt;</pre>
+        </div>
+        <p style="font-size:0.8rem;color:#595959;margin-top:12px;">✅ Free forever. No account required. No ads in the widget.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- Features section -->
+  <section style="margin-top:48px;">
+    <h2 class="section-title" style="text-align:center;">Why Embed GlobeTimeZone?</h2>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:24px;">
+      <div class="card" style="text-align:center;">
+        <div style="font-size:2rem;margin-bottom:12px;">⚡</div>
+        <h3 style="font-size:1rem;margin-bottom:8px;">Always Accurate</h3>
+        <p style="color:#595959;font-size:0.875rem;">Uses IANA timezone database via the browser's native APIs. DST-aware and always current.</p>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-size:2rem;margin-bottom:12px;">🆓</div>
+        <h3 style="font-size:1rem;margin-bottom:8px;">Completely Free</h3>
+        <p style="color:#595959;font-size:0.875rem;">No subscription, no API key, no watermark removal fee. Just copy and paste.</p>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div style="font-size:2rem;margin-bottom:12px;">🎨</div>
+        <h3 style="font-size:1rem;margin-bottom:8px;">Fully Customizable</h3>
+        <p style="color:#595959;font-size:0.875rem;">Choose your cities, theme, and size to match your site's design.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Attribution section -->
+  <section class="card" style="margin-top:32px;background:linear-gradient(135deg,var(--primary-light),#dbeafe);border-color:var(--primary);">
+    <h2 class="card-title">🔗 Linking Back (Optional but Appreciated)</h2>
+    <p style="color:#595959;margin-top:8px;">The widget is free with no requirement for attribution. But if you'd like to link back to GlobeTimeZone, here's a simple credit snippet:</p>
+    <div class="code-block" style="margin-top:12px;position:relative;">
+      <button class="copy-btn" onclick="copyAttribution()">Copy</button>
+      <pre id="attr-code">&lt;p&gt;World clock powered by &lt;a href="https://globetimezone.com"&gt;GlobeTimeZone.com&lt;/a&gt;&lt;/p&gt;</pre>
+    </div>
+  </section>
+</main>
+
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div><a href="../" class="footer-logo">🌍 GlobeTimeZone</a><p class="footer-desc">Free world time zone tools. IANA timezone database.</p></div>
+      <div><h4 class="footer-heading">Tools</h4><ul class="footer-links"><li><a href="../">Converter</a></li><li><a href="world-clock.html">World Clock</a></li><li><a href="meeting-scheduler.html">Meeting</a></li></ul></div>
+      <div><h4 class="footer-heading">Developers</h4><ul class="footer-links"><li><a href="embed-widget.html">Widget</a></li><li><a href="about.html">About</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 GlobeTimeZone.com</p></div>
+  </div>
+</footer>
+
+<script>
+const ALL_CITIES = ['New York','Los Angeles','Chicago','Toronto','London','Paris','Berlin','Dubai','Mumbai','Singapore','Beijing','Tokyo','Seoul','Sydney'];
+let selectedCities = ['New York','London','Tokyo','Beijing'];
+let currentTheme = 'light';
+let currentSize = 'normal';
+
+function buildCitySelector() {
+  const sel = document.getElementById('city-selector');
+  sel.innerHTML = '';
+  ALL_CITIES.forEach(city => {
+    const btn = document.createElement('button');
+    const isSelected = selectedCities.includes(city);
+    btn.className = `option-btn${isSelected ? ' active' : ''}`;
+    btn.style.textAlign = 'left';
+    btn.style.fontSize = '0.8rem';
+    btn.textContent = city;
+    btn.onclick = () => toggleCity(city, btn);
+    sel.appendChild(btn);
+  });
+}
+
+function toggleCity(city, btn) {
+  if (selectedCities.includes(city)) {
+    if (selectedCities.length <= 1) return; // Minimum 1 city
+    selectedCities = selectedCities.filter(c => c !== city);
+    btn.classList.remove('active');
+  } else {
+    if (selectedCities.length >= 6) {
+      alert('Maximum 6 cities. Please remove one first.');
+      return;
+    }
+    selectedCities.push(city);
+    btn.classList.add('active');
+  }
+  updatePreview();
+}
+
+function setOption(type, value, btn) {
+  const parent = btn.parentElement;
+  parent.querySelectorAll('.option-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (type === 'theme') currentTheme = value;
+  if (type === 'size') currentSize = value;
+  updatePreview();
+}
+
+function updatePreview() {
+  const citiesStr = selectedCities.join(',').replace(/ /g, '+');
+  const src = `../widget/world-clock.html?cities=${citiesStr}&theme=${currentTheme}&size=${currentSize}`;
+  document.getElementById('widget-preview').src = src;
+  generateCode();
+}
+
+function generateCode() {
+  const citiesStr = encodeURIComponent(selectedCities.join(','));
+  const height = currentSize === 'compact' ? selectedCities.length * 46 + 70 : selectedCities.length * 58 + 80;
+  const code = `<iframe src="https://globetimezone.com/widget/world-clock.html?cities=${citiesStr}&theme=${currentTheme}&size=${currentSize}" width="320" height="${height}" frameborder="0" scrolling="no" style="border-radius:12px;border:1px solid #e2e8f0;"></iframe>`;
+  document.getElementById('embed-code').textContent = code;
+}
+
+function copyCode() {
+  const code = document.getElementById('embed-code').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    const btn = event.target;
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  });
+}
+
+function copyAttribution() {
+  const code = document.getElementById('attr-code').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    const btn = event.target;
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  });
+}
+
+buildCitySelector();
+generateCode();
+</script>
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js')}</script>
+</body>
+</html>

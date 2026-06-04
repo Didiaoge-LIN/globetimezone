@@ -1,0 +1,135 @@
+/**
+ * l10n.js — Localization & timezone display utilities
+ *
+ * Converted from src/utils/l10n.ts — Reviewed by FE
+ * Production-grade with full error handling
+ *
+ * Provides: getLocalizedDateTime() + getTimezoneDisplayName()
+ * Pure JS, zero dependencies, works in all modern browsers
+ */
+(function (global) {
+  'use strict';
+
+  // ---- Timezone nickname map (fallback) ----
+  var TIMEZONE_NICKNAMES = {
+    'America/New_York':    'US Eastern',
+    'America/Chicago':     'US Central',
+    'America/Denver':      'US Mountain',
+    'America/Los_Angeles': 'US Pacific',
+    'Europe/London':       'UK Time',
+    'Europe/Paris':        'Central European',
+    'Europe/Berlin':       'Central European',
+    'Asia/Shanghai':       'China Standard',
+    'Asia/Tokyo':          'Japan Standard',
+    'Asia/Seoul':          'Korea Standard',
+    'Asia/Singapore':      'Singapore Time',
+    'Asia/Dubai':          'Gulf Standard',
+    'Asia/Kolkata':        'India Standard',
+    'Australia/Sydney':    'Australian Eastern',
+    'Pacific/Auckland':    'New Zealand',
+    'America/Toronto':     'US Eastern',
+    'UTC':                 'Universal Time Coordinated'
+  };
+
+  /**
+   * Get localized date/time formats for a given date
+   * Returns: { date, time, numericDate, calendarType }
+   */
+  function getLocalizedDateTime(date, locale) {
+    try {
+      locale = locale || (typeof navigator !== 'undefined' ? navigator.language : 'en-US');
+      return {
+        date: date.toLocaleDateString(locale, {
+          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        }),
+        time: date.toLocaleTimeString(locale, {
+          hour: '2-digit', minute: '2-digit', second: '2-digit'
+        }),
+        numericDate: date.toLocaleDateString(locale),
+        calendarType: 'gregorian'
+      };
+    } catch (e) {
+      // Graceful degradation
+      console.warn('[l10n] getLocalizedDateTime failed, using fallback:', e);
+      return {
+        date: date.toDateString(),
+        time: date.toTimeString(),
+        numericDate: date.toLocaleDateString('en-US'),
+        calendarType: 'gregorian'
+      };
+    }
+  }
+
+  /**
+   * Get human-readable timezone display name
+   * Uses Intl.DateTimeFormat for accurate localized names
+   * Falls back to nickname map, then raw IANA string
+   */
+  function getTimezoneDisplayName(iana, locale) {
+    try {
+      locale = locale || (typeof navigator !== 'undefined' ? navigator.language : 'en-US');
+      var dtf = new Intl.DateTimeFormat(locale, {
+        timeZone: iana,
+        timeZoneName: 'long'
+      });
+      var parts = dtf.formatToParts(new Date());
+      for (var i = 0; i < parts.length; i++) {
+        if (parts[i].type === 'timeZoneName') {
+          return parts[i].value;
+        }
+      }
+      // Fallback to nickname map
+      return TIMEZONE_NICKNAMES[iana] || iana;
+    } catch (e) {
+      console.warn('[l10n] getTimezoneDisplayName failed for "' + iana + '", using fallback:', e);
+      return TIMEZONE_NICKNAMES[iana] || iana;
+    }
+  }
+
+  /**
+   * Format offset in minutes to UTC±HH:MM string
+   */
+  function formatUTCOffset(offsetMinutes) {
+    var sign = offsetMinutes >= 0 ? '+' : '-';
+    var abs = Math.abs(offsetMinutes);
+    var hours = Math.floor(abs / 60);
+    var mins = abs % 60;
+    return 'UTC' + sign + String(hours).padStart(2, '0') + ':' + String(mins).padStart(2, '0');
+  }
+
+  /**
+   * Detect if a timezone is currently in DST
+   */
+  function isDST(timezone) {
+    try {
+      var jan = new Date(2026, 0, 1).toLocaleString('en-US', { timeZone: timezone });
+      var jul = new Date(2026, 6, 1).toLocaleString('en-US', { timeZone: timezone });
+      // Compare time strings of January vs July - if different length, DST is active
+      var janParts = jan.match(/(\d{1,2}):(\d{2})/);
+      var julParts = jul.match(/(\d{1,2}):(\d{2})/);
+      if (!janParts || !julParts) return null;
+      var janTimestamp = parseInt(janParts[1], 10) * 60 + parseInt(janParts[2], 10);
+      var julTimestamp = parseInt(julParts[1], 10) * 60 + parseInt(julParts[2], 10);
+      if (janTimestamp !== julTimestamp) return true;
+      return false;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // ---- Export ----
+  var GTZL10N = {
+    getLocalizedDateTime: getLocalizedDateTime,
+    getTimezoneDisplayName: getTimezoneDisplayName,
+    formatUTCOffset: formatUTCOffset,
+    isDST: isDST,
+    TIMEZONE_NICKNAMES: TIMEZONE_NICKNAMES
+  };
+
+  // CommonJS + global
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = GTZL10N;
+  }
+  global.GTZL10N = GTZL10N;
+
+})(typeof window !== 'undefined' ? window : globalThis);

@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us – GlobeTimeZone</title>
+  <meta name="description" content="Get in touch with GlobeTimeZone. Questions, feedback, partnerships, or business inquiries – we're here to help with all your time zone needs." />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Contact Us – GlobeTimeZone" />
+  <meta property="og:description" content="Questions, feedback, or partnership inquiries – we'd love to hear from you." />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://globetimezone.com/pages/contact.html" />
+
+  <link rel="stylesheet" href="/css/style.min.css" />
+
+  <style>
+    .page-header {
+      background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+      color: white;
+      padding: 60px 24px;
+      text-align: center;
+    }
+
+    .page-header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+
+    .page-header p { font-size: 1.2rem; color: rgba(255,255,255,0.95);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .page-content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .contact-card {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .contact-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+
+    .contact-card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 16px;
+    }
+
+    .contact-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 8px;
+    }
+
+    .contact-card p {
+      font-size: 0.95rem;
+      color:#595959;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .contact-card a {
+      display: inline-block;
+      color: #2563eb;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .contact-card a:hover {
+      text-decoration: underline;
+    }
+
+    /* Contact Form */
+    .form-section {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      margin-bottom: 40px;
+    }
+
+    .form-section h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 8px;
+    }
+
+    .form-section > p {
+      color:#595959;
+      margin-bottom: 30px;
+      font-size: 0.95rem;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .form-success {
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      color: #166534;
+      display: none;
+    }
+
+    .form-success.show {
+      display: block;
+    }
+
+    /* FAQ */
+    .faq-section {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .faq-section h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 16px 0;
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+
+    .faq-item h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--secondary);
+      margin-bottom: 8px;
+    }
+
+    .faq-item p {
+      font-size: 0.9rem;
+      color:#595959;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .response-time {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: #1e40af;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  </style>
+
+  <!-- FAQ Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How can I report a bug or technical issue?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use the contact form above and select 'Bug Report' as the inquiry type. Please include the browser, operating system, and steps to reproduce the issue. We typically respond within 24-48 hours."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I request a new feature?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutely! We welcome feature requests from our users. Submit your suggestion through the form and select 'Feature Request'. Popular requests are prioritized in our development roadmap."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do you offer API access or data partnerships?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, we offer API access for developers and data partnerships for businesses. Please select 'Business Inquiry' in the form and describe your use case. Our team will get back to you within 2 business days."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I report incorrect time zone data?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Time zone data comes from the official IANA Time Zone Database. If you notice an error, please report it through our contact form and we will investigate. Most DST and time zone changes are updated automatically through our system."
+        }
+      }
+    ]
+  }
+  </script>
+  <!-- Google Analytics 4 -->
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script src="../js/ga4.min.js"></script>
+</head>
+<body>
+
+<!-- ===== Accessibility: Skip to main content ===== -->
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo">
+      🌍 Globe<span>TimeZone</span>
+    </a>
+    <nav> aria-label="Main navigation"
+      <a href="/">Converter</a>
+      <a href="pages/world-clock.html">World Clock</a>
+      <a href="pages/articles.html">Articles</a>
+      <a href="pages/about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== PAGE HEADER ===== -->
+<section class="page-header">
+  <h1>📬 Contact Us</h1>
+  <p>Questions, feedback, or partnership ideas — we'd love to hear from you.</p>
+</section>
+
+<!-- ===== MAIN CONTENT ===== -->
+<main class="page-content" id="main-content" role="main">
+
+  <!-- Quick Contact Cards -->
+  <div class="contact-grid">
+    <div class="contact-card">
+      <div class="contact-card-icon">🐛</div>
+      <h3>Bug Report</h3>
+      <p>Found something wrong? Time showing incorrectly? Let us know and we'll fix it fast.</p>
+      <a href="#contact-form">Report a Bug →</a>
+    </div>
+    <div class="contact-card">
+      <div class="contact-card-icon">💡</div>
+      <h3>Feature Request</h3>
+      <p>Have an idea to make GlobeTimeZone better? Share your suggestion with us.</p>
+      <a href="#contact-form">Suggest a Feature →</a>
+    </div>
+    <div class="contact-card">
+      <div class="contact-card-icon">🤝</div>
+      <h3>Business Inquiry</h3>
+      <p>Interested in API access, white-label solutions, or partnership opportunities?</p>
+      <a href="#contact-form">Business Contact →</a>
+    </div>
+    <div class="contact-card">
+      <div class="contact-card-icon">💬</div>
+      <h3>General Feedback</h3>
+      <p>Just want to say hi or share your experience? We'd love to hear from you!</p>
+      <a href="#contact-form">Send Feedback →</a>
+    </div>
+  </div>
+
+  <!-- Contact Form -->
+  <div class="form-section" id="contact-form">
+    <h2>Send Us a Message</h2>
+    <p>Fill out the form below and we'll get back to you within 24-48 hours.</p>
+
+    <form id="contactForm" action="#" method="post" novalidate>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Your Name *</label>
+          <input type="text" id="name" name="name" placeholder="John Smith" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="inquiry-type">Inquiry Type *</label>
+        <select id="inquiry-type" name="type" required>
+          <option value="">Select an option...</option>
+          <option value="bug">🐛 Bug Report</option>
+          <option value="feature">💡 Feature Request</option>
+          <option value="business">🤝 Business / Partnership</option>
+          <option value="api">⚙️ API Access</option>
+          <option value="feedback">💬 General Feedback</option>
+          <option value="other">📋 Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="subject">Subject *</label>
+        <input type="text" id="subject" name="subject" placeholder="Brief description of your inquiry" required />
+      </div>
+
+      <div class="form-group">
+        <label for="message">Message *</label>
+        <textarea id="message" name="message" rows="6" placeholder="Please include as much detail as possible. For bug reports, include your browser, OS, and steps to reproduce." required></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Send Message</button>
+    </form>
+
+    <div class="form-success" id="formSuccess">
+      <strong>✅ Message Sent Successfully!</strong><br />
+      Thank you for reaching out. We'll get back to you within 24-48 hours.
+    </div>
+
+    <div class="response-time">
+      ⏱️ Typical response time: <strong>24-48 hours</strong> (Monday–Friday)
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <h4>How can I report a bug or technical issue?</h4>
+      <p>Use the contact form above and select "Bug Report" as the inquiry type. Please include the browser, operating system, and steps to reproduce the issue. We typically respond within 24-48 hours.</p>
+    </div>
+
+    <div class="faq-item">
+      <h4>Can I request a new feature?</h4>
+      <p>Absolutely! We welcome feature requests from our users. Submit your suggestion through the form and select "Feature Request". Popular requests are prioritized in our development roadmap.</p>
+    </div>
+
+    <div class="faq-item">
+      <h4>Do you offer API access or data partnerships?</h4>
+      <p>Yes, we offer API access for developers and data partnerships for businesses. Please select "Business Inquiry" in the form and describe your use case. Our team will get back to you within 2 business days.</p>
+    </div>
+
+    <div class="faq-item">
+      <h4>How do I report incorrect time zone data?</h4>
+      <p>Time zone data comes from the official IANA Time Zone Database. If you notice an error, please report it through our contact form and we will investigate. Most DST and time zone changes are updated automatically through our system.</p>
+    </div>
+
+    <div class="faq-item">
+      <h4>Is GlobeTimeZone available for commercial use?</h4>
+      <p>Yes! GlobeTimeZone offers commercial licenses, white-label solutions, and API access for businesses. Contact us through the form with details about your use case, and we'll provide a customized quote.</p>
+    </div>
+
+    <div class="faq-item">
+      <h4>Can I embed GlobeTimeZone on my website?</h4>
+      <p>Yes! We offer a free embeddable widget. Visit our <a href="embed-widget.html">Embed Widget page</a> to customize and get the embed code for your website.</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">🌍 Globe<span>TimeZone</span></div>
+        <p style="color:rgba(255,255,255,0.75);font-size:0.9rem;margin-top:8px;max-width:300px;">
+          Free time zone converter for remote teams, travelers, and global businesses. No ads, no sign-up required.
+        </p>
+      </div>
+      <div>
+        <h4 class="footer-heading">Tools</h4>
+        <ul class="footer-links">
+          <li><a href="/">Time Converter</a></li>
+          <li><a href="pages/world-clock.html">World Clock</a></li>
+          <li><a href="pages/meeting-scheduler.html">Meeting Scheduler</a></li>
+          <li><a href="pages/countdown.html">Countdown Timer</a></li>
+          <li><a href="pages/holidays.html">World Holidays</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">Resources</h4>
+        <ul class="footer-links">
+          <li><a href="pages/articles.html">Articles</a></li>
+          <li><a href="pages/timezone-guide.html">Time Zone Guide</a></li>
+          <li><a href="pages/remote-team-timezone-guide.html">Remote Team Guide</a></li>
+          <li><a href="pages/embed-widget.html">Embed Widget</a></li>
+          <li><a href="pages/api.html">API Docs</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">Info</h4>
+        <ul class="footer-links">
+          <li><a href="pages/about.html">About</a></li>
+          <li><a href="pages/privacy.html">Privacy Policy</a></li>
+          <li><a href="pages/disclaimer.html">Disclaimer</a></li>
+          <li><a href="pages/contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <!-- Trust & Data Source -->
+    <div style="border-top:1px solid rgba(255,255,255,0.1);padding:16px 0;margin-top:16px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;">
+      <div style="display:flex;gap:20px;flex-wrap:wrap;font-size:0.75rem;color:rgba(255,255,255,0.75);">
+        <span>🔒 Data: <a href="https://www.iana.org/time-zones" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.9);">IANA Timezone Database</a></span>
+        <span>✅ Auto DST-aware</span>
+        <span>⚡ Browser-native precision</span>
+      </div>
+      <span style="font-size:0.75rem;color:rgba(255,255,255,0.7);">© 2026 GlobeTimeZone.com</span>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 GlobeTimeZone.com · All rights reserved · Free Time Zone Converter</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const form = this;
+  const btn = form.querySelector('button[type="submit"]');
+  const originalText = btn.textContent;
+
+  // Basic validation
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const type = document.getElementById('inquiry-type').value;
+  const subject = document.getElementById('subject').value.trim();
+  const message = document.getElementById('message').value.trim();
+
+  if (!name || !email || !type || !subject || !message) {
+    alert('Please fill in all required fields.');
+    return;
+  }
+
+  // Email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    alert('Please enter a valid email address.');
+    return;
+  }
+
+  // Simulate form submission (replace with actual endpoint)
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  setTimeout(function() {
+    form.style.display = 'none';
+    document.getElementById('formSuccess').classList.add('show');
+    btn.textContent = originalText;
+    btn.disabled = false;
+  }, 1500);
+});
+</script>
+
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js')}</script>
+</body>
+</html>

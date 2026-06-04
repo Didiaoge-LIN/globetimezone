@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IST to EST Converter | India to Eastern Time | GlobeTimeZone</title>
+  <meta name="description" content="Convert IST (India Standard Time, UTC+5:30) to EST (Eastern Standard Time, UTC-5). Interactive converter, 24-hour table, and best meeting times between India and the US East Coast." />
+  <meta name="keywords" content="IST to EST, India time to Eastern time, IST EST converter, India US time difference, IST to New York time" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://globetimezone.com/converter/ist-to-est" />
+    <!-- PWA & Social -->
+  <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+  <link rel="manifest" href="../manifest.json" />
+  <meta name="twitter:card" content="summary_large_image" />
+  
+  <link rel="stylesheet" href="../css/style.min.css" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the time difference between IST and EST?","acceptedAnswer":{"@type":"Answer","text":"IST (India Standard Time, UTC+5:30) is 10.5 hours ahead of EST (Eastern Standard Time, UTC-5). During US daylight saving time (EDT, UTC-4), the difference is 9.5 hours."}},{"@type":"Question","name":"What is 9 AM IST in EST?","acceptedAnswer":{"@type":"Answer","text":"9:00 AM IST is 10:30 PM EST the previous day (during standard time), or 11:30 PM EDT."}}]}</script>
+  <!-- Google Analytics 4 -->
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script src="../js/ga4.min.js"></script>
+</head>
+<body>
+
+<!-- ===== Accessibility: Skip to main content ===== -->
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<header>
+  <div class="header-inner">
+    <a href="../" class="logo">🌍 Globe<span>TimeZone</span></a>
+    <nav> aria-label="Main navigation"<a href="../">Converter</a><a href="world-clock.html">World Clock</a><a href="meeting-scheduler.html">Meeting Scheduler</a></nav>
+  </div>
+</header>
+<nav class="breadcrumb" style="padding:12px 24px;max-width:1200px;margin:0 auto;font-size:0.875rem;color:#595959;">
+  <a href="../" style="color:#2563eb;text-decoration:none;">Home</a> &gt; <span>IST to EST Converter</span>
+</nav>
+<main style="max-width:1100px;margin:0 auto;padding:20px 24px;" id="main-content" role="main">
+  <h1 class="section-title" style="font-size:2rem;margin-bottom:8px;">IST to EST Time Converter</h1>
+  <p style="color:#595959;margin-bottom:24px;">Convert between India Standard Time (IST, UTC+5:30) and US Eastern Time (EST/EDT). IST is <strong>10.5 hours ahead</strong> of EST (9.5 hours during EDT).</p>
+
+  <div class="card" style="background:linear-gradient(135deg,var(--primary-light),#dbeafe);border-color:var(--primary);margin-bottom:24px;">
+    <h2 class="card-title">⚡ Quick Converter</h2>
+    <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:center;margin-top:20px;">
+      <div style="text-align:center;">
+        <div style="font-size:0.875rem;color:#595959;margin-bottom:8px;">🇮🇳 India (IST)</div>
+        <input type="time" id="ist-input" value="09:00" class="form-input" style="font-size:1.5rem;font-weight:700;text-align:center;height:56px;" oninput="convertISTtoEST()">
+      </div>
+      <div style="font-size:2rem;text-align:center;">→</div>
+      <div style="text-align:center;">
+        <div style="font-size:0.875rem;color:#595959;margin-bottom:8px;">🇺🇸 New York (EST/EDT)</div>
+        <div id="est-output" style="font-size:1.5rem;font-weight:700;color:var(--primary);padding:14px;background:white;border-radius:8px;border:1px solid var(--border);">10:30 PM (prev day)</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <button class="btn btn-primary" onclick="copyConversion()">📋 Copy Result</button>
+    </div>
+  </div>
+
+  <section class="card">
+    <h2 class="card-title">📊 IST to EST — 24 Hour Conversion Table</h2>
+    <div style="overflow-x:auto;margin-top:16px;">
+      <table style="width:100%;border-collapse:collapse;font-size:0.875rem;">
+        <thead><tr style="background:var(--primary);color:white;"><th style="padding:10px 14px;text-align:left;">🇮🇳 IST Time</th><th style="padding:10px 14px;text-align:left;">🇺🇸 EST Time</th><th style="padding:10px 14px;text-align:left;">🇺🇸 EDT Time</th><th style="padding:10px 14px;text-align:left;">Meeting Suitability</th></tr></thead>
+        <tbody id="conversion-table"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card" style="margin-top:24px;">
+    <h2 class="card-title">💼 Best Meeting Times: India ↔ US East Coast</h2>
+    <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+      <div style="padding:16px;background:#f0fdf4;border-radius:8px;border:1px solid #86efac;">
+        <strong style="color:#16a34a;">✅ Recommended Windows</strong>
+        <ul style="margin-top:8px;color:#595959;line-height:2.2;list-style:none;padding:0;">
+          <li>🌙 <strong>7:30–9:00 PM IST</strong> = 9–10:30 AM EST</li>
+          <li>🌙 <strong>6:30–8:00 PM IST</strong> = 8–9:30 AM EST (during EDT)</li>
+          <li>⭐ Most India tech companies hold US calls at 7:30-8:30 PM IST</li>
+        </ul>
+      </div>
+      <div style="padding:16px;background:#fef2f2;border-radius:8px;border:1px solid #fca5a5;">
+        <strong style="color:#dc2626;">❌ Avoid These Times</strong>
+        <ul style="margin-top:8px;color:#595959;line-height:2.2;list-style:none;padding:0;">
+          <li>🌞 9 AM–5 PM IST = 10:30 PM–8:30 AM EST (overnight)</li>
+          <li>😴 Late night for one side is always unavoidable</li>
+          <li>💡 Rotate morning vs evening calls monthly</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" style="margin-top:24px;">
+    <h2 class="card-title">❓ FAQ: IST and EST</h2>
+    <details style="margin-bottom:12px;border:1px solid var(--border);border-radius:8px;padding:16px;"><summary style="font-weight:600;cursor:pointer;">What is the time difference between IST and EST?</summary><p style="margin-top:12px;color:#595959;">IST (UTC+5:30) is 10.5 hours ahead of EST (UTC-5) during US standard time. During EDT (UTC-4), the difference is 9.5 hours. India does not observe DST, so the difference changes only when the US shifts.</p></details>
+    <details style="margin-bottom:12px;border:1px solid var(--border);border-radius:8px;padding:16px;"><summary style="font-weight:600;cursor:pointer;">Why does IST have a 30-minute offset?</summary><p style="margin-top:12px;color:#595959;">India uses a single time zone for the entire country (UTC+5:30). The 30-minute offset was chosen in 1947 to represent a geographical compromise between the eastern and western extremes of the subcontinent.</p></details>
+  </section>
+
+  <section style="margin-top:40px;">
+    <h2 class="section-title">🔗 Related Converters</h2>
+    <div class="quick-convert-grid" style="margin-top:16px;">
+      <a href="est-to-cst-converter.html" class="quick-convert-item"><span class="qc-flag">🇺🇸</span><div class="qc-info"><span class="qc-name">EST to CST</span><span class="qc-desc">Eastern to Central Time</span></div></a>
+      <a href="utc-to-cst-converter.html" class="quick-convert-item"><span class="qc-flag">🌐</span><div class="qc-info"><span class="qc-name">UTC to CST</span><span class="qc-desc">Universal to China Standard</span></div></a>
+      <a href="gmt-to-cst-converter.html" class="quick-convert-item"><span class="qc-flag">🇬🇧</span><div class="qc-info"><span class="qc-name">GMT to CST</span><span class="qc-desc">London to Beijing</span></div></a>
+      <a href="jst-to-cst-converter.html" class="quick-convert-item"><span class="qc-flag">🇯🇵</span><div class="qc-info"><span class="qc-name">JST to CST</span><span class="qc-desc">Tokyo to Beijing</span></div></a>
+    </div>
+  </section>
+</main>
+<footer role="contentinfo"><div class="footer-inner"><div class="footer-grid"><div><a href="../" class="footer-logo">🌍 GlobeTimeZone</a><p class="footer-desc">Free time zone converter. IANA database powered.</p></div><div><h4 class="footer-heading">Tools</h4><ul class="footer-links"><li><a href="../">Converter</a></li><li><a href="world-clock.html">World Clock</a></li><li><a href="meeting-scheduler.html">Meeting</a></li></ul></div></div><div class="footer-bottom"><p>© 2026 GlobeTimeZone.com · <span id="sync-time"></span></p></div></div></footer>
+<script>
+function isDSTActive() {
+  // Check if US Eastern is currently on EDT
+  const d = new Date();
+  const jan = new Date(d.getFullYear(),0,1);
+  const jul = new Date(d.getFullYear(),6,1);
+  const janOff = new Date(jan.toLocaleString('en-US',{timeZone:'America/New_York'})).getTimezoneOffset();
+  const julOff = new Date(jul.toLocaleString('en-US',{timeZone:'America/New_York'})).getTimezoneOffset();
+  const nowOff = new Date(d.toLocaleString('en-US',{timeZone:'America/New_York'})).getTimezoneOffset();
+  return nowOff === Math.min(janOff, julOff);
+}
+
+function istToEst(istHour, istMinute) {
+  // IST is UTC+5:30, EST is UTC-5
+  // IST - 10:30 = EST
+  const totalMinutes = istHour * 60 + istMinute - 10 * 60 - 30;
+  const days = Math.floor(totalMinutes / (24*60));
+  const mins = ((totalMinutes % (24*60)) + 24*60) % (24*60);
+  return { h: Math.floor(mins/60), m: mins%60, dayOffset: days };
+}
+
+function istToEdt(istHour, istMinute) {
+  // IST - 9:30 = EDT
+  const totalMinutes = istHour * 60 + istMinute - 9 * 60 - 30;
+  const days = Math.floor(totalMinutes / (24*60));
+  const mins = ((totalMinutes % (24*60)) + 24*60) % (24*60);
+  return { h: Math.floor(mins/60), m: mins%60, dayOffset: days };
+}
+
+function formatTime(h, m) {
+  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+}
+
+function convertISTtoEST() {
+  const val = document.getElementById('ist-input').value;
+  if (!val) return;
+  const [h, m] = val.split(':').map(Number);
+  const est = istToEst(h, m);
+  const dayStr = est.dayOffset < 0 ? ' (prev day)' : est.dayOffset > 0 ? ' (next day)' : '';
+  const isDST = isDSTActive();
+  if (isDST) {
+    const edt = istToEdt(h, m);
+    const edtDay = edt.dayOffset < 0 ? ' (prev day)' : edt.dayOffset > 0 ? ' (next day)' : '';
+    document.getElementById('est-output').textContent = `${formatTime(edt.h,edt.m)}${edtDay} (EDT)`;
+  } else {
+    document.getElementById('est-output').textContent = `${formatTime(est.h,est.m)}${dayStr} (EST)`;
+  }
+}
+
+function copyConversion() {
+  const ist = document.getElementById('ist-input').value;
+  const est = document.getElementById('est-output').textContent;
+  navigator.clipboard.writeText(`${ist} IST = ${est}\nConverted via GlobeTimeZone.com`);
+}
+
+// Build table
+const tbody = document.getElementById('conversion-table');
+for (let h = 0; h < 24; h++) {
+  const ist = formatTime(h, 0);
+  const estR = istToEst(h, 0);
+  const edtR = istToEdt(h, 0);
+  const estDay = estR.dayOffset < 0 ? ' ⬅️' : estR.dayOffset > 0 ? ' ➡️' : '';
+  const edtDay = edtR.dayOffset < 0 ? ' ⬅️' : edtR.dayOffset > 0 ? ' ➡️' : '';
+  // Color code working hours
+  const estWorking = estR.h >= 9 && estR.h < 18;
+  const estColor = estWorking ? 'background:#dcfce7;' : '';
+  const row = document.createElement('tr');
+  row.style.cssText = h % 2 === 0 ? 'background:#f9fafb;' : '';
+  row.innerHTML = `<td style="padding:8px 14px;">${ist}</td><td style="padding:8px 14px;${estColor}">${formatTime(estR.h,estR.m)}${estDay}</td><td style="padding:8px 14px;">${formatTime(edtR.h,edtR.m)}${edtDay}</td><td style="padding:8px 14px;font-size:0.8rem;color:#595959;">${estWorking?'✅ Business hours in EST':''}</td>`;
+  tbody.appendChild(row);
+}
+
+convertISTtoEST();
+setInterval(()=>{const el=document.getElementById('sync-time');if(el)el.textContent='Updated: '+new Date().toLocaleTimeString('en-US',{hour12:false});},1000);
+</script>
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js')}</script>
+</body>
+</html>

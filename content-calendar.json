@@ -1,0 +1,206 @@
+{
+  "meta": {
+    "version": "1.0",
+    "totalPosts": 12,
+    "schedule": "3x/week: Tue, Thu, Sat",
+    "startDate": "2026-05-30",
+    "platforms": ["linkedin", "twitter"],
+    "timezone": "Asia/Shanghai",
+    "publishTime": "14:00",
+    "note": "Posts are de-AI'd: natural tone, fewer emojis, conversational Chinese"
+  },
+  "posts": [
+    {
+      "id": 1,
+      "week": 1,
+      "date": "2026-05-30",
+      "dayName": "Saturday",
+      "category": "scene-crash",
+      "topic": "约错时间差点丢单",
+      "linkedin": {
+        "text": "跟美国客户约 call，我按北京时间算了，结果对方那边凌晨3点。\n\n那封邮件差点送走一个订单。\n\n后来我养成了一个习惯——每次排跨国会议之前，先打开 globetimezone.com 看一眼对方时区。很干净的全球时间查询工具，没有广告，自动显示夏令时，添加几个城市之后，谁在白天谁在深夜一目了然。\n\n不夸张，它帮我少得罪了好几个客户。做外贸或者带海外团队的朋友，建议收藏一下，真用得上。\n\nglobetimezone.com",
+        "hashtags": ["RemoteWork", "Timezone", "GlobalBusiness", "CrossBorder"]
+      },
+      "twitter": {
+        "text": "跟美国客户约call，按北京时间算了，对方凌晨3点差点丢单。\n\n后来养成习惯，跨国会议前先查 globetimezone.com，多城市时间同屏，一眼看清谁在白天谁在半夜。\n\n做外贸的真心建议收藏。",
+        "hashtags": ["RemoteWork", "Timezone", "GlobalBusiness"]
+      }
+    },
+    {
+      "id": 2,
+      "week": 1,
+      "date": "2026-06-02",
+      "dayName": "Tuesday",
+      "category": "tool-demo",
+      "topic": "怎么快速查时差",
+      "linkedin": {
+        "text": "有人问我平时怎么快速查时差。其实我几乎不用App，直接打开网站 globetimezone.com。\n\n几个比较实用的点：\n- 同时对比4-5个城市时间，不用来回加减\n- 自动识别夏令时，不用自己查规则\n- 支持会议时间规划，选一个时间立刻看到各城市是几点\n- 各国公共假期表，方便避开节假日约会议\n\n全程没有弹窗广告，电脑手机都能打开。比较适合丢到团队群里当统一工具。\n\nglobetimezone.com",
+        "hashtags": ["Productivity", "TimeManagement", "RemoteTeams", "Tools"]
+      },
+      "twitter": {
+        "text": "平时查时差我直接用网站，不装App。\n\nglobetimezone.com 几个亮点：\n多城市同屏对比 / 自动夏令时 / 会议规划 / 各国节假日\n\n没广告，手机电脑都能用。",
+        "hashtags": ["Productivity", "Timezone", "RemoteTeams"]
+      }
+    },
+    {
+      "id": 3,
+      "week": 1,
+      "date": "2026-06-04",
+      "dayName": "Thursday",
+      "category": "interactive",
+      "topic": "时差换算草稿",
+      "linkedin": {
+        "text": "做跨境以后，手机里存得最多的不是聊天记录，是\"时差换算\"的草稿。\n\n你们平时怎么算时差的？心算？收藏公式？还是每次问搜索引擎？\n\n我现在用 GlobeTimeZone，打开网页就自动算好了，省心不少。如果你也有好用的时区工具，评论区交换一下，大家一起省点脑细胞。\n\nglobetimezone.com",
+        "hashtags": ["RemoteWork", "TimezoneHack", "CrossBorderTrade"]
+      },
+      "twitter": {
+        "text": "做跨境后手机里存最多的不是聊天记录，是时差换算草稿。\n\n你们怎么算时差？心算？Google？我现在直接用网页打开就自动算好。\n\n有好用工具的话评论区分享一下。",
+        "hashtags": ["RemoteWork", "Timezone", "LifeHack"]
+      }
+    },
+    {
+      "id": 4,
+      "week": 2,
+      "date": "2026-06-06",
+      "dayName": "Saturday",
+      "category": "scene-crash",
+      "topic": "远程团队定会议时间",
+      "linkedin": {
+        "text": "远程团队最怕什么？不是沟通不畅，是定的会议时间让一半人想辞职。\n\n我们组分布在美国、德国、新加坡和国内，找共同窗口跟解方程似的。后来用 globetimezone.com 的会议规划功能，把所有时区加进去，拖动时间条，马上能看到哪段时间大家都不算太反人类。\n\n现在每周例会用它定时间，没再收到\"我这边凌晨\"的哭脸消息。\n\n带跨国团队的 Leader 可以试试。\n\nglobetimezone.com",
+        "hashtags": ["RemoteTeam", "MeetingPlanning", "Timezone", "Leadership"]
+      },
+      "twitter": {
+        "text": "远程团队最怕定的会议时间让一半人想辞职。\n\n我们组横跨美/德/新/中四地，找共同开会窗口后来用 globetimezone.com 的会议规划搞定，拖时间条一眼看出谁在深夜。\n\n带跨国团队的试试。",
+        "hashtags": ["RemoteTeam", "Timezone", "Leadership"]
+      }
+    },
+    {
+      "id": 5,
+      "week": 2,
+      "date": "2026-06-09",
+      "dayName": "Tuesday",
+      "category": "tool-demo",
+      "topic": "墨西哥亡灵节踩坑",
+      "linkedin": {
+        "text": "最近踩了个坑：定了和墨西哥客户的重要节点会议，结果赶上\"亡灵节\"，对方全公司没人上班。\n\n后来我在 globetimezone.com 上查了对应国家的节假日，才发现好多假期我们之前都忽略了。\n\n有海外合作伙伴的话，排期之前先看一眼对方国家的公共假期，网站里可以按国家直接查，挺实用的。\n\nglobetimezone.com",
+        "hashtags": ["CrossBorder", "BusinessTravel", "GlobalBusiness", "CulturalDifferences"]
+      },
+      "twitter": {
+        "text": "踩了个坑：给墨西哥客户定会议赶上亡灵节，对方全公司放假。\n\n后来养成习惯排期前先查 globetimezone.com 的各国节假日表，好多之前忽略的假期都有。\n\n有海外合作伙伴的建议收藏。",
+        "hashtags": ["GlobalBusiness", "CrossBorder", "Fail"]
+      }
+    },
+    {
+      "id": 6,
+      "week": 2,
+      "date": "2026-06-11",
+      "dayName": "Thursday",
+      "category": "interactive",
+      "topic": "加几个城市试试",
+      "linkedin": {
+        "text": "给一个比较具体的建议：\n\n如果你经常要和2个以上国家的同事或客户协作，花1分钟在 globetimezone.com 把自己和对方城市都加进去。\n\n之后每次定时间就打开看一眼，跨国沟通的顺畅程度会上一个台阶。工具很简单，但能实实在在减少误会。\n\nglobetimezone.com",
+        "hashtags": ["Productivity", "RemoteWork", "GlobalTeam"]
+      },
+      "twitter": {
+        "text": "建议：经常和2个以上国家协作的话，花1分钟在 globetimezone.com 把相关城市都加上。\n\n之后定时间打开看一眼就行，跨国沟通顺畅度直接提升。",
+        "hashtags": ["Productivity", "RemoteWork", "Tip"]
+      }
+    },
+    {
+      "id": 7,
+      "week": 3,
+      "date": "2026-06-13",
+      "dayName": "Saturday",
+      "category": "dev-tech",
+      "topic": "免费时区API",
+      "linkedin": {
+        "text": "有做开发的朋友问我，时区数据有没有免费又稳定的接口。\n\nGlobeTimeZone 对外开放了免费的时区 API，也有可以嵌入网页的世界时钟组件：\n\n- 返回全球时区、UTC偏移、夏令时信息\n- 不用翻复杂文档，接入很快\n- 给自己的 SaaS 或后台加个时区模块比较方便\n\n不用一遍遍造轮子，有兴趣的可以去 globetimezone.com 直接体验。\n\nglobetimezone.com",
+        "hashtags": ["Developers", "API", "Timezone", "OpenSource", "WebDev"]
+      },
+      "twitter": {
+        "text": "GlobeTimeZone 开放了免费时区API + 可嵌入的世界时钟组件。\n\n返回全球时区/UTC偏移/夏令时信息，接入简单，给SaaS或后台加时区模块挺方便。\n\n不用造轮子。",
+        "hashtags": ["Developers", "API", "Timezone", "WebDev"]
+      }
+    },
+    {
+      "id": 8,
+      "week": 3,
+      "date": "2026-06-16",
+      "dayName": "Tuesday",
+      "category": "dev-tech",
+      "topic": "嵌入式时钟组件",
+      "linkedin": {
+        "text": "最近帮朋友的外贸网站加了一个\"全球时间展示区\"，直接用 GlobeTimeZone 的嵌入式时钟搞定的。\n\n几行代码放进去，网站就多了个实用的小模块，客户打开网页就能看到对应城市时间，还挺专业的。\n\n如果也有在网站、管理后台、项目看板上挂时区钟的需求，可以试试这个免费组件。\n\nglobetimezone.com",
+        "hashtags": ["WebDev", "Widget", "Embed", "GlobalBusiness", "SaaS"]
+      },
+      "twitter": {
+        "text": "帮朋友外贸站加了全球时间展示区，GlobeTimeZone 的嵌入式时钟，几行代码搞定。\n\n客户打开网页直接看各城市时间，效果不错。网站/后台/看板都能嵌。",
+        "hashtags": ["WebDev", "Widget", "Embed"]
+      }
+    },
+    {
+      "id": 9,
+      "week": 3,
+      "date": "2026-06-18",
+      "dayName": "Thursday",
+      "category": "dev-tech",
+      "topic": "时区工具组合推荐",
+      "linkedin": {
+        "text": "分享一个技术人常用的组合：\n\n- 全球时区数据 → GlobeTimeZone API\n- 时区换算 + 会议排期 → globetimezone.com\n- 项目管理时区对比 → 嵌个时钟到 Notion 或网页里\n\n和时差相关的需求基本全覆盖了，关键是免费、干净，没广告。\n\n如果也在搭海外相关的系统，可以看一眼。\n\nglobetimezone.com",
+        "hashtags": ["DeveloperTools", "Timezone", "Productivity", "TechStack"]
+      },
+      "twitter": {
+        "text": "技术人时区工具组合：\nAPI数据 → GlobeTimeZone API\n换算排期 → globetimezone.com\n项目看板 → 嵌时钟到Notion/网页\n\n免费无广告，和时差相关的需求基本全盖。",
+        "hashtags": ["DeveloperTools", "TechStack", "Timezone"]
+      }
+    },
+    {
+      "id": 10,
+      "week": 4,
+      "date": "2026-06-20",
+      "dayName": "Saturday",
+      "category": "scene-crash",
+      "topic": "出国出差场景",
+      "linkedin": {
+        "text": "出国出差的时候，我对\"时间\"的依赖比导航还强。\n\n落地先打开 globetimezone.com，把北京时间和当地时间摆在一个页面，再设个酒店叫醒，不会搞混。\n\n如果要和国内团队同步行程，直接把链接甩给他们，所有人看同一个页面，省得一遍遍解释\"我这边几点\"。\n\n常出海的商务朋友可以备着。\n\nglobetimezone.com",
+        "hashtags": ["BusinessTravel", "Timezone", "Travel", "GlobalBusiness"]
+      },
+      "twitter": {
+        "text": "出国出差对时间的依赖比导航还强。落地先打开 globetimezone.com，北京时间+当地时间同屏，给国内同事丢个链接就完事。\n\n常出差的朋友备着。",
+        "hashtags": ["BusinessTravel", "Timezone", "Travel"]
+      }
+    },
+    {
+      "id": 11,
+      "week": 4,
+      "date": "2026-06-23",
+      "dayName": "Tuesday",
+      "category": "tool-demo",
+      "topic": "好工具的特质",
+      "linkedin": {
+        "text": "选工具我比较挑剔，尤其是日常工作用的，几个底线：\n\n1. 打开快，不用下载\n2. 没广告，不强制注册\n3. 功能直观，不堆砌\n\nGlobeTimeZone 就是这么个\"刚刚好\"的时区工具。没把时间查询做得很重，就是让你快速看清时间、定好会议、查完假期就走。\n\n这也是我把它放在浏览器书签栏的原因。如果你也在找类似的工具，可以试试。\n\nglobetimezone.com",
+        "hashtags": ["Productivity", "Tools", "Minimalist", "UX"]
+      },
+      "twitter": {
+        "text": "选日常工具的底线：打开快、没广告、不堆砌功能。\n\nGlobeTimeZone 就是这么个刚刚好的时区工具，查时间/定会议/看假期，完事就走。\n\n已经在我书签栏待很久了。",
+        "hashtags": ["Productivity", "Tools", "Minimalist"]
+      }
+    },
+    {
+      "id": 12,
+      "week": 4,
+      "date": "2026-06-25",
+      "dayName": "Thursday",
+      "category": "interactive",
+      "topic": "邀请体验+互动",
+      "linkedin": {
+        "text": "一个简单的请求：\n\n下次和海外伙伴约时间，先别问\"你那边几点\"，试试 globetimezone.com 直接查。\n\n用完觉得方便的话，顺手分享给同事。好工具不用藏，大家一起省时间。\n\nglobetimezone.com",
+        "hashtags": ["Timezone", "RemoteWork", "Share", "Productivity"]
+      },
+      "twitter": {
+        "text": "下次和海外伙伴约时间，别问\"你那边几点\"了，用 globetimezone.com 查一眼就行。\n\n觉得好用就分享给同事，好工具不用藏。",
+        "hashtags": ["Timezone", "RemoteWork", "Tip"]
+      }
+    }
+  ]
+}

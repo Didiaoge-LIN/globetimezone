@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>世界时区完整指南 | UTC/GMT/夏令时全面解析 | GlobeTimeZone</title>
+  <meta name="description" content="世界时区入门到精通：UTC 偏移量、时区工作原理、IANA 数据库、UTC 与 GMT 区别，以及跨时区会议调度实用技巧。" />
+  <meta name="keywords" content="世界时区指南, UTC 解释, GMT 和 UTC 区别, IANA 时区数据库, 时区缩写, 时区工作原理" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="世界时区完整指南 | 从 UTC 到跨时区调度" />
+  <meta property="og:description" content="关于世界时区你需要知道的一切：UTC 偏移、GMT 区别、IANA 数据库和全球调度技巧。" />
+  <meta property="og:url" content="https://globetimezone.com/pages/timezone-guide-zh.html" />
+  <meta property="og:locale" content="zh_CN" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <link rel="alternate" hreflang="en" href="https://globetimezone.com/pages/timezone-guide.html" />
+  <link rel="alternate" hreflang="zh" href="https://globetimezone.com/pages/timezone-guide-zh.html" />
+  <link rel="canonical" href="https://globetimezone.com/pages/timezone-guide-zh.html" />
+  <!-- PWA & Social -->
+  <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+  <link rel="manifest" href="../manifest.json" />
+  <meta name="twitter:card" content="summary_large_image" />
+  
+  <link rel="stylesheet" href="../css/style.min.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "世界时区完整指南",
+    "author": { "@type": "Organization", "name": "GlobeTimeZone" },
+    "publisher": { "@type": "Organization", "name": "GlobeTimeZone", "url": "https://globetimezone.com" },
+    "datePublished": "2026-05-01",
+    "dateModified": "2026-05-21",
+    "description": "关于世界时区、UTC 偏移量和全球调度的全面指南。"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type":"Question","name":"什么是 UTC？","acceptedAnswer":{"@type":"Answer","text":"UTC（协调世界时）是全球主要的时间标准，由原子钟维护，不实行夏令时。世界上所有时区都以与 UTC 的偏移量来表示（例如 UTC+8、UTC-5）。"}},
+      {"@type":"Question","name":"UTC 和 GMT 有什么区别？","acceptedAnswer":{"@type":"Answer","text":"在实际使用中，UTC 和 GMT 代表同一时刻。区别在于技术层面：GMT 基于地球自转（平均太阳时），而 UTC 基于原子钟，更加精确。现代系统普遍使用 UTC。"}},
+      {"@type":"Question","name":"世界上有多少个时区？","acceptedAnswer":{"@type":"Answer","text":"全球有 38 个不同的 UTC 偏移量，范围从 UTC-12 到 UTC+14。但核心时区只有 24 个，对应每个小时的偏移。一些国家使用半小时或 45 分钟的偏移量。"}}
+    ]
+  }
+  </script>
+  <style>
+    .article-content h2 { font-size: 1.5rem; font-weight: 700; margin: 2.5rem 0 1rem; }
+    .article-content h3 { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.75rem; }
+    .article-content p { line-height: 1.8; color: var(--text-muted); margin-bottom: 1rem; }
+    .article-content ul, .article-content ol { color: var(--text-muted); line-height: 2; padding-left: 1.5rem; margin-bottom: 1rem; }
+    .tz-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.9rem; }
+    .tz-table th { background: var(--primary); color: white; padding: 10px 14px; text-align: left; }
+    .tz-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+    .tz-table tr:nth-child(even) { background: #f9fafb; }
+    .highlight-box { background: var(--primary-light); border-left: 4px solid var(--primary); padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 1.5rem 0; }
+    .highlight-box p { margin: 0; color: var(--text); }
+  </style>
+  <!-- Google Analytics 4 -->
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script src="../js/ga4.min.js"></script>
+</head>
+<body>
+
+<!-- ===== Accessibility: Skip to main content ===== -->
+<a class="skip-link" href="#main-content">跳到主内容</a>
+
+<header role="banner">
+  <div class="header-inner">
+    <a href="../" class="logo">🌍 Globe<span>TimeZone</span></a>
+    <nav> aria-label="主导航"
+      <a href="../index-zh.html">时区换算</a>
+      <a href="world-clock.html">世界时钟</a>
+      <a href="meeting-scheduler-zh.html">会议调度</a>
+      <a href="articles-zh.html">使用教程</a>
+      <span class="lang-switch">
+        <a href="timezone-guide.html" class="lang-btn">EN</a>
+        <a href="timezone-guide-zh.html" class="lang-btn active">中文</a>
+      </span>
+    </nav>
+  </div>
+</header>
+<nav class="breadcrumb" style="padding:12px 24px;max-width:1200px;margin:0 auto;font-size:0.875rem;color:#595959;">
+  <a href="../index-zh.html" style="color:#2563eb;text-decoration:none;">首页</a> &gt;
+  <a href="articles-zh.html" style="color:#2563eb;text-decoration:none;">使用教程</a> &gt;
+  <span>完整时区指南</span>
+</nav>
+
+<main style="max-width:1200px;margin:0 auto;padding:20px 24px;" id="main-content" role="main">
+  <article class="article-content" style="max-width:800px;">
+    
+    <header style="margin-bottom:2rem;">
+      <div style="display:flex;gap:8px;margin-bottom:12px;">
+        <span style="background:#dbeafe;color:#2563eb;padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:600;">指南</span>
+        <span style="background:#f3f4f6;color:#595959;padding:4px 12px;border-radius:20px;font-size:0.75rem;">阅读约 15 分钟</span>
+      </div>
+      <h1 style="font-size:2.2rem;font-weight:800;line-height:1.2;margin-bottom:16px;">世界时区完整指南</h1>
+      <p style="font-size:1.15rem;color:#595959;line-height:1.6;">从 UTC 偏移量到 IANA 数据库，从夏令时混乱到跨国会议排期——本文涵盖你在现代世界理解时区所需的一切。</p>
+    </header>
+
+    <nav style="background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:2rem;">
+      <strong style="display:block;margin-bottom:12px;">📋 目录</strong>
+      <ol style="margin:0;padding-left:1.5rem;line-height:2.2;">
+        <li><a href="#what-are-time-zones" style="color:var(--primary);">什么是时区？</a></li>
+        <li><a href="#utc-and-gmt" style="color:var(--primary);">UTC 与 GMT：有什么区别？</a></li>
+        <li><a href="#common-time-zones" style="color:var(--primary);">主要世界时区速查</a></li>
+        <li><a href="#dst" style="color:var(--primary);">夏令时 (DST)</a></li>
+        <li><a href="#iana-database" style="color:var(--primary);">IANA 时区数据库</a></li>
+        <li><a href="#scheduling-tips" style="color:var(--primary);">跨时区调度实用技巧</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="what-are-time-zones">1. 什么是时区？</h2>
+    <p>时区是地球上实行统一标准时间的区域。在时区出现之前，每个城市都只用自己的"本地太阳时"——正午就是太阳最高的时候。这在旅行缓慢的时代并不成问题，但当铁路在数小时内即连通城市时，冲突的本地时间就成了后勤噩梦。</p>
+    <p>1884 年，国际子午线会议将格林尼治子午线定为本初子午线（0° 经线），理论上将世界划分为 24 个以小时为间隔的时区。每个时区比相邻时区提前或推迟一个小时。实际上，政治边界决定了时区远非完美的几何线条。</p>
+    <div class="highlight-box">
+      <p>🌍 <strong>关键事实：</strong>中国横跨 5 个地理时区，但全国只使用一个时区（UTC+8）。美国有 6 个时区。俄罗斯跨越 11 个时区——是单一国家中时区最多的。</p>
+    </div>
+
+    <h2 id="utc-and-gmt">2. UTC 与 GMT：有什么区别？</h2>
+    <p>你常常见到"UTC"和"GMT"被混用，但它们有不同的起源：</p>
+    <ul>
+      <li><strong>GMT（格林尼治标准时间）：</strong>基于伦敦格林尼治天文台的平均太阳时。在一个多世纪里，它都是全球的时间标准。</li>
+      <li><strong>UTC（协调世界时）：</strong>现代国际标准，由一组原子钟维护。UTC 比 GMT 更精确，不会因地球自转变化而漂移。</li>
+    </ul>
+    <p>在日常使用中，UTC 和 GMT 完全等价——两者代表同一时刻，且都不实行夏令时。在航空、计算机和科学领域，UTC 是默认标准。</p>
+
+    <h2 id="common-time-zones">3. 主要世界时区速查表</h2>
+    <table class="tz-table">
+      <thead>
+        <tr><th>缩写</th><th>全称</th><th>UTC 偏移</th><th>主要城市</th><th>夏令时？</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>UTC</td><td>协调世界时</td><td>UTC+0</td><td>—</td><td>否</td></tr>
+        <tr><td>GMT</td><td>格林尼治标准时间</td><td>UTC+0</td><td>伦敦（冬季）</td><td>—</td></tr>
+        <tr><td>BST</td><td>英国夏令时间</td><td>UTC+1</td><td>伦敦（夏季）</td><td>是</td></tr>
+        <tr><td>CET</td><td>中欧时间</td><td>UTC+1</td><td>巴黎、柏林（冬季）</td><td>是</td></tr>
+        <tr><td>CEST</td><td>中欧夏令时间</td><td>UTC+2</td><td>巴黎、柏林（夏季）</td><td>是</td></tr>
+        <tr><td>IST</td><td>印度标准时间</td><td>UTC+5:30</td><td>孟买、德里</td><td>否</td></tr>
+        <tr><td>CST</td><td>中国标准时间</td><td>UTC+8</td><td>北京、上海</td><td>否</td></tr>
+        <tr><td>SGT</td><td>新加坡标准时间</td><td>UTC+8</td><td>新加坡</td><td>否</td></tr>
+        <tr><td>JST</td><td>日本标准时间</td><td>UTC+9</td><td>东京、大阪</td><td>否</td></tr>
+        <tr><td>KST</td><td>韩国标准时间</td><td>UTC+9</td><td>首尔、釜山</td><td>否</td></tr>
+        <tr><td>AEST</td><td>澳大利亚东部标准时间</td><td>UTC+10</td><td>悉尼（冬季）</td><td>是</td></tr>
+        <tr><td>EST</td><td>东部标准时间</td><td>UTC-5</td><td>纽约（冬季）</td><td>是</td></tr>
+        <tr><td>EDT</td><td>东部夏令时间</td><td>UTC-4</td><td>纽约（夏季）</td><td>是</td></tr>
+        <tr><td>CST</td><td>中部标准时间</td><td>UTC-6</td><td>芝加哥（冬季）</td><td>是</td></tr>
+        <tr><td>MST</td><td>山地标准时间</td><td>UTC-7</td><td>丹佛（冬季）</td><td>是</td></tr>
+        <tr><td>PST</td><td>太平洋标准时间</td><td>UTC-8</td><td>洛杉矶（冬季）</td><td>是</td></tr>
+        <tr><td>PDT</td><td>太平洋夏令时间</td><td>UTC-7</td><td>洛杉矶（夏季）</td><td>是</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="dst">4. 夏令时 (DST)</h2>
+    <p>夏令时显著增加了时区计算的复杂性。全球约三分之一的国家实行夏令时，但它们并不都在同一天拨动时钟。</p>
+    <ul>
+      <li><strong>美国/加拿大：</strong>三月第二个星期日（向前拨），十一月第一个星期日（往回拨）</li>
+      <li><strong>欧盟/英国：</strong>三月最后一个星期日（向前拨），十月最后一个星期日（往回拨）</li>
+      <li><strong>澳大利亚（东部）：</strong>十月第一个星期日（向前拨），四月第一个星期日（往回拨）</li>
+    </ul>
+    <p>这意味着每年中有几周时间，伦敦和纽约之间的时差并不是通常的 5 小时——而是可能变成 4 或 6 小时，取决于哪一方已经改了钟。我们的换算器始终显示<em>当前</em>时差，而非固定值。</p>
+
+    <h2 id="iana-database">5. IANA 时区数据库</h2>
+    <p>时区数据的权威来源是 <strong>IANA（互联网数字分配机构）时区数据库</strong>，也称为"tz 数据库"或"zoneinfo 数据库"。</p>
+    <p>这个由志愿者维护的数据库在任何国家更改时区规则时都会更新，几乎所有现代操作系统、编程语言和浏览器都会使用它。GlobeTimeZone 利用该数据库（通过浏览器的内置 <code>Intl.DateTimeFormat</code> API）来确保准确性。</p>
+    <p>IANA 时区标识符采用 <code>区域/城市</code> 格式，例如：</p>
+    <ul>
+      <li><code>America/New_York</code> — 美国东部时间</li>
+      <li><code>Europe/London</code> — 英国时间</li>
+      <li><code>Asia/Shanghai</code> — 中国标准时间</li>
+      <li><code>Asia/Kolkata</code> — 印度标准时间</li>
+    </ul>
+
+    <h2 id="scheduling-tips">6. 跨时区调度实用技巧</h2>
+    <h3>始终以 UTC 为锚点</h3>
+    <p>在跨多个时区排期时，先将会议时间用 UTC 表示，再转换到各本地时间。这样可以消除夏令时切换带来的歧义。</p>
+    <h3>注意半小时和 45 分钟偏移</h3>
+    <p>并非所有时区都与 UTC 相差整小时。印度（UTC+5:30）、尼泊尔（UTC+5:45）、伊朗（UTC+3:30）和一些澳大利亚地区使用非整数偏移。始终依赖换算器，不要心算。</p>
+    <h3>检查夏令时是否刚切换过</h3>
+    <p>美国已调钟但欧洲尚未调整（反之亦然）的那 2-3 周是排期错误风险最高的时期。一定要用实时换算器确认。</p>
+    <h3>沟通时附上时区信息</h3>
+    <p>与其写"你那边上午 10 点"，不如写"纽约时间上午 10 点 EST"。这就完全消除了歧义。</p>
+    <div class="highlight-box">
+      <p>📅 <strong>专家技巧：</strong>使用我们的 <a href="meeting-scheduler-zh.html" style="color:var(--primary);">会议调度器</a> 自动查找多个时区的重叠工作时间，计算已包含夏令时因素。</p>
+    </div>
+
+    <section style="margin-top:2rem;">
+      <h2>常见问题</h2>
+      <details style="margin-bottom:12px;border:1px solid var(--border);border-radius:8px;padding:16px;"><summary style="font-weight:600;cursor:pointer;">什么是 UTC？</summary><p style="margin-top:12px;color:#595959;">UTC（协调世界时）是全球主要的时间标准，由原子钟维护，不实行夏令时。世界上所有时区都以与 UTC 的偏移量来表示（例如 UTC+8、UTC-5）。</p></details>
+      <details style="margin-bottom:12px;border:1px solid var(--border);border-radius:8px;padding:16px;"><summary style="font-weight:600;cursor:pointer;">UTC 和 GMT 有什么区别？</summary><p style="margin-top:12px;color:#595959;">在实际使用中，UTC 和 GMT 代表同一时刻。区别在于技术层面：GMT 基于地球自转，而 UTC 基于原子钟，更加精确。现代系统普遍使用 UTC。</p></details>
+      <details style="margin-bottom:12px;border:1px solid var(--border);border-radius:8px;padding:16px;"><summary style="font-weight:600;cursor:pointer;">世界上有多少个时区？</summary><p style="margin-top:12px;color:#595959;">全球有 38 个不同的 UTC 偏移量，范围从 UTC-12 到 UTC+14。但大多数人接触的只有大约 24 个主要时区。某些地区使用非标准的半小时或 45 分钟偏移。</p></details>
+    </section>
+
+  </article>
+</main>
+
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div><a href="../index-zh.html" class="footer-logo">🌍 GlobeTimeZone</a><p class="footer-desc">免费世界时区工具，IANA 时区数据库驱动。</p></div>
+      <div><h4 class="footer-heading">工具</h4><ul class="footer-links"><li><a href="../index-zh.html">时区换算</a></li><li><a href="world-clock.html">世界时钟</a></li><li><a href="meeting-scheduler-zh.html">会议调度</a></li></ul></div>
+      <div><h4 class="footer-heading">文章</h4><ul class="footer-links"><li><a href="why-daylight-saving-time-zh.html">为何有夏令时？</a></li><li><a href="timezone-guide-zh.html">时区指南</a></li><li><a href="remote-work-timezone-zh.html">远程工作指南</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 GlobeTimeZone.com · 数据源：IANA 时区数据库</p></div>
+  </div>
+</footer>
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js')}</script>
+</body>
+</html>

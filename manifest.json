@@ -1,0 +1,51 @@
+{
+  "name": "GlobeTimeZone — Global Time Decision Tool",
+  "short_name": "GTZ",
+  "description": "Instant global time decisions. Avoid wrong-time calls. Free time zone converter with world clock, meeting scheduler, and DST tracking.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a1a2e",
+  "theme_color": "#2563eb",
+  "orientation": "any",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["productivity", "utilities", "travel"],
+  "icons": [
+    { "src": "/icons/icon-72x72.png",   "sizes": "72x72",   "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icons/icon-96x96.png",   "sizes": "96x96",   "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icons/icon-128x128.png", "sizes": "128x128", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icons/icon-144x144.png", "sizes": "144x144", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icons/icon-152x152.png", "sizes": "152x152", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icons/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icons/icon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "screenshots": [
+    { "src": "/screenshot-01-homepage.png", "sizes": "1280x800", "type": "image/png", "form_factor": "wide", "label": "Homepage time zone converter" },
+    { "src": "/screenshot-02-world-clock.png", "sizes": "1280x800", "type": "image/png", "form_factor": "wide", "label": "World clock view" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Convert Time",
+      "short_name": "Convert",
+      "description": "Open the time zone converter",
+      "url": "/",
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "World Clock",
+      "short_name": "Clocks",
+      "description": "View world clocks",
+      "url": "/pages/world-clock.html",
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Meeting Scheduler",
+      "short_name": "Meetings",
+      "description": "Schedule international meetings",
+      "url": "/pages/meeting-scheduler.html",
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

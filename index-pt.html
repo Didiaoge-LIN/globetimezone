@@ -1,0 +1,224 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conversor de Fusos Horários | Multi-Cidades | Grátis | GlobeTimeZone</title>
+  <meta name="description" content="Conversor online e gratuito de fusos horários. Compare múltiplos fusos simultaneamente, ajuste automático de horário de verão. Perfeito para equipes remotas, reuniões internacionais e viajantes." />
+  <meta name="keywords" content="conversor fuso horário, conversor hora mundial, diferença horária, comparar cidades, hora UTC, relógio mundial, fuso internacional" />
+  <meta name="robots" content="index, follow" />
+  
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Conversor de Fusos Horários | Grátis, Sem Anúncios" />
+  <meta property="og:url" content="https://globetimezone.com/pt/" />
+  <meta property="og:locale" content="pt_BR" />
+  
+  <link rel="alternate" hreflang="en" href="https://globetimezone.com/" />
+  <link rel="alternate" hreflang="zh-CN" href="https://globetimezone.com/zh/" />
+  <link rel="alternate" hreflang="es" href="https://globetimezone.com/es/" />
+  <link rel="alternate" hreflang="fr" href="https://globetimezone.com/fr/" />
+  <link rel="alternate" hreflang="de" href="https://globetimezone.com/de/" />
+  <link rel="alternate" hreflang="ja" href="https://globetimezone.com/ja/" />
+  <link rel="alternate" hreflang="pt-BR" href="https://globetimezone.com/pt/" />
+  <link rel="alternate" hreflang="ko" href="https://globetimezone.com/ko/" />
+  <link rel="alternate" hreflang="ar" href="https://globetimezone.com/ar/" />
+  <link rel="alternate" hreflang="x-default" href="https://globetimezone.com/" />
+  
+  <link rel="canonical" href="https://globetimezone.com/pt/" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#2563eb" />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Google Analytics 4 -->
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script src="/js/ga4.min.js"></script>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="/index-pt.html" class="logo">🌍 Globe<span>TimeZone</span></a>
+    <nav>
+      <a href="/index-pt.html" class="active">Conversor</a>
+      <a href="pages/world-clock.html">Relógio Mundial</a>
+      <a href="pages/articles.html">Artigos</a>
+      <a href="pages/about.html">Sobre</a>
+      <span class="lang-switch">
+        <div class="lang-dropdown">
+          <button class="lang-btn active">🌐 PT</button>
+          <div class="lang-menu">
+            <a href="/" class="lang-option"><span class="lang-flag">🇺🇸</span><span class="lang-name">English</span><span class="lang-native">English</span></a>
+            <a href="/index-zh.html" class="lang-option"><span class="lang-flag">🇨🇳</span><span class="lang-name">Chinese</span><span class="lang-native">中文</span></a>
+            <a href="/index-es.html" class="lang-option"><span class="lang-flag">🇪🇸</span><span class="lang-name">Spanish</span><span class="lang-native">Español</span></a>
+            <a href="/index-fr.html" class="lang-option"><span class="lang-flag">🇫🇷</span><span class="lang-name">French</span><span class="lang-native">Français</span></a>
+            <a href="/index-de.html" class="lang-option"><span class="lang-flag">🇩🇪</span><span class="lang-name">German</span><span class="lang-native">Deutsch</span></a>
+            <a href="/index-ja.html" class="lang-option"><span class="lang-flag">🇯🇵</span><span class="lang-name">Japanese</span><span class="lang-native">日本�?/span></a>
+            <a href="/index-pt.html" class="lang-option active"><span class="lang-flag">🇧🇷</span><span class="lang-name">Portuguese</span><span class="lang-native">Português</span></a>
+            <a href="/index-ko.html" class="lang-option"><span class="lang-flag">🇰🇷</span><span class="lang-name">Korean</span><span class="lang-native">한국�?/span></a>
+          </div>
+        </div>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>🌍 Conversor de Fusos Horários</h1>
+    <p class="hero-subtitle">Grátis, Sem Anúncios | Multi-Cidades | Horário de Verão Automático | +400 Fusos</p>
+    <div class="hero-cta">
+      <a href="#conversor" class="btn btn-primary btn-large">🚀 Começar</a>
+    </div>
+    <div class="hero-badges">
+      <span class="badge">�?Relógios Personalizáveis</span>
+      <span class="badge">🌍 +400 Fusos</span>
+      <span class="badge">�?Conversão Instantânea</span>
+      <span class="badge">📱 Mobile</span>
+      <span class="badge">🕐 Multi-Cidades</span>
+    </div>
+  </div>
+</section>
+
+<main>
+  <div class="card" id="conversor">
+    <h2 class="card-title">🕐 Conversor Multi-Fuso</h2>
+    <p style="color:var(--text-muted);margin-bottom:20px;">Compare até 6 fusos horários simultaneamente.</p>
+    
+    <div class="base-time-section">
+      <div class="base-time-grid">
+        <div class="form-group">
+          <label class="form-label" for="base-date">Data</label>
+          <input type="date" id="base-date" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="base-time">Hora</label>
+          <input type="time" id="base-time" class="form-input" value="09:00" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="base-tz">Fuso de Referência</label>
+          <select id="base-tz" class="form-select"></select>
+        </div>
+      </div>
+    </div>
+    
+    <div class="time-slider-container">
+      <label class="form-label" for="time-slider">⏱️ Controle de Tempo</label>
+      <div class="slider-wrapper">
+        <input type="range" id="time-slider" min="0" max="23" step="1" value="9" class="time-slider">
+        <div class="slider-labels"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>23:00</span></div>
+      </div>
+      <div class="current-slider-time" id="slider-time-display">09:00</div>
+    </div>
+    
+    <div class="multi-tz-section">
+      <div class="multi-tz-header">
+        <h3>📊 Comparando <span id="tz-count">2</span> Fusos</h3>
+        <button class="btn btn-outline btn-sm" id="add-tz-btn" onclick="addTimezoneCard()">+ Adicionar</button>
+      </div>
+      <div class="multi-tz-grid" id="multi-tz-grid"></div>
+    </div>
+    
+    <div class="share-section">
+      <button class="btn btn-outline btn-sm" onclick="shareViaEmail()">📧 Email</button>
+      <button class="btn btn-outline btn-sm" onclick="copyResults()">📋 Copiar</button>
+      <button class="btn btn-outline btn-sm" onclick="addToCalendar()">📅 Calendário</button>
+      <button class="btn btn-outline btn-sm" onclick="saveCurrentPair()">💾 Salvar</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 class="card-title">🌐 Relógios em Tempo Real</h2>
+    <div class="clock-controls">
+      <input type="text" id="city-search" class="form-input" placeholder="🔍 Buscar cidade..." oninput="searchCity(this.value)" autocomplete="off" aria-label="Buscar cidade">
+      <div class="search-results" id="search-results"></div>
+    </div>
+    <div class="clocks-grid" id="world-clocks"></div>
+  </div>
+
+  <section style="margin-top:40px;">
+    <h2 class="section-title">🌆 Hora Atual nas Cidades Populares</h2>
+    <div class="quick-convert-grid" style="margin-top:20px;">
+      <a href="pages/time-in/sao-paulo.html" class="quick-convert-item">
+        <span class="qc-flag">🇧🇷</span>
+        <div class="qc-info"><span class="qc-name">São Paulo</span><span class="qc-desc" id="qc-saopaulo">BRT · UTC-3</span></div>
+      </a>
+      <a href="pages/time-in/rio.html" class="quick-convert-item">
+        <span class="qc-flag">🇧🇷</span>
+        <div class="qc-info"><span class="qc-name">Rio de Janeiro</span><span class="qc-desc" id="qc-rio">BRT · UTC-3</span></div>
+      </a>
+      <a href="pages/time-in/new-york.html" class="quick-convert-item">
+        <span class="qc-flag">🗽</span>
+        <div class="qc-info"><span class="qc-name">Nova York</span><span class="qc-desc" id="qc-newyork">EST · UTC-5</span></div>
+      </a>
+      <a href="pages/time-in/london.html" class="quick-convert-item">
+        <span class="qc-flag">🇬🇧</span>
+        <div class="qc-info"><span class="qc-name">Londres</span><span class="qc-desc" id="qc-london">GMT · UTC+0</span></div>
+      </a>
+      <a href="pages/time-in/lisbon.html" class="quick-convert-item">
+        <span class="qc-flag">🇵🇹</span>
+        <div class="qc-info"><span class="qc-name">Lisboa</span><span class="qc-desc" id="qc-lisbon">WET · UTC+0</span></div>
+      </a>
+      <a href="pages/time-in/tokyo.html" class="quick-convert-item">
+        <span class="qc-flag">🇯🇵</span>
+        <div class="qc-info"><span class="qc-name">Tóquio</span><span class="qc-desc" id="qc-tokyo">JST · UTC+9</span></div>
+      </a>
+    </div>
+  </section>
+
+  <section class="card" style="margin-top:40px;">
+    <h2 style="font-size:1.4rem;font-weight:700;margin-bottom:16px;">Sobre o GlobeTimeZone</h2>
+    <p style="color:var(--text-muted);line-height:1.8;">GlobeTimeZone é um conversor de fusos horários gratuito e fácil de usar, projetado para viajantes, equipes remotas e negócios internacionais.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <a href="/index-pt.html" class="footer-logo">🌍 GlobeTimeZone</a>
+        <p class="footer-desc">Conversor gratuito de fusos horários.</p>
+      </div>
+      <div>
+        <h4 class="footer-heading">Ferramentas</h4>
+        <ul class="footer-links">
+          <li><a href="/index-pt.html">Conversor</a></li>
+          <li><a href="pages/world-clock.html">Relógio Mundial</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">Info</h4>
+        <ul class="footer-links">
+          <li><a href="pages/about.html">Sobre</a></li>
+          <li><a href="pages/contact.html">Contato</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 GlobeTimeZone.com · Todos os direitos reservados</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+const QUICK_CITIES_PT = {
+  'qc-saopaulo': 'America/Sao_Paulo', 'qc-rio': 'America/Sao_Paulo', 'qc-newyork': 'America/New_York',
+  'qc-london': 'Europe/London', 'qc-lisbon': 'Europe/Lisbon', 'qc-tokyo': 'Asia/Tokyo'
+};
+function updateQuickCitiesPT() {
+  const now = new Date();
+  Object.entries(QUICK_CITIES_PT).forEach(([id, tz]) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const timeStr = new Intl.DateTimeFormat('pt-BR', { timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false }).format(now);
+    const tzName = new Intl.DateTimeFormat('pt-BR', { timeZone: tz, timeZoneName: 'short' }).formatToParts(now).find(p => p.type === 'timeZoneName')?.value || '';
+    el.textContent = `${timeStr} · ${tzName}`;
+  });
+}
+setInterval(updateQuickCitiesPT, 1000);
+updateQuickCitiesPT();
+</script>
+</body>
+</html>

@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GlobeTimeZone Pro - Premium Features for Power Users</title>
+  <meta name="description" content="Upgrade to GlobeTimeZone Pro for unlimited clocks, ad-free experience, API access, and priority support." />
+  <meta name="robots" content="noindex" />
+  
+    <!-- PWA & Social -->
+  <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+  <link rel="manifest" href="../manifest.json" />
+  <meta name="twitter:card" content="summary_large_image" />
+  
+  <link rel="stylesheet" href="../css/style.min.css" />
+  <style>
+    .pricing-hero {
+      background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+      color: white;
+      padding: 60px 24px;
+      text-align: center;
+      border-radius: 16px;
+      margin-bottom: 40px;
+    }
+    
+    .pricing-hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+    }
+    
+    .pricing-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .pricing-card {
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      text-align: center;
+      position: relative;
+      transition: all 0.3s;
+    }
+    
+    .pricing-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.15);
+    }
+    
+    .pricing-card.popular {
+      border-color: #7c3aed;
+      transform: scale(1.05);
+    }
+    
+    .pricing-card.popular:hover {
+      transform: scale(1.05) translateY(-8px);
+    }
+    
+    .popular-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+      color: white;
+      padding: 6px 20px;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    
+    .plan-name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    
+    .plan-price {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    
+    .plan-price span {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+    
+    .plan-desc {
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      font-size: 0.9rem;
+    }
+    
+    .feature-list {
+      list-style: none;
+      padding: 0;
+      text-align: left;
+      margin-bottom: 24px;
+    }
+    
+    .feature-list li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .feature-list li:last-child {
+      border-bottom: none;
+    }
+    
+    .feature-check {
+      color: #10b981;
+      font-weight: 700;
+    }
+    
+    .feature-cross {
+      color: #ef4444;
+    }
+    
+    .pricing-btn {
+      width: 100%;
+      padding: 14px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+    
+    .btn-primary-pro {
+      background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+      color: white;
+    }
+    
+    .btn-primary-pro:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 20px -6px rgba(124, 58, 237, 0.5);
+    }
+    
+    .btn-outline-pro {
+      background: white;
+      border: 2px solid #7c3aed;
+      color: #7c3aed;
+    }
+    
+    .btn-outline-pro:hover {
+      background: #f5f3ff;
+    }
+    
+    .comparison-table {
+      max-width: 900px;
+      margin: 48px auto;
+      border-collapse: collapse;
+    }
+    
+    .comparison-table th, .comparison-table td {
+      padding: 14px 16px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .comparison-table th {
+      background: var(--bg);
+      font-weight: 700;
+    }
+    
+    .comparison-table th:first-child {
+      text-align: left;
+    }
+    
+    .comparison-table td:first-child {
+      text-align: left;
+      font-weight: 500;
+    }
+    
+    .comparison-table tr:hover td {
+      background: #f5f3ff;
+    }
+    
+    .faq-section {
+      max-width: 700px;
+      margin: 48px auto;
+    }
+    
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    
+    .faq-question {
+      padding: 16px 20px;
+      font-weight: 600;
+      cursor: pointer;
+      background: white;
+      transition: background 0.2s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .faq-question:hover {
+      background: var(--bg);
+    }
+    
+    .faq-answer {
+      padding: 0 20px 16px;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+    
+    .faq-item:not(.open) .faq-answer {
+      display: none;
+    }
+    
+    .money-back {
+      background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+      border: 2px solid #10b981;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      margin: 32px 0;
+      max-width: 600px;
+    }
+    
+    .money-back h3 {
+      color: #047857;
+      margin-bottom: 8px;
+    }
+  </style>
+  <!-- Google Analytics 4 -->
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script src="../js/ga4.min.js"></script>
+</head>
+<body>
+
+<!-- ===== Accessibility: Skip to main content ===== -->
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+
+<!-- Header -->
+<header>
+  <div class="header-inner">
+    <a href="../" class="logo">🌍 Globe<span>TimeZone</span></a>
+    <nav> aria-label="Main navigation"
+      <a href="../">Converter</a>
+      <a href="world-clock.html">World Clock</a>
+      <a href="meeting-scheduler.html">Scheduler</a>
+      <a href="articles.html">Articles</a>
+    </nav>
+  </div>
+</header>
+
+<main style="max-width:1100px;margin:0 auto;padding:24px;" id="main-content" role="main">
+  
+  <div class="pricing-hero">
+    <h1>🚀 GlobeTimeZone Pro</h1>
+    <p style="font-size:1.2rem;opacity:0.9;">Unlock the full power of time zone management</p>
+  </div>
+  
+  <div class="pricing-cards">
+    <!-- Free Plan -->
+    <div class="pricing-card">
+      <div class="plan-name">Free</div>
+      <div class="plan-price">$0<span>/month</span></div>
+      <p class="plan-desc">For casual users</p>
+      <ul class="feature-list">
+        <li><span class="feature-check">✓</span> Up to 10 world clocks</li>
+        <li><span class="feature-check">✓</span> Basic timezone converter</li>
+        <li><span class="feature-check">✓</span> Meeting scheduler</li>
+        <li><span class="feature-check">✓</span> Ad-supported</li>
+        <li><span class="feature-cross">✗</span> API access</li>
+        <li><span class="feature-cross">✗</span> Priority support</li>
+      </ul>
+      <button class="pricing-btn btn-outline-pro" onclick="alert('You are on the free plan!')">Current Plan</button>
+    </div>
+    
+    <!-- Pro Plan -->
+    <div class="pricing-card popular">
+      <div class="popular-badge">⭐ Most Popular</div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-price">$4.99<span>/month</span></div>
+      <p class="plan-desc">Or $49/year (save 20%)</p>
+      <ul class="feature-list">
+        <li><span class="feature-check">✓</span> Unlimited world clocks</li>
+        <li><span class="feature-check">✓</span> All premium tools</li>
+        <li><span class="feature-check">✓</span> Ad-free experience</li>
+        <li><span class="feature-check">✓</span> API access (1K/day)</li>
+        <li><span class="feature-check">✓</span> Team sharing</li>
+        <li><span class="feature-check">✓</span> Priority email support</li>
+      </ul>
+      <button class="pricing-btn btn-primary-pro" onclick="alert('Pro upgrade coming soon!')">Upgrade to Pro</button>
+    </div>
+    
+    <!-- Team Plan -->
+    <div class="pricing-card">
+      <div class="plan-name">Team</div>
+      <div class="plan-price">$12.99<span>/month</span></div>
+      <p class="plan-desc">Up to 25 team members</p>
+      <ul class="feature-list">
+        <li><span class="feature-check">✓</span> Everything in Pro</li>
+        <li><span class="feature-check">✓</span> Team workspace</li>
+        <li><span class="feature-check">✓</span> Shared clock presets</li>
+        <li><span class="feature-check">✓</span> API access (10K/day)</li>
+        <li><span class="feature-check">✓</span> Admin dashboard</li>
+        <li><span class="feature-check">✓</span> Dedicated support</li>
+      </ul>
+      <button class="pricing-btn btn-outline-pro" onclick="alert('Team plan coming soon!')">Contact Sales</button>
+    </div>
+  </div>
+  
+  <!-- Comparison Table -->
+  <h2 style="text-align:center;margin:48px 0 24px;">Feature Comparison</h2>
+  
+  <table class="comparison-table">
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>Free</th>
+        <th>Pro</th>
+        <th>Team</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>World Clocks</td>
+        <td>10</td>
+        <td>Unlimited</td>
+        <td>Unlimited</td>
+      </tr>
+      <tr>
+        <td>Saved Timezone Pairs</td>
+        <td>5</td>
+        <td>Unlimited</td>
+        <td>Unlimited</td>
+      </tr>
+      <tr>
+        <td>Meeting Scheduler Participants</td>
+        <td>5</td>
+        <td>25</td>
+        <td>25 per workspace</td>
+      </tr>
+      <tr>
+        <td>Ad-Free Experience</td>
+        <td>❌</td>
+        <td>✓</td>
+        <td>✓</td>
+      </tr>
+      <tr>
+        <td>Countdown Events</td>
+        <td>3</td>
+        <td>Unlimited</td>
+        <td>Unlimited</td>
+      </tr>
+      <tr>
+        <td>API Requests</td>
+        <td>❌</td>
+        <td>1,000/day</td>
+        <td>10,000/day</td>
+      </tr>
+      <tr>
+        <td>Team Workspaces</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>✓</td>
+      </tr>
+      <tr>
+        <td>Custom Branding</td>
+        <td>❌</td>
+        <td>❌</td>
+        <td>✓</td>
+      </tr>
+      <tr>
+        <td>Priority Support</td>
+        <td>Community</td>
+        <td>Email</td>
+        <td>Dedicated</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <!-- Money Back Guarantee -->
+  <div class="money-back" style="margin:48px auto;">
+    <h3>🛡️ 30-Day Money-Back Guarantee</h3>
+    <p>Try GlobeTimeZone Pro risk-free. If you're not satisfied within 30 days, we'll refund your payment in full. No questions asked.</p>
+  </div>
+  
+  <!-- FAQ -->
+  <h2 style="text-align:center;margin:48px 0 24px;">Frequently Asked Questions</h2>
+  
+  <div class="faq-section">
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>Can I cancel anytime?</span>
+        <span>+</span>
+      </div>
+      <div class="faq-answer">
+        Yes! You can cancel your subscription at any time. Your access will continue until the end of your billing period, and you won't be charged again.
+      </div>
+    </div>
+    
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>What payment methods do you accept?</span>
+        <span>+</span>
+      </div>
+      <div class="faq-answer">
+        We accept all major credit cards (Visa, MasterCard, American Express), PayPal, and Apple Pay. All payments are processed securely through Stripe.
+      </div>
+    </div>
+    
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>Is the API included in Pro?</span>
+        <span>+</span>
+      </div>
+      <div class="faq-answer">
+        Yes! Pro includes 1,000 API requests per day, perfect for small projects and integrations. Need more? Consider our Team plan with 10,000 requests/day.
+      </div>
+    </div>
+    
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>Can I switch between plans?</span>
+        <span>+</span>
+      </div>
+      <div class="faq-answer">
+        Absolutely. You can upgrade or downgrade your plan at any time. When upgrading, you'll get immediate access to new features. When downgrading, changes take effect at the next billing cycle.
+      </div>
+    </div>
+    
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>Do you offer discounts for nonprofits or education?</span>
+        <span>+</span>
+      </div>
+      <div class="faq-answer">
+        Yes! We offer 50% off for verified nonprofits and educational institutions. Contact our sales team with your organization details to apply.
+      </div>
+    </div>
+  </div>
+  
+  <!-- CTA -->
+  <div style="text-align:center;margin:48px 0;">
+    <h2 style="margin-bottom:12px;">Ready to upgrade?</h2>
+    <p style="color:#595959;margin-bottom:24px;">Join thousands of teams and professionals who trust GlobeTimeZone</p>
+    <button class="btn btn-primary btn-large" onclick="alert('Pro upgrade coming soon!')" style="background:linear-gradient(135deg,#7c3aed 0%,#a78bfa 100%);border:none;">
+      🚀 Start 7-Day Free Trial
+    </button>
+    <p style="font-size:0.85rem;color:#595959;margin-top:12px;">No credit card required</p>
+  </div>
+
+</main>
+
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-bottom">
+      <p>© 2026 GlobeTimeZone.com · GlobeTimeZone Pro</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+function toggleFaq(el) {
+  const item = el.parentElement;
+  item.classList.toggle('open');
+  el.querySelector('span:last-child').textContent = item.classList.contains('open') ? '−' : '+';
+}
+</script>
+
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js')}</script>
+</body>
+</html>

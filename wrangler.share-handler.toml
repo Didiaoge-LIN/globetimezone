@@ -1,0 +1,13 @@
+name = "globetimezone-share-handler"
+compatibility_date = "2026-06-01"
+main = "./workers/share-handler/index.ts"
+
+[observability]
+enabled = true
+
+[env.production]
+route = { pattern = "share.globetimezone.com/*", zone_id = "4b8640caf424bf01cae67e92862961ef" }
+
+[[env.production.kv_namespaces]]
+binding = "SHARE_DATA"
+id = "0ab9fbf6807b45649b8ecd5c3e40c1ed"

@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meeting Scheduler - Find Best Meeting Times Across Time Zones | GlobeTimeZone</title>
+  <meta name="description" content="Free intelligent meeting scheduler. Find the best meeting times across multiple time zones. Supports team scheduling with working hours display." />
+  <meta name="keywords" content="meeting scheduler, meeting planner, find meeting time, timezone meeting, team scheduling, international meeting, cross-timezone meeting" />
+  <meta name="robots" content="index, follow" />
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Meeting Scheduler - Find Best Meeting Times Across Time Zones" />
+  <meta property="og:description" content="Free intelligent meeting scheduler. Find optimal meeting times across multiple time zones." />
+  <meta property="og:url" content="https://globetimezone.com/pages/meeting-scheduler.html" />
+  
+  <!-- Hreflang -->
+  <link rel="alternate" hreflang="en" href="https://globetimezone.com/pages/meeting-scheduler.html" />
+  <link rel="alternate" hreflang="zh" href="https://globetimezone.com/pages/meeting-scheduler-zh.html" />
+  <link rel="canonical" href="https://globetimezone.com/pages/meeting-scheduler.html" />
+  
+    <!-- PWA & Social -->
+  <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+  <link rel="manifest" href="../manifest.json" />
+  <meta name="twitter:card" content="summary_large_image" />
+  
+  <!-- Performance: Preconnect & Preload -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" />
+  <link rel="preconnect" href="https://www.google-analytics.com" />
+  <link rel="preconnect" href="https://www.gstatic.com" />
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+  <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+  <link rel="preload" href="../css/style.min.css" as="style" />
+  
+  <link rel="stylesheet" href="../css/style.min.css" />
+  
+  <!-- HowTo Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Schedule an International Meeting",
+    "description": "Learn how to use GlobeTimeZone's meeting scheduler to find the best meeting time across multiple time zones.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Add Team Members",
+        "text": "Add team members by selecting their city or time zone from the list."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Set Working Hours",
+        "text": "Each participant's working hours will be displayed. Default is 9 AM - 6 PM local time."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "View Suggested Times",
+        "text": "The scheduler will highlight optimal meeting windows where all participants are in working hours."
+      }
+    ]
+  }
+  </script>
+  <!-- Google Analytics 4 -->
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script src="../js/ga4.min.js"></script>
+</head>
+<body>
+
+<!-- ===== Accessibility: Skip to main content ===== -->
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+
+<!-- Header -->
+<header>
+  <div class="header-inner">
+    <a href="../" class="logo">🌍 Globe<span>TimeZone</span></a>
+    <nav> aria-label="Main navigation"
+      <a href="../">Converter</a>
+      <a href="world-clock.html">World Clock</a>
+      <a href="meeting-scheduler.html" style="color:var(--primary);font-weight:600;">Meeting Scheduler</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Breadcrumb -->
+<nav class="breadcrumb" style="padding:12px 24px;max-width:1200px;margin:0 auto;font-size:0.875rem;color:#595959;">
+  <a href="../" style="color:#2563eb;text-decoration:none;">Home</a> &gt;
+  <span>Meeting Scheduler</span>
+</nav>
+
+<main style="max-width:1200px;margin:0 auto;padding:20px 24px;" id="main-content" role="main">
+
+  <!-- Hero Section -->
+  <section style="text-align:center;padding:40px 0;">
+    <h1 class="section-title" style="font-size:2.5rem;margin-bottom:16px;">📅 Meeting Scheduler</h1>
+    <p style="font-size:1.2rem;color:#595959;max-width:600px;margin:0 auto;">
+      Find the perfect meeting time across multiple time zones. Add team members and instantly see optimal scheduling windows.
+    </p>
+  </section>
+
+  <!-- Participant Input Section -->
+  <section class="card" id="participant-section">
+    <h2 class="card-title">👥 Add Team Members</h2>
+    <p style="color:#595959;margin-bottom:20px;">Add participants with their time zone to find overlapping work hours.</p>
+    
+    <div class="form-group" style="margin-bottom:20px;">
+      <label class="form-label">Search City or Time Zone</label>
+      <div style="display:flex;gap:12px;">
+        <input type="text" id="city-search" class="form-input" placeholder="e.g., New York, London, Tokyo..." style="flex:1;" />
+        <select id="working-hours-start" class="form-input" style="width:120px;">
+          <option value="6">6:00 AM</option>
+          <option value="7">7:00 AM</option>
+          <option value="8">8:00 AM</option>
+          <option value="9" selected>9:00 AM</option>
+          <option value="10">10:00 AM</option>
+        </select>
+        <span style="color:#595959;align-self:center;">to</span>
+        <select id="working-hours-end" class="form-input" style="width:120px;">
+          <option value="16">4:00 PM</option>
+          <option value="17">5:00 PM</option>
+          <option value="18" selected>6:00 PM</option>
+          <option value="19">7:00 PM</option>
+          <option value="20">8:00 PM</option>
+        </select>
+        <button class="btn btn-primary" onclick="addParticipant()">+ Add</button>
+      </div>
+    </div>
+    
+    <!-- Popular Cities Quick Add -->
+    <div style="margin-bottom:20px;">
+      <span style="font-size:0.875rem;color:#595959;margin-bottom:8px;display:block;">Quick Add:</span>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <button class="btn btn-outline btn-sm" onclick="quickAdd('New York', 'America/New_York')">🇺🇸 New York</button>
+        <button class="btn btn-outline btn-sm" onclick="quickAdd('Los Angeles', 'America/Los_Angeles')">🇺🇸 Los Angeles</button>
+        <button class="btn btn-outline btn-sm" onclick="quickAdd('London', 'Europe/London')">🇬🇧 London</button>
+        <button class="btn btn-outline btn-sm" onclick="quickAdd('Beijing', 'Asia/Shanghai')">🇨🇳 Beijing</button>
+        <button class="btn btn-outline btn-sm" onclick="quickAdd('Tokyo', 'Asia/Tokyo')">🇯🇵 Tokyo</button>
+        <button class="btn btn-outline btn-sm" onclick="quickAdd('Singapore', 'Asia/Singapore')">🇸🇬 Singapore</button>
+        <button class="btn btn-outline btn-sm" onclick="quickAdd('Sydney', 'Australia/Sydney')">🇦🇺 Sydney</button>
+        <button class="btn btn-outline btn-sm" onclick="quickAdd('Dubai', 'Asia/Dubai')">🇦🇪 Dubai</button>
+        <button class="btn btn-outline btn-sm" onclick="quickAdd('Paris', 'Europe/Paris')">🇫🇷 Paris</button>
+      </div>
+    </div>
+    
+    <!-- Participant List -->
+    <div id="participants-container">
+      <p style="color:#595959;font-style:italic;">No participants added yet. Add team members above.</p>
+    </div>
+  </section>
+
+  <!-- Meeting Duration -->
+  <section class="card" style="margin-top:24px;">
+    <h2 class="card-title">⏱️ Meeting Duration</h2>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <button class="btn btn-outline duration-btn active" data-duration="30" onclick="setDuration(30)">30 min</button>
+      <button class="btn btn-outline duration-btn" data-duration="60" onclick="setDuration(60)">1 hour</button>
+      <button class="btn btn-outline duration-btn" data-duration="90" onclick="setDuration(90)">1.5 hours</button>
+      <button class="btn btn-outline duration-btn" data-duration="120" onclick="setDuration(120)">2 hours</button>
+    </div>
+  </section>
+
+  <!-- Date Selection -->
+  <section class="card" style="margin-top:24px;">
+    <h2 class="card-title">📆 Select Date Range</h2>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+      <div class="form-group" style="margin:0;">
+        <label class="form-label">From</label>
+        <input type="date" id="date-from" class="form-input" />
+      </div>
+      <div class="form-group" style="margin:0;">
+        <label class="form-label">To</label>
+        <input type="date" id="date-to" class="form-input" />
+      </div>
+      <button class="btn btn-primary" onclick="generateSchedule()" style="margin-top:20px;">Find Best Times</button>
+    </div>
+  </section>
+
+  <!-- Results Section -->
+  <section class="card" style="margin-top:24px;" id="results-section" style="display:none;">
+    <h2 class="card-title">🎯 Suggested Meeting Times</h2>
+    <p style="color:#595959;margin-bottom:20px;">Times where all team members are within working hours:</p>
+    
+    <div id="schedule-results">
+      <!-- Generated by JS -->
+    </div>
+    
+    <div id="schedule-table-container" style="margin-top:24px;overflow-x:auto;">
+      <!-- Generated by JS -->
+    </div>
+  </section>
+
+  <!-- Time Grid Preview -->
+  <section class="card" style="margin-top:24px;" id="preview-section">
+    <h2 class="card-title">🕐 Today's Availability (24-Hour View)</h2>
+    <p style="color:#595959;margin-bottom:20px;">See all participants' working hours in a single day view. Green = Working hours, Red = Outside working hours.</p>
+    
+    <div id="time-grid">
+      <!-- Generated by JS -->
+    </div>
+    
+    <div style="margin-top:16px;display:flex;gap:24px;font-size:0.875rem;">
+      <span><span style="color:#16a34a;">🟢</span> Working Hours</span>
+      <span><span style="color:#dc2626;">🔴</span> Outside Working Hours</span>
+      <span><span style="color:#3b82f6;">🔵</span> Current Time</span>
+    </div>
+  </section>
+
+  <!-- Share Section -->
+  <section class="card" style="margin-top:24px;background:linear-gradient(135deg,#ecfdf5 0%,#d1fae5 100%);border-color:#10b981;">
+    <h2 class="card-title">📤 Share & Export</h2>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;">
+      <button class="btn btn-outline" onclick="copyMeetingLink()">📋 Copy Meeting Link</button>
+      <button class="btn btn-outline" onclick="shareViaEmail()">📧 Share via Email</button>
+      <button class="btn btn-outline" onclick="addToCalendar()">📅 Add to Google Calendar</button>
+      <button class="btn btn-primary" onclick="downloadICS()" style="background:#10b981;border-color:#10b981;">📥 Download .ics File</button>
+    </div>
+    <p style="margin-top:12px;font-size:0.875rem;color:#065f46;">💡 .ics files work with Apple Calendar, Outlook, Google Calendar, and all major calendar apps.</p>
+    <p style="margin-top:8px;font-size:0.875rem;color:#065f46;" id="share-status"></p>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <a href="../" class="footer-logo">🌍 GlobeTimeZone</a>
+        <p class="footer-desc">Free world time zone converter. Convert time between any two cities instantly.</p>
+      </div>
+      <div>
+        <h4 class="footer-heading">Tools</h4>
+        <ul class="footer-links">
+          <li><a href="../">Time Zone Converter</a></li>
+          <li><a href="world-clock.html">World Clock</a></li>
+          <li><a href="meeting-scheduler.html">Meeting Scheduler</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">Popular</h4>
+        <ul class="footer-links">
+          <li><a href="est-to-cst-converter.html">EST to CST</a></li>
+          <li><a href="gmt-to-cst-converter.html">GMT to CST</a></li>
+          <li><a href="us-china-time-difference.html">US vs China</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">Info</h4>
+        <ul class="footer-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 GlobeTimeZone.com · All rights reserved</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Global state
+let participants = [];
+let meetingDuration = 60;
+let currentOffsets = {};
+
+// Popular cities with time zones
+const cityDatabase = {
+  'New York': { tz: 'America/New_York', offset: -5 },
+  'Los Angeles': { tz: 'America/Los_Angeles', offset: -8 },
+  'Chicago': { tz: 'America/Chicago', offset: -6 },
+  'London': { tz: 'Europe/London', offset: 0 },
+  'Paris': { tz: 'Europe/Paris', offset: 1 },
+  'Berlin': { tz: 'Europe/Berlin', offset: 1 },
+  'Tokyo': { tz: 'Asia/Tokyo', offset: 9 },
+  'Beijing': { tz: 'Asia/Shanghai', offset: 8 },
+  'Shanghai': { tz: 'Asia/Shanghai', offset: 8 },
+  'Hong Kong': { tz: 'Asia/Hong_Kong', offset: 8 },
+  'Singapore': { tz: 'Asia/Singapore', offset: 8 },
+  'Sydney': { tz: 'Australia/Sydney', offset: 10 },
+  'Dubai': { tz: 'Asia/Dubai', offset: 4 },
+  'Mumbai': { tz: 'Asia/Kolkata', offset: 5.5 },
+  'Seoul': { tz: 'Asia/Seoul', offset: 9 },
+  'Toronto': { tz: 'America/Toronto', offset: -5 },
+  'Vancouver': { tz: 'America/Vancouver', offset: -8 },
+  'Amsterdam': { tz: 'Europe/Amsterdam', offset: 1 },
+  'Stockholm': { tz: 'Europe/Stockholm', offset: 1 },
+  'Moscow': { tz: 'Europe/Moscow', offset: 3 },
+};
+
+// Initialize dates
+function initDates() {
+  const today = new Date();
+  const y = today.getFullYear();
+  const m = String(today.getMonth() + 1).padStart(2, '0');
+  const d = String(today.getDate()).padStart(2, '0');
+  
+  document.getElementById('date-from').value = `${y}-${m}-${d}`;
+  
+  // Set to next 7 days
+  const nextWeek = new Date(today);
+  nextWeek.setDate(nextWeek.getDate() + 7);
+  const ny = nextWeek.getFullYear();
+  const nm = String(nextWeek.getMonth() + 1).padStart(2, '0');
+  const nd = String(nextWeek.getDate()).padStart(2, '0');
+  document.getElementById('date-to').value = `${ny}-${nm}-${nd}`;
+}
+
+// Quick add participant
+function quickAdd(city, timezone) {
+  const cityData = cityDatabase[city];
+  if (!cityData) return;
+  
+  const workStart = parseInt(document.getElementById('working-hours-start').value);
+  const workEnd = parseInt(document.getElementById('working-hours-end').value);
+  
+  // Check if already added
+  if (participants.find(p => p.city === city)) {
+    return;
+  }
+  
+  participants.push({
+    id: Date.now(),
+    city: city,
+    timezone: timezone,
+    workStart: workStart,
+    workEnd: workEnd
+  });
+  
+  renderParticipants();
+  updateTimeGrid();
+}
+
+// Add participant from search
+function addParticipant() {
+  const searchInput = document.getElementById('city-search').value.trim();
+  if (!searchInput) return;
+  
+  // Find city in database
+  const cityKey = Object.keys(cityDatabase).find(c => 
+    c.toLowerCase().includes(searchInput.toLowerCase())
+  );
+  
+  if (cityKey) {
+    quickAdd(cityKey, cityDatabase[cityKey].tz);
+    document.getElementById('city-search').value = '';
+  } else {
+    alert('City not found. Try: New York, London, Tokyo, Beijing, etc.');
+  }
+}
+
+// Remove participant
+function removeParticipant(id) {
+  participants = participants.filter(p => p.id !== id);
+  renderParticipants();
+  updateTimeGrid();
+}
+
+// Render participant list
+function renderParticipants() {
+  const container = document.getElementById('participants-container');
+  
+  if (participants.length === 0) {
+    container.innerHTML = '<p style="color:#595959;font-style:italic;">No participants added yet. Add team members above.</p>';
+    return;
+  }
+  
+  const now = new Date();
+  let html = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;">';
+  
+  participants.forEach(p => {
+    const localTime = new Date(now.toLocaleString('en-US', { timeZone: p.timezone }));
+    const hours = String(localTime.getHours()).padStart(2, '0');
+    const minutes = String(localTime.getMinutes()).padStart(2, '0');
+    const isWorking = localTime.getHours() >= p.workStart && localTime.getHours() < p.workEnd;
+    
+    html += `
+      <div class="card" style="padding:16px;${isWorking ? 'border-color:#10b981;' : 'border-color:#f59e0b;'}">
+        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px;">
+          <strong>${p.city}</strong>
+          <button onclick="removeParticipant(${p.id})" style="background:none;border:none;cursor:pointer;color:#dc2626;font-size:1.2rem;">×</button>
+        </div>
+        <div style="font-size:0.875rem;color:#595959;">
+          <div>Local: ${hours}:${minutes}</div>
+          <div>Work: ${p.workStart}:00 - ${p.workEnd}:00</div>
+        </div>
+        <span class="working-badge" style="margin-top:8px;${isWorking ? '' : 'background:#fef3c7;color:#92400e;'}">
+          ${isWorking ? '🟢 Working' : '🟡 Off Work'}
+        </span>
+      </div>
+    `;
+  });
+  
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+// Set meeting duration
+function setDuration(minutes) {
+  meetingDuration = minutes;
+  document.querySelectorAll('.duration-btn').forEach(btn => {
+    btn.classList.remove('active');
+    if (parseInt(btn.dataset.duration) === minutes) {
+      btn.classList.add('active');
+    }
+  });
+}
+
+// Generate schedule
+function generateSchedule() {
+  if (participants.length === 0) {
+    alert('Please add at least one participant first.');
+    return;
+  }
+  
+  const fromDate = document.getElementById('date-from').value;
+  const toDate = document.getElementById('date-to').value;
+  
+  if (!fromDate || !toDate) {
+    alert('Please select a date range.');
+    return;
+  }
+  
+  document.getElementById('results-section').style.display = 'block';
+  
+  const start = new Date(fromDate);
+  const end = new Date(toDate);
+  const results = document.getElementById('schedule-results');
+  
+  let html = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;">';
+  let foundSlots = 0;
+  
+  for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+    const slots = findBestSlots(d);
+    
+    if (slots.length > 0) {
+      foundSlots++;
+      html += `
+        <div class="card" style="padding:16px;text-align:center;background:linear-gradient(135deg,#ecfdf5 0%,#d1fae5 100%);border-color:#10b981;">
+          <div style="font-weight:600;font-size:1.1rem;">${d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</div>
+          <div style="color:#595959;font-size:0.875rem;margin:8px 0;">
+            ${slots.length} slot${slots.length > 1 ? 's' : ''} available
+          </div>
+          <div style="font-size:0.875rem;">
+            ${slots.slice(0, 3).map(s => `<span style="background:#10b981;color:white;padding:2px 8px;border-radius:4px;margin:2px;display:inline-block;">${s}</span>`).join('')}
+            ${slots.length > 3 ? `<span style="color:#595959;">+${slots.length - 3}</span>` : ''}
+          </div>
+        </div>
+      `;
+    }
+  }
+  
+  if (foundSlots === 0) {
+    html += `
+      <div class="card" style="padding:24px;text-align:center;grid-column:1/-1;">
+        <p style="color:#595959;">No overlapping work hours found in this date range.</p>
+        <p style="font-size:0.875rem;color:#595959;">Try extending the date range or adjusting working hours.</p>
+      </div>
+    `;
+  }
+  
+  html += '</div>';
+  results.innerHTML = html;
+  
+  // Generate detailed table
+  generateDetailedTable(start, end);
+}
+
+// Find best meeting slots for a given day
+function findBestSlots(date) {
+  const slots = [];
+  const baseDate = new Date(date);
+  
+  for (let hour = 0; hour < 24; hour++) {
+    let allInWorkHours = true;
+    
+    for (const p of participants) {
+      // Calculate what time it is in this participant's timezone
+      const localTime = new Date(baseDate);
+      localTime.setUTCHours(hour);
+      const participantHour = parseInt(localTime.toLocaleString('en-US', { timeZone: p.timezone, hour: 'numeric', hour12: false }));
+      
+      if (participantHour < p.workStart || participantHour >= p.workEnd) {
+        allInWorkHours = false;
+        break;
+      }
+    }
+    
+    if (allInWorkHours) {
+      const startTime = `${String(hour).padStart(2, '0')}:00`;
+      const endHour = hour + Math.ceil(meetingDuration / 60);
+      const endTime = `${String(endHour % 24).padStart(2, '0')}:00`;
+      slots.push(`${startTime}-${endTime}`);
+    }
+  }
+  
+  return slots;
+}
+
+// Generate detailed schedule table
+function generateDetailedTable(start, end) {
+  const container = document.getElementById('schedule-table-container');
+  let html = '<table style="width:100%;border-collapse:collapse;">';
+  
+  // Header
+  html += '<thead><tr style="background:var(--primary);color:white;"><th style="padding:12px;border:1px solid var(--border);">Date</th>';
+  for (let h = 0; h < 24; h++) {
+    html += `<th style="padding:8px;border:1px solid var(--border);font-size:0.75rem;">${String(h).padStart(2, '0')}</th>`;
+  }
+  html += '</tr></thead><tbody>';
+  
+  // Rows
+  for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+    html += `<tr><td style="padding:8px;border:1px solid var(--border);font-weight:500;white-space:nowrap;">${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</td>`;
+    
+    for (let h = 0; h < 24; h++) {
+      let allWorking = true;
+      
+      for (const p of participants) {
+        const localTime = new Date(d);
+        localTime.setUTCHours(h);
+        const hour = parseInt(localTime.toLocaleString('en-US', { timeZone: p.timezone, hour: 'numeric', hour12: false }));
+        
+        if (hour < p.workStart || hour >= p.workEnd) {
+          allWorking = false;
+          break;
+        }
+      }
+      
+      const bg = allWorking ? '#10b981' : (participants.length > 0 ? '#fee2e2' : '#f3f4f6');
+      html += `<td style="padding:4px;border:1px solid var(--border);background:${bg};" title="${h}:00"></td>`;
+    }
+    
+    html += '</tr>';
+  }
+  
+  html += '</tbody></table>';
+  container.innerHTML = html;
+}
+
+// Update time grid preview
+function updateTimeGrid() {
+  const grid = document.getElementById('time-grid');
+  
+  if (participants.length === 0) {
+    grid.innerHTML = '<p style="color:#595959;text-align:center;">Add participants to see their working hours.</p>';
+    return;
+  }
+  
+  const now = new Date();
+  let html = '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;">';
+  
+  // Header with hours
+  html += '<thead><tr><th style="padding:8px;border:1px solid var(--border);background:var(--bg-secondary);">Timezone</th>';
+  for (let h = 0; h < 24; h++) {
+    const isCurrentHour = now.getUTCHours() === h;
+    html += `<th style="padding:8px;border:1px solid var(--border);background:${isCurrentHour ? '#dbeafe' : 'var(--bg-secondary)'};font-size:0.75rem;">${String(h).padStart(2, '0')}</th>`;
+  }
+  html += '</tr></thead><tbody>';
+  
+  // Participant rows
+  participants.forEach(p => {
+    html += `<tr><td style="padding:8px;border:1px solid var(--border);font-weight:500;white-space:nowrap;">${p.city}</td>`;
+    
+    for (let h = 0; h < 24; h++) {
+      // Calculate local hour in participant's timezone
+      const localTime = new Date(now);
+      localTime.setUTCHours(h);
+      const localHour = parseInt(localTime.toLocaleString('en-US', { timeZone: p.timezone, hour: 'numeric', hour12: false }));
+      const isWorking = localHour >= p.workStart && localHour < p.workEnd;
+      const isCurrentHour = now.getUTCHours() === h;
+      
+      const bg = isCurrentHour ? '#3b82f6' : (isWorking ? '#10b981' : '#fee2e2');
+      const textColor = isCurrentHour ? 'white' : (isWorking ? 'white' : '#991b1b');
+      
+      html += `<td style="padding:4px;border:1px solid var(--border);background:${bg};color:${textColor};text-align:center;font-size:0.75rem;" title="${localHour}:00 ${p.city}">${String(localHour).padStart(2, '0')}</td>`;
+    }
+    
+    html += '</tr>';
+  });
+  
+  html += '</tbody></table></div>';
+  grid.innerHTML = html;
+}
+
+// Copy meeting link
+function copyMeetingLink() {
+  const participantNames = participants.map(p => p.city).join(', ');
+  const link = window.location.href;
+  const text = `Meeting Scheduler - ${participantNames}\n\n${link}`;
+  
+  navigator.clipboard.writeText(text).then(() => {
+    document.getElementById('share-status').textContent = '✓ Meeting info copied to clipboard!';
+    setTimeout(() => {
+      document.getElementById('share-status').textContent = '';
+    }, 3000);
+  });
+}
+
+// Share via email
+function shareViaEmail() {
+  const participantNames = participants.map(p => p.city).join(', ');
+  const subject = encodeURIComponent(`Meeting Scheduler - ${participantNames}`);
+  const body = encodeURIComponent(`Hi,\n\nI've set up a meeting time finder for our team across ${participantNames}.\n\nYou can view and suggest times here: ${window.location.href}\n\nBest regards`);
+  
+  window.location.href = `mailto:?subject=${subject}&body=${body}`;
+}
+
+// Add to calendar
+function addToCalendar() {
+  // Google Calendar
+  const dateFrom = document.getElementById('date-from').value;
+  const title = encodeURIComponent('Team Meeting - GlobeTimeZone');
+  const details = encodeURIComponent('Scheduled via GlobeTimeZone.com Meeting Scheduler');
+  if (dateFrom) {
+    const date = dateFrom.replace(/-/g, '');
+    const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${date}T090000/${date}T100000&details=${details}`;
+    window.open(url, '_blank');
+  } else {
+    alert('Please set a date range first, then click "Find Best Times".');
+  }
+}
+
+// Download .ics calendar file
+function downloadICS() {
+  if (participants.length === 0) {
+    alert('Please add at least one participant and find a meeting time first.');
+    return;
+  }
+  const dateFrom = document.getElementById('date-from').value || new Date().toISOString().split('T')[0];
+  const dateStr = dateFrom.replace(/-/g,'');
+  const now = new Date();
+  const dtStamp = now.toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+  const participantStr = participants.map(p => p.city).join(', ');
+  const uid = `meeting-${Date.now()}@globetimezone.com`;
+  const icsContent = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//GlobeTimeZone//Meeting Scheduler//EN',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    `UID:${uid}`,
+    `DTSTAMP:${dtStamp}`,
+    `DTSTART:${dateStr}T090000Z`,
+    `DTEND:${dateStr}T100000Z`,
+    `SUMMARY:Team Meeting (${participantStr})`,
+    `DESCRIPTION:Meeting scheduled via GlobeTimeZone.com\\nParticipants: ${participantStr}\\n\\nVisit https://globetimezone.com/pages/meeting-scheduler.html to reschedule.`,
+    'LOCATION:Online',
+    'STATUS:CONFIRMED',
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].join('\r\n');
+  
+  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'meeting-globetimezone.ics';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  document.getElementById('share-status').textContent = '✅ .ics file downloaded! Import into your calendar app.';
+}
+
+// Initialize
+initDates();
+updateTimeGrid();
+
+// Update time grid every minute
+setInterval(() => {
+  renderParticipants();
+  updateTimeGrid();
+}, 60000);
+</script>
+
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js')}</script>
+</body>
+</html>

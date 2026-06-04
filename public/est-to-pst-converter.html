@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EST to PST Converter - Eastern to Pacific Time | GlobeTimeZone</title>
+  <meta name="description" content="Convert EST (Eastern Standard Time) to PST (Pacific Standard Time) instantly. Free EST to PST converter with 24-hour conversion table. 3-hour time difference." />
+  <meta name="keywords" content="EST to PST, Eastern Time to Pacific Time, EST PST converter, time zone conversion, New York to Los Angeles, 3 hour difference" />
+  <meta name="robots" content="index, follow" />
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="EST to PST Converter - Eastern to Pacific Time" />
+  <meta property="og:description" content="Free EST to PST converter. Compare time zones between New York and Los Angeles." />
+  <meta property="og:url" content="https://globetimezone.com/pages/est-to-pst-converter.html" />
+  
+  <!-- Hreflang -->
+  <link rel="alternate" hreflang="en" href="https://globetimezone.com/pages/est-to-pst-converter.html" />
+  <link rel="alternate" hreflang="zh" href="https://globetimezone.com/pages/est-to-pst-converter-zh.html" />
+  <link rel="canonical" href="https://globetimezone.com/pages/est-to-pst-converter.html" />
+  
+    <!-- PWA & Social -->
+  <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+  <link rel="manifest" href="../manifest.json" />
+  <meta name="twitter:card" content="summary_large_image" />
+  
+  <link rel="stylesheet" href="../css/style.min.css" />
+  
+  <!-- FAQ Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the time difference between EST and PST?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "EST (Eastern Standard Time) is 3 hours ahead of PST (Pacific Standard Time). When it is 12:00 PM in New York (EST), it is 9:00 AM in Los Angeles (PST)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do EST and PST observe Daylight Saving Time?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, both observe Daylight Saving Time. During DST, EST becomes EDT (UTC-4) and PST becomes PDT (UTC-7), maintaining the 3-hour difference."
+        }
+      }
+    ]
+  }
+  </script>
+  <!-- Google Analytics 4 -->
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script src="../js/ga4.min.js"></script>
+</head>
+<body>
+
+<!-- ===== Accessibility: Skip to main content ===== -->
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+
+<!-- Header -->
+<header>
+  <div class="header-inner">
+    <a href="../" class="logo">🌍 Globe<span>TimeZone</span></a>
+    <nav> aria-label="Main navigation"
+      <a href="../">Converter</a>
+      <a href="world-clock.html">World Clock</a>
+      <a href="articles.html">Articles</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Breadcrumb -->
+<nav class="breadcrumb" style="padding:12px 24px;max-width:1200px;margin:0 auto;font-size:0.875rem;color:#595959;">
+  <a href="../" style="color:#2563eb;text-decoration:none;">Home</a> &gt;
+  <a href="articles.html" style="color:#2563eb;text-decoration:none;">Articles</a> &gt;
+  <span>EST to PST Converter</span>
+</nav>
+
+<main style="max-width:1200px;margin:0 auto;padding:20px 24px;" id="main-content" role="main">
+
+  <!-- Converter Section -->
+  <section class="card" id="converter">
+    <h1 class="section-title" style="font-size:2rem;margin-bottom:8px;">🕐 EST to PST Converter</h1>
+    <p style="color:#595959;margin-bottom:24px;">Convert Eastern Standard Time to Pacific Standard Time instantly. EST is always 3 hours ahead of PST.</p>
+    
+    <div class="base-time-section">
+      <div class="base-time-grid">
+        <div class="form-group">
+          <label class="form-label">Date</label>
+          <input type="date" id="base-date" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">EST Time</label>
+          <input type="time" id="base-time" class="form-input" value="12:00" />
+        </div>
+      </div>
+    </div>
+    
+    <div class="multi-tz-grid" style="margin-top:24px;">
+      <div class="tz-card" id="tz-card-est">
+        <div class="tz-card-header">
+          <span class="tz-flag">🇺🇸</span>
+        </div>
+        <div class="tz-city">New York (EST)</div>
+        <div class="tz-time" id="est-time">12:00</div>
+        <div class="tz-offset">UTC-5 / UTC-4 (DST)</div>
+      </div>
+      <div class="tz-card working-hours" id="tz-card-pst">
+        <div class="tz-card-header">
+          <span class="tz-flag">🇺🇸</span>
+        </div>
+        <div class="tz-city">Los Angeles (PST)</div>
+        <div class="tz-time" id="pst-time">09:00</div>
+        <div class="tz-offset">UTC-8 / UTC-7 (DST)</div>
+        <span class="working-badge">🟢 Working Hours</span>
+      </div>
+    </div>
+    
+    <div class="share-section" style="margin-top:24px;">
+      <button class="btn btn-outline btn-sm" onclick="shareResults()">📧 Share Results</button>
+      <button class="btn btn-outline btn-sm" onclick="copyToClipboard()">📋 Copy</button>
+    </div>
+  </section>
+
+  <!-- 24-Hour Conversion Table -->
+  <section class="card" style="margin-top:24px;">
+    <h2 class="card-title">📊 24-Hour EST to PST Conversion Table</h2>
+    <p style="color:#595959;margin-bottom:20px;">Quick reference for common meeting times. EST is always 3 hours ahead of PST.</p>
+    
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;text-align:center;">
+        <thead>
+          <tr style="background:var(--primary);color:white;">
+            <th style="padding:12px;border:1px solid var(--border);">EST Time</th>
+            <th style="padding:12px;border:1px solid var(--border);">PST Time</th>
+            <th style="padding:12px;border:1px solid var(--border);">Best for Meeting?</th>
+          </tr>
+        </thead>
+        <tbody id="conversion-table-body">
+          <!-- Generated by JS -->
+        </tbody>
+      </table>
+    </div>
+    
+    <p style="margin-top:16px;font-size:0.85rem;color:#595959;">
+      * During Daylight Saving Time (typically March-November), the offset changes but the 3-hour difference remains constant.
+    </p>
+  </section>
+
+  <!-- Time Difference Info -->
+  <section class="card" style="margin-top:24px;">
+    <h2 class="card-title">📚 Understanding EST and PST</h2>
+    
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:16px;">
+      <div>
+        <h3 style="font-size:1.1rem;margin-bottom:8px;">🇺🇸 Eastern Standard Time (EST)</h3>
+        <p style="color:#595959;line-height:1.7;">
+          EST covers the Eastern United States including New York, Boston, Miami, Atlanta, and Washington D.C. Standard offset: <strong>UTC-5</strong>. During DST: <strong>UTC-4</strong> (EDT).
+        </p>
+        <p style="color:#595959;margin-top:8px;">
+          <strong>Major cities:</strong> New York, Boston, Philadelphia, Miami, Atlanta, Washington D.C.
+        </p>
+      </div>
+      <div>
+        <h3 style="font-size:1.1rem;margin-bottom:8px;">🇺🇸 Pacific Standard Time (PST)</h3>
+        <p style="color:#595959;line-height:1.7;">
+          PST covers the West Coast of the United States including Los Angeles, San Francisco, Seattle, and San Diego. Standard offset: <strong>UTC-8</strong>. During DST: <strong>UTC-7</strong> (PDT).
+        </p>
+        <p style="color:#595959;margin-top:8px;">
+          <strong>Major cities:</strong> Los Angeles, San Francisco, Seattle, San Diego, Las Vegas.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Meeting Tips -->
+  <section class="card" style="margin-top:24px;background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 100%);border-color:#3b82f6;">
+    <h2 class="card-title">💡 Best Meeting Times for East Coast-West Coast Calls</h2>
+    <div style="margin-top:16px;">
+      <p style="color:#1e40af;line-height:1.7;">
+        <strong>Recommended overlap window:</strong> 10:00 AM - 12:00 PM EST / 7:00 AM - 9:00 AM PST
+      </p>
+      <p style="color:#1e40af;margin-top:12px;">
+        The best time for an East Coast-West Coast call is typically <strong>late morning in New York (10 AM - 12 PM)</strong> which equals <strong>early morning in Los Angeles (7 AM - 9 AM)</strong>. This allows both parties to start their workday and have time remaining after the call.
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="card" style="margin-top:24px;">
+    <h2 class="card-title">❓ Frequently Asked Questions</h2>
+    <div class="faq-list">
+      <details class="faq-item" open>
+        <summary class="faq-question">What is the time difference between EST and PST?</summary>
+        <div class="faq-answer">
+          <p><strong>EST is 3 hours ahead of PST.</strong> When it is 3:00 PM in New York (EST), it is 12:00 PM in Los Angeles (PST). This 3-hour difference remains constant throughout the year, even during Daylight Saving Time.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">When is the best time to call from New York to Los Angeles?</summary>
+        <div class="faq-answer">
+          <p>The best time is typically <strong>10:00 AM - 11:00 AM EST / 7:00 AM - 8:00 AM PST</strong>. This gives the LA recipient a couple of hours to start their day before the call. Avoid calling before 9 AM PST or after 6 PM PST.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">Do both EST and PST observe Daylight Saving Time?</summary>
+        <div class="faq-answer">
+          <p>Yes, both time zones observe Daylight Saving Time. During DST, EST becomes EDT (UTC-4) and PST becomes PDT (UTC-7). The 3-hour difference remains the same. DST typically starts on the second Sunday in March and ends on the first Sunday in November.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">What cities are in EST vs PST?</summary>
+        <div class="faq-answer">
+          <p><strong>EST cities:</strong> New York, Boston, Miami, Atlanta, Washington D.C., Philadelphia, Orlando, Tampa.<br/><br/><strong>PST cities:</strong> Los Angeles, San Francisco, Seattle, San Diego, Las Vegas, Portland, Sacramento, Phoenix.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <a href="../" class="footer-logo">🌍 GlobeTimeZone</a>
+        <p class="footer-desc">Free world time zone converter. Convert time between any two cities instantly.</p>
+      </div>
+      <div>
+        <h4 class="footer-heading">Tools</h4>
+        <ul class="footer-links">
+          <li><a href="../">Time Zone Converter</a></li>
+          <li><a href="world-clock.html">World Clock</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">Popular</h4>
+        <ul class="footer-links">
+          <li><a href="est-to-pst-converter.html">EST to PST</a></li>
+          <li><a href="est-to-cst-converter.html">EST to CST</a></li>
+          <li><a href="gmt-to-cst-converter.html">GMT to CST</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">Info</h4>
+        <ul class="footer-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 GlobeTimeZone.com · All rights reserved</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Set default date
+  const dateInput = document.getElementById('base-date');
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, '0');
+  const d = String(now.getDate()).padStart(2, '0');
+  dateInput.value = `${y}-${m}-${d}`;
+  
+  function updateConversion() {
+    const timeInput = document.getElementById('base-time').value;
+    const [hours, minutes] = timeInput.split(':').map(Number);
+    
+    // EST to PST: subtract 3 hours
+    let pstHour = hours - 3;
+    let dayOffset = 'Today';
+    
+    if (pstHour < 0) {
+      pstHour += 24;
+      dayOffset = 'Previous Day';
+    }
+    
+    const estFormatted = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+    const pstFormatted = `${String(pstHour).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+    
+    document.getElementById('est-time').textContent = estFormatted;
+    document.getElementById('pst-time').textContent = pstFormatted;
+    
+    // Update working hours badge
+    const pstCard = document.getElementById('tz-card-pst');
+    const isWorking = pstHour >= 9 && pstHour < 18;
+    if (isWorking) {
+      pstCard.classList.add('working-hours');
+    } else {
+      pstCard.classList.remove('working-hours');
+    }
+  }
+  
+  // Generate conversion table
+  function generateTable() {
+    const tbody = document.getElementById('conversion-table-body');
+    const rows = [];
+    
+    for (let h = 0; h < 24; h++) {
+      const estHour = h;
+      const pstHour = (h - 3 + 24) % 24;
+      const estFormatted = `${String(estHour).padStart(2, '0')}:00`;
+      const pstFormatted = `${String(pstHour).padStart(2, '0')}:00`;
+      
+      // Check if both are working hours
+      const estWorking = estHour >= 9 && estHour < 17;
+      const pstWorking = pstHour >= 9 && pstHour < 17;
+      const bestForMeeting = estWorking && pstWorking;
+      
+      rows.push(`
+        <tr style="background:${bestForMeeting ? '#ecfdf5' : 'white'};">
+          <td style="padding:10px;border:1px solid var(--border);font-weight:600;">${estFormatted}</td>
+          <td style="padding:10px;border:1px solid var(--border);">${pstFormatted}</td>
+          <td style="padding:10px;border:1px solid var(--border);">${bestForMeeting ? '✅ Best' : (estWorking || pstWorking ? '⚠️ Partial' : '❌ Off')}</td>
+        </tr>
+      `);
+    }
+    
+    tbody.innerHTML = rows.join('');
+  }
+  
+  // Event listeners
+  document.getElementById('base-time').addEventListener('input', updateConversion);
+  document.getElementById('base-date').addEventListener('change', updateConversion);
+  
+  // Share functions
+  function shareResults() {
+    const estTime = document.getElementById('est-time').textContent;
+    const pstTime = document.getElementById('pst-time').textContent;
+    const text = `EST to PST Conversion:\n\n${estTime} EST = ${pstTime} PST\n\nConverted via GlobeTimeZone.com`;
+    window.location.href = `mailto:?subject=EST to PST Conversion&body=${encodeURIComponent(text)}`;
+  }
+  
+  function copyToClipboard() {
+    const estTime = document.getElementById('est-time').textContent;
+    const pstTime = document.getElementById('pst-time').textContent;
+    const text = `${estTime} EST = ${pstTime} PST (Converted via GlobeTimeZone.com)`;
+    navigator.clipboard.writeText(text).then(() => alert('Copied to clipboard!'));
+  }
+  
+  // Initialize
+  generateTable();
+  updateConversion();
+</script>
+
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js')}</script>
+</body>
+</html>

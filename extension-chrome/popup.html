@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GlobeTimeZone</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root {
+      --primary: #2563eb;
+      --primary-light: #dbeafe;
+      --bg: #ffffff;
+      --card-bg: #f8fafc;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --primary: #60a5fa;
+        --primary-light: #1e3a5f;
+        --bg: #0f172a;
+        --card-bg: #1e293b;
+        --border: #334155;
+        --text: #f1f5f9;
+        --text-muted: #94a3b8;
+      }
+    }
+    
+    body {
+      width: 380px;
+      min-height: 480px;
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      padding: 0;
+    }
+    
+    .header {
+      background: var(--primary);
+      color: white;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .header h1 {
+      font-size: 16px;
+      font-weight: 700;
+    }
+    
+    .header a {
+      color: white;
+      font-size: 12px;
+      text-decoration: none;
+      opacity:0.92;
+      transition: opacity 0.15s;
+    }
+    
+    .header a:hover {
+      opacity: 1;
+    }
+    
+    .content {
+      padding: 16px 20px;
+    }
+    
+    .clock-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: border-color 0.15s;
+    }
+    
+    .clock-card:hover {
+      border-color: var(--primary);
+    }
+    
+    .clock-flag {
+      font-size: 28px;
+      min-width: 40px;
+      text-align: center;
+    }
+    
+    .clock-info {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .clock-city {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    
+    .clock-tz {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    
+    .clock-time {
+      font-size: 24px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--primary);
+      white-space: nowrap;
+    }
+    
+    .clock-date {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: right;
+    }
+    
+    .add-city {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+    
+    .add-city select {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      background: var(--card-bg);
+      color: var(--text);
+      font-family: var(--font);
+    }
+    
+    .add-city button {
+      padding: 8px 16px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font);
+      white-space: nowrap;
+    }
+    
+    .add-city button:hover {
+      opacity: 0.9;
+    }
+    
+    .footer {
+      padding: 12px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .footer a {
+      font-size: 12px;
+      color: var(--primary);
+      text-decoration: none;
+    }
+    
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    
+    .remove-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 14px;
+      cursor: pointer;
+      padding: 2px 4px;
+      border-radius: 4px;
+      transition: all 0.15s;
+    }
+    
+    .remove-btn:hover {
+      color: #ef4444;
+      background: rgba(239,68,68,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🌍 GlobeTimeZone</h1>
+    <a href="https://globetimezone.com" target="_blank" rel="noopener noreferrer">Open full site →</a>
+  </div>
+
+  <div class="content" id="clocks-container"></div>
+
+  <div class="content">
+    <div class="add-city">
+      <select id="city-select" aria-label="Select city">
+        <option value="">+ Add city...</option>
+        <optgroup label="Americas">
+          <option value="America/New_York">🇺🇸 New York</option>
+          <option value="America/Los_Angeles">🇺🇸 Los Angeles</option>
+          <option value="America/Chicago">🇺🇸 Chicago</option>
+          <option value="America/Toronto">🇨🇦 Toronto</option>
+          <option value="America/Sao_Paulo">🇧🇷 Sao Paulo</option>
+        </optgroup>
+        <optgroup label="Europe">
+          <option value="Europe/London">🇬🇧 London</option>
+          <option value="Europe/Paris">🇫🇷 Paris</option>
+          <option value="Europe/Berlin">🇩🇪 Berlin</option>
+          <option value="Europe/Moscow">🇷🇺 Moscow</option>
+        </optgroup>
+        <optgroup label="Asia Pacific">
+          <option value="Asia/Shanghai">🇨🇳 Beijing</option>
+          <option value="Asia/Tokyo">🇯🇵 Tokyo</option>
+          <option value="Asia/Seoul">🇰🇷 Seoul</option>
+          <option value="Asia/Singapore">🇸🇬 Singapore</option>
+          <option value="Asia/Dubai">🇦🇪 Dubai</option>
+          <option value="Australia/Sydney">🇦🇺 Sydney</option>
+          <option value="Asia/Kolkata">🇮🇳 Mumbai (IST)</option>
+        </optgroup>
+      </select>
+      <button id="add-btn">Add</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    <a href="https://globetimezone.com/pages/meeting-scheduler.html" target="_blank" rel="noopener noreferrer">🗓 Meeting Scheduler</a>
+    <a href="https://globetimezone.com" target="_blank" rel="noopener noreferrer">🔄 Full Converter</a>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

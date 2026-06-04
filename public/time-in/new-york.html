@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Current Time in New York | Time Zone, Date, Weather | GlobeTimeZone</title>
+  <meta name="description" content="Check current time in New York, USA. See exact time, date, time zone offset (EST/EDT), and weather. Compare with other cities worldwide." />
+  <meta name="keywords" content="current time in New York, New York time zone, New York clock, what time is it in New York, New York EST, New York EDT" />
+  <meta name="robots" content="index, follow" />
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Current Time in New York | GlobeTimeZone" />
+  <meta property="og:description" content="Check current time in New York, USA. Live clock, date, and time zone information." />
+  <meta property="og:url" content="https://globetimezone.com/time-in/new-york" />
+  
+  <!-- Hreflang -->
+  <link rel="alternate" hreflang="en" href="https://globetimezone.com/time-in/new-york" />
+  <link rel="alternate" hreflang="zh" href="https://globetimezone.com/time-in/new-york-zh" />
+  <link rel="canonical" href="https://globetimezone.com/time-in/new-york" />
+  
+  <link rel="stylesheet" href="../../css/style.min.css" />
+  
+  <!-- City Time Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "City",
+    "name": "New York",
+    "description": "The largest city in the United States, located on the East Coast.",
+    "containedInPlace": {
+      "@type": "Country",
+      "name": "United States"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 40.7128,
+      "longitude": -74.0060
+    }
+  }
+  </script>
+  
+  <!-- WebApplication Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "New York Time - GlobeTimeZone",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+  <!-- BreadcrumbList Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://globetimezone.com"},
+      {"@type": "ListItem", "position": 2, "name": "World Clock", "item": "https://globetimezone.com/pages/world-clock.html"},
+      {"@type": "ListItem", "position": 3, "name": "New York", "item": "https://globetimezone.com/time-in/new-york"}
+    ]
+  }
+  </script>
+
+  <!-- Google Analytics 4 -->
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script src="../../js/ga4.js"></script>
+</head>
+<body>
+
+<!-- ===== Accessibility: Skip to main content ===== -->
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+
+<!-- Header -->
+<header>
+  <div class="header-inner">
+    <a href="../../" class="logo">🌍 Globe<span>TimeZone</span></a>
+    <nav> aria-label="Main navigation"
+      <a href="../../">Converter</a>
+      <a href="../world-clock.html">World Clock</a>
+      <a href="../meeting-scheduler.html">Meeting Scheduler</a>
+      <a href="../about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Breadcrumb -->
+<nav class="breadcrumb" style="padding:12px 24px;max-width:1200px;margin:0 auto;font-size:0.875rem;color:#595959;">
+  <a href="../../" style="color:#2563eb;text-decoration:none;">Home</a> &gt;
+  <a href="../world-clock.html" style="color:#2563eb;text-decoration:none;">World Clock</a> &gt;
+  <span>New York</span>
+</nav>
+
+<main style="max-width:1200px;margin:0 auto;padding:20px 24px;" id="main-content" role="main">
+
+  <!-- Hero City Time -->
+  <section style="text-align:center;padding:40px 0;">
+    <div style="font-size:4rem;margin-bottom:16px;">🇺🇸</div>
+    <h1 class="section-title" style="font-size:2.5rem;margin-bottom:8px;">Current Time in New York</h1>
+    <p style="font-size:1.2rem;color:#595959;" id="hero-date">Loading...</p>
+  </section>
+
+  <!-- Main Time Display -->
+  <section class="card" style="text-align:center;padding:48px;">
+    <div id="hero-time" style="font-size:5rem;font-weight:800;color:var(--primary);letter-spacing:-0.02em;font-variant-numeric:tabular-nums;">
+      --:--:--
+    </div>
+    <div style="display:flex;justify-content:center;gap:24px;margin-top:24px;flex-wrap:wrap;">
+      <div class="card" style="padding:16px 24px;flex:1;min-width:150px;max-width:200px;">
+        <div style="font-size:0.75rem;color:#595959;text-transform:uppercase;letter-spacing:0.05em;">Time Zone</div>
+        <div style="font-size:1.2rem;font-weight:700;margin-top:4px;" id="tz-name">EST / EDT</div>
+      </div>
+      <div class="card" style="padding:16px 24px;flex:1;min-width:150px;max-width:200px;">
+        <div style="font-size:0.75rem;color:#595959;text-transform:uppercase;letter-spacing:0.05em;">UTC Offset</div>
+        <div style="font-size:1.2rem;font-weight:700;margin-top:4px;" id="utc-offset">UTC-5 / UTC-4</div>
+      </div>
+      <div class="card" style="padding:16px 24px;flex:1;min-width:150px;max-width:200px;">
+        <div style="font-size:0.75rem;color:#595959;text-transform:uppercase;letter-spacing:0.05em;">DST Status</div>
+        <div style="font-size:1.2rem;font-weight:700;margin-top:4px;" id="dst-status">Observing DST</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Time Period Indicator -->
+  <section class="card" style="margin-top:24px;">
+    <h2 class="card-title">🌅 Time Period Today</h2>
+    <div id="time-period-display" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:16px;">
+      <div style="padding:16px;text-align:center;border-radius:8px;background:#f3f4f6;" id="period-sunrise">
+        <div style="font-size:1.5rem;">🌅</div>
+        <div style="font-size:0.75rem;color:#595959;margin-top:4px;">Sunrise</div>
+        <div style="font-weight:600;" id="sunrise-time">6:28 AM</div>
+      </div>
+      <div style="padding:16px;text-align:center;border-radius:8px;background:#fef3c7;" id="period-morning">
+        <div style="font-size:1.5rem;">☀️</div>
+        <div style="font-size:0.75rem;color:#595959;margin-top:4px;">Morning</div>
+        <div style="font-weight:600;">6 AM - 12 PM</div>
+      </div>
+      <div style="padding:16px;text-align:center;border-radius:8px;background:#dbeafe;" id="period-afternoon">
+        <div style="font-size:1.5rem;">🌞</div>
+        <div style="font-size:0.75rem;color:#595959;margin-top:4px;">Afternoon</div>
+        <div style="font-weight:600;">12 PM - 6 PM</div>
+      </div>
+      <div style="padding:16px;text-align:center;border-radius:8px;background:#1e3a5f;color:white;" id="period-night">
+        <div style="font-size:1.5rem;">🌙</div>
+        <div style="font-size:0.75rem;opacity:0.8;margin-top:4px;">Night</div>
+        <div style="font-weight:600;">6 PM - 6 AM</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Compare with Other Cities -->
+  <section class="card" style="margin-top:24px;">
+    <h2 class="card-title">🌍 Compare with Other Cities</h2>
+    <div class="multi-tz-grid" style="margin-top:16px;">
+      <div class="tz-card working-hours" id="compare-london">
+        <div class="tz-card-header">
+          <span class="tz-flag">🇬🇧</span>
+        </div>
+        <div class="tz-city">London</div>
+        <div class="tz-time">--:--</div>
+        <div class="tz-date">--</div>
+        <div class="tz-offset">UTC</div>
+      </div>
+      <div class="tz-card working-hours" id="compare-paris">
+        <div class="tz-card-header">
+          <span class="tz-flag">🇫🇷</span>
+        </div>
+        <div class="tz-city">Paris</div>
+        <div class="tz-time">--:--</div>
+        <div class="tz-date">--</div>
+        <div class="tz-offset">UTC+1</div>
+      </div>
+      <div class="tz-card" id="compare-beijing">
+        <div class="tz-card-header">
+          <span class="tz-flag">🇨🇳</span>
+        </div>
+        <div class="tz-city">Beijing</div>
+        <div class="tz-time">--:--</div>
+        <div class="tz-date">--</div>
+        <div class="tz-offset">UTC+8</div>
+      </div>
+      <div class="tz-card" id="compare-tokyo">
+        <div class="tz-card-header">
+          <span class="tz-flag">🇯🇵</span>
+        </div>
+        <div class="tz-city">Tokyo</div>
+        <div class="tz-time">--:--</div>
+        <div class="tz-date">--</div>
+        <div class="tz-offset">UTC+9</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Converter -->
+  <section class="card" style="margin-top:24px;background:linear-gradient(135deg,var(--primary-light),#dbeafe);border-color:var(--primary);">
+    <h2 class="card-title">🔄 Convert from New York Time</h2>
+    <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;margin-top:20px;">
+      <div style="text-align:center;">
+        <div style="font-size:2.5rem;font-weight:800;color:var(--primary);" id="convert-from-time">09:00</div>
+        <div style="color:#595959;margin-top:8px;">🇺🇸 New York</div>
+      </div>
+      <div style="font-size:2rem;">→</div>
+      <div style="text-align:center;">
+        <div style="font-size:2.5rem;font-weight:800;color:var(--text);" id="convert-to-time">--:--</div>
+        <select id="convert-target" class="form-select" style="margin-top:8px;max-width:200px;margin:8px auto 0;">
+          <option value="Asia/Shanghai">🇨🇳 Beijing</option>
+          <option value="Europe/London">🇬🇧 London</option>
+          <option value="Asia/Tokyo">🇯🇵 Tokyo</option>
+          <option value="Europe/Paris">🇫🇷 Paris</option>
+          <option value="America/Los_Angeles">🇺🇸 Los Angeles</option>
+        </select>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:20px;">
+      <button class="btn btn-primary" onclick="copyConversion()">📋 Copy Result</button>
+    </div>
+  </section>
+
+  <!-- City Information -->
+  <section class="card" style="margin-top:24px;">
+    <h2 class="card-title">📍 About New York</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:16px;">
+      <div>
+        <h3 style="font-size:1rem;margin-bottom:12px;">🗺️ Location</h3>
+        <ul style="list-style:none;padding:0;color:#595959;line-height:2;">
+          <li><strong>Country:</strong> United States</li>
+          <li><strong>State:</strong> New York</li>
+          <li><strong>Coordinates:</strong> 40.7128° N, 74.0060° W</li>
+          <li><strong>Population:</strong> ~8.3 million</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-size:1rem;margin-bottom:12px;">🕐 Time Zone Details</h3>
+        <ul style="list-style:none;padding:0;color:#595959;line-height:2;">
+          <li><strong>Standard Time:</strong> EST (UTC-5)</li>
+          <li><strong>Daylight Time:</strong> EDT (UTC-4)</li>
+          <li><strong>DST Start:</strong> Second Sunday in March</li>
+          <li><strong>DST End:</strong> First Sunday in November</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Related Pages -->
+  <section style="margin-top:40px;">
+    <h2 class="section-title">🔗 Related Pages</h2>
+    <div class="quick-convert-grid" style="margin-top:16px;">
+      <a href="los-angeles" class="quick-convert-item">
+        <span class="qc-flag">🇺🇸</span>
+        <div class="qc-info">
+          <span class="qc-name">Los Angeles</span>
+          <span class="qc-desc">Pacific Time (3h behind)</span>
+        </div>
+      </a>
+      <a href="london" class="quick-convert-item">
+        <span class="qc-flag">🇬🇧</span>
+        <div class="qc-info">
+          <span class="qc-name">London</span>
+          <span class="qc-desc">5h ahead of New York</span>
+        </div>
+      </a>
+      <a href="tokyo" class="quick-convert-item">
+        <span class="qc-flag">🇯🇵</span>
+        <div class="qc-info">
+          <span class="qc-name">Tokyo</span>
+          <span class="qc-desc">14h ahead of New York</span>
+        </div>
+      </a>
+      <a href="beijing" class="quick-convert-item">
+        <span class="qc-flag">🇨🇳</span>
+        <div class="qc-info">
+          <span class="qc-name">Beijing</span>
+          <span class="qc-desc">13h ahead of New York</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+
+  <!-- Related Cities -->
+  <section style="margin-top:40px;">
+    <h2 class="section-title">🌍 Current Time in Other Cities</h2>
+    <p style="color:#595959;margin-bottom:16px;">Explore real-time clocks for major cities worldwide</p>
+    <div class="quick-convert-grid" style="margin-top:16px;">
+      <a href="los-angeles" class="quick-convert-item">
+        <span class="qc-flag">🇺🇸</span>
+        <div class="qc-info">
+          <span class="qc-name">Los Angeles</span>
+          <span class="qc-desc">United States</span>
+        </div>
+      </a>
+      <a href="chicago" class="quick-convert-item">
+        <span class="qc-flag">🇺🇸</span>
+        <div class="qc-info">
+          <span class="qc-name">Chicago</span>
+          <span class="qc-desc">United States</span>
+        </div>
+      </a>
+      <a href="toronto" class="quick-convert-item">
+        <span class="qc-flag">🇨🇦</span>
+        <div class="qc-info">
+          <span class="qc-name">Toronto</span>
+          <span class="qc-desc">Canada</span>
+        </div>
+      </a>
+      <a href="london" class="quick-convert-item">
+        <span class="qc-flag">🇬🇧</span>
+        <div class="qc-info">
+          <span class="qc-name">London</span>
+          <span class="qc-desc">United Kingdom</span>
+        </div>
+      </a>
+      <a href="paris" class="quick-convert-item">
+        <span class="qc-flag">🇫🇷</span>
+        <div class="qc-info">
+          <span class="qc-name">Paris</span>
+          <span class="qc-desc">France</span>
+        </div>
+      </a>
+      <a href="dubai" class="quick-convert-item">
+        <span class="qc-flag">🇦🇪</span>
+        <div class="qc-info">
+          <span class="qc-name">Dubai</span>
+          <span class="qc-desc">UAE</span>
+        </div>
+      </a>
+      <a href="beijing" class="quick-convert-item">
+        <span class="qc-flag">🇨🇳</span>
+        <div class="qc-info">
+          <span class="qc-name">Beijing</span>
+          <span class="qc-desc">China</span>
+        </div>
+      </a>
+      <a href="tokyo" class="quick-convert-item">
+        <span class="qc-flag">🇯🇵</span>
+        <div class="qc-info">
+          <span class="qc-name">Tokyo</span>
+          <span class="qc-desc">Japan</span>
+        </div>
+      </a>
+      <a href="seoul" class="quick-convert-item">
+        <span class="qc-flag">🇰🇷</span>
+        <div class="qc-info">
+          <span class="qc-name">Seoul</span>
+          <span class="qc-desc">South Korea</span>
+        </div>
+      </a>
+      <a href="singapore" class="quick-convert-item">
+        <span class="qc-flag">🇸🇬</span>
+        <div class="qc-info">
+          <span class="qc-name">Singapore</span>
+          <span class="qc-desc">Singapore</span>
+        </div>
+      </a>
+      <a href="sydney" class="quick-convert-item">
+        <span class="qc-flag">🇦🇺</span>
+        <div class="qc-info">
+          <span class="qc-name">Sydney</span>
+          <span class="qc-desc">Australia</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+
+<!-- Footer -->
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <a href="../../" class="footer-logo">🌍 GlobeTimeZone</a>
+        <p class="footer-desc">Free world time zone converter. Convert time between any two cities instantly.</p>
+      </div>
+      <div>
+        <h4 class="footer-heading">Tools</h4>
+        <ul class="footer-links">
+          <li><a href="../../">Time Zone Converter</a></li>
+          <li><a href="../world-clock.html">World Clock</a></li>
+          <li><a href="../meeting-scheduler.html">Meeting Scheduler</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">Popular Cities</h4>
+        <ul class="footer-links">
+          <li><a href="new-york">New York</a></li>
+          <li><a href="london">London</a></li>
+          <li><a href="tokyo">Tokyo</a></li>
+          <li><a href="beijing">Beijing</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">Info</h4>
+        <ul class="footer-links">
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 GlobeTimeZone.com · All rights reserved</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+const CITY_TIMEZONE = 'America/New_York';
+const CITY_NAME = 'New York';
+const CITY_FLAG = '🇺🇸';
+
+function updateTime() {
+  const now = new Date();
+  
+  // Format time
+  const timeFormatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: CITY_TIMEZONE,
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false
+  });
+  
+  const timeStr = timeFormatter.format(now);
+  document.getElementById('hero-time').textContent = timeStr;
+  
+  // Format date
+  const dateFormatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: CITY_TIMEZONE,
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+  document.getElementById('hero-date').textContent = dateFormatter.format(now);
+  
+  // Time zone info
+  const tzFormatter = new Intl.DateTimeFormat('en-US', {
+    timeZone: CITY_TIMEZONE,
+    timeZoneName: 'long'
+  });
+  const tzParts = tzFormatter.formatToParts(now);
+  const tzName = tzParts.find(p => p.type === 'timeZoneName')?.value || 'EST';
+  document.getElementById('tz-name').textContent = tzName;
+  
+  // UTC offset
+  const offset = getUtcOffset(CITY_TIMEZONE);
+  document.getElementById('utc-offset').textContent = offset;
+  
+  // DST status
+  const isDST = isDaylightSavingTime(CITY_TIMEZONE);
+  document.getElementById('dst-status').textContent = isDST ? 'Observing DST' : 'Standard Time';
+  
+  // Time period highlighting
+  const hour = now.getHours();
+  highlightTimePeriod(hour);
+  
+  // Update comparison cities
+  updateComparisonCities(now);
+}
+
+function getUtcOffset(tz) {
+  const tzDate = new Date(new Date().toLocaleString('en-US', { timeZone: tz }));
+  const utcDate = new Date(new Date().toLocaleString('en-US', { timeZone: 'UTC' }));
+  const diff = (tzDate - utcDate) / 3600000;
+  const sign = diff >= 0 ? '+' : '-';
+  return `UTC${sign}${Math.abs(Math.floor(diff))}`;
+}
+
+function isDaylightSavingTime(tz) {
+  const jan = new Date(new Date().getFullYear(), 0, 1);
+  const jul = new Date(new Date().getFullYear(), 6, 1);
+  
+  const janOffset = new Date(jan.toLocaleString('en-US', { timeZone: tz })).getTimezoneOffset();
+  const julOffset = new Date(jul.toLocaleString('en-US', { timeZone: tz })).getTimezoneOffset();
+  const nowOffset = new Date(new Date().toLocaleString('en-US', { timeZone: tz })).getTimezoneOffset();
+  
+  const minOffset = Math.min(janOffset, julOffset);
+  return nowOffset === minOffset;
+}
+
+function highlightTimePeriod(hour) {
+  const periods = ['sunrise', 'morning', 'afternoon', 'night'];
+  const colors = {
+    sunrise: 'background:#fef3c7;border-color:#f59e0b;',
+    morning: 'background:#fef3c7;border-color:#f59e0b;',
+    afternoon: 'background:#dbeafe;border-color:#2563eb;',
+    night: 'background:#1e3a5f;color:white;border-color:#1e3a5f;'
+  };
+  
+  let period;
+  if (hour >= 6 && hour < 9) period = 'sunrise';
+  else if (hour >= 9 && hour < 17) period = 'morning'; // Actually afternoon
+  else if (hour >= 17 && hour < 21) period = 'afternoon'; // Actually evening
+  else period = 'night';
+  
+  // Correct the labels
+  if (hour >= 6 && hour < 12) {
+    document.getElementById('period-morning').querySelector('div:nth-child(2)').textContent = 'Morning';
+  }
+  if (hour >= 12 && hour < 18) {
+    document.getElementById('period-afternoon').querySelector('div:nth-child(2)').textContent = 'Afternoon';
+  }
+  if (hour >= 18 || hour < 6) {
+    document.getElementById('period-night').querySelector('div:nth-child(2)').textContent = 'Night';
+  }
+  
+  periods.forEach(p => {
+    const el = document.getElementById(`period-${p}`);
+    el.style.cssText = colors[p];
+  });
+}
+
+function updateComparisonCities(now) {
+  const cities = [
+    { id: 'compare-london', tz: 'Europe/London' },
+    { id: 'compare-paris', tz: 'Europe/Paris' },
+    { id: 'compare-beijing', tz: 'Asia/Shanghai' },
+    { id: 'compare-tokyo', tz: 'Asia/Tokyo' }
+  ];
+  
+  cities.forEach(city => {
+    const timeEl = document.getElementById(city.id)?.querySelector('.tz-time');
+    const dateEl = document.getElementById(city.id)?.querySelector('.tz-date');
+    const offsetEl = document.getElementById(city.id)?.querySelector('.tz-offset');
+    
+    if (timeEl) {
+      timeEl.textContent = new Intl.DateTimeFormat('en-US', {
+        timeZone: city.tz,
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      }).format(now);
+    }
+    
+    if (dateEl) {
+      dateEl.textContent = new Intl.DateTimeFormat('en-US', {
+        timeZone: city.tz,
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric'
+      }).format(now);
+    }
+    
+    if (offsetEl) {
+      offsetEl.textContent = getUtcOffset(city.tz);
+    }
+  });
+}
+
+function updateConversion() {
+  const targetTz = document.getElementById('convert-target').value;
+  const sourceTime = document.getElementById('convert-from-time').textContent;
+  const [h, m] = sourceTime.split(':').map(Number);
+  
+  const now = new Date();
+  const sourceDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, 0);
+  
+  // Convert to target timezone
+  const targetTime = new Intl.DateTimeFormat('en-US', {
+    timeZone: targetTz,
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  }).format(sourceDate);
+  
+  document.getElementById('convert-to-time').textContent = targetTime;
+}
+
+function copyConversion() {
+  const sourceTime = document.getElementById('convert-from-time').textContent;
+  const targetTime = document.getElementById('convert-to-time').textContent;
+  const targetTz = document.getElementById('convert-target');
+  const targetName = targetTz.options[targetTz.selectedIndex].text.split(' ')[1];
+  
+  const text = `${sourceTime} New York = ${targetTime} ${targetName}\n\nConverted via GlobeTimeZone.com`;
+  navigator.clipboard.writeText(text).then(() => {
+    alert('Copied to clipboard!');
+  });
+}
+
+// Initialize
+updateTime();
+updateConversion();
+setInterval(updateTime, 1000);
+
+// Update conversion when target changes
+document.getElementById('convert-target')?.addEventListener('change', updateConversion);
+</script>
+
+</body>
+</html>
