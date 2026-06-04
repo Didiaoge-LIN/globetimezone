@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Timezone API Guide for Developers: Convert Times Programmatically | GlobeTimeZone</title>
+  <meta name="description" content="Complete developer guide to timezone APIs. Learn to convert times, detect DST, and handle time zones in your apps. Compare public APIs, code examples for JavaScript, Python, and more." />
+  <meta name="keywords" content="timezone API, timezone conversion API, free timezone API, developer timezone guide, IANA timezone, JavaScript timezone, Python pytz, Luxon timezone, Moment.js timezone" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Timezone API Guide for Developers: Convert Times Programmatically" />
+  <meta property="og:description" content="Complete developer guide: compare public timezone APIs, code examples in JavaScript and Python, DST handling, and IANA database integration." />
+  <meta property="og:url" content="https://globetimezone.com/pages/api-guide.html" />
+  <meta property="og:locale" content="en_US" />
+  <link rel="alternate" hreflang="en" href="https://globetimezone.com/pages/api-guide.html" />
+  <link rel="canonical" href="https://globetimezone.com/pages/api-guide.html" />
+  <link rel="icon" type="image/png" sizes="128x128" href="../apple-touch-icon.png" />
+  <link rel="stylesheet" href="../css/style.min.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Timezone API Guide for Developers: Convert Times Programmatically",
+    "author": { "@type": "Organization", "name": "GlobeTimeZone" },
+    "publisher": { "@type": "Organization", "name": "GlobeTimeZone", "url": "https://globetimezone.com" },
+    "datePublished": "2026-05-26",
+    "dateModified": "2026-05-26",
+    "description": "A comprehensive developer guide covering timezone APIs, IANA database integration, DST handling, and code examples in JavaScript and Python."
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type":"Question","name":"What is the best free timezone API?","acceptedAnswer":{"@type":"Answer","text":"WorldTimeAPI.org is the best free option — no API key required, supports over 400 timezones, and returns JSON with UTC offset and DST status. TimeZoneDB provides a free tier with 1,000 requests/month. For self-hosted, the IANA timezone database is the gold standard."}},
+      {"@type":"Question","name":"How do I convert time between timezones in JavaScript?","acceptedAnswer":{"@type":"Answer","text":"Use Intl.DateTimeFormat (built-in, no dependencies): new Date().toLocaleString('en-US', { timeZone: 'Asia/Shanghai' }). For more complex operations, use Luxon library: DateTime.now().setZone('Asia/Shanghai')."}},
+      {"@type":"Question","name":"How does IANA timezone database work?","acceptedAnswer":{"@type":"Answer","text":"The IANA Time Zone Database (tzdata) is a public domain compilation of global timezone rules. It maps identifiers like 'America/New_York' to UTC offsets, DST transition rules, and historical changes. Operating systems and programming languages use it as the source of truth for timezone calculations."}}
+    ]
+  }
+  </script>
+</head>
+<body>
+
+<!-- ===== Accessibility: Skip to main content ===== -->
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+
+<header>
+  <div class="header-inner">
+    <a href="../" class="logo">&#127758; Globe<span>TimeZone</span></a>
+    <nav> aria-label="Main navigation"
+      <a href="../">Converter</a>
+      <a href="articles.html" class="active">Articles</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main class="article-page" id="main-content" role="main">
+  <article class="article-content">
+    <h1>Timezone API Guide for Developers: Convert Times Programmatically</h1>
+
+    <p>Handling time zones correctly in code is infamously difficult. Between daylight saving transitions, historical offset changes, and half-hour time zones, naive implementations constantly fail. This guide covers everything you need to handle time zones reliably in your applications.</p>
+
+    <!-- Quick CTA -->
+    <div style="background:var(--primary-light);border-radius:12px;padding:20px;margin:24px 0;text-align:center;">
+      <p style="font-weight:600;margin-bottom:8px;">Need to test your timezone logic against real data?</p>
+      <a href="../" style="display:inline-block;background:var(--primary);color:white;padding:10px 24px;border-radius:8px;text-decoration:none;font-weight:600;">Verify with GlobeTimeZone Converter &#8594;</a>
+    </div>
+
+    <h2>The Golden Rule: Never Store UTC Offsets</h2>
+    <p>The most common timezone mistake developers make is storing UTC offsets (like "+8" or "-5") instead of IANA timezone identifiers. Offsets <strong>change with DST</strong> — New York is UTC-4 in summer but UTC-5 in winter. Worse, governments occasionally change DST rules (e.g., Egypt delaying DST in 2023 with 3 days notice).</p>
+    <div style="background:#fff3cd;border-left:4px solid #f59e0b;padding:16px;margin:16px 0;border-radius:0 8px 8px 0;">
+      <strong>&#9888; Common Mistake:</strong> Storing <code>user.timezone = "+08:00"</code><br/>
+      <strong>&#9989; Correct:</strong> Storing <code>user.timezone = "Asia/Shanghai"</code>
+    </div>
+    <p>The IANA identifier automatically resolves to the correct offset for any given date, handles DST transitions, and accounts for historical changes. Your database, your API, and your UI should all use IANA identifiers.</p>
+
+    <h2>JavaScript/TypeScript: Native Timezone Handling</h2>
+    <p>Modern JavaScript (ES2020+) has excellent built-in timezone support through <code>Intl.DateTimeFormat</code>. No libraries needed for basic operations:</p>
+
+    <pre style="background:#1e293b;color:#e2e8f0;padding:16px;border-radius:8px;overflow-x:auto;font-size:0.85rem;line-height:1.6;"><code>// Get current time in any timezone
+const beijingTime = new Date().toLocaleString('en-US', {
+  timeZone: 'Asia/Shanghai',
+  dateStyle: 'full',
+  timeStyle: 'long'
+});
+// "Monday, May 26, 2026 at 10:24:18 PM GMT+8"
+
+// Convert between timezones
+const convertTime = (date, fromTZ, toTZ) => {
+  return new Date(date.toLocaleString('en-US', { timeZone: toTZ }));
+};
+
+// Check if a timezone currently observes DST
+const isDST = (tz) => {
+  const jan = new Date(new Date().getFullYear(), 0, 1);
+  const jul = new Date(new Date().getFullYear(), 6, 1);
+  const janOffset = new Date(jan.toLocaleString('en-US', { timeZone: tz })).getTimezoneOffset();
+  const julOffset = new Date(jul.toLocaleString('en-US', { timeZone: tz })).getTimezoneOffset();
+  return janOffset !== julOffset;
+};
+
+// List common timezones
+const commonTZs = Intl.supportedValuesOf('timeZone');
+// ['Africa/Abidjan', 'Africa/Accra', ... 'Pacific/Wallis']</code></pre>
+
+    <h3>Using Luxon (Recommended for Complex Operations)</h3>
+    <p>For date math, formatting, and cross-timezone operations, <a href="https://moment.github.io/luxon/" rel="nofollow">Luxon</a> (successor to Moment.js) is the gold standard:</p>
+    <pre style="background:#1e293b;color:#e2e8f0;padding:16px;border-radius:8px;overflow-x:auto;font-size:0.85rem;line-height:1.6;"><code>import { DateTime } from 'luxon';
+
+// Create a datetime in a specific timezone
+const meeting = DateTime.fromObject(
+  { year: 2025, month: 6, day: 15, hour: 14, minute: 0 },
+  { zone: 'America/New_York' }
+);
+
+// Convert to another timezone
+const beijingView = meeting.setZone('Asia/Shanghai');
+console.log(beijingView.toFormat('FF')); // "June 16, 2025 at 2:00 AM CST"
+
+// Calculate the UTC offset at that moment
+console.log(meeting.offset); // -240 (UTC-4, DST active)
+
+// Format with timezone abbreviation
+console.log(meeting.toFormat("h:mm a 'ET'")); // "2:00 PM ET"</code></pre>
+
+    <h2>Python: pytz, zoneinfo, and dateutil</h2>
+    <p>Python 3.9+ includes the <code>zoneinfo</code> module (no dependencies needed). For older versions, use <code>pytz</code>.</p>
+
+    <pre style="background:#1e293b;color:#e2e8f0;padding:16px;border-radius:8px;overflow-x:auto;font-size:0.85rem;line-height:1.6;"><code># Python 3.9+ (recommended)
+from zoneinfo import ZoneInfo
+from datetime import datetime
+
+# Current time in Shanghai
+now_shanghai = datetime.now(ZoneInfo("Asia/Shanghai"))
+print(now_shanghai)  # 2026-05-26 22:24:18.123456+08:00
+
+# Convert between timezones
+ny_time = datetime.now(ZoneInfo("America/New_York"))
+shanghai_time = ny_time.astimezone(ZoneInfo("Asia/Shanghai"))
+print(f"NY: {ny_time:%H:%M} | Shanghai: {shanghai_time:%H:%M}")
+
+# Python &lt;3.9 (with pytz)
+import pytz
+utc = pytz.utc.localize(datetime.utcnow())
+shanghai_tz = pytz.timezone('Asia/Shanghai')
+shanghai_time = utc.astimezone(shanghai_tz)</code></pre>
+
+    <h2>Public Timezone APIs Compared</h2>
+    <table style="width:100%;border-collapse:collapse;margin:16px 0 24px;">
+      <thead>
+        <tr style="background:var(--primary);color:white;">
+          <th style="padding:12px;text-align:left;">API</th>
+          <th style="padding:12px;text-align:left;">Free Tier</th>
+          <th style="padding:12px;text-align:left;">Auth Required</th>
+          <th style="padding:12px;text-align:left;">Coverage</th>
+          <th style="padding:12px;text-align:left;">DST Data</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#f8fafc;"><td style="padding:10px 12px;"><strong>WorldTimeAPI.org</strong></td><td style="padding:10px 12px;">Unlimited</td><td style="padding:10px 12px;">No</td><td style="padding:10px 12px;">400+ timezones</td><td style="padding:10px 12px;">&#9989; Yes</td></tr>
+        <tr><td style="padding:10px 12px;"><strong>TimeZoneDB</strong></td><td style="padding:10px 12px;">1,000/mo</td><td style="padding:10px 12px;">API Key</td><td style="padding:10px 12px;">All IANA zones</td><td style="padding:10px 12px;">&#9989; Yes</td></tr>
+        <tr style="background:#f8fafc;"><td style="padding:10px 12px;"><strong>Abstract Timezone API</strong></td><td style="padding:10px 12px;">1,000/mo</td><td style="padding:10px 12px;">API Key</td><td style="padding:10px 12px;">Global</td><td style="padding:10px 12px;">&#9989; Yes</td></tr>
+        <tr><td style="padding:10px 12px;"><strong>Google Timezone API</strong></td><td style="padding:10px 12px;">$200 credit</td><td style="padding:10px 12px;">API Key</td><td style="padding:10px 12px;">Global</td><td style="padding:10px 12px;">&#9989; Yes</td></tr>
+        <tr style="background:#f8fafc;"><td style="padding:10px 12px;"><strong>IPGeolocation Timezone</strong></td><td style="padding:10px 12px;">1,000/mo</td><td style="padding:10px 12px;">API Key</td><td style="padding:10px 12px;">Based on IP</td><td style="padding:10px 12px;">&#9989; Yes</td></tr>
+        <tr><td style="padding:10px 12px;"><strong>Self-hosted IANA DB</strong></td><td style="padding:10px 12px;">Unlimited</td><td style="padding:10px 12px;">No</td><td style="padding:10px 12px;">All zones</td><td style="padding:10px 12px;">&#9989; Yes</td></tr>
+      </tbody>
+    </table>
+
+    <h3>WorldTimeAPI.org Example</h3>
+    <pre style="background:#1e293b;color:#e2e8f0;padding:16px;border-radius:8px;overflow-x:auto;font-size:0.85rem;line-height:1.6;"><code>// GET https://worldtimeapi.org/api/timezone/Asia/Shanghai
+{
+  "datetime": "2026-05-26T22:24:18.123456+08:00",
+  "timezone": "Asia/Shanghai",
+  "utc_offset": "+08:00",
+  "dst": false,
+  "abbreviation": "CST",
+  "utc_datetime": "2026-05-26T14:24:18.123456+00:00",
+  "day_of_week": 2,
+  "day_of_year": 146
+}
+
+// Fetch in JavaScript
+const res = await fetch('https://worldtimeapi.org/api/timezone/Asia/Shanghai');
+const { datetime, utc_offset, dst, abbreviation } = await res.json();
+console.log(`Shanghai: ${datetime} (${abbreviation}, ${utc_offset})`);</code></pre>
+
+    <h2>Handling DST Transitions</h2>
+    <p>DST transitions create "impossible" and "ambiguous" times. When clocks spring forward, 2:30 AM doesn't exist. When they fall back, 1:30 AM happens twice.</p>
+    <table style="width:100%;border-collapse:collapse;margin:16px 0 24px;">
+      <thead>
+        <tr style="background:var(--primary);color:white;">
+          <th style="padding:12px;text-align:left;">Scenario</th>
+          <th style="padding:12px;text-align:left;">Problem</th>
+          <th style="padding:12px;text-align:left;">Solution</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#f8fafc;"><td style="padding:10px 12px;">Spring Forward</td><td style="padding:10px 12px;">2:00-3:00 AM doesn't exist</td><td style="padding:10px 12px;">Schedule meetings at safe times (avoid 1:00-3:00 AM during transitions)</td></tr>
+        <tr><td style="padding:10px 12px;">Fall Back</td><td style="padding:10px 12px;">1:00-2:00 AM repeats</td><td style="padding:10px 12px;">Use UTC internally, convert to local only for display</td></tr>
+        <tr style="background:#f8fafc;"><td style="padding:10px 12px;">Sudden Policy Changes</td><td style="padding:10px 12px;">Governments change rules</td><td style="padding:10px 12px;">Keep IANA tzdata updated; use a service that auto-updates</td></tr>
+        <tr><td style="padding:10px 12px;">Future Date Conversion</td><td style="padding:10px 12px;">DST rules may change</td><td style="padding:10px 12px;">Use latest tzdata; display "tentative" for far-future dates</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Database Best Practices</h2>
+    <ul style="margin:16px 0;padding-left:24px;line-height:2;">
+      <li><strong>Store timestamps as UTC</strong> (or TIMESTAMP WITH TIME ZONE in PostgreSQL)</li>
+      <li><strong>Store timezone as IANA identifier</strong> in a separate column (<code>VARCHAR(64)</code>)</li>
+      <li><strong>Convert to local time at the application/display layer</strong>, not in SQL queries</li>
+      <li><strong>Include timezone in API responses</strong>: <code>{"time": "2026-05-26T14:24:18Z", "tz": "America/New_York"}</code></li>
+      <li><strong>Validate IANA identifiers</strong> against the official list before storing</li>
+      <li><strong>Never use TIMESTAMP WITHOUT TIME ZONE</strong> for events that involve multiple time zones</li>
+    </ul>
+
+    <h2>Testing Timezone Logic</h2>
+    <p>Timezone bugs are subtle and often only appear during specific dates. Here's a testing checklist:</p>
+    <ol style="margin:16px 0;padding-left:24px;line-height:2;">
+      <li>Test with DST transition dates (March 9 and November 2 for US, March 30 and October 26 for Europe)</li>
+      <li>Test with time zones that have 30-minute or 45-minute offsets (India +05:30, Nepal +05:45, Chatham Islands +12:45)</li>
+      <li>Test with extreme cases: Samoa (UTC-11 to UTC+13 after the 2011 date line shift), Kiribati (UTC+14)</li>
+      <li>Test dates before 1970 (Unix epoch start — many implementations have bugs here)</li>
+      <li>Use a dedicated timezone testing library: <a href="https://github.com/spulec/freezegun" rel="nofollow">freezegun</a> (Python), <a href="https://github.com/sinonjs/fake-timers" rel="nofollow">sinon fake timers</a> (JavaScript)</li>
+    </ol>
+
+    <pre style="background:#1e293b;color:#e2e8f0;padding:16px;border-radius:8px;overflow-x:auto;font-size:0.85rem;line-height:1.6;"><code>// JavaScript: Mock time for testing
+import FakeTimers from '@sinonjs/fake-timers';
+const clock = FakeTimers.install({
+  now: new Date('2025-03-09T07:30:00Z'), // US DST spring forward
+  toFake: ['Date']
+});
+// Now test your timezone conversion logic
+clock.uninstall();</code></pre>
+
+    <p>Mastering timezone handling in your codebase prevents the kind of bugs that crash billing systems, miss flight connections, and confuse global teams. Use IANA identifiers everywhere, always store UTC, and convert to local time only at the display layer. When in doubt, verify with our free <a href="../">GlobeTimeZone converter</a> or check your results against <a href="https://time.is/">time.is</a>.</p>
+
+    <!-- Bottom CTA -->
+    <div style="background:var(--primary);color:white;border-radius:12px;padding:24px;margin:32px 0;text-align:center;">
+      <h3 style="margin-bottom:8px;">Verify Your Timezone Implementation</h3>
+      <p style="margin-bottom:16px;opacity:0.9;">Use our converter to cross-check your API results against real-time timezone data.</p>
+      <a href="../" style="display:inline-block;background:white;color:var(--primary);padding:12px 32px;border-radius:8px;text-decoration:none;font-weight:700;">Open Converter &#8594;</a>
+    </div>
+
+    <h2>Related Articles</h2>
+    <ul>
+      <li><a href="timezone-guide.html">Complete Guide to World Time Zones: UTC & GMT Explained</a></li>
+      <li><a href="why-daylight-saving-time.html">Why Does Daylight Saving Time Exist?</a></li>
+      <li><a href="dst-2025-schedule.html">2025 Global DST Schedule: Complete Start & End Dates</a></li>
+      <li><a href="api.html">GlobeTimeZone Developer API Documentation</a></li>
+    </ul>
+  </article>
+</main>
+
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-bottom" style="text-align:center;padding:20px 0;">
+      <p>&copy; 2026 GlobeTimeZone.com &middot; Built on IANA Timezone Database</p>
+    </div>
+  </div>
+</footer>
+
+<script defer src="../js/ga4.min.js"></script>
+</body>
+</html>

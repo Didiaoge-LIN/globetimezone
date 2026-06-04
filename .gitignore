@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Build outputs
+dist-firefox/
+dist-chrome/
+*.zip
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Wrangler
+.wrangler/
+cache/

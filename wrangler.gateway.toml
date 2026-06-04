@@ -1,0 +1,63 @@
+name = "globetimezone-gateway"
+compatibility_date = "2026-06-01"
+compatibility_flags = ["nodejs_compat"]
+main = "./workers/gateway/index.ts"
+
+[observability]
+enabled = true
+
+[env.production]
+routes = [
+  { pattern = "globetimezone.com/api/*", zone_id = "4b8640caf424bf01cae67e92862961ef" },
+  { pattern = "globetimezone.com/s/*", zone_id = "4b8640caf424bf01cae67e92862961ef" }
+]
+
+# Durable Object（环境级）
+[env.production.durable_objects]
+bindings = [{ name = "CIRCUIT_BREAKER", class_name = "CircuitBreakerDO", script_name = "globetimezone-gateway" }]
+
+[[env.production.migrations]]
+tag = "v1"
+new_sqlite_classes = ["CircuitBreakerDO"]
+
+# KV Namespaces
+[[env.production.kv_namespaces]]
+binding = "API_KEYS"
+id = "d89a7aa6340f4f3790495e119a94acf7"
+
+[[env.production.kv_namespaces]]
+binding = "REMINDERS"
+id = "c29503afef6b4dee987a85ae9cb251d7"
+
+[[env.production.kv_namespaces]]
+binding = "CALIBRATION"
+id = "5a026ac173d84ca5836d47357cd4df65"
+
+[[env.production.kv_namespaces]]
+binding = "PREFERENCES"
+id = "9329056d8ea94e6d9d1f9337fc2bba69"
+
+[[env.production.kv_namespaces]]
+binding = "RATELIMIT"
+id = "47222a040de94105be399a03472bdd43"
+
+[[env.production.kv_namespaces]]
+binding = "SHARE_DATA"
+id = "0ab9fbf6807b45649b8ecd5c3e40c1ed"
+
+# 环境变量
+[env.production.vars]
+ENVIRONMENT = "production"
+TIMEZONE_API_URL = "https://globetimezone-timezone-api.didiaoge-2026.workers.dev"
+REMINDER_API_URL = "https://globetimezone-reminder-api.didiaoge-2026.workers.dev"
+NTP_CALIBRATOR_URL = "https://globetimezone-ntp-calibrator.didiaoge-2026.workers.dev"
+TIME_SIGNER_URL = "https://globetimezone-time-signer.didiaoge-2026.workers.dev"
+CONFIG_URL = "https://globetimezone-config.didiaoge-2026.workers.dev"
+REFERRAL_API_URL = "https://globetimezone-referral-api-production.didiaoge-2026.workers.dev"
+
+# Cron 触发器（合并方案：2个Cron覆盖全部定时任务，预留1个冗余）
+[env.production.triggers]
+crons = [
+  "*/5 * * * *",    # 合并：提醒调度 + NTP校准
+  "0 0 * * *"       # 合并：配额重置 + 过期密钥清理 + 时区数据更新
+]

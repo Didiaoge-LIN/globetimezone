@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>活动倒计时器 - 多时区同步倒计时 | GlobeTimeZone</title>
+  <meta name="description" content="创建活动倒计时，支持多时区同时显示。完美适用于全球团队庆祝、产品发布、跨国截止日期等场景。" />
+  <meta name="keywords" content="倒计时,活动倒计时,时间倒计时,多时区倒计时,计时器,活动计时器" />
+  <meta name="robots" content="index, follow" />
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="活动倒计时器 - 多时区同步显示 | GlobeTimeZone" />
+  <meta property="og:description" content="创建活动倒计时，支持多时区同时显示。" />
+  <meta property="og:locale" content="zh_CN" />
+  
+  <!-- Hreflang -->
+  <link rel="alternate" hreflang="en" href="https://globetimezone.com/pages/countdown.html" />
+  <link rel="alternate" hreflang="zh" href="https://globetimezone.com/pages/countdown-zh.html" />
+  <link rel="canonical" href="https://globetimezone.com/pages/countdown-zh.html" />
+  
+    <!-- PWA & Social -->
+  <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+  <link rel="manifest" href="../manifest.json" />
+  <meta name="twitter:card" content="summary_large_image" />
+  
+  <link rel="stylesheet" href="../css/style.min.css" />
+  <style>
+    .countdown-hero {
+      background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 50%, #8b5cf6 100%);
+      color: white;
+      padding: 60px 24px;
+      text-align: center;
+      border-radius: 16px;
+      margin-bottom: 32px;
+    }
+    
+    .countdown-hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+    }
+    
+    .countdown-hero p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+    
+    .countdown-form {
+      background: white;
+      padding: 28px;
+      border-radius: 12px;
+      margin-bottom: 32px;
+      border: 1px solid var(--border);
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    
+    @media (max-width: 768px) {
+      .form-row { grid-template-columns: 1fr; }
+    }
+    
+    .countdown-display {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin: 32px 0;
+    }
+    
+    @media (max-width: 640px) {
+      .countdown-display { grid-template-columns: repeat(2, 1fr); }
+    }
+    
+    .countdown-unit {
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 16px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    
+    .countdown-unit:hover {
+      border-color: #7c3aed;
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px -8px rgba(124, 58, 237, 0.3);
+    }
+    
+    .countdown-number {
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: #7c3aed;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+    
+    .countdown-label {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      margin-top: 8px;
+      font-weight: 600;
+    }
+    
+    .countdown-event {
+      text-align: center;
+      padding: 24px;
+      background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+      border-radius: 12px;
+      margin-bottom: 32px;
+    }
+    
+    .countdown-event h2 {
+      font-size: 1.5rem;
+      color: #7c3aed;
+      margin-bottom: 8px;
+    }
+    
+    .countdown-event .datetime {
+      font-size: 1rem;
+      color: var(--text-muted);
+    }
+    
+    .timezone-countdowns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    
+    .tz-countdown-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    
+    .tz-countdown-card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+    
+    .tz-flag {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+    }
+    
+    .tz-name {
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    
+    .tz-countdown {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #7c3aed;
+      font-variant-numeric: tabular-nums;
+    }
+    
+    .tz-time {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+    
+    .presets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    
+    .preset-btn {
+      padding: 8px 16px;
+      background: #f5f3ff;
+      border: 1px solid #a78bfa;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #7c3aed;
+    }
+    
+    .preset-btn:hover {
+      background: #7c3aed;
+      color: white;
+    }
+    
+    .milestone-alert {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border: 2px solid #f59e0b;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 24px;
+      text-align: center;
+    }
+    
+    .milestone-alert.approaching {
+      background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+      border-color: #ef4444;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+  </style>
+  
+  <!-- HowTo Schema (Chinese) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "如何使用活动倒计时器",
+    "description": "了解如何创建活动倒计时并在多个时区同时查看。",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "输入活动详情",
+        "text": "输入您的活动名称、日期和时间，选择您所在的时区。"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "添加时区",
+        "text": "添加您需要追踪的时区 — 团队成员所在地、合作伙伴办公室等。"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "分享倒计时",
+        "text": "复制倒计时链接或嵌入您的网站与团队分享。"
+      }
+    ]
+  }
+  </script>
+  <!-- Google Analytics 4 -->
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script src="../js/ga4.min.js"></script>
+</head>
+<body>
+
+<!-- ===== Accessibility: Skip to main content ===== -->
+<a class="skip-link" href="#main-content">跳到主内容</a>
+
+
+<!-- Header -->
+<header>
+  <div class="header-inner">
+    <a href="../" class="logo">🌍 世界<span>时区</span></a>
+    <nav> aria-label="主导航"
+      <a href="../index-zh.html">时区转换</a>
+      <a href="world-clock.html">世界时钟</a>
+      <a href="meeting-scheduler-zh.html">会议调度</a>
+      <a href="countdown-zh.html" style="color:var(--primary);font-weight:600;">倒计时</a>
+      <a href="articles-zh.html">使用教程</a>
+      <span class="lang-switch">
+        <a href="countdown.html" class="lang-btn">EN</a>
+        <a href="countdown-zh.html" class="lang-btn active">中文</a>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<!-- Breadcrumb -->
+<nav class="breadcrumb">
+  <div class="breadcrumb-inner">
+    <a href="../index-zh.html">首页</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>工具</span>
+    <span class="breadcrumb-sep">›</span>
+    <span>活动倒计时</span>
+  </div>
+</nav>
+
+<main style="max-width:900px;margin:0 auto;padding:24px;" id="main-content" role="main">
+  
+  <!-- Hero -->
+  <div class="countdown-hero">
+    <h1>⏱️ 活动倒计时器</h1>
+    <p>为任何活动设置倒计时，多时区同时显示剩余时间</p>
+  </div>
+  
+  <!-- Countdown Form -->
+  <div class="countdown-form">
+    <h2 style="font-size:1.2rem;margin-bottom:20px;">📅 创建倒计时</h2>
+    
+    <div class="form-group" style="margin-bottom:16px;">
+      <label class="form-label">活动名称</label>
+      <input type="text" id="event-name" class="form-input" placeholder="例如：产品发布、团队会议、节日假期" />
+    </div>
+    
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">活动日期</label>
+        <input type="date" id="event-date" class="form-input" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">活动时间</label>
+        <input type="time" id="event-time" class="form-input" value="12:00" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">所在时区</label>
+        <select id="event-tz" class="form-select">
+          <option value="America/New_York">纽约 (EST/EDT)</option>
+          <option value="America/Los_Angeles">洛杉矶 (PST/PDT)</option>
+          <option value="Europe/London">伦敦 (GMT/BST)</option>
+          <option value="Europe/Paris">巴黎 (CET/CEST)</option>
+          <option value="Asia/Shanghai" selected>北京 (CST)</option>
+          <option value="Asia/Tokyo">东京 (JST)</option>
+          <option value="Asia/Singapore">新加坡 (SGT)</option>
+          <option value="Australia/Sydney">悉尼 (AEST/AEDT)</option>
+        </select>
+      </div>
+    </div>
+    
+    <div>
+      <label class="form-label">快速预设</label>
+      <div class="presets">
+        <button class="preset-btn" onclick="setPreset('newyear')">🎆 元旦</button>
+        <button class="preset-btn" onclick="setPreset('christmas')">🎄 圣诞节</button>
+        <button class="preset-btn" onclick="setPreset('weekend')">📅 下个周末</button>
+        <button class="preset-btn" onclick="setPreset('month')">📆 一个月后</button>
+        <button class="preset-btn" onclick="setPreset('quarter')">📊 季度末</button>
+      </div>
+    </div>
+    
+    <button class="btn btn-primary" style="margin-top:20px;width:100%;" onclick="createCountdown()">🚀 开始倒计时</button>
+  </div>
+  
+  <!-- Countdown Display (hidden initially) -->
+  <div id="countdown-display" style="display:none;">
+    <!-- Event Info -->
+    <div class="countdown-event">
+      <h2 id="display-event-name">活动名称</h2>
+      <p class="datetime" id="display-datetime">2026年1月1日 下午12:00</p>
+    </div>
+    
+    <!-- Main Countdown -->
+    <div class="countdown-display">
+      <div class="countdown-unit">
+        <div class="countdown-number" id="days">00</div>
+        <div class="countdown-label">天</div>
+      </div>
+      <div class="countdown-unit">
+        <div class="countdown-number" id="hours">00</div>
+        <div class="countdown-label">时</div>
+      </div>
+      <div class="countdown-unit">
+        <div class="countdown-number" id="minutes">00</div>
+        <div class="countdown-label">分</div>
+      </div>
+      <div class="countdown-unit">
+        <div class="countdown-number" id="seconds">00</div>
+        <div class="countdown-label">秒</div>
+      </div>
+    </div>
+    
+    <!-- Milestone Alert -->
+    <div class="milestone-alert" id="milestone-alert" style="display:none;">
+      <span id="milestone-message"></span>
+    </div>
+    
+    <!-- Time Zone Cards -->
+    <h3 style="text-align:center;margin:32px 0 20px;">🌍 不同时区的倒计时</h3>
+    <div class="timezone-countdowns" id="timezone-countdowns">
+      <!-- Generated by JS -->
+    </div>
+    
+    <!-- Actions -->
+    <div style="display:flex;gap:12px;margin-top:32px;flex-wrap:wrap;justify-content:center;">
+      <button class="btn btn-outline" onclick="shareCountdown()">📤 分享</button>
+      <button class="btn btn-outline" onclick="copyCountdownLink()">🔗 复制链接</button>
+      <button class="btn btn-outline" onclick="resetCountdown()">🔄 新建倒计时</button>
+    </div>
+  </div>
+  
+  <!-- Saved Countdowns -->
+  <div class="card" style="margin-top:40px;">
+    <h2 class="card-title">💾 已保存的倒计时</h2>
+    <p style="color:#595959;margin-bottom:16px;">您的倒计时器会自动保存。</p>
+    <div id="saved-countdowns">
+      <p style="color:#595959;text-align:center;padding:20px;">暂无保存的倒计时，立即创建一个吧！</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- Footer -->
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-bottom">
+      <p>© 2026 GlobeTimeZone.com · 活动倒计时器</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Time zones to display
+const DISPLAY_TIMEZONES = [
+  { tz: 'America/New_York', name: '纽约', flag: '🇺🇸' },
+  { tz: 'America/Los_Angeles', name: '洛杉矶', flag: '🇺🇸' },
+  { tz: 'Europe/London', name: '伦敦', flag: '🇬🇧' },
+  { tz: 'Europe/Paris', name: '巴黎', flag: '🇫🇷' },
+  { tz: 'Asia/Shanghai', name: '北京', flag: '🇨🇳' },
+  { tz: 'Asia/Tokyo', name: '东京', flag: '🇯🇵' },
+  { tz: 'Asia/Singapore', name: '新加坡', flag: '🇸🇬' },
+  { tz: 'Australia/Sydney', name: '悉尼', flag: '🇦🇺' },
+];
+
+let countdownInterval = null;
+let targetDate = null;
+let eventName = '';
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+  // Set default date to tomorrow
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  document.getElementById('event-date').value = tomorrow.toISOString().split('T')[0];
+  
+  loadSavedCountdowns();
+});
+
+function setPreset(type) {
+  const now = new Date();
+  const input = document.getElementById('event-date');
+  const timeInput = document.getElementById('event-time');
+  const nameInput = document.getElementById('event-name');
+  
+  switch(type) {
+    case 'newyear':
+      const newYear = new Date(now.getFullYear() + 1, 0, 1);
+      input.value = newYear.toISOString().split('T')[0];
+      timeInput.value = '00:00';
+      nameInput.value = '🎆 元旦';
+      break;
+    case 'christmas':
+      let christmas = new Date(now.getFullYear(), 11, 25);
+      if (christmas < now) christmas.setFullYear(christmas.getFullYear() + 1);
+      input.value = christmas.toISOString().split('T')[0];
+      timeInput.value = '00:00';
+      nameInput.value = '🎄 圣诞节';
+      break;
+    case 'weekend':
+      const daysUntilSaturday = (6 - now.getDay() + 7) % 7 || 7;
+      const saturday = new Date(now);
+      saturday.setDate(saturday.getDate() + daysUntilSaturday);
+      input.value = saturday.toISOString().split('T')[0];
+      timeInput.value = '09:00';
+      nameInput.value = '📅 团队例会';
+      break;
+    case 'month':
+      const monthLater = new Date(now);
+      monthLater.setMonth(monthLater.getMonth() + 1);
+      input.value = monthLater.toISOString().split('T')[0];
+      timeInput.value = '12:00';
+      nameInput.value = '📆 月度回顾';
+      break;
+    case 'quarter':
+      const quarter = Math.floor(now.getMonth() / 3) + 1;
+      const quarterEndMonth = quarter * 3;
+      let quarterEnd = new Date(now.getFullYear(), quarterEndMonth, 1);
+      if (quarterEnd <= now) quarterEnd.setFullYear(quarterEnd.getFullYear() + 1);
+      input.value = quarterEnd.toISOString().split('T')[0];
+      timeInput.value = '17:00';
+      nameInput.value = '📊 季度末';
+      break;
+  }
+}
+
+function createCountdown() {
+  const name = document.getElementById('event-name').value.trim() || '活动';
+  const dateVal = document.getElementById('event-date').value;
+  const timeVal = document.getElementById('event-time').value;
+  const tz = document.getElementById('event-tz').value;
+  
+  if (!dateVal) {
+    alert('请选择活动日期');
+    return;
+  }
+  
+  // Create target date
+  const [year, month, day] = dateVal.split('-').map(Number);
+  const [hour, minute] = timeVal.split(':').map(Number);
+  targetDate = new Date(year, month - 1, day, hour, minute, 0);
+  
+  // If timezone is not UTC, adjust
+  const tzOffset = getTimezoneOffset(tz);
+  targetDate = new Date(targetDate.getTime() - tzOffset * 60 * 60 * 1000);
+  
+  eventName = name;
+  
+  // Update display
+  document.getElementById('display-event-name').textContent = name;
+  const localDate = new Date(targetDate.getTime() + tzOffset * 60 * 60 * 1000);
+  document.getElementById('display-datetime').textContent = 
+    localDate.toLocaleDateString('zh-CN', { 
+      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+      hour: '2-digit', minute: '2-digit', timeZone: tz
+    });
+  
+  // Generate timezone cards
+  renderTimezoneCards();
+  
+  // Show countdown
+  document.getElementById('countdown-display').style.display = 'block';
+  
+  // Start countdown
+  if (countdownInterval) clearInterval(countdownInterval);
+  updateCountdown();
+  countdownInterval = setInterval(updateCountdown, 1000);
+  
+  // Save countdown
+  saveCountdown({ name, dateVal, timeVal, tz });
+  
+  // Scroll to countdown
+  document.getElementById('countdown-display').scrollIntoView({ behavior: 'smooth' });
+}
+
+function updateCountdown() {
+  if (!targetDate) return;
+  
+  const now = new Date();
+  const diff = targetDate - now;
+  
+  if (diff <= 0) {
+    // Event has passed
+    document.getElementById('days').textContent = '00';
+    document.getElementById('hours').textContent = '00';
+    document.getElementById('minutes').textContent = '00';
+    document.getElementById('seconds').textContent = '00';
+    
+    const alert = document.getElementById('milestone-alert');
+    alert.style.display = 'block';
+    alert.classList.add('approaching');
+    document.getElementById('milestone-message').textContent = '🎉 活动时间已到！';
+    return;
+  }
+  
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+  
+  document.getElementById('days').textContent = String(days).padStart(2, '0');
+  document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+  document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+  document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+  
+  // Check milestones
+  checkMilestones(days, hours, minutes);
+}
+
+function checkMilestones(days, hours, minutes) {
+  const alert = document.getElementById('milestone-alert');
+  const message = document.getElementById('milestone-message');
+  
+  alert.style.display = 'none';
+  alert.classList.remove('approaching');
+  
+  if (days === 0 && hours === 0 && minutes <= 5) {
+    alert.style.display = 'block';
+    alert.classList.add('approaching');
+    message.textContent = '🔥 不到5分钟了！';
+  } else if (days === 0 && hours === 0) {
+    alert.style.display = 'block';
+    message.textContent = '⏰ 不到1小时了！';
+  } else if (days === 0) {
+    alert.style.display = 'block';
+    message.textContent = '⏱️ 不到24小时了！';
+  } else if (days === 7) {
+    alert.style.display = 'block';
+    message.textContent = '📅 还有1周！';
+  } else if (days === 30) {
+    alert.style.display = 'block';
+    message.textContent = '🗓️ 还有1个月！';
+  }
+}
+
+function renderTimezoneCards() {
+  const container = document.getElementById('timezone-countdowns');
+  const tz = document.getElementById('event-tz').value;
+  
+  container.innerHTML = DISPLAY_TIMEZONES.map(item => {
+    const localTarget = new Date(targetDate.getTime() + getTimezoneOffset(item.tz) * 60 * 60 * 1000);
+    const timeStr = localTarget.toLocaleTimeString('zh-CN', { 
+      hour: '2-digit', minute: '2-digit', hour12: false 
+    });
+    const dateStr = localTarget.toLocaleDateString('zh-CN', { 
+      month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' 
+    });
+    
+    return `
+      <div class="tz-countdown-card">
+        <div class="tz-flag">${item.flag}</div>
+        <div class="tz-name">${item.name}</div>
+        <div class="tz-time">${dateStr}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function getTimezoneOffset(tz) {
+  const now = new Date();
+  const utcDate = new Date(now.toLocaleString('en-US', { timeZone: 'UTC' }));
+  const tzDate = new Date(now.toLocaleString('en-US', { timeZone: tz }));
+  return (tzDate - utcDate) / 3600000;
+}
+
+function shareCountdown() {
+  const text = "⏱️ \u300A" + eventName + "\u300B\u5012\u8ba1\u65f6\uff1a\n\n" + window.location.href;
+  navigator.clipboard.writeText(text).then(() => {
+    alert('倒计时链接已复制到剪贴板！');
+  });
+}
+
+function copyCountdownLink() {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    alert('链接已复制！');
+  });
+}
+
+function resetCountdown() {
+  if (countdownInterval) {
+    clearInterval(countdownInterval);
+    countdownInterval = null;
+  }
+  targetDate = null;
+  document.getElementById('countdown-display').style.display = 'none';
+  document.getElementById('event-name').value = '';
+  document.getElementById('milestone-alert').style.display = 'none';
+}
+
+// Local storage
+function saveCountdown(data) {
+  let saved = JSON.parse(localStorage.getItem('gtz_countdowns') || '[]');
+  saved.unshift({ ...data, id: Date.now() });
+  saved = saved.slice(0, 10); // Keep last 10
+  localStorage.setItem('gtz_countdowns', JSON.stringify(saved));
+  loadSavedCountdowns();
+}
+
+function loadSavedCountdowns() {
+  const saved = JSON.parse(localStorage.getItem('gtz_countdowns') || '[]');
+  const container = document.getElementById('saved-countdowns');
+  
+  if (saved.length === 0) {
+    container.innerHTML = '<p style="color:#595959;text-align:center;padding:20px;">暂无保存的倒计时。</p>';
+    return;
+  }
+  
+  container.innerHTML = saved.map(item => {
+    const date = new Date(item.dateVal);
+    return `
+      <div class="card" style="padding:16px;margin-bottom:12px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <strong>${item.name}</strong>
+            <div style="font-size:0.85rem;color:#595959;">${date.toLocaleDateString('zh-CN')}</div>
+          </div>
+          <div>
+            <button class="btn btn-outline btn-sm" onclick="loadCountdown('${item.dateVal}', '${item.timeVal}', '${item.name}', '${item.tz}')">加载</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function loadCountdown(dateVal, timeVal, name, tz) {
+  document.getElementById('event-name').value = name;
+  document.getElementById('event-date').value = dateVal;
+  document.getElementById('event-time').value = timeVal;
+  document.getElementById('event-tz').value = tz;
+  createCountdown();
+}
+</script>
+
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js')}</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+name = "globetimezone-ntp-calibrator"
+main = "./workers/ntp-calibrator/index.ts"
+compatibility_date = "2026-05-30"
+compatibility_flags = ["nodejs_compat"]
+account_id = "b73e041dfa2e834c1cd23d11f1971cd5"
+workers_dev = true
+
+routes = [
+  { pattern = "globetimezone.com/api/ntp/*", zone_id = "4b8640caf424bf01cae67e92862961ef" },
+  { pattern = "www.globetimezone.com/api/ntp/*", zone_id = "4b8640caf424bf01cae67e92862961ef" }
+]
+
+# Cron 已移至 gateway 合并分发
+# [triggers]
+# crons = ["*/5 * * * *"]
+
+[[kv_namespaces]]
+binding = "CALIBRATION"
+id = "5a026ac173d84ca5836d47357cd4df65"

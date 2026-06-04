@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JST to CST Converter - Japan to China Standard Time | GlobeTimeZone</title>
+  <meta name="description" content="Convert JST (Japan Standard Time) to CST (China Standard Time) instantly. Free JST to CST converter. Japan and China share the same UTC+8 offset." />
+  <meta name="keywords" content="JST to CST, Japan Standard Time, China Standard Time, Tokyo to Beijing, UTC+8, time zone converter, Japan China time difference" />
+  <meta name="robots" content="index, follow" />
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="JST to CST Converter - Japan to China Standard Time" />
+  <meta property="og:description" content="Free JST to CST converter. Compare time zones between Tokyo and Beijing." />
+  <meta property="og:url" content="https://globetimezone.com/pages/jst-to-cst-converter.html" />
+  
+  <!-- Hreflang -->
+  <link rel="alternate" hreflang="en" href="https://globetimezone.com/pages/jst-to-cst-converter.html" />
+  <link rel="alternate" hreflang="zh" href="https://globetimezone.com/pages/jst-to-cst-converter-zh.html" />
+  <link rel="canonical" href="https://globetimezone.com/pages/jst-to-cst-converter.html" />
+  
+    <!-- PWA & Social -->
+  <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+  <link rel="manifest" href="../manifest.json" />
+  <meta name="twitter:card" content="summary_large_image" />
+  
+  <link rel="stylesheet" href="../css/style.min.css" />
+  
+  <!-- FAQ Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the time difference between JST and CST?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "JST (Japan Standard Time) and CST (China Standard Time) are both UTC+8, so there is NO time difference. When it is 12:00 PM in Tokyo, it is also 12:00 PM in Beijing."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Japan observe Daylight Saving Time?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No, Japan does not observe Daylight Saving Time. Japan Standard Time (JST) is UTC+9, which remains constant year-round. This means Japan is 1 hour ahead of China (UTC+8) throughout the year."
+        }
+      }
+    ]
+  }
+  </script>
+  <!-- Google Analytics 4 -->
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script src="../js/ga4.min.js"></script>
+</head>
+<body>
+
+<!-- ===== Accessibility: Skip to main content ===== -->
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+
+<!-- Header -->
+<header>
+  <div class="header-inner">
+    <a href="../" class="logo">🌍 Globe<span>TimeZone</span></a>
+    <nav> aria-label="Main navigation"
+      <a href="../">Converter</a>
+      <a href="world-clock.html">World Clock</a>
+      <a href="articles.html">Articles</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Breadcrumb -->
+<nav class="breadcrumb" style="padding:12px 24px;max-width:1200px;margin:0 auto;font-size:0.875rem;color:#595959;">
+  <a href="../" style="color:#2563eb;text-decoration:none;">Home</a> &gt;
+  <a href="articles.html" style="color:#2563eb;text-decoration:none;">Articles</a> &gt;
+  <span>JST to CST Converter</span>
+</nav>
+
+<main style="max-width:1200px;margin:0 auto;padding:20px 24px;" id="main-content" role="main">
+
+  <!-- Alert Banner -->
+  <div class="alert alert-info" style="margin-bottom:24px;padding:16px;background:#dbeafe;border:1px solid #3b82f6;border-radius:8px;">
+    <p style="margin:0;color:#1e40af;font-weight:500;">
+      📌 <strong>Important:</strong> JST (UTC+9) is <strong>1 hour ahead</strong> of CST (UTC+8). Both countries do NOT observe Daylight Saving Time.
+    </p>
+  </div>
+
+  <!-- Converter Section -->
+  <section class="card" id="converter">
+    <h1 class="section-title" style="font-size:2rem;margin-bottom:8px;">🕐 JST to CST Converter</h1>
+    <p style="color:#595959;margin-bottom:24px;">Convert Japan Standard Time (Tokyo) to China Standard Time (Beijing) instantly. Japan is always 1 hour ahead of China.</p>
+    
+    <div class="base-time-section">
+      <div class="base-time-grid">
+        <div class="form-group">
+          <label class="form-label">Date</label>
+          <input type="date" id="base-date" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">JST Time</label>
+          <input type="time" id="base-time" class="form-input" value="09:00" />
+        </div>
+      </div>
+    </div>
+    
+    <div class="multi-tz-grid" style="margin-top:24px;">
+      <div class="tz-card working-hours" id="tz-card-jst">
+        <div class="tz-card-header">
+          <span class="tz-flag">🇯🇵</span>
+        </div>
+        <div class="tz-city">Tokyo (JST)</div>
+        <div class="tz-time" id="jst-time">09:00</div>
+        <div class="tz-offset">UTC+9 (No DST)</div>
+        <span class="working-badge">🟢 Working Hours</span>
+      </div>
+      <div class="tz-card" id="tz-card-cst">
+        <div class="tz-card-header">
+          <span class="tz-flag">🇨🇳</span>
+        </div>
+        <div class="tz-city">Beijing (CST)</div>
+        <div class="tz-time" id="cst-time">08:00</div>
+        <div class="tz-offset">UTC+8 (No DST)</div>
+      </div>
+    </div>
+    
+    <div class="share-section" style="margin-top:24px;">
+      <button class="btn btn-outline btn-sm" onclick="shareResults()">📧 Share Results</button>
+      <button class="btn btn-outline btn-sm" onclick="copyToClipboard()">📋 Copy</button>
+    </div>
+  </section>
+
+  <!-- 24-Hour Conversion Table -->
+  <section class="card" style="margin-top:24px;">
+    <h2 class="card-title">📊 24-Hour JST to CST Conversion Table</h2>
+    <p style="color:#595959;margin-bottom:20px;">Quick reference. JST is always 1 hour ahead of CST (Beijing Time).</p>
+    
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;text-align:center;">
+        <thead>
+          <tr style="background:var(--primary);color:white;">
+            <th style="padding:12px;border:1px solid var(--border);">JST (Tokyo)</th>
+            <th style="padding:12px;border:1px solid var(--border);">CST (Beijing)</th>
+            <th style="padding:12px;border:1px solid var(--border);">Japan Working Hours</th>
+            <th style="padding:12px;border:1px solid var(--border);">China Working Hours</th>
+          </tr>
+        </thead>
+        <tbody id="conversion-table-body">
+          <!-- Generated by JS -->
+        </tbody>
+      </table>
+    </div>
+    
+    <p style="margin-top:16px;font-size:0.85rem;color:#595959;">
+      * Neither Japan nor China observe Daylight Saving Time, so the 1-hour difference remains constant year-round.
+    </p>
+  </section>
+
+  <!-- Time Difference Info -->
+  <section class="card" style="margin-top:24px;">
+    <h2 class="card-title">📚 Understanding JST and CST</h2>
+    
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:16px;">
+      <div>
+        <h3 style="font-size:1.1rem;margin-bottom:8px;">🇯🇵 Japan Standard Time (JST)</h3>
+        <p style="color:#595959;line-height:1.7;">
+          JST is the official time zone of Japan, used in Tokyo, Osaka, Kyoto, Yokohama, and all of Japan. Offset: <strong>UTC+9</strong>. Japan does <strong>NOT</strong> observe Daylight Saving Time.
+        </p>
+        <p style="color:#595959;margin-top:8px;">
+          <strong>JST covers:</strong> Japan, and is also used as a reference for satellite operations and international business in East Asia.
+        </p>
+      </div>
+      <div>
+        <h3 style="font-size:1.1rem;margin-bottom:8px;">🇨🇳 China Standard Time (CST)</h3>
+        <p style="color:#595959;line-height:1.7;">
+          CST is the official time zone of China, used in Beijing, Shanghai, Guangzhou, and all of mainland China. Offset: <strong>UTC+8</strong>. China does <strong>NOT</strong> observe Daylight Saving Time.
+        </p>
+        <p style="color:#595959;margin-top:8px;">
+          <strong>CST covers:</strong> China, Singapore, Malaysia, Western Australia, and parts of the Philippines.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Meeting Tips -->
+  <section class="card" style="margin-top:24px;background:linear-gradient(135deg,#fce7f3 0%,#fbcfe8 100%);border-color:#ec4899;">
+    <h2 class="card-title">💡 Best Meeting Times for Japan-China Business</h2>
+    <div style="margin-top:16px;">
+      <p style="color:#9d174d;line-height:1.7;">
+        <strong>Recommended overlap window:</strong> 9:00 AM - 11:00 AM JST / 8:00 AM - 10:00 AM CST
+      </p>
+      <p style="color:#9d174d;margin-top:12px;">
+        Japan and China have very similar business hours (9 AM - 6 PM). The best time for a Japan-China call is <strong>mid-morning (9-11 AM)</strong> when both parties are in the office. Avoid scheduling during lunch (12-1 PM) or late evening.
+      </p>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="card" style="margin-top:24px;">
+    <h2 class="card-title">❓ Frequently Asked Questions</h2>
+    <div class="faq-list">
+      <details class="faq-item" open>
+        <summary class="faq-question">What is the time difference between Japan and China?</summary>
+        <div class="faq-answer">
+          <p><strong>Japan is 1 hour ahead of China.</strong> When it is 3:00 PM in Tokyo (JST), it is 2:00 PM in Beijing (CST). This 1-hour difference is consistent throughout the year since neither country observes Daylight Saving Time.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">Does Japan observe Daylight Saving Time?</summary>
+        <div class="faq-answer">
+          <p><strong>No, Japan does not observe Daylight Saving Time.</strong> Japan Standard Time (JST, UTC+9) remains constant year-round. Japan last used DST in 1951 and has not resumed since.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">What is the best time for a Japan-China business call?</summary>
+        <div class="faq-answer">
+          <p>The best time is <strong>9:00 AM - 10:00 AM</strong> for both sides. At this time, Tokyo is just starting work and Beijing is already in full swing. Both parties can have a productive meeting before lunch and have afternoon time for follow-ups.</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">Is Tokyo time the same as Beijing time?</summary>
+        <div class="faq-answer">
+          <p><strong>No, Tokyo is 1 hour ahead of Beijing.</strong> Tokyo uses JST (UTC+9) while Beijing uses CST (UTC+8). They share the same writing system (simplified/traditional Chinese characters) and cultural ties, but not the same time.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <a href="../" class="footer-logo">🌍 GlobeTimeZone</a>
+        <p class="footer-desc">Free world time zone converter. Convert time between any two cities instantly.</p>
+      </div>
+      <div>
+        <h4 class="footer-heading">Tools</h4>
+        <ul class="footer-links">
+          <li><a href="../">Time Zone Converter</a></li>
+          <li><a href="world-clock.html">World Clock</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">Popular</h4>
+        <ul class="footer-links">
+          <li><a href="jst-to-cst-converter.html">JST to CST</a></li>
+          <li><a href="gmt-to-cst-converter.html">GMT to CST</a></li>
+          <li><a href="us-china-time-difference.html">US vs China</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">Info</h4>
+        <ul class="footer-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 GlobeTimeZone.com · All rights reserved</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Set default date
+  const dateInput = document.getElementById('base-date');
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, '0');
+  const d = String(now.getDate()).padStart(2, '0');
+  dateInput.value = `${y}-${m}-${d}`;
+  
+  function updateConversion() {
+    const timeInput = document.getElementById('base-time').value;
+    const [hours, minutes] = timeInput.split(':').map(Number);
+    
+    // JST to CST: subtract 1 hour
+    let cstHour = hours - 1;
+    let dayOffset = 'Today';
+    
+    if (cstHour < 0) {
+      cstHour += 24;
+      dayOffset = 'Previous Day';
+    }
+    
+    const jstFormatted = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+    const cstFormatted = `${String(cstHour).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+    
+    document.getElementById('jst-time').textContent = jstFormatted;
+    document.getElementById('cst-time').textContent = cstFormatted;
+    
+    // Update working hours badges
+    const jstCard = document.getElementById('tz-card-jst');
+    const cstCard = document.getElementById('tz-card-cst');
+    const jstWorking = hours >= 9 && hours < 18;
+    const cstWorking = cstHour >= 9 && cstHour < 18;
+    
+    if (jstWorking) {
+      jstCard.classList.add('working-hours');
+    } else {
+      jstCard.classList.remove('working-hours');
+    }
+    
+    if (cstWorking) {
+      cstCard.classList.add('working-hours');
+    } else {
+      cstCard.classList.remove('working-hours');
+    }
+  }
+  
+  // Generate conversion table
+  function generateTable() {
+    const tbody = document.getElementById('conversion-table-body');
+    const rows = [];
+    
+    for (let h = 0; h < 24; h++) {
+      const jstHour = h;
+      const cstHour = (h - 1 + 24) % 24;
+      const jstFormatted = `${String(jstHour).padStart(2, '0')}:00`;
+      const cstFormatted = `${String(cstHour).padStart(2, '0')}:00`;
+      
+      // Check working hours
+      const japanWorking = jstHour >= 9 && jstHour < 18;
+      const chinaWorking = cstHour >= 9 && cstHour < 18;
+      const bothWorking = japanWorking && chinaWorking;
+      
+      rows.push(`
+        <tr style="background:${bothWorking ? '#ecfdf5' : 'white'};">
+          <td style="padding:10px;border:1px solid var(--border);font-weight:600;">${jstFormatted}</td>
+          <td style="padding:10px;border:1px solid var(--border);">${cstFormatted}</td>
+          <td style="padding:10px;border:1px solid var(--border);${japanWorking ? 'color:#16a34a;font-weight:600;' : 'color:#dc2626;'}">${japanWorking ? '🟢' : '🔴'}</td>
+          <td style="padding:10px;border:1px solid var(--border);${chinaWorking ? 'color:#16a34a;font-weight:600;' : 'color:#dc2626;'}">${chinaWorking ? '🟢' : '🔴'}</td>
+        </tr>
+      `);
+    }
+    
+    tbody.innerHTML = rows.join('');
+  }
+  
+  // Event listeners
+  document.getElementById('base-time').addEventListener('input', updateConversion);
+  document.getElementById('base-date').addEventListener('change', updateConversion);
+  
+  // Share functions
+  function shareResults() {
+    const jstTime = document.getElementById('jst-time').textContent;
+    const cstTime = document.getElementById('cst-time').textContent;
+    const text = `JST to CST Conversion:\n\n${jstTime} JST (Tokyo) = ${cstTime} CST (Beijing)\n\nConverted via GlobeTimeZone.com`;
+    window.location.href = `mailto:?subject=JST to CST Conversion&body=${encodeURIComponent(text)}`;
+  }
+  
+  function copyToClipboard() {
+    const jstTime = document.getElementById('jst-time').textContent;
+    const cstTime = document.getElementById('cst-time').textContent;
+    const text = `${jstTime} JST = ${cstTime} CST (Converted via GlobeTimeZone.com)`;
+    navigator.clipboard.writeText(text).then(() => alert('Copied to clipboard!'));
+  }
+  
+  // Initialize
+  generateTable();
+  updateConversion();
+</script>
+
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js')}</script>
+</body>
+</html>

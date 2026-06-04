@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive World Time Zone Map | GlobeTimeZone</title>
+  <meta name="description" content="Interactive world time zone map. Click on regions to compare times across the globe. Perfect for understanding global time differences." />
+  <meta name="robots" content="index, follow" />
+  
+  <meta property="og:locale" content="en_US" />
+  <link rel="alternate" hreflang="en" href="https://globetimezone.com/pages/world-map.html" />
+  <link rel="alternate" hreflang="zh" href="https://globetimezone.com/pages/world-map-zh.html" />
+  <link rel="canonical" href="https://globetimezone.com/pages/world-map.html" />
+  
+    <!-- PWA & Social -->
+  <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+  <link rel="manifest" href="../manifest.json" />
+  <meta name="twitter:card" content="summary_large_image" />
+  
+  <!-- Performance: Preconnect & Preload -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" />
+  <link rel="preconnect" href="https://www.google-analytics.com" />
+  <link rel="preconnect" href="https://www.gstatic.com" />
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+  <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+  <link rel="preload" href="../css/style.min.css" as="style" />
+  
+  <link rel="stylesheet" href="../css/style.min.css" />
+  <style>
+    .map-container {
+      background: #1a365d;
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .world-map {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    @media (max-width: 768px) {
+      .world-map {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .world-map {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    
+    .region-card {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 12px;
+      padding: 16px 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      color: white;
+    }
+    
+    .region-card:hover {
+      background: rgba(255,255,255,0.2);
+      transform: scale(1.05);
+    }
+    
+    .region-card.selected {
+      background: var(--primary);
+      border-color: var(--primary);
+      box-shadow: 0 0 20px rgba(37,99,235,0.5);
+    }
+    
+    .region-flag {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+    
+    .region-name {
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+    }
+    
+    .region-time {
+      font-size: 1.25rem;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+    
+    .region-offset {
+      font-size: 0.75rem;
+      opacity: 0.7;
+      margin-top: 4px;
+    }
+    
+    .time-comparison-panel {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid var(--border);
+    }
+    
+    .comparison-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .current-time-display {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    
+    .pulse-dot {
+      width: 10px;
+      height: 10px;
+      background: #10b981;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
+    }
+    
+    .timezone-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .timezone-table th, .timezone-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .timezone-table th {
+      background: var(--bg);
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+    
+    .timezone-table tr:hover td {
+      background: var(--primary-light);
+    }
+    
+    .timezone-table .time-cell {
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+    
+    .timezone-table .diff-cell {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    
+    .timezone-table .diff-cell.positive {
+      color: #10b981;
+    }
+    
+    .timezone-table .diff-cell.negative {
+      color: #ef4444;
+    }
+    
+    .timezone-table .status-cell {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    
+    .status-dot.working { background: #10b981; }
+    .status-dot.off { background: #6b7280; }
+    .status-dot.night { background: #3b82f6; }
+    
+    .utc-indicator {
+      background: var(--bg);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .sun-timeline {
+      display: flex;
+      gap: 4px;
+      margin-top: 8px;
+    }
+    
+    .sun-segment {
+      flex: 1;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--border);
+    }
+    
+    .sun-segment.night { background: #1e3a5f; }
+    .sun-segment.sunrise { background: #fed7aa; }
+    .sun-segment.day { background: #fbbf24; }
+    .sun-segment.sunset { background: #fecaca; }
+  </style>
+  <!-- Google Analytics 4 -->
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script src="../js/ga4.min.js"></script>
+</head>
+<body>
+
+<!-- ===== Accessibility: Skip to main content ===== -->
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+
+<!-- Header -->
+<header>
+  <div class="header-inner">
+    <a href="../" class="logo">🌍 Globe<span>TimeZone</span></a>
+    <nav> aria-label="Main navigation"
+      <a href="../">Converter</a>
+      <a href="world-clock.html">World Clock</a>
+      <a href="meeting-scheduler.html">Scheduler</a>
+      <a href="world-map.html" style="color:var(--primary);font-weight:600;">World Map</a>
+      <a href="articles.html">Articles</a>
+      <span class="lang-switch">
+        <a href="world-map.html" class="lang-btn active">EN</a>
+        <a href="world-map-zh.html" class="lang-btn">中文</a>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <div class="breadcrumb-inner">
+    <a href="../">Home</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>Tools</span>
+    <span class="breadcrumb-sep">›</span>
+    <span>World Time Zone Map</span>
+  </div>
+</nav>
+
+<main style="max-width:1100px;margin:0 auto;padding:24px;" id="main-content" role="main">
+  
+  <h1 style="font-size:2rem;margin-bottom:8px;text-align:center;">🗺️ World Time Zone Map</h1>
+  <p style="color:#595959;text-align:center;margin-bottom:32px;">Click on regions to see real-time clocks and compare times worldwide</p>
+  
+  <!-- World Map -->
+  <div class="map-container">
+    <div class="world-map" id="world-map">
+      <!-- Generated by JS -->
+    </div>
+  </div>
+  
+  <!-- Current Time Display -->
+  <div class="time-comparison-panel">
+    <div class="comparison-header">
+      <h2>⏰ Current Time Comparison</h2>
+      <div class="current-time-display">
+        <span class="pulse-dot"></span>
+        <span id="local-time">--:--:--</span>
+        <span style="font-size:1rem;font-weight:400;color:#595959;">Your Local Time</span>
+      </div>
+    </div>
+    
+    <!-- UTC Indicator -->
+    <div class="utc-indicator">
+      <div>
+        <strong>UTC (Coordinated Universal Time)</strong>
+        <div class="sun-timeline" id="sun-timeline">
+          <!-- Generated by JS -->
+        </div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:1.5rem;font-weight:800;color:var(--primary);" id="utc-time">--:--</div>
+        <div style="font-size:0.85rem;color:#595959;">Greenwich Mean Time</div>
+      </div>
+    </div>
+    
+    <!-- Timezone Table -->
+    <table class="timezone-table">
+      <thead>
+        <tr>
+          <th>Region</th>
+          <th>City</th>
+          <th>Current Time</th>
+          <th>Diff from You</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="timezone-tbody">
+        <!-- Generated by JS -->
+      </tbody>
+    </table>
+  </div>
+
+</main>
+
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-bottom">
+      <p>© 2026 GlobeTimeZone.com · Interactive World Time Zone Map</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Regions data
+const REGIONS = [
+  { id: 'us-pacific', name: 'US Pacific', flag: '🌊', tz: 'America/Los_Angeles', cities: 'Los Angeles, San Francisco, Seattle' },
+  { id: 'us-mountain', name: 'US Mountain', flag: '🏔️', tz: 'America/Denver', cities: 'Denver, Phoenix' },
+  { id: 'us-central', name: 'US Central', flag: '🌽', tz: 'America/Chicago', cities: 'Chicago, Houston, Dallas' },
+  { id: 'us-eastern', name: 'US Eastern', flag: '🗽', tz: 'America/New_York', cities: 'New York, Miami, Boston' },
+  { id: 'brazil', name: 'Brazil', flag: '🇧🇷', tz: 'America/Sao_Paulo', cities: 'São Paulo, Rio de Janeiro' },
+  { id: 'uk', name: 'United Kingdom', flag: '🇬🇧', tz: 'Europe/London', cities: 'London, Dublin, Edinburgh' },
+  { id: 'western-eu', name: 'Western Europe', flag: '🇪🇺', tz: 'Europe/Paris', cities: 'Paris, Berlin, Rome, Madrid' },
+  { id: 'eastern-eu', name: 'Eastern Europe', flag: '🇷🇺', tz: 'Europe/Moscow', cities: 'Moscow, Istanbul' },
+  { id: 'india', name: 'India', flag: '🇮🇳', tz: 'Asia/Kolkata', cities: 'Mumbai, New Delhi, Bangalore' },
+  { id: 'china', name: 'China', flag: '🇨🇳', tz: 'Asia/Shanghai', cities: 'Beijing, Shanghai, Hong Kong' },
+  { id: 'se-asia', name: 'Southeast Asia', flag: '🌴', tz: 'Asia/Bangkok', cities: 'Bangkok, Jakarta, Singapore' },
+  { id: 'japan-kr', name: 'Japan & Korea', flag: '🇯🇵', tz: 'Asia/Tokyo', cities: 'Tokyo, Seoul, Osaka' },
+  { id: 'aus-eastern', name: 'Aus Eastern', flag: '🦘', tz: 'Australia/Sydney', cities: 'Sydney, Melbourne, Brisbane' },
+  { id: 'nz', name: 'New Zealand', flag: '🇳🇿', tz: 'Pacific/Auckland', cities: 'Auckland, Wellington' },
+  { id: 'mideast', name: 'Middle East', flag: '🏜️', tz: 'Asia/Dubai', cities: 'Dubai, Abu Dhabi' },
+  { id: 'hawaii', name: 'Hawaii', flag: '🏝️', tz: 'Pacific/Honolulu', cities: 'Honolulu' },
+  { id: 'alaska', name: 'Alaska', flag: '❄️', tz: 'America/Anchorage', cities: 'Anchorage' },
+  { id: 'canada-atl', name: 'Canada Atlantic', flag: '🍁', tz: 'America/Halifax', cities: 'Toronto, Montreal, Vancouver' },
+];
+
+// All cities for comparison
+const CITIES = [
+  { name: 'Los Angeles', tz: 'America/Los_Angeles', flag: '🇺🇸', region: 'Americas' },
+  { name: 'New York', tz: 'America/New_York', flag: '🇺🇸', region: 'Americas' },
+  { name: 'London', tz: 'Europe/London', flag: '🇬🇧', region: 'Europe' },
+  { name: 'Paris', tz: 'Europe/Paris', flag: '🇫🇷', region: 'Europe' },
+  { name: 'Berlin', tz: 'Europe/Berlin', flag: '🇩🇪', region: 'Europe' },
+  { name: 'Dubai', tz: 'Asia/Dubai', flag: '🇦🇪', region: 'Asia' },
+  { name: 'Mumbai', tz: 'Asia/Kolkata', flag: '🇮🇳', region: 'Asia' },
+  { name: 'Beijing', tz: 'Asia/Shanghai', flag: '🇨🇳', region: 'Asia' },
+  { name: 'Singapore', tz: 'Asia/Singapore', flag: '🇸🇬', region: 'Asia' },
+  { name: 'Tokyo', tz: 'Asia/Tokyo', flag: '🇯🇵', region: 'Asia' },
+  { name: 'Sydney', tz: 'Australia/Sydney', flag: '🇦🇺', region: 'Pacific' },
+  { name: 'São Paulo', tz: 'America/Sao_Paulo', flag: '🇧🇷', region: 'Americas' },
+];
+
+let selectedRegion = null;
+
+function initMap() {
+  const container = document.getElementById('world-map');
+  
+  container.innerHTML = REGIONS.map(region => `
+    <div class="region-card" id="region-${region.id}" onclick="selectRegion('${region.id}')">
+      <div class="region-flag">${region.flag}</div>
+      <div class="region-name">${region.name}</div>
+      <div class="region-time" id="time-${region.id}">--:--</div>
+      <div class="region-offset" id="offset-${region.id}">UTC</div>
+    </div>
+  `).join('');
+}
+
+function selectRegion(id) {
+  selectedRegion = id;
+  
+  // Update UI
+  document.querySelectorAll('.region-card').forEach(card => card.classList.remove('selected'));
+  document.getElementById(`region-${id}`).classList.add('selected');
+  
+  // Scroll to comparison table
+  document.querySelector('.time-comparison-panel').scrollIntoView({ behavior: 'smooth' });
+}
+
+function updateTimes() {
+  const now = new Date();
+  
+  // Update local time
+  document.getElementById('local-time').textContent = now.toLocaleTimeString('en-US', { 
+    hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false 
+  });
+  
+  // Update UTC time
+  const utcTime = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'UTC',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  }).format(now);
+  document.getElementById('utc-time').textContent = utcTime;
+  
+  // Update sun timeline
+  updateSunTimeline();
+  
+  // Update region cards
+  REGIONS.forEach(region => {
+    const timeEl = document.getElementById(`time-${region.id}`);
+    const offsetEl = document.getElementById(`offset-${region.id}`);
+    
+    if (timeEl) {
+      const timeStr = new Intl.DateTimeFormat('en-US', {
+        timeZone: region.tz,
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      }).format(now);
+      timeEl.textContent = timeStr;
+    }
+    
+    if (offsetEl) {
+      const offset = getOffset(region.tz);
+      offsetEl.textContent = offset;
+    }
+  });
+  
+  // Update comparison table
+  updateComparisonTable();
+}
+
+function updateSunTimeline() {
+  const now = new Date();
+  const utcHour = now.getUTCHours();
+  const timeline = document.getElementById('sun-timeline');
+  
+  let segments = [];
+  for (let i = 0; i < 24; i++) {
+    let className = 'sun-segment';
+    if (i < 6 || i >= 19) {
+      className += ' night';
+    } else if (i >= 6 && i < 8) {
+      className += ' sunrise';
+    } else if (i >= 8 && i < 17) {
+      className += ' day';
+    } else {
+      className += ' sunset';
+    }
+    
+    if (i === utcHour) {
+      className += ' active';
+    }
+    
+    segments.push(`<div class="${className}" title="${i}:00 UTC"></div>`);
+  }
+  
+  timeline.innerHTML = segments.join('');
+}
+
+function updateComparisonTable() {
+  const now = new Date();
+  const tbody = document.getElementById('timezone-tbody');
+  
+  tbody.innerHTML = CITIES.map(city => {
+    const timeStr = new Intl.DateTimeFormat('en-US', {
+      timeZone: city.tz,
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    }).format(now);
+    
+    const hour = parseInt(timeStr.split(':')[0]);
+    const isWorking = hour >= 9 && hour < 18;
+    const isNight = hour < 6 || hour >= 21;
+    
+    // Calculate difference from local time
+    const localHour = now.getHours();
+    const diff = hour - localHour;
+    
+    let diffText = '';
+    let diffClass = '';
+    
+    if (diff > 0) {
+      diffText = `+${diff}h`;
+      diffClass = 'positive';
+    } else if (diff < 0) {
+      diffText = `${diff}h`;
+      diffClass = 'negative';
+    } else {
+      diffText = 'Same';
+      diffClass = '';
+    }
+    
+    let statusText = isWorking ? 'Working Hours' : (isNight ? 'Night' : 'Off Work');
+    let statusClass = isWorking ? 'working' : (isNight ? 'night' : 'off');
+    
+    return `
+      <tr>
+        <td>${city.flag} ${city.region}</td>
+        <td><strong>${city.name}</strong></td>
+        <td class="time-cell">${timeStr}</td>
+        <td class="diff-cell ${diffClass}">${diffText}</td>
+        <td class="status-cell">
+          <span class="status-dot ${statusClass}"></span>
+          ${statusText}
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function getOffset(tz) {
+  const now = new Date();
+  const utcDate = new Date(now.toLocaleString('en-US', { timeZone: 'UTC' }));
+  const tzDate = new Date(now.toLocaleString('en-US', { timeZone: tz }));
+  const diff = (tzDate - utcDate) / 3600000;
+  const sign = diff >= 0 ? '+' : '-';
+  const absDiff = Math.abs(diff);
+  const h = Math.floor(absDiff);
+  const m = Math.round((absDiff - h) * 60);
+  return `UTC${sign}${h}${m ? ':'+String(m).padStart(2,'0') : ''}`;
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+  initMap();
+  updateTimes();
+  setInterval(updateTimes, 1000);
+});
+</script>
+
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js')}</script>
+</body>
+</html>

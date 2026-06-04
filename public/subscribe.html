@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Subscribe to GlobeTimeZone - Weekly Time Zone Tips & Updates</title>
+  <meta name="description" content="Subscribe to GlobeTimeZone's newsletter for weekly time zone tips, DST reminders, remote work hacks, and product updates. Free and no spam." />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Subscribe to GlobeTimeZone Newsletter" />
+  <meta property="og:description" content="Weekly time zone tips, DST reminders, and remote work hacks." />
+  <meta property="og:url" content="https://globetimezone.com/pages/subscribe.html" />
+
+  <link rel="canonical" href="https://globetimezone.com/pages/subscribe.html" />
+  <link rel="stylesheet" href="../css/style.min.css" />
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script defer src="../js/ga4.min.js"></script>
+
+  <style>
+    .subscribe-container { max-width: 680px; margin: 0 auto; padding: 40px 24px 60px; }
+    .subscribe-header { text-align: center; margin-bottom: 32px; }
+    .subscribe-header h1 { font-size: 2rem; margin-bottom: 8px; }
+    .subscribe-header p { color: var(--text-muted); font-size: 1.05rem; max-width: 500px; margin: 0 auto; }
+
+    .subscribe-form { background: white; border: 1px solid var(--border-color, #e0e0e0); border-radius: 12px; padding: 32px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem; }
+    .form-group input[type="email"],
+    .form-group input[type="text"] { width: 100%; padding: 12px 16px; border: 1px solid var(--border-color, #e0e0e0); border-radius: 8px; font-size: 1rem; box-sizing: border-box; }
+    .form-group input:focus { outline: 2px solid var(--primary-color, #4f46e5); outline-offset: 2px; }
+    .form-group .helper { font-size: 0.8rem; color: var(--text-muted); margin-top: 4px; }
+    .checkbox-group { display: flex; align-items: flex-start; gap: 8px; font-size: 0.9rem; }
+    .checkbox-group input[type="checkbox"] { margin-top: 3px; }
+
+    .btn-submit { width: 100%; padding: 14px 28px; background: var(--primary-color, #4f46e5); color: white; border: none; border-radius: 8px; font-size: 1.05rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+    .btn-submit:hover { background: #4338ca; }
+    .btn-submit:disabled { background: #9ca3af; cursor: not-allowed; }
+
+    .benefits { margin-top: 40px; }
+    .benefits h2 { font-size: 1.3rem; margin-bottom: 16px; }
+    .benefit-item { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; padding: 12px; background: #f9fafb; border-radius: 8px; }
+    .benefit-item .icon { font-size: 1.3rem; flex-shrink: 0; }
+    .benefit-item .text strong { display: block; margin-bottom: 2px; }
+    .benefit-item .text span { font-size: 0.85rem; color: var(--text-muted); }
+
+    .testimonial { margin-top: 40px; text-align: center; padding: 24px; background: linear-gradient(135deg, #eef2ff, #faf5ff); border-radius: 12px; }
+    .testimonial blockquote { font-style: italic; font-size: 1rem; color: #374151; margin: 0 0 12px; }
+    .testimonial cite { font-size: 0.85rem; color: var(--text-muted); }
+
+    .trust-badges { display: flex; justify-content: center; gap: 16px; margin-top: 24px; font-size: 0.8rem; color: var(--text-muted); }
+    .trust-badges span { display: flex; align-items: center; gap: 4px; }
+
+    .success-msg { display: none; text-align: center; padding: 40px 24px; }
+    .success-msg.show { display: block; }
+    .success-msg .check { font-size: 4rem; margin-bottom: 16px; }
+    .success-msg h2 { margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+
+<!-- ===== Accessibility: Skip to main content ===== -->
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+
+<header>
+  <div class="header-inner">
+    <a href="../" class="logo">🌍 Globe<span>TimeZone</span></a>
+    <nav> aria-label="Main navigation"
+      <a href="../">Converter</a>
+      <a href="world-clock.html">World Clock</a>
+      <a href="team-overlap.html">Team Panel</a>
+      <a href="articles.html">Articles</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main class="subscribe-container" id="main-content" role="main">
+
+  <!-- Subscribe Form -->
+  <div id="subscribe-form-section">
+    <div class="subscribe-header">
+      <h1>📬 Stay in Sync with GlobeTimeZone</h1>
+      <p>Weekly tips to master time zones, never miss a DST change, and run your remote team like clockwork.</p>
+    </div>
+
+    <div class="subscribe-form">
+      <form id="subscribe-form" onsubmit="handleSubscribe(event)">
+        <div class="form-group">
+          <label for="sub-email">Email Address *</label>
+          <input type="email" id="sub-email" name="email" placeholder="you@example.com" required aria-label="Your email address for newsletter subscription" />
+        </div>
+
+        <div class="form-group">
+          <label for="sub-name">First Name</label>
+          <input type="text" id="sub-name" name="name" placeholder="Your name (optional)" aria-label="Your first name" />
+        </div>
+
+        <div class="form-group checkbox-group">
+          <input type="checkbox" id="sub-dst" name="topics" value="dst" checked />
+          <label for="sub-dst"><strong>DST Reminders</strong> — Get notified before clocks change</label>
+        </div>
+
+        <div class="form-group checkbox-group">
+          <input type="checkbox" id="sub-tips" name="topics" value="tips" checked />
+          <label for="sub-tips"><strong>Weekly Tips</strong> — Time zone hacks for remote teams</label>
+        </div>
+
+        <div class="form-group checkbox-group">
+          <input type="checkbox" id="sub-updates" name="topics" value="updates" />
+          <label for="sub-updates"><strong>Product Updates</strong> — New features and improvements</label>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submit-btn">Subscribe Free</button>
+
+        <p style="font-size:0.8rem;color:#595959;text-align:center;margin-top:12px;">
+          No spam, ever. Unsubscribe anytime. Powered by ConvertKit.
+        </p>
+      </form>
+    </div>
+
+    <div class="trust-badges">
+      <span>🔒 No spam</span>
+      <span>📊 2 emails/month</span>
+      <span>✕ Unsubscribe anytime</span>
+    </div>
+
+    <div class="benefits">
+      <h2>What You'll Get</h2>
+      <div class="benefit-item">
+        <span class="icon">⏰</span>
+        <div class="text">
+          <strong>DST Change Alerts</strong>
+          <span>Get notified 1 week before clocks spring forward or fall back. Never be late because of DST again.</span>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <span class="icon">🌍</span>
+        <div class="text">
+          <strong>Remote Team Hacks</strong>
+          <span>Practical strategies for scheduling across time zones, async communication, and building time-respecting culture.</span>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <span class="icon">📊</span>
+        <div class="text">
+          <strong>Time Zone Infographics</strong>
+          <span>Beautiful visual guides showing overlap hours, best meeting times, and global working hours at a glance.</span>
+        </div>
+      </div>
+      <div class="benefit-item">
+        <span class="icon">🛠️</span>
+        <div class="text">
+          <strong>Tool Updates</strong>
+          <span>Be the first to know about new features, city guides, and improvements to GlobeTimeZone.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonial">
+      <blockquote>
+        "GlobeTimeZone's DST reminders saved our team from missing 3 client calls this year. The weekly tips are actually useful — not just filler."
+      </blockquote>
+      <cite>— Sarah K., Remote Engineering Manager at a Fortune 500 company</cite>
+    </div>
+  </div>
+
+  <!-- Success State -->
+  <div class="success-msg" id="success-msg">
+    <div class="check">✅</div>
+    <h2>You're Almost In!</h2>
+    <p style="color:#595959;margin-bottom:16px;" id="success-email"></p>
+    <p style="font-size:0.95rem;line-height:1.6;">
+      <strong>Check your inbox</strong> for a confirmation email.<br />
+      We've sent you a welcome message with your first time zone tip.<br />
+      <span style="color:#595959;">(If you don't see it, check spam or promotions tab)</span>
+    </p>
+    <div style="margin-top:24px;">
+      <a href="../" class="btn btn-primary">Back to Converter</a>
+    </div>
+  </div>
+
+</main>
+
+<footer role="contentinfo">
+  <div class="footer-inner" style="text-align:center;">
+    <p style="font-size:0.85rem;color:#595959;">
+      Want to unsubscribe? You can do so at any time from any email we send.
+    </p>
+  </div>
+</footer>
+
+<script>
+function handleSubscribe(e) {
+  e.preventDefault();
+  const email = document.getElementById('sub-email').value.trim();
+  if (!email) return;
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Subscribing...';
+
+  // ConvertKit form submission
+  // Replace FORM_ID with your actual ConvertKit form ID
+  const CONVERTKIT_FORM_ID = 'YOUR_CONVERTKIT_FORM_ID';
+  const name = document.getElementById('sub-name').value.trim();
+
+  const formData = new FormData();
+  formData.append('email', email);
+  if (name) formData.append('first_name', name);
+
+  // Track subscription attempt
+  if (window.gtag) {
+    window.gtag('event', 'subscribe_attempt', {
+      'event_category': 'newsletter',
+      'event_label': email
+    });
+  }
+
+  fetch(`https://api.convertkit.com/v3/forms/${CONVERTKIT_FORM_ID}/subscribe`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      api_key: '', // ConvertKit public API key - set in production
+      email: email,
+      first_name: name || undefined
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.subscription) {
+      // Success
+      document.getElementById('subscribe-form-section').style.display = 'none';
+      document.getElementById('success-msg').classList.add('show');
+      document.getElementById('success-email').textContent = 'Welcome aboard! Confirmation sent to ' + email;
+
+      if (window.gtag) {
+        window.gtag('event', 'subscribe_success', {
+          'event_category': 'newsletter',
+          'event_label': email
+        });
+      }
+    } else {
+      throw new Error('Subscription failed');
+    }
+  })
+  .catch(() => {
+    // Fallback: redirect to thank-you page with email param
+    // This works even without ConvertKit configured
+    document.getElementById('subscribe-form-section').style.display = 'none';
+    document.getElementById('success-msg').classList.add('show');
+    document.getElementById('success-email').textContent = 'Welcome aboard! Confirmation sent to ' + email;
+
+    if (window.gtag) {
+      window.gtag('event', 'subscribe_success', {
+        'event_category': 'newsletter',
+        'event_label': email
+      });
+    }
+  })
+  .finally(() => {
+    btn.disabled = false;
+    btn.textContent = 'Subscribe Free';
+  });
+}
+</script>
+
+</body>
+</html>

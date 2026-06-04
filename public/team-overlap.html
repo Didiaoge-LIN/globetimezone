@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Team Time Overlap Calculator - Find Shared Working Hours | GlobeTimeZone</title>
+  <meta name="description" content="Find overlapping working hours for your remote team across multiple time zones. Visual team panel to see when everyone is available. Perfect for distributed teams." />
+  <meta name="keywords" content="team overlap, remote team working hours, timezone overlap, distributed team scheduling, shared working hours, team timezone tool" />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Team Time Overlap Calculator - Find Shared Working Hours" />
+  <meta property="og:description" content="Find overlapping working hours for your remote team across multiple time zones. Visual team panel." />
+  <meta property="og:url" content="https://globetimezone.com/pages/team-overlap.html" />
+
+  <link rel="canonical" href="https://globetimezone.com/pages/team-overlap.html" />
+  <link rel="stylesheet" href="../css/style.min.css" />
+  <link rel="manifest" href="../manifest.json" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Team Time Overlap Calculator",
+    "url": "https://globetimezone.com/pages/team-overlap.html",
+    "description": "Find overlapping working hours for remote teams across multiple time zones.",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "All"
+  }
+  </script>
+
+  <style>
+    .team-panel { max-width: 1100px; margin: 0 auto; }
+    .team-header { text-align: center; margin-bottom: 32px; }
+    .team-header h1 { font-size: 2rem; margin-bottom: 8px; }
+    .team-header p { color: var(--text-muted); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+
+    .member-row { display: flex; gap: 12px; align-items: flex-end; margin-bottom: 12px; flex-wrap: wrap; }
+    .member-row input, .member-row select { padding: 10px 14px; border: 1px solid var(--border-color, #e0e0e0); border-radius: 8px; font-size: 0.95rem; }
+    .member-row input { flex: 1; min-width: 140px; }
+    .member-row select { min-width: 160px; }
+    .member-row .btn-remove { padding: 10px 16px; background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5; border-radius: 8px; cursor: pointer; font-size: 0.9rem; white-space: nowrap; }
+    .member-row .btn-remove:hover { background: #fecaca; }
+
+    .time-range-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 0.9rem; color: var(--text-muted); }
+    .time-range-row label { white-space: nowrap; }
+    .time-range-row select { padding: 6px 10px; border: 1px solid var(--border-color, #e0e0e0); border-radius: 6px; }
+
+    .add-member { margin-bottom: 24px; }
+    .btn-add { padding: 10px 20px; background: var(--primary-color, #4f46e5); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 0.95rem; }
+    .btn-add:hover { opacity: 0.9; }
+    .btn-calc { padding: 12px 32px; background: #10b981; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; font-weight: 600; }
+    .btn-calc:hover { background: #059669; }
+
+    .result-section { margin-top: 32px; display: none; }
+    .result-section.show { display: block; }
+
+    .overlap-card { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+    .overlap-card.no-overlap { background: #fef2f2; border-color: #fecaca; }
+    .overlap-card h3 { margin: 0 0 8px; font-size: 1.2rem; }
+    .overlap-card .time-display { font-size: 2rem; font-weight: 700; color: #059669; margin: 8px 0; }
+    .overlap-card.no-overlap .time-display { color: #dc2626; }
+    .overlap-card .subtitle { color: var(--text-muted); font-size: 0.9rem; }
+
+    .timeline { position: relative; height: 80px; background: #f9fafb; border-radius: 8px; margin: 20px 0; overflow: hidden; }
+    .timeline-bar { position: absolute; height: 32px; border-radius: 4px; opacity:0.92; top: 50%; transform: translateY(-50%); }
+    .timeline-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); padding: 0 4px; }
+    .timeline-label { position: absolute; top: 0; font-size: 0.7rem; white-space: nowrap; background: white; padding: 1px 4px; border-radius: 3px; }
+
+    .member-time-card { background: white; border: 1px solid var(--border-color, #e0e0e0); border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .member-time-card .name { font-weight: 600; }
+    .member-time-card .local-time { font-size: 1.1rem; color: var(--primary-color, #4f46e5); }
+    .member-time-card .offset { font-size: 0.8rem; color: var(--text-muted); }
+
+    .preset-teams { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    .preset-btn { padding: 8px 14px; background: #f3f4f6; border: 1px solid #e5e7eb; border-radius: 20px; cursor: pointer; font-size: 0.85rem; transition: all 0.2s; }
+    .preset-btn:hover { background: #e5e7eb; border-color: #d1d5db; }
+
+    @media (max-width: 600px) {
+      .member-row { flex-direction: column; }
+      .member-row input, .member-row select { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== Accessibility: Skip to main content ===== -->
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+
+<header>
+  <div class="header-inner">
+    <a href="../" class="logo">🌍 Globe<span>TimeZone</span></a>
+    <nav> aria-label="Main navigation"
+      <a href="../">Converter</a>
+      <a href="world-clock.html">World Clock</a>
+      <a href="meeting-scheduler.html">Meeting Scheduler</a>
+      <a href="team-overlap.html" class="active">Team Panel</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<main class="team-panel" style="padding: 40px 24px 60px;" id="main-content" role="main">
+  <div class="team-header">
+    <h1>👥 Team Time Overlap Calculator</h1>
+    <p>Add your team members, set their working hours, and instantly see when everyone is available. No more "what time is it for you?"</p>
+  </div>
+
+  <div class="preset-teams">
+    <span style="font-size:0.85rem;color:#595959;padding:8px 0;">Quick setups:</span>
+    <button class="preset-btn" onclick="loadPreset('us-eu')">🇺🇸 US ↔ 🇪🇺 EU</button>
+    <button class="preset-btn" onclick="loadPreset('us-asia')">🇺🇸 US ↔ 🌏 Asia</button>
+    <button class="preset-btn" onclick="loadPreset('global')">🌍 Global Team</button>
+    <button class="preset-btn" onclick="loadPreset('apac')">🌏 APAC</button>
+  </div>
+
+  <div id="members-container">
+    <div class="member-row" data-idx="0">
+      <input type="text" placeholder="Team member name (e.g., Alice)" value="You" class="member-name" />
+      <select class="member-tz">
+        <option value="Asia/Shanghai">Asia/Shanghai (UTC+8)</option>
+        <option value="America/New_York">America/New_York (EST/EDT)</option>
+        <option value="America/Chicago">America/Chicago (CST/CDT)</option>
+        <option value="America/Denver">America/Denver (MST/MDT)</option>
+        <option value="America/Los_Angeles">America/Los_Angeles (PST/PDT)</option>
+        <option value="Europe/London" selected>Europe/London (GMT/BST)</option>
+        <option value="Europe/Paris">Europe/Paris (CET/CEST)</option>
+        <option value="Europe/Berlin">Europe/Berlin (CET/CEST)</option>
+        <option value="Europe/Moscow">Europe/Moscow (MSK)</option>
+        <option value="Asia/Tokyo">Asia/Tokyo (JST)</option>
+        <option value="Asia/Seoul">Asia/Seoul (KST)</option>
+        <option value="Asia/Singapore">Asia/Singapore (SGT)</option>
+        <option value="Asia/Kolkata">Asia/Kolkata (IST)</option>
+        <option value="Asia/Dubai">Asia/Dubai (GST)</option>
+        <option value="Australia/Sydney">Australia/Sydney (AEST/AEDT)</option>
+        <option value="Pacific/Auckland">Pacific/Auckland (NZST/NZDT)</option>
+        <option value="America/Sao_Paulo">America/Sao_Paulo (BRT)</option>
+        <option value="Africa/Cairo">Africa/Cairo (EET)</option>
+      </select>
+      <div class="time-range-row">
+        <label>Work:</label>
+        <select class="work-start">
+          <option value="6">06:00</option><option value="7">07:00</option><option value="8">08:00</option>
+          <option value="9" selected>09:00</option><option value="10">10:00</option><option value="11">11:00</option>
+          <option value="12">12:00</option>
+        </select>
+        <span>–</span>
+        <select class="work-end">
+          <option value="14">14:00</option><option value="15">15:00</option><option value="16">16:00</option>
+          <option value="17" selected>17:00</option><option value="18">18:00</option><option value="19">19:00</option>
+          <option value="20">20:00</option><option value="21">21:00</option>
+          <option value="22">22:00</option>
+        </select>
+      </div>
+    </div>
+    <div class="member-row" data-idx="1">
+      <input type="text" placeholder="Team member name" value="Alice (NY)" class="member-name" />
+      <select class="member-tz">
+        <option value="America/New_York" selected>America/New_York (EST/EDT)</option>
+        <option value="America/Chicago">America/Chicago (CST/CDT)</option>
+        <option value="America/Denver">America/Denver (MST/MDT)</option>
+        <option value="America/Los_Angeles">America/Los_Angeles (PST/PDT)</option>
+        <option value="Europe/London">Europe/London (GMT/BST)</option>
+        <option value="Europe/Paris">Europe/Paris (CET/CEST)</option>
+        <option value="Europe/Berlin">Europe/Berlin (CET/CEST)</option>
+        <option value="Asia/Shanghai">Asia/Shanghai (UTC+8)</option>
+        <option value="Asia/Tokyo">Asia/Tokyo (JST)</option>
+        <option value="Asia/Seoul">Asia/Seoul (KST)</option>
+        <option value="Asia/Singapore">Asia/Singapore (SGT)</option>
+        <option value="Asia/Kolkata">Asia/Kolkata (IST)</option>
+        <option value="Asia/Dubai">Asia/Dubai (GST)</option>
+        <option value="Australia/Sydney">Australia/Sydney (AEST/AEDT)</option>
+        <option value="Europe/Moscow">Europe/Moscow (MSK)</option>
+        <option value="America/Sao_Paulo">America/Sao_Paulo (BRT)</option>
+      </select>
+      <div class="time-range-row">
+        <label>Work:</label>
+        <select class="work-start">
+          <option value="6">06:00</option><option value="7">07:00</option><option value="8">08:00</option>
+          <option value="9" selected>09:00</option><option value="10">10:00</option>
+          <option value="11">11:00</option><option value="12">12:00</option>
+        </select>
+        <span>–</span>
+        <select class="work-end">
+          <option value="14">14:00</option><option value="15">15:00</option><option value="16">16:00</option>
+          <option value="17" selected>17:00</option><option value="18">18:00</option><option value="19">19:00</option><option value="20">20:00</option>
+          <option value="21">21:00</option>
+        </select>
+      </div>
+      <button class="btn-remove" onclick="removeMember(this)">✕ Remove</button>
+    </div>
+  </div>
+
+  <div class="add-member">
+    <button class="btn-add" onclick="addMember()">+ Add Team Member</button>
+  </div>
+
+  <div style="text-align:center;margin:24px 0;">
+    <button class="btn-calc" onclick="calculateOverlap()">🔍 Find Overlapping Hours</button>
+  </div>
+
+  <div class="result-section" id="result-section">
+    <div class="overlap-card" id="overlap-card">
+      <h3 id="overlap-title">🟢 Overlapping Working Hours Found</h3>
+      <p class="subtitle" id="overlap-subtitle"></p>
+      <div class="time-display" id="overlap-time"></div>
+      <p style="font-size:0.85rem;color:#595959;" id="overlap-detail"></p>
+    </div>
+
+    <h2 style="margin-top:32px;">📊 24-Hour Overlap Visualization</h2>
+    <div class="timeline" id="timeline"></div>
+    <div class="timeline-labels" id="timeline-labels"></div>
+
+    <h2 style="margin-top:32px;">🕐 Team Member Local Times</h2>
+    <div id="member-times"></div>
+
+    <div style="margin-top: 24px; text-align: center;">
+      <button class="btn" onclick="exportICS()" style="padding:10px 20px;margin-right:8px;">📅 Export .ics</button>
+      <button class="btn" onclick="copyShareLink()" style="padding:10px 20px;">🔗 Copy Share Link</button>
+    </div>
+  </div>
+</main>
+
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h3>Tools</h3>
+        <a href="../">Time Zone Converter</a>
+        <a href="world-clock.html">World Clock</a>
+        <a href="meeting-scheduler.html">Meeting Scheduler</a>
+        <a href="team-overlap.html">Team Panel</a>
+        <a href="countdown.html">Countdown Timer</a>
+        <a href="holidays.html">World Holidays</a>
+        <a href="world-map.html">World Map</a>
+      </div>
+      <div class="footer-col">
+        <h3>Articles</h3>
+        <a href="distributed-team-time-culture.html">Time Respect Culture</a>
+        <a href="remote-work-timezone.html">Remote Work Guide</a>
+        <a href="why-daylight-saving-time.html">Why DST Exists</a>
+        <a href="timezone-guide.html">Timezone Guide</a>
+      </div>
+      <div class="footer-col">
+        <h3>Company</h3>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="api.html">API</a>
+        <a href="pro.html">Pro</a>
+        <a href="privacy.html">Privacy</a>
+      </div>
+    </div>
+    <p style="text-align:center;margin-top:24px;font-size:0.8rem;color:#595959;">
+      Data powered by IANA Time Zone Database · Times auto-refresh every second
+    </p>
+  </div>
+</footer>
+
+<script>
+const MEMBER_COLORS = ['#4f46e5','#059669','#dc2626','#d97706','#7c3aed','#0891b2','#be185d','#65a30d','#c026d3','#2563eb'];
+
+function addMember() {
+  const container = document.getElementById('members-container');
+  const idx = container.children.length;
+  const row = document.createElement('div');
+  row.className = 'member-row';
+  row.dataset.idx = idx;
+  row.innerHTML = `
+    <input type="text" placeholder="Team member name" class="member-name" />
+    <select class="member-tz">
+      <option value="Asia/Shanghai">Asia/Shanghai (UTC+8)</option>
+      <option value="America/New_York">America/New_York (EST/EDT)</option>
+      <option value="America/Chicago">America/Chicago (CST/CDT)</option>
+      <option value="America/Denver">America/Denver (MST/MDT)</option>
+      <option value="America/Los_Angeles">America/Los_Angeles (PST/PDT)</option>
+      <option value="Europe/London">Europe/London (GMT/BST)</option>
+      <option value="Europe/Paris">Europe/Paris (CET/CEST)</option>
+      <option value="Europe/Berlin">Europe/Berlin (CET/CEST)</option>
+      <option value="Europe/Moscow">Europe/Moscow (MSK)</option>
+      <option value="Asia/Tokyo">Asia/Tokyo (JST)</option>
+      <option value="Asia/Seoul">Asia/Seoul (KST)</option>
+      <option value="Asia/Singapore">Asia/Singapore (SGT)</option>
+      <option value="Asia/Kolkata">Asia/Kolkata (IST)</option>
+      <option value="Asia/Dubai">Asia/Dubai (GST)</option>
+      <option value="Australia/Sydney">Australia/Sydney (AEST/AEDT)</option>
+      <option value="Pacific/Auckland">Pacific/Auckland (NZST/NZDT)</option>
+      <option value="America/Sao_Paulo">America/Sao_Paulo (BRT)</option>
+      <option value="Africa/Cairo">Africa/Cairo (EET)</option>
+    </select>
+    <div class="time-range-row">
+      <label>Work:</label>
+      <select class="work-start">
+        <option value="6">06:00</option><option value="7">07:00</option><option value="8">08:00</option>
+        <option value="9" selected>09:00</option><option value="10">10:00</option><option value="11">11:00</option><option value="12">12:00</option>
+      </select>
+      <span>–</span>
+      <select class="work-end">
+        <option value="14">14:00</option><option value="15">15:00</option><option value="16">16:00</option>
+        <option value="17" selected>17:00</option><option value="18">18:00</option><option value="19">19:00</option><option value="20">20:00</option>
+        <option value="21">21:00</option>
+      </select>
+    </div>
+    <button class="btn-remove" onclick="removeMember(this)">✕ Remove</button>
+  `;
+  container.appendChild(row);
+}
+
+function removeMember(btn) {
+  const rows = document.querySelectorAll('.member-row');
+  if (rows.length <= 1) return;
+  btn.closest('.member-row').remove();
+}
+
+const PRESETS = {
+  'us-eu': [
+    { name: 'Alice (SF)', tz: 'America/Los_Angeles', start: 9, end: 17 },
+    { name: 'Bob (NY)', tz: 'America/New_York', start: 9, end: 17 },
+    { name: 'Charlie (London)', tz: 'Europe/London', start: 9, end: 17 },
+    { name: 'Diana (Berlin)', tz: 'Europe/Berlin', start: 9, end: 17 }
+  ],
+  'us-asia': [
+    { name: 'Alice (SF)', tz: 'America/Los_Angeles', start: 9, end: 17 },
+    { name: 'Bob (NY)', tz: 'America/New_York', start: 9, end: 17 },
+    { name: 'Wei (Beijing)', tz: 'Asia/Shanghai', start: 9, end: 17 },
+    { name: 'Yuki (Tokyo)', tz: 'Asia/Tokyo', start: 9, end: 17 }
+  ],
+  'global': [
+    { name: 'Alice (SF)', tz: 'America/Los_Angeles', start: 9, end: 17 },
+    { name: 'Bob (London)', tz: 'Europe/London', start: 9, end: 17 },
+    { name: 'Wei (Beijing)', tz: 'Asia/Shanghai', start: 9, end: 17 },
+    { name: 'Priya (Mumbai)', tz: 'Asia/Kolkata', start: 9, end: 17 }
+  ],
+  'apac': [
+    { name: 'Wei (Beijing)', tz: 'Asia/Shanghai', start: 9, end: 17 },
+    { name: 'Yuki (Tokyo)', tz: 'Asia/Tokyo', start: 9, end: 17 },
+    { name: 'Min (Seoul)', tz: 'Asia/Seoul', start: 9, end: 17 },
+    { name: 'Sarah (Sydney)', tz: 'Australia/Sydney', start: 9, end: 17 }
+  ]
+};
+
+function loadPreset(key) {
+  const preset = PRESETS[key];
+  if (!preset) return;
+  const container = document.getElementById('members-container');
+  container.innerHTML = '';
+  preset.forEach((m, i) => {
+    const row = document.createElement('div');
+    row.className = 'member-row';
+    row.dataset.idx = i;
+    const tzOptions = document.querySelector('.member-tz') ? document.querySelector('.member-tz').innerHTML : '';
+    row.innerHTML = `
+      <input type="text" placeholder="Team member name" value="${m.name}" class="member-name" />
+      <select class="member-tz">${tzOptions}</select>
+      <div class="time-range-row">
+        <label>Work:</label>
+        <select class="work-start">
+          ${[6,7,8,9,10,11,12].map(h => `<option value="${h}" ${h===m.start?'selected':''}>${String(h).padStart(2,'0')}:00</option>`).join('')}
+        </select>
+        <span>–</span>
+        <select class="work-end">
+          ${[14,15,16,17,18,19,20,21].map(h => `<option value="${h}" ${h===m.end?'selected':''}>${String(h).padStart(2,'0')}:00</option>`).join('')}
+        </select>
+      </div>
+      ${i > 0 ? '<button class="btn-remove" onclick="removeMember(this)">✕ Remove</button>' : ''}
+    `;
+    row.querySelector('.member-tz').value = m.tz;
+    container.appendChild(row);
+  });
+}
+
+function calculateOverlap() {
+  const rows = document.querySelectorAll('.member-row');
+  const members = [];
+  rows.forEach(row => {
+    const name = row.querySelector('.member-name').value || 'Unnamed';
+    const tz = row.querySelector('.member-tz').value;
+    const start = parseInt(row.querySelector('.work-start').value);
+    const end = parseInt(row.querySelector('.work-end').value);
+    members.push({ name, tz, start, end });
+  });
+
+  if (members.length < 2) {
+    alert('Please add at least 2 team members.');
+    return;
+  }
+
+  // Convert each member's working hours to UTC range
+  const now = new Date();
+  const utcRanges = members.map(m => {
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: m.tz, hour: 'numeric', hour12: false,
+      timeZoneName: 'shortOffset'
+    });
+    const parts = formatter.formatToParts(now);
+    const offsetPart = parts.find(p => p.type === 'timeZoneName');
+    let offsetHours = 0;
+    if (offsetPart) {
+      const match = offsetPart.value.match(/GMT([+-]\d+)/);
+      if (match) offsetHours = parseInt(match[1]);
+    }
+
+    const startUTC = (m.start - offsetHours + 24) % 24;
+    const endUTC = (m.end - offsetHours + 24) % 24;
+    return { ...m, offsetHours, startUTC, endUTC };
+  });
+
+  // Find overlap in UTC
+  let overlapStart = 0;
+  let overlapEnd = 24;
+  utcRanges.forEach(m => {
+    overlapStart = Math.max(overlapStart, m.startUTC);
+    overlapEnd = Math.min(overlapEnd, m.endUTC);
+  });
+
+  const resultSection = document.getElementById('result-section');
+  resultSection.classList.add('show');
+
+  const overlapCard = document.getElementById('overlap-card');
+  const overlapTitle = document.getElementById('overlap-title');
+  const overlapTime = document.getElementById('overlap-time');
+  const overlapSubtitle = document.getElementById('overlap-subtitle');
+  const overlapDetail = document.getElementById('overlap-detail');
+
+  if (overlapStart < overlapEnd) {
+    const startH = Math.floor(overlapStart);
+    const startM = Math.round((overlapStart - startH) * 60);
+    const endH = Math.floor(overlapEnd);
+    const endM = Math.round((overlapEnd - endH) * 60);
+    const duration = (overlapEnd - overlapStart);
+    const startStr = `${String(startH).padStart(2,'0')}:${String(startM).padStart(2,'0')}`;
+    const endStr = `${String(endH).padStart(2,'0')}:${String(endM).padStart(2,'0')}`;
+
+    overlapCard.className = 'overlap-card';
+    overlapTitle.textContent = '🟢 Overlapping Working Hours Found';
+    overlapTime.textContent = `${startStr} – ${endStr} UTC`;
+    overlapSubtitle.textContent = `${duration.toFixed(1)} hours of shared working time`;
+    overlapDetail.textContent = 'This is when your entire team can meet. Use the Meeting Scheduler to pick a specific time.';
+  } else {
+    overlapCard.className = 'overlap-card no-overlap';
+    overlapTitle.textContent = '🔴 No Overlapping Hours Found';
+    overlapTime.textContent = '0 hours';
+    overlapSubtitle.textContent = 'Working hours do not overlap for all team members';
+    overlapDetail.textContent = 'Try adjusting work hours or check pair-wise overlaps. Some team members may need to flex their schedules.';
+  }
+
+  // Render timeline
+  const timeline = document.getElementById('timeline');
+  timeline.innerHTML = '';
+  utcRanges.forEach((m, i) => {
+    const left = (m.startUTC / 24) * 100;
+    const width = ((m.endUTC - m.startUTC) / 24) * 100;
+    const bar = document.createElement('div');
+    bar.className = 'timeline-bar';
+    bar.style.cssText = `left:${left}%;width:${width}%;background:${MEMBER_COLORS[i % MEMBER_COLORS.length]};`;
+    bar.title = `${m.name}: ${m.start}:00–${m.end}:00 local (${m.startUTC.toFixed(1)}–${m.endUTC.toFixed(1)} UTC)`;
+    timeline.appendChild(bar);
+  });
+
+  // Overlap highlight
+  if (overlapStart < overlapEnd) {
+    const ovl = document.createElement('div');
+    ovl.className = 'timeline-bar';
+    ovl.style.cssText = `left:${(overlapStart/24)*100}%;width:${((overlapEnd-overlapStart)/24)*100}%;background:rgba(16,185,129,0.4);border:2px dashed #059669;z-index:10;`;
+    timeline.appendChild(ovl);
+  }
+
+  // UTC labels
+  const labels = document.getElementById('timeline-labels');
+  labels.innerHTML = '';
+  for (let h = 0; h <= 24; h += 3) {
+    const span = document.createElement('span');
+    span.textContent = `${h}:00`;
+    labels.appendChild(span);
+  }
+
+  // Member local times
+  const memberTimesDiv = document.getElementById('member-times');
+  memberTimesDiv.innerHTML = utcRanges.map(m => {
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: m.tz, hour: '2-digit', minute: '2-digit', hour12: true,
+      timeZoneName: 'short'
+    });
+    const localTime = formatter.format(now);
+    return `<div class="member-time-card">
+      <span class="name" style="color:${MEMBER_COLORS[utcRanges.indexOf(m) % MEMBER_COLORS.length]}">● ${m.name}</span>
+      <span class="local-time">${localTime}</span>
+      <span class="offset">Work: ${m.start}:00–${m.end}:00</span>
+    </div>`;
+  }).join('');
+
+  // Scroll to results
+  resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function exportICS() {
+  const rows = document.querySelectorAll('.member-row');
+  const members = [];
+  rows.forEach(row => {
+    members.push({
+      name: row.querySelector('.member-name').value || 'Unnamed',
+      tz: row.querySelector('.member-tz').value,
+      start: parseInt(row.querySelector('.work-start').value),
+      end: parseInt(row.querySelector('.work-end').value)
+    });
+  });
+
+  // Generate minimal ICS content
+  const now = new Date();
+  const dtstamp = now.toISOString().replace(/[-:]/g,'').split('.')[0] + 'Z';
+  let ics = 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//GlobeTimeZone//Team Overlap//EN\r\n';
+  members.forEach(m => {
+    const tomorrow = new Date(now);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(m.start, 0, 0, 0);
+    const endTime = new Date(tomorrow);
+    endTime.setHours(m.end, 0, 0, 0);
+    const formatDT = d => d.toISOString().replace(/[-:]/g,'').split('.')[0] + 'Z';
+    ics += `BEGIN:VEVENT\r\nSUMMARY:Team Overlap with ${m.name}\r\nDTSTART:${formatDT(tomorrow)}\r\nDTEND:${formatDT(endTime)}\r\nDTSTAMP:${dtstamp}\r\nDESCRIPTION:Working hours for ${m.name} (${m.tz})\r\nEND:VEVENT\r\n`;
+  });
+  ics += 'END:VCALENDAR\r\n';
+
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'team-overlap.ics';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function copyShareLink() {
+  const rows = document.querySelectorAll('.member-row');
+  const params = [];
+  rows.forEach(row => {
+    const name = encodeURIComponent(row.querySelector('.member-name').value || '');
+    const tz = encodeURIComponent(row.querySelector('.member-tz').value);
+    const start = row.querySelector('.work-start').value;
+    const end = row.querySelector('.work-end').value;
+    params.push(`m=${name}|${tz}|${start}|${end}`);
+  });
+  const url = `${location.origin}${location.pathname}?${params.join('&')}`;
+  navigator.clipboard.writeText(url).then(() => {
+    alert('Share link copied to clipboard!');
+  });
+}
+
+// Load params from URL on page load
+(function() {
+  const searchParams = new URLSearchParams(location.search);
+  const members = searchParams.getAll('m');
+  if (members.length > 0) {
+    const container = document.getElementById('members-container');
+    container.innerHTML = '';
+    members.forEach((m, i) => {
+      const parts = m.split('|');
+      if (parts.length >= 4) {
+        const [name, tz, start, end] = parts;
+        const row = addMemberDirect(container, i, decodeURIComponent(name), decodeURIComponent(tz), start, end);
+      }
+    });
+    setTimeout(calculateOverlap, 500);
+  }
+})();
+
+function addMemberDirect(container, idx, name, tz, start, end) {
+  const row = document.createElement('div');
+  row.className = 'member-row';
+  row.dataset.idx = idx;
+  const tzOptions = document.querySelector('.member-tz') ? document.querySelector('.member-tz').innerHTML : '';
+  row.innerHTML = `
+    <input type="text" placeholder="Team member name" value="${name}" class="member-name" />
+    <select class="member-tz">${tzOptions}</select>
+    <div class="time-range-row">
+      <label>Work:</label>
+      <select class="work-start">
+        ${[6,7,8,9,10,11,12].map(h => `<option value="${h}" ${h==start?'selected':''}>${String(h).padStart(2,'0')}:00</option>`).join('')}
+      </select>
+      <span>–</span>
+      <select class="work-end">
+        ${[14,15,16,17,18,19,20,21].map(h => `<option value="${h}" ${h==end?'selected':''}>${String(h).padStart(2,'0')}:00</option>`).join('')}
+      </select>
+    </div>
+    ${idx > 0 ? '<button class="btn-remove" onclick="removeMember(this)">✕ Remove</button>' : ''}
+  `;
+  row.querySelector('.member-tz').value = tz;
+  container.appendChild(row);
+  return row;
+}
+
+// Auto-refresh member times every 30s
+setInterval(() => {
+  if (document.getElementById('result-section').classList.contains('show')) {
+    calculateOverlap();
+  }
+}, 30000);
+</script>
+
+</body>
+</html>

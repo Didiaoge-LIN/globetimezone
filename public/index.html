@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GlobeTimeZone - 全球时间决策工具</title>
+  <meta name="description" content="一秒判断该不该联系、何时开会。全球时间决策中枢。">
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com">
+  <link rel="manifest" href="/manifest.json">
+  <style nonce="{{nonce}}">
+    real-clock, smart-clock {
+      display: inline-block;
+      min-width: 60px;
+      visibility: hidden;
+    }
+    real-clock:defined, smart-clock:defined {
+      visibility: visible;
+    }
+    .ad-container {
+      width: 300px;
+      height: 250px;
+      background: #f8fafc;
+      contain: layout style;
+    }
+    .skip-link {
+      position: absolute;
+      top: -100px;
+      left: 0;
+    }
+    :root {
+      --bg: #ffffff;
+      --bg-card: #f8fafc;
+      --text: #1a1a2e;
+      --text-secondary: #64748b;
+      --accent: #0066cc;
+      --border: #e2e8f0;
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+      --radius: 12px;
+    }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      line-height: 1.6;
+    }
+    .city-status-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 1rem 1.5rem;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 0.2rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    .pro-link {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 0.4rem 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+  </style>
+  <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">跳到主内容</a>
+  
+  <header>
+    <nav aria-label="主导航" style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;max-width:1200px;margin:0 auto;padding:0.5rem 1rem;">
+      <a href="/" style="font-weight:700;font-size:1.1rem;text-decoration:none;color:var(--text);">GlobeTimeZone</a>
+      <a href="/time-difference/" style="text-decoration:none;color:var(--text);">时差查询</a>
+      <a href="/meeting-planner/" style="text-decoration:none;color:var(--text);">会议规划</a>
+      <a href="/tools/cross-border/" style="text-decoration:none;color:var(--text);">跨境工具</a>
+      <a href="/blog/" style="text-decoration:none;color:var(--text);">教程</a>
+      <a href="/pricing/" class="pro-link">升级PRO</a>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    <section class="hero" style="text-align:center;padding:3rem 1rem;max-width:800px;margin:0 auto;">
+      <h1 style="font-size:2.5rem;margin-bottom:0.5rem;">🌍 全球时间决策，一秒到位</h1>
+      <p style="color:var(--text-secondary);margin-bottom:2rem;">
+        不再查询，直接决策。智能判断联系时机、规划跨国会议、计算跨境时效。
+      </p>
+      
+      <div class="smart-search" style="max-width:600px;margin:0 auto 2rem;position:relative;">
+        <input type="text" id="decision-input" 
+               placeholder="例如：给纽约打电话、规划东京+伦敦会议、旧金山现在几点？"
+               autocomplete="off"
+               style="width:100%;padding:1rem 1.5rem;font-size:1.1rem;border:2px solid #e2e8f0;border-radius:12px;outline:none;">
+      </div>
+
+      <div class="quick-cards" style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;margin-top:1rem;">
+        <!-- 纽约 -->
+        <div class="city-status-card" data-tz="America/New_York" style="background:var(--bg-card);border-radius:12px;padding:1rem 1.5rem;box-shadow:var(--shadow);min-width:140px;text-align:center;">
+          <div style="font-size:1.5rem;">🇺🇸</div>
+          <div style="font-weight:600;">纽约</div>
+          <real-clock timezone="America/New_York" style="font-size:1.3rem;font-weight:700;display:block;margin:0.3rem 0;"></real-clock>
+          <span class="status-badge" style="display:inline-block;padding:0.2rem 0.8rem;border-radius:20px;font-size:0.8rem;font-weight:500;background:#e2e8f0;">加载中</span>
+        </div>
+        <!-- 伦敦 -->
+        <div class="city-status-card" data-tz="Europe/London" style="background:var(--bg-card);border-radius:12px;padding:1rem 1.5rem;box-shadow:var(--shadow);min-width:140px;text-align:center;">
+          <div style="font-size:1.5rem;">🇬🇧</div>
+          <div style="font-weight:600;">伦敦</div>
+          <real-clock timezone="Europe/London" style="font-size:1.3rem;font-weight:700;display:block;margin:0.3rem 0;"></real-clock>
+          <span class="status-badge" style="display:inline-block;padding:0.2rem 0.8rem;border-radius:20px;font-size:0.8rem;font-weight:500;background:#e2e8f0;">加载中</span>
+        </div>
+        <!-- 东京 -->
+        <div class="city-status-card" data-tz="Asia/Tokyo" style="background:var(--bg-card);border-radius:12px;padding:1rem 1.5rem;box-shadow:var(--shadow);min-width:140px;text-align:center;">
+          <div style="font-size:1.5rem;">🇯🇵</div>
+          <div style="font-weight:600;">东京</div>
+          <real-clock timezone="Asia/Tokyo" style="font-size:1.3rem;font-weight:700;display:block;margin:0.3rem 0;"></real-clock>
+          <span class="status-badge" style="display:inline-block;padding:0.2rem 0.8rem;border-radius:20px;font-size:0.8rem;font-weight:500;background:#e2e8f0;">加载中</span>
+        </div>
+        <!-- 上海 -->
+        <div class="city-status-card" data-tz="Asia/Shanghai" style="background:var(--bg-card);border-radius:12px;padding:1rem 1.5rem;box-shadow:var(--shadow);min-width:140px;text-align:center;">
+          <div style="font-size:1.5rem;">🇨🇳</div>
+          <div style="font-weight:600;">上海</div>
+          <real-clock timezone="Asia/Shanghai" style="font-size:1.3rem;font-weight:700;display:block;margin:0.3rem 0;"></real-clock>
+          <span class="status-badge" style="display:inline-block;padding:0.2rem 0.8rem;border-radius:20px;font-size:0.8rem;font-weight:500;background:#e2e8f0;">加载中</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (function() {
+      function updateStatusBadges() {
+        document.querySelectorAll('.city-status-card').forEach(card => {
+          var tz = card.getAttribute('data-tz');
+          if (!tz) return;
+          try {
+            var now = new Date();
+            var formatter = new Intl.DateTimeFormat('en-US', {
+              timeZone: tz,
+              hour: 'numeric',
+              hourCycle: 'h23'
+            });
+            var localHour = parseInt(formatter.format(now), 10);
+            
+            var badge = card.querySelector('.status-badge');
+            if (!badge) return;
+            
+            if (localHour >= 9 && localHour < 18) {
+              badge.textContent = '🟢 工作中';
+              badge.style.background = '#d1fae5';
+              badge.style.color = '#065f46';
+            } else if (localHour >= 7 && localHour < 22) {
+              badge.textContent = '🟡 非工作时段';
+              badge.style.background = '#fef3c7';
+              badge.style.color = '#92400e';
+            } else {
+              badge.textContent = '🔴 深夜勿扰';
+              badge.style.background = '#fee2e2';
+              badge.style.color = '#991b1b';
+            }
+          } catch(e) {
+            console.error('Error updating badge for', tz, e);
+          }
+        });
+      }
+      
+      updateStatusBadges();
+      setInterval(updateStatusBadges, 60000);
+    })();
+  </script>
+
+  <aside class="sidebar-ad" aria-label="广告">
+    <div class="ad-container" data-ad-slot="【通过广告系统配置】" data-width="300" data-height="250"></div>
+  </aside>
+
+  <footer style="text-align:center;padding:2rem 1rem;color:var(--text-secondary);font-size:0.9rem;border-top:1px solid var(--border);">
+    <p>
+      <a href="/about/" style="color:var(--text-secondary);text-decoration:none;">关于我们</a> | 
+      <a href="/privacy/" style="color:var(--text-secondary);text-decoration:none;">隐私政策</a> | 
+      <a href="mailto:support@globetimezone.com" style="color:var(--text-secondary);text-decoration:none;">联系我们</a>
+    </p>
+    <p>© 2026 GlobeTimeZone. 所有时间数据基于 NTP 校准。</p>
+  </footer>
+
+  <script type="module" src="/scripts/app.js" defer></script>
+  <script type="module" defer>
+    import { initSentry } from '/scripts/sentry-init.js';
+    initSentry();
+  </script>
+  <script src="/cookie-consent.js" defer></script>
+  <script src="/ads-loader.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js').catch(function() {});
+      });
+    }
+  </script>
+</body>
+</html>

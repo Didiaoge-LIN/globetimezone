@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>World Clock - Live Time in All Major Cities | GlobeTimeZone</title>
+  <meta name="description" content="Live world clock showing current time in all major cities worldwide. Real-time clock with automatic DST updates. Compare times across New York, London, Tokyo, Sydney and more." />
+  <meta name="keywords" content="world clock, live world time, international clock, city time, real time clock, global time, time display" />
+  <meta name="robots" content="index, follow" />
+  
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="World Clock - Live Time in All Major Cities" />
+  <meta property="og:description" content="Live world clock showing current time in all major cities worldwide." />
+  <meta property="og:url" content="https://globetimezone.com/pages/world-clock.html" />
+  
+  <link rel="alternate" hreflang="en" href="https://globetimezone.com/pages/world-clock.html" />
+  <link rel="canonical" href="https://globetimezone.com/pages/world-clock.html" />
+  <!-- Performance: Preconnect & Preload -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" />
+  <link rel="preconnect" href="https://www.google-analytics.com" />
+  <link rel="preconnect" href="https://www.gstatic.com" />
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+  <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+  <link rel="preload" href="../css/style.min.css" as="style" />
+  
+  <link rel="stylesheet" href="../css/style.min.css" />
+  
+  <!-- BreadcrumbList Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://globetimezone.com"},
+      {"@type": "ListItem", "position": 2, "name": "World Clock", "item": "https://globetimezone.com/pages/world-clock.html"}
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "World Clock - GlobeTimeZone",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+  }
+  </script>
+  <!-- Google Analytics 4 -->
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script src="../js/ga4.min.js"></script>
+</head>
+<body>
+
+<!-- ===== Accessibility: Skip to main content ===== -->
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+
+<header>
+  <div class="header-inner">
+    <a href="../" class="logo">🌍 Globe<span>TimeZone</span></a>
+    <nav> aria-label="Main navigation"
+      <a href="../">Converter</a>
+      <a href="world-clock.html">World Clock</a>
+      <a href="meeting-scheduler.html">Meeting Scheduler</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
+
+<nav class="breadcrumb" style="padding:12px 24px;max-width:1200px;margin:0 auto;font-size:0.875rem;color:#595959;">
+  <a href="../" style="color:#2563eb;text-decoration:none;">Home</a> &gt;
+  <span>World Clock</span>
+</nav>
+
+<main style="max-width:1200px;margin:0 auto;padding:20px 24px;" id="main-content" role="main">
+
+  <section style="text-align:center;padding:40px 0 20px;">
+    <h1 class="section-title" style="font-size:2.5rem;margin-bottom:8px;">🌐 World Clock</h1>
+    <p style="font-size:1.2rem;color:#595959;">Live time in major cities worldwide — auto-updates every second</p>
+  </section>
+
+  <section class="card" style="margin-bottom:24px;">
+    <h2 class="card-title">🕐 All Cities</h2>
+    <div id="world-clocks" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:20px;"></div>
+  </section>
+
+  <!-- Quick Links to City Pages -->
+  <section style="margin-top:40px;">
+    <h2 class="section-title">📍 City Time Pages</h2>
+    <p style="color:#595959;margin-bottom:16px;">Deep dive into each city — time zone details, DST info, and city data</p>
+    <div class="quick-convert-grid" style="margin-top:16px;" id="city-links"></div>
+  </section>
+
+</main>
+
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <a href="../" class="footer-logo">🌍 GlobeTimeZone</a>
+        <p class="footer-desc">Free world time zone converter. Convert time between any two cities instantly.</p>
+      </div>
+      <div>
+        <h4 class="footer-heading">Tools</h4>
+        <ul class="footer-links">
+          <li><a href="../">Time Zone Converter</a></li>
+          <li><a href="world-clock.html">World Clock</a></li>
+          <li><a href="meeting-scheduler.html">Meeting Scheduler</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">Info</h4>
+        <ul class="footer-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 GlobeTimeZone.com &middot; All rights reserved</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+const CITIES = [
+  { name: 'New York', tz: 'America/New_York', slug: 'new-york', flag: '🇺🇸' },
+  { name: 'Los Angeles', tz: 'America/Los_Angeles', slug: 'los-angeles', flag: '🇺🇸' },
+  { name: 'Chicago', tz: 'America/Chicago', slug: 'chicago', flag: '🇺🇸' },
+  { name: 'Toronto', tz: 'America/Toronto', slug: 'toronto', flag: '🇨🇦' },
+  { name: 'London', tz: 'Europe/London', slug: 'london', flag: '🇬🇧' },
+  { name: 'Paris', tz: 'Europe/Paris', slug: 'paris', flag: '🇫🇷' },
+  { name: 'Dubai', tz: 'Asia/Dubai', slug: 'dubai', flag: '🇦🇪' },
+  { name: 'Beijing', tz: 'Asia/Shanghai', slug: 'beijing', flag: '🇨🇳' },
+  { name: 'Tokyo', tz: 'Asia/Tokyo', slug: 'tokyo', flag: '🇯🇵' },
+  { name: 'Seoul', tz: 'Asia/Seoul', slug: 'seoul', flag: '🇰🇷' },
+  { name: 'Singapore', tz: 'Asia/Singapore', slug: 'singapore', flag: '🇸🇬' },
+  { name: 'Sydney', tz: 'Australia/Sydney', slug: 'sydney', flag: '🇦🇺' }
+];
+
+function getUtcOffset(tz) {
+  const now = new Date();
+  const tzStr = now.toLocaleString('en-US', { timeZone: tz });
+  const tzDate = new Date(tzStr);
+  const utcStr = now.toLocaleString('en-US', { timeZone: 'UTC' });
+  const utcDate = new Date(utcStr);
+  const diff = (tzDate - utcDate) / 3600000;
+  const sign = diff >= 0 ? '+' : '-';
+  return `UTC${sign}${Math.abs(diff)}`;
+}
+
+function renderClocks() {
+  const container = document.getElementById('world-clocks');
+  const now = new Date();
+  
+  container.innerHTML = CITIES.map(city => {
+    const timeFormatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: city.tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+    });
+    const dateFormatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: city.tz, weekday: 'short', month: 'short', day: 'numeric'
+    });
+    const tzName = new Intl.DateTimeFormat('en-US', {
+      timeZone: city.tz, timeZoneName: 'short'
+    }).formatToParts(now).find(p => p.type === 'timeZoneName')?.value || '';
+    
+    return `
+      <a href="time-in/${city.slug}" class="card" style="padding:20px;text-decoration:none;color:inherit;display:block;transition:all 0.2s;cursor:pointer;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <span style="font-size:2rem;">${city.flag}</span>
+          <div>
+            <div style="font-weight:700;font-size:1.1rem;">${city.name}</div>
+            <div style="font-size:0.8rem;color:#595959;">${tzName} (${getUtcOffset(city.tz)})</div>
+          </div>
+        </div>
+        <div style="font-size:2.5rem;font-weight:800;color:var(--primary);font-variant-numeric:tabular-nums;text-align:center;">${timeFormatter.format(now)}</div>
+        <div style="text-align:center;font-size:0.85rem;color:#595959;margin-top:4px;">${dateFormatter.format(now)}</div>
+      </a>
+    `;
+  }).join('');
+}
+
+function renderCityLinks() {
+  document.getElementById('city-links').innerHTML = CITIES.map(city => `
+    <a href="time-in/${city.slug}" class="quick-convert-item">
+      <span class="qc-flag">${city.flag}</span>
+      <div class="qc-info">
+        <span class="qc-name">${city.name}</span>
+        <span class="qc-desc">${getUtcOffset(city.tz)}</span>
+      </div>
+    </a>
+  `).join('');
+}
+
+renderClocks();
+renderCityLinks();
+setInterval(renderClocks, 1000);
+</script>
+
+</body>
+</html>

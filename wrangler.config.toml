@@ -1,0 +1,13 @@
+name = "globetimezone-config"
+main = "workers/config/index.ts"
+compatibility_date = "2026-05-30"
+compatibility_flags = ["nodejs_compat"]
+account_id = "b73e041dfa2e834c1cd23d11f1971cd5"
+
+routes = [
+  { pattern = "globetimezone.com/api/config", zone_id = "4b8640caf424bf01cae67e92862961ef" },
+  { pattern = "www.globetimezone.com/api/config", zone_id = "4b8640caf424bf01cae67e92862961ef" }
+]
+
+# 密钥通过 wrangler secret put 注入
+# npx wrangler secret put SENTRY_DSN --config wrangler.config.toml

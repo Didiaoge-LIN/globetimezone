@@ -1,0 +1,462 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>世界时区换算器 | 多城市同时对比 | 免费无广告 | GlobeTimeZone</title>
+  <meta name="description" content="免费在线世界时区换算器。支持多城市同时对比，自动处理夏令时。跨境电商、外贸会议、远程团队必备工具。无需注册，直接使用。" />
+  <meta name="keywords" content="时区换算,北京时间转换,世界时钟,时差计算,多城市对比,纽约时间,伦敦时间,东京时间,UTC时间,免费时区转换器,夏令时" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="GlobeTimeZone" />
+  <meta name="revisit-after" content="7 days" />
+
+  <!-- Open Graph / Social -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="世界时区换算器 | 多城市同时对比 | 免费无广告" />
+  <meta property="og:description" content="免费在线世界时区换算器。支持多城市同时对比，自动处理夏令时。跨境电商、外贸会议必备。" />
+  <meta property="og:url" content="https://globetimezone.com/zh/" />
+  <meta property="og:site_name" content="世界时区换算器" />
+  <meta property="og:locale" content="zh_CN" />
+  <meta property="og:locale:alternate" content="en_US" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="世界时区换算器 - GlobeTimeZone" />
+  <meta name="twitter:description" content="免费在线世界时区换算器。支持多城市同时对比。" />
+
+  <!-- Hreflang for multi-language -->
+  <link rel="alternate" hreflang="en" href="https://globetimezone.com/" />
+  <link rel="alternate" hreflang="zh-CN" href="https://globetimezone.com/zh/" />
+  <link rel="alternate" hreflang="es" href="https://globetimezone.com/es/" />
+  <link rel="alternate" hreflang="fr" href="https://globetimezone.com/fr/" />
+  <link rel="alternate" hreflang="de" href="https://globetimezone.com/de/" />
+  <link rel="alternate" hreflang="ja" href="https://globetimezone.com/ja/" />
+  <link rel="alternate" hreflang="pt-BR" href="https://globetimezone.com/pt/" />
+  <link rel="alternate" hreflang="ko" href="https://globetimezone.com/ko/" />
+  <link rel="alternate" hreflang="ar" href="https://globetimezone.com/ar/" />
+  <link rel="alternate" hreflang="x-default" href="https://globetimezone.com/" />
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://globetimezone.com/zh/" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+  <link rel="stylesheet" href="/css/style.min.css" />
+
+  <!-- Structured Data - Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "世界时区换算器",
+    "alternateName": "GlobeTimeZone",
+    "url": "https://globetimezone.com/zh/",
+    "description": "免费在线世界时区换算器。支持多城市同时对比，自动处理夏令时。",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://globetimezone.com/zh/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+  <!-- Google Analytics 4 -->
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script src="../js/ga4.js"></script>
+</head>
+<body>
+
+<!-- ===== Accessibility: Skip to main content ===== -->
+<a class="skip-link" href="#main-content">跳到主内容</a>
+
+<!-- ===== HEADER ===== -->
+<header role="banner">
+  <div class="header-inner">
+    <a href="/zh/" class="logo">
+      🌍 世界<span>时区</span>
+    </a>
+    <nav aria-label="主导航">
+      <a href="/zh/" class="active">时区转换</a>
+      <a href="/pages/world-clock.html">世界时钟</a>
+      <a href="/pages/articles.html">使用教程</a>
+      <a href="/pages/about.html">关于我们</a>
+      <span class="lang-switch">
+        <div class="lang-dropdown">
+          <button class="lang-btn active" id="current-lang">🌐 中文</button>
+          <div class="lang-menu">
+            <a href="/" class="lang-option" data-lang="en">
+              <span class="lang-flag">🇺🇸</span>
+              <span class="lang-name">English</span>
+              <span class="lang-native">English</span>
+            </a>
+            <a href="/zh/" class="lang-option active" data-lang="zh">
+              <span class="lang-flag">🇨🇳</span>
+              <span class="lang-name">Chinese</span>
+              <span class="lang-native">中文</span>
+            </a>
+            <a href="/es/" class="lang-option" data-lang="es">
+              <span class="lang-flag">🇪🇸</span>
+              <span class="lang-name">Spanish</span>
+              <span class="lang-native">Español</span>
+            </a>
+            <a href="/fr/" class="lang-option" data-lang="fr">
+              <span class="lang-flag">🇫🇷</span>
+              <span class="lang-name">French</span>
+              <span class="lang-native">Français</span>
+            </a>
+            <a href="/de/" class="lang-option" data-lang="de">
+              <span class="lang-flag">🇩🇪</span>
+              <span class="lang-name">German</span>
+              <span class="lang-native">Deutsch</span>
+            </a>
+            <a href="/ja/" class="lang-option" data-lang="ja">
+              <span class="lang-flag">🇯🇵</span>
+              <span class="lang-name">Japanese</span>
+              <span class="lang-native">日本語</span>
+            </a>
+            <a href="/pt/" class="lang-option" data-lang="pt">
+              <span class="lang-flag">🇧🇷</span>
+              <span class="lang-name">Portuguese</span>
+              <span class="lang-native">Português</span>
+            </a>
+            <a href="/ko/" class="lang-option" data-lang="ko">
+              <span class="lang-flag">🇰🇷</span>
+              <span class="lang-name">Korean</span>
+              <span class="lang-native">한국어</span>
+            </a>
+            <a href="/ar/" class="lang-option" data-lang="ar">
+              <span class="lang-flag">🇸🇦</span>
+              <span class="lang-name">Arabic</span>
+              <span class="lang-native">العربية</span>
+            </a>
+          </div>
+        </div>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>🌍 世界时区换算器</h1>
+    <p class="hero-subtitle">
+      完全免费 · 无广告 · 多城市同时对比 · 自动处理夏令时 · 支持400+时区
+    </p>
+    <div class="hero-cta">
+      <a href="#converter" class="btn btn-primary btn-large">🚀 立即开始转换</a>
+    </div>
+    <div class="hero-badges">
+      <span class="badge">⭐ 自定义世界时钟</span>
+      <span class="badge">🌍 400+ 时区</span>
+      <span class="badge">⚡ 秒级转换</span>
+      <span class="badge">📱 手机适配</span>
+      <span class="badge">🕐 多城市对比</span>
+      <span class="badge">📚 时区知识库</span>
+    </div>
+  </div>
+</section>
+
+<!-- Breadcrumb Navigation -->
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <div class="breadcrumb-inner">
+    <a href="/zh/">首页</a>
+    <span class="breadcrumb-sep">›</span>
+    <span class="breadcrumb-current">时区转换</span>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<main id="main-content" role="main">
+
+  <!-- Multi-Timezone Converter Tool -->
+  <div class="card" id="converter">
+    <h2 class="card-title">🕐 多城市时区转换器</h2>
+    <p style="color:#595959;margin-bottom:20px;">同时对比最多6个时区。拖动滑块查看不同时间点的转换结果。</p>
+
+    <!-- Base Time Input -->
+    <div class="base-time-section">
+      <div class="base-time-grid">
+        <div class="form-group">
+          <label class="form-label" for="base-date">日期</label>
+          <input type="date" id="base-date" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="base-time">基准时间</label>
+          <input type="time" id="base-time" class="form-input" value="09:00" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="base-tz">基准时区</label>
+          <select id="base-tz" class="form-select"></select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Time Slider -->
+    <div class="time-slider-container">
+      <label class="form-label" for="time-slider">⏱️ 时间滑块 — 拖动查看所有城市在不同时间点的对应时间</label>
+      <div class="slider-wrapper">
+        <input type="range" id="time-slider" min="0" max="23" step="1" value="9" class="time-slider">
+        <div class="slider-labels">
+          <span>00:00</span>
+          <span>06:00</span>
+          <span>12:00</span>
+          <span>18:00</span>
+          <span>23:00</span>
+        </div>
+      </div>
+      <div class="current-slider-time" id="slider-time-display">09:00</div>
+    </div>
+
+    <!-- Multi-Timezone Cards -->
+    <div class="multi-tz-section">
+      <div class="multi-tz-header">
+        <h3>📊 对比 <span id="tz-count">2</span> 个时区</h3>
+        <button class="btn btn-outline btn-sm" id="add-tz-btn" onclick="addTimezoneCard()">+ 添加时区</button>
+      </div>
+      <div class="multi-tz-grid" id="multi-tz-grid">
+        <!-- Dynamically generated timezone cards -->
+      </div>
+    </div>
+
+    <!-- Share Buttons -->
+    <div class="share-section">
+      <button class="btn btn-outline btn-sm" onclick="shareViaEmail()">📧 邮件分享</button>
+      <button class="btn btn-outline btn-sm" onclick="copyResults()">📋 复制结果</button>
+      <button class="btn btn-outline btn-sm" onclick="addToCalendar()">📅 添加到日历</button>
+    </div>
+  </div>
+
+  <!-- Popular Conversions -->
+  <div class="card">
+    <h2 class="card-title">🔥 常用时区转换</h2>
+    <div class="quick-convert-grid">
+      <a href="javascript:void(0)" onclick="quickConvert('Asia/Shanghai', 'America/New_York')" class="quick-convert-item">
+        <div class="qc-flag">🇨🇳</div>
+        <div class="qc-info">
+          <span class="qc-name">北京时间 → 纽约时间</span>
+          <span class="qc-desc">当前时差：13/-12小时</span>
+        </div>
+      </a>
+      <a href="javascript:void(0)" onclick="quickConvert('Asia/Shanghai', 'Europe/London')" class="quick-convert-item">
+        <div class="qc-flag">🇬🇧</div>
+        <div class="qc-info">
+          <span class="qc-name">北京时间 → 伦敦时间</span>
+          <span class="qc-desc">当前时差：8/-7小时</span>
+        </div>
+      </a>
+      <a href="javascript:void(0)" onclick="quickConvert('Asia/Shanghai', 'Asia/Tokyo')" class="quick-convert-item">
+        <div class="qc-flag">🇯🇵</div>
+        <div class="qc-info">
+          <span class="qc-name">北京时间 → 东京时间</span>
+          <span class="qc-desc">当前时差：1小时</span>
+        </div>
+      </a>
+      <a href="javascript:void(0)" onclick="quickConvert('Asia/Shanghai', 'America/Los_Angeles')" class="quick-convert-item">
+        <div class="qc-flag">🇺🇸</div>
+        <div class="qc-info">
+          <span class="qc-name">北京时间 → 洛杉矶时间</span>
+          <span class="qc-desc">当前时差：16/-15小时</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- World Clocks -->
+  <div class="card">
+    <h2 class="card-title">🌐 全球主要城市时钟</h2>
+    <p style="color:#595959;margin-bottom:20px;">实时更新。支持添加或移除城市，自定义您的时钟面板。</p>
+
+    <!-- City Search -->
+    <div class="clock-controls">
+      <input type="text" id="city-search" class="form-input" placeholder="🔍 搜索城市添加..." aria-label="搜索城市添加" oninput="searchCity(this.value)">
+      <div class="search-results" id="search-results"></div>
+    </div>
+
+    <div class="clocks-grid" id="world-clocks"></div>
+    <p class="clocks-hint">💡 点击时钟上的 × 可移除。您的收藏会自动保存。</p>
+  </div>
+
+  <!-- Articles Section -->
+  <section style="margin-top:40px;">
+    <h2 class="section-title">📖 时区使用教程</h2>
+    <p class="section-sub">了解时区知识、夏令时调整、跨境沟通技巧。</p>
+
+    <div class="articles-grid">
+      <a href="/pages/us-china-time-difference.html" class="article-card">
+        <div class="article-img blue"></div>
+        <div class="article-body">
+          <span class="article-tag">热门</span>
+          <h3 class="article-title">美国与中国时差完整对照表</h3>
+          <p class="article-excerpt">中美时区详解，包含夏令时调整期间的具体时差变化，跨境电商和外贸沟通必看。</p>
+          <div class="article-meta">
+            <span>5分钟阅读</span>
+            <span>→ 阅读全文</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/pages/what-is-utc.html" class="article-card">
+        <div class="article-img green"></div>
+        <div class="article-body">
+          <span class="article-tag">基础</span>
+          <h3 class="article-title">什么是UTC时间？一文读懂世界时区标准</h3>
+          <p class="article-excerpt">UTC（协调世界时）是全球统一的时间标准，了解UTC如何工作以及为什么它是国际交流的基础。</p>
+          <div class="article-meta">
+            <span>4分钟阅读</span>
+            <span>→ 阅读全文</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/pages/business-meeting-scheduler.html" class="article-card">
+        <div class="article-img orange"></div>
+        <div class="article-body">
+          <span class="article-tag">技巧</span>
+          <h3 class="article-title">跨境会议时间安排最佳实践</h3>
+          <p class="article-excerpt">如何安排跨时区会议？找到最适合多国同事和客户的开会时间，提升远程协作效率。</p>
+          <div class="article-meta">
+            <span>5分钟阅读</span>
+            <span>→ 阅读全文</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="/pages/daylight-saving-time.html" class="article-card">
+        <div class="article-img purple"></div>
+        <div class="article-body">
+          <span class="article-tag">指南</span>
+          <h3 class="article-title">夏令时详解：哪些国家使用？什么时候调表？</h3>
+          <p class="article-excerpt">夏令时生效时间、影响国家列表，以及对跨境业务和旅行的影响分析。</p>
+          <div class="article-meta">
+            <span>6分钟阅读</span>
+            <span>→ 阅读全文</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- SEO Content Block -->
+  <section class="card" style="margin-top:40px;">
+    <h2 style="font-size:1.4rem;font-weight:700;margin-bottom:16px;">关于世界时区换算器</h2>
+    <p style="color:#595959;line-height:1.8;margin-bottom:12px;">
+      世界时区换算器是一款免费的在线工具，专为跨境电商从业者、外贸业务员、远程工作者和出国旅行者设计。
+      无论您需要安排国际会议、与海外客户沟通，还是查询海外亲人所在城市的时间 — 我们都能为您提供即时、准确的转换结果。
+    </p>
+    <p style="color:#595959;line-height:1.8;margin-bottom:12px;">
+      我们支持全球所有主要时区，包括：
+      <strong>北京时间（CST）</strong>、<strong>美国时区（EST/CST/MST/PST）</strong>、
+      <strong>欧洲时区（GMT/CET/EET）</strong>、<strong>亚洲时区（JST/KST/IST）</strong>等。
+      工具会自动处理实行夏令时国家的时钟调整。
+    </p>
+    <p style="color:#595959;line-height:1.8;">
+      <strong>收藏本页</strong>，随时访问 — 无需下载App，支持所有设备，完全免费使用。
+    </p>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="card" style="margin-top:40px;">
+    <h2 style="font-size:1.4rem;font-weight:700;margin-bottom:16px;">❓ 常见问题</h2>
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary class="faq-question">北京时间与纽约时差是多少小时？</summary>
+        <div class="faq-answer">
+          <p>标准时差为 <strong>13小时</strong>（夏令时期间为 <strong>12小时</strong>）。例如，北京时间上午10点对应纽约时间前一天的晚上9点（标准时差13小时）或晚上10点（夏令时期间12小时）。</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">中国有夏令时吗？</summary>
+        <div class="faq-answer">
+          <p><strong>中国没有夏令时</strong>。自1992年起，中国取消夏令时，全年使用北京时间（UTC+8）。因此，与中国的时差在全年基本保持不变。</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">如何计算两个城市之间的时差？</summary>
+        <div class="faq-answer">
+          <p>使用我们的时区转换工具，只需选择源城市和目标城市，输入时间，即可获得准确的转换结果。同时，页面顶部会显示两地当前的实时时钟。</p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-question">美国有几个时区？</summary>
+        <div class="faq-answer">
+          <p>美国本土有 <strong>4个主要时区</strong>：东部时间（EST/EDT）、中部时间（CST/CDT）、山地时间（MST/MDT）、太平洋时间（PST/PDT）。此外还有阿拉斯加时间和夏威夷时间。</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <a href="/zh/" class="footer-logo">🌍 世界时区换算器</a>
+        <p class="footer-desc">免费在线时区转换工具，支持全球400+时区。跨境电商、外贸、会议安排必备。</p>
+      </div>
+      <div>
+        <h4 class="footer-heading">工具</h4>
+        <ul class="footer-links">
+          <li><a href="/zh/">时区转换</a></li>
+          <li><a href="/pages/world-clock.html">世界时钟</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">教程</h4>
+        <ul class="footer-links">
+          <li><a href="/pages/articles.html">全部教程</a></li>
+          <li><a href="/pages/us-china-time-difference.html">中美时差</a></li>
+          <li><a href="/pages/what-is-utc.html">什么是UTC</a></li>
+          <li><a href="/pages/daylight-saving-time.html">夏令时</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">关于</h4>
+        <ul class="footer-links">
+          <li><a href="/pages/about.html">关于我们</a></li>
+          <li><a href="/pages/privacy.html">隐私政策</a></li>
+          <li><a href="/pages/disclaimer.html">免责声明</a></li>
+          <li><a href="/pages/contact.html">联系我们</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 GlobeTimeZone.com · 世界时区换算器 · 免费在线工具</p>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/main.js"></script>
+<script>
+// Quick convert function for popular routes
+function quickConvert(fromTz, toTz) {
+  const baseTzSelect = document.getElementById('base-tz');
+  if (baseTzSelect) {
+    for (let i = 0; i < baseTzSelect.options.length; i++) {
+      if (baseTzSelect.options[i].value === fromTz) {
+        baseTzSelect.selectedIndex = i;
+        break;
+      }
+    }
+  }
+
+  const fromCity = ALL_CITIES.find(c => c.tz === fromTz) || { name: fromTz.split('/').pop(), flag: '🌍' };
+  const toCity = ALL_CITIES.find(c => c.tz === toTz) || { name: toTz.split('/').pop(), flag: '🌍' };
+
+  multiTzList = [
+    { tz: fromTz, label: fromCity.name, flag: fromCity.flag },
+    { tz: toTz, label: toCity.name, flag: toCity.flag }
+  ];
+
+  renderTimezoneCards();
+  updateAllTimezones();
+
+  document.getElementById('tz-count').textContent = multiTzList.length;
+  document.getElementById('converter').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

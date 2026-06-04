@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>World Clock Widget | GlobeTimeZone</title>
+  <meta name="robots" content="noindex" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root {
+      --primary: #2563eb;
+      --bg: #ffffff;
+      --card-bg: #f8fafc;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    
+    /* Dark theme */
+    body.dark {
+      --primary: #60a5fa;
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --border: #334155;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+    }
+    
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+      padding: 8px;
+    }
+    
+    .widget-container {
+      width: 100%;
+      height: 100%;
+    }
+    
+    .widget-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 4px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 8px;
+    }
+    
+    .widget-brand {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    
+    .widget-brand span { color: var(--primary); }
+    
+    .clock-grid {
+      display: grid;
+      gap: 6px;
+    }
+    
+    .clock-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      background: var(--card-bg);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    
+    .clock-flag { font-size: 1.2rem; }
+    
+    .clock-info {}
+    .clock-city {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .clock-tz {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+    }
+    
+    .clock-time {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+      text-align: right;
+    }
+    
+    .clock-date-mini {
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      text-align: right;
+    }
+    
+    /* Compact style */
+    body.compact .clock-item {
+      padding: 5px 8px;
+    }
+    body.compact .clock-time { font-size: 0.9rem; }
+    body.compact .clock-flag { font-size: 1rem; }
+    
+    .widget-footer {
+      text-align: center;
+      padding-top: 6px;
+      font-size: 0.6rem;
+      color: var(--text-muted);
+    }
+    .widget-footer a { color: var(--primary); text-decoration: none; }
+  </style>
+  <!-- Google Analytics 4 -->
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script src="../js/ga4.min.js"></script>
+</head>
+<body>
+<div class="widget-container">
+  <div class="widget-header">
+    <a href="https://globetimezone.com" target="_blank" rel="noopener" class="widget-brand">🌍 Globe<span>TimeZone</span></a>
+    <span style="font-size:0.6rem;color:var(--text-muted);" id="sync-indicator">●</span>
+  </div>
+  
+  <div class="clock-grid" id="clock-grid">
+    <!-- Populated by JS -->
+  </div>
+  
+  <div class="widget-footer">
+    <a href="https://globetimezone.com" target="_blank" rel="noopener">More time zones →</a>
+  </div>
+</div>
+
+<script>
+// Parse URL params
+const params = new URLSearchParams(window.location.search);
+const theme = params.get('theme') || 'light';
+const size = params.get('size') || 'normal';
+const citiesParam = params.get('cities') || 'New York,London,Tokyo,Beijing';
+
+if (theme === 'dark') document.body.classList.add('dark');
+if (size === 'compact') document.body.classList.add('compact');
+
+const CITY_DB = {
+  'New York':    { tz: 'America/New_York',     flag: '🗽', abbr: 'ET' },
+  'Los Angeles': { tz: 'America/Los_Angeles',  flag: '🌴', abbr: 'PT' },
+  'Chicago':     { tz: 'America/Chicago',      flag: '🏙️', abbr: 'CT' },
+  'Toronto':     { tz: 'America/Toronto',      flag: '🇨🇦', abbr: 'ET' },
+  'London':      { tz: 'Europe/London',        flag: '🇬🇧', abbr: 'GMT/BST' },
+  'Paris':       { tz: 'Europe/Paris',         flag: '🇫🇷', abbr: 'CET/CEST' },
+  'Berlin':      { tz: 'Europe/Berlin',        flag: '🇩🇪', abbr: 'CET/CEST' },
+  'Dubai':       { tz: 'Asia/Dubai',           flag: '🇦🇪', abbr: 'GST' },
+  'Mumbai':      { tz: 'Asia/Kolkata',         flag: '🇮🇳', abbr: 'IST' },
+  'Singapore':   { tz: 'Asia/Singapore',       flag: '🇸🇬', abbr: 'SGT' },
+  'Beijing':     { tz: 'Asia/Shanghai',        flag: '🇨🇳', abbr: 'CST' },
+  'Shanghai':    { tz: 'Asia/Shanghai',        flag: '🇨🇳', abbr: 'CST' },
+  'Tokyo':       { tz: 'Asia/Tokyo',           flag: '🇯🇵', abbr: 'JST' },
+  'Seoul':       { tz: 'Asia/Seoul',           flag: '🇰🇷', abbr: 'KST' },
+  'Sydney':      { tz: 'Australia/Sydney',     flag: '🇦🇺', abbr: 'AEDT/AEST' },
+  'Auckland':    { tz: 'Pacific/Auckland',     flag: '🇳🇿', abbr: 'NZDT/NZST' }
+};
+
+const cities = citiesParam.split(',').map(c => c.trim()).filter(c => CITY_DB[c]);
+
+// Build grid
+const grid = document.getElementById('clock-grid');
+cities.forEach(city => {
+  const info = CITY_DB[city];
+  const item = document.createElement('div');
+  item.className = 'clock-item';
+  item.id = 'city-' + city.replace(/\s/g, '-');
+  item.innerHTML = `
+    <span class="clock-flag">${info.flag}</span>
+    <div class="clock-info">
+      <div class="clock-city">${city}</div>
+      <div class="clock-tz">${info.abbr}</div>
+    </div>
+    <div>
+      <div class="clock-time">--:--</div>
+      <div class="clock-date-mini">--</div>
+    </div>
+  `;
+  grid.appendChild(item);
+});
+
+function updateClocks() {
+  const now = new Date();
+  const dot = document.getElementById('sync-indicator');
+  if (dot) dot.style.color = now.getSeconds() % 2 === 0 ? '#22c55e' : '#94a3b8';
+  
+  cities.forEach(city => {
+    const info = CITY_DB[city];
+    const el = document.getElementById('city-' + city.replace(/\s/g, '-'));
+    if (!el) return;
+    
+    const timeStr = new Intl.DateTimeFormat('en-US', {
+      timeZone: info.tz, hour: '2-digit', minute: '2-digit', hour12: false
+    }).format(now);
+    
+    const dateStr = new Intl.DateTimeFormat('en-US', {
+      timeZone: info.tz, weekday: 'short', month: 'short', day: 'numeric'
+    }).format(now);
+    
+    el.querySelector('.clock-time').textContent = timeStr;
+    el.querySelector('.clock-date-mini').textContent = dateStr;
+  });
+}
+
+updateClocks();
+setInterval(updateClocks, 1000);
+</script>
+</body>
+</html>

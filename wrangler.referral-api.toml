@@ -1,0 +1,19 @@
+name = "globetimezone-referral-api"
+compatibility_date = "2026-06-01"
+compatibility_flags = ["nodejs_compat"]
+main = "./workers/referral-api/index.ts"
+
+[observability]
+enabled = true
+
+[env.production]
+# 不设置公开路由 — 通过 gateway 代理访问
+workers_dev = true
+
+# KV 绑定 — 复用 API_KEYS namespace 存储推荐数据
+[[env.production.kv_namespaces]]
+binding = "API_KEYS"
+id = "d89a7aa6340f4f3790495e119a94acf7"
+
+[env.production.vars]
+ENVIRONMENT = "production"

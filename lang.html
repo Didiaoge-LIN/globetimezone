@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GlobeTimeZone - World Time Zone Converter</title>
+  <meta name="description" content="Free online time zone converter. Compare multiple time zones simultaneously." />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    #loader {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: #f8fafc; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; z-index: 9999;
+    }
+    .spinner {
+      width: 40px; height: 40px; border: 3px solid #e2e8f0;
+      border-top-color: #3b82f6; border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #loader p { margin-top: 16px; color:#595959; font-size: 14px; }
+  </style>
+  <!-- Google Analytics 4 -->
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script src="js/ga4.js"></script>
+  <!-- SEO: Canonical redirects to root (language selector via querystring) -->
+  <link rel="canonical" href="https://globetimezone.com/" />
+</head>
+<body>
+  <div id="loader">
+    <div id="spinner-wrap">
+      <div class="spinner"></div>
+      <p>Loading...</p>
+    </div>
+    <noscript>
+      <p>Select your language:</p>
+      <ul>
+        <li><a href="/">English</a></li>
+        <li><a href="/zh/">中文</a></li>
+        <li><a href="/es/">Español</a></li>
+        <li><a href="/fr/">Français</a></li>
+        <li><a href="/de/">Deutsch</a></li>
+        <li><a href="/ja/">日本語</a></li>
+        <li><a href="/pt/">Português</a></li>
+        <li><a href="/ko/">한국어</a></li>
+        <li><a href="/ar/">العربية</a></li>
+      </ul>
+    </noscript>
+  </div>
+
+  <script>
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var lang = params.get('lang') || 'en';
+      
+      // Map of language codes to page URLs (folder-based, consistent with sitemap)
+      var langMap = {
+        'en': '/',
+        'zh': '/zh/',
+        'es': '/es/',
+        'fr': '/fr/',
+        'de': '/de/',
+        'ja': '/ja/',
+        'pt': '/pt/',
+        'ko': '/ko/',
+        'ar': '/ar/'
+      };
+      
+      var targetUrl = langMap[lang] || '/';
+      
+      // 1. Push state for history (if supported) then navigate
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState({lang: lang}, '', targetUrl);
+      }
+      // 2. Actual redirect — browsers execute this, crawlers fall back to canonical + noscript links
+      window.location.replace(targetUrl);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+# GlobeTimeZone.com - robots.txt
+# Sitemap location
+Sitemap: https://globetimezone.com/sitemap.xml
+
+# Allow all crawlers
+User-agent: *
+
+# Allow crawling of all pages
+Allow: /
+
+# Block crawling of API endpoints (if needed in future)
+# Disallow: /api/
+# Disallow: /v1/
+
+# Crawl delay (optional, be nice to servers)
+Crawl-delay: 1
+
+# Specific bot instructions
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /

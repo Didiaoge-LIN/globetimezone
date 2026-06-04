@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PST to CST Converter | Pacific to China Standard Time | GlobeTimeZone</title>
+  <meta name="description" content="Convert PST (Pacific Standard Time, UTC-8) to CST (China Standard Time, UTC+8). 24-hour table, quick converter, and best times to schedule calls between California and China." />
+  <meta name="keywords" content="PST to CST, Pacific time to China time, PST CST converter, Los Angeles to Beijing time, California China time difference" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://globetimezone.com/converter/pst-to-cst" />
+    <!-- PWA & Social -->
+  <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+  <link rel="manifest" href="../manifest.json" />
+  <meta name="twitter:card" content="summary_large_image" />
+  
+  <link rel="stylesheet" href="../css/style.min.css" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is the time difference between PST and China Standard Time?","acceptedAnswer":{"@type":"Answer","text":"China Standard Time (CST, UTC+8) is 16 hours ahead of PST (UTC-8) during US standard time. During PDT (UTC-7), China is 15 hours ahead."}},{"@type":"Question","name":"What is 9 AM PST in China time?","acceptedAnswer":{"@type":"Answer","text":"9:00 AM PST is 1:00 AM the next day in China Standard Time (UTC+8)."}}]}</script>
+  <!-- Google Analytics 4 -->
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script src="../js/ga4.min.js"></script>
+</head>
+<body>
+
+<!-- ===== Accessibility: Skip to main content ===== -->
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<header>
+  <div class="header-inner">
+    <a href="../" class="logo">🌍 Globe<span>TimeZone</span></a>
+    <nav> aria-label="Main navigation"<a href="../">Converter</a><a href="world-clock.html">World Clock</a><a href="meeting-scheduler.html">Meeting Scheduler</a></nav>
+  </div>
+</header>
+<nav class="breadcrumb" style="padding:12px 24px;max-width:1200px;margin:0 auto;font-size:0.875rem;color:#595959;">
+  <a href="../" style="color:#2563eb;text-decoration:none;">Home</a> &gt; <span>PST to CST Converter</span>
+</nav>
+<main style="max-width:1100px;margin:0 auto;padding:20px 24px;" id="main-content" role="main">
+  <h1 class="section-title" style="font-size:2rem;margin-bottom:8px;">PST to CST (China) Time Converter</h1>
+  <p style="color:#595959;margin-bottom:24px;">Convert between Pacific Standard Time (PST, UTC-8) and China Standard Time (CST, UTC+8). China is <strong>16 hours ahead</strong> of PST (15 hours during PDT).</p>
+
+  <div class="card" style="background:linear-gradient(135deg,var(--primary-light),#dbeafe);border-color:var(--primary);margin-bottom:24px;">
+    <h2 class="card-title">⚡ Quick Converter</h2>
+    <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:center;margin-top:20px;">
+      <div style="text-align:center;">
+        <div style="font-size:0.875rem;color:#595959;margin-bottom:8px;">🌴 Pacific Time (PST/PDT)</div>
+        <input type="time" id="pst-input" value="09:00" class="form-input" style="font-size:1.5rem;font-weight:700;text-align:center;height:56px;" oninput="convertPSTtoCST()">
+      </div>
+      <div style="font-size:2rem;text-align:center;">→</div>
+      <div style="text-align:center;">
+        <div style="font-size:0.875rem;color:#595959;margin-bottom:8px;">🇨🇳 China Time (CST, UTC+8)</div>
+        <div id="cst-output" style="font-size:1.5rem;font-weight:700;color:var(--primary);padding:14px;background:white;border-radius:8px;border:1px solid var(--border);">01:00 (next day)</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:16px;">
+      <button class="btn btn-primary" onclick="copyConversion()">📋 Copy Result</button>
+    </div>
+  </div>
+
+  <section class="card">
+    <h2 class="card-title">📊 PST to CST — Conversion Table (Key Hours)</h2>
+    <div style="overflow-x:auto;margin-top:16px;">
+      <table style="width:100%;border-collapse:collapse;font-size:0.875rem;">
+        <thead><tr style="background:var(--primary);color:white;"><th style="padding:10px 14px;">🌴 PST Time</th><th style="padding:10px 14px;">🇨🇳 China CST</th><th style="padding:10px 14px;">Meeting Window?</th></tr></thead>
+        <tbody id="conversion-table"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card" style="margin-top:24px;">
+    <h2 class="card-title">💼 Best Meeting Windows: US West Coast ↔ China</h2>
+    <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+      <div style="padding:16px;background:#f0fdf4;border-radius:8px;border:1px solid #86efac;">
+        <strong style="color:#16a34a;">✅ Best Windows</strong>
+        <ul style="margin-top:8px;color:#595959;line-height:2.2;list-style:none;padding:0;">
+          <li>⭐ <strong>6–8 PM PST</strong> = 10 AM–12 PM CST next day</li>
+          <li>⭐ <strong>7–9 PM PST</strong> = 11 AM–1 PM CST next day</li>
+          <li>💡 Evening in LA = Morning in China (best overlap)</li>
+        </ul>
+      </div>
+      <div style="padding:16px;background:#fef2f2;border-radius:8px;border:1px solid #fca5a5;">
+        <strong style="color:#dc2626;">❌ Very Difficult Windows</strong>
+        <ul style="margin-top:8px;color:#595959;line-height:2.2;list-style:none;padding:0;">
+          <li>😴 9 AM–5 PM PST = overnight in China</li>
+          <li>⚠️ 16-hour gap makes morning overlap impossible</li>
+          <li>💡 Consider async communication for many interactions</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin-top:40px;">
+    <h2 class="section-title">🔗 Related Converters</h2>
+    <div class="quick-convert-grid" style="margin-top:16px;">
+      <a href="est-to-cst-converter.html" class="quick-convert-item"><span class="qc-flag">🇺🇸</span><div class="qc-info"><span class="qc-name">EST to CST</span><span class="qc-desc">New York to Beijing</span></div></a>
+      <a href="gmt-to-cst-converter.html" class="quick-convert-item"><span class="qc-flag">🇬🇧</span><div class="qc-info"><span class="qc-name">GMT to CST</span><span class="qc-desc">London to Beijing</span></div></a>
+      <a href="ist-to-est-converter.html" class="quick-convert-item"><span class="qc-flag">🇮🇳</span><div class="qc-info"><span class="qc-name">IST to EST</span><span class="qc-desc">India to New York</span></div></a>
+    </div>
+  </section>
+</main>
+<footer role="contentinfo"><div class="footer-inner"><div class="footer-grid"><div><a href="../" class="footer-logo">🌍 GlobeTimeZone</a><p class="footer-desc">Free time zone converter. IANA database.</p></div></div><div class="footer-bottom"><p>© 2026 GlobeTimeZone.com · <span id="sync-time"></span></p></div></div></footer>
+<script>
+function isDSTActive() {
+  const d=new Date();const jan=new Date(d.getFullYear(),0,1);const jul=new Date(d.getFullYear(),6,1);
+  const janOff=new Date(jan.toLocaleString('en-US',{timeZone:'America/Los_Angeles'})).getTimezoneOffset();
+  const julOff=new Date(jul.toLocaleString('en-US',{timeZone:'America/Los_Angeles'})).getTimezoneOffset();
+  const nowOff=new Date(d.toLocaleString('en-US',{timeZone:'America/Los_Angeles'})).getTimezoneOffset();
+  return nowOff===Math.min(janOff,julOff);
+}
+
+function pstToCST(h, m, dst) {
+  // PST = UTC-8, PDT = UTC-7, CST = UTC+8
+  const offset = dst ? 15 * 60 : 16 * 60;
+  const total = h*60+m+offset;
+  const days = Math.floor(total/(24*60));
+  const mins = total%(24*60);
+  return {h:Math.floor(mins/60),m:mins%60,dayOffset:days};
+}
+
+function fmt(h,m){return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;}
+
+function convertPSTtoCST() {
+  const val=document.getElementById('pst-input').value;
+  if(!val)return;
+  const [h,m]=val.split(':').map(Number);
+  const isDST=isDSTActive();
+  const r=pstToCST(h,m,isDST);
+  const dayStr=r.dayOffset>0?' (next day)':r.dayOffset<0?' (prev day)':'';
+  document.getElementById('cst-output').textContent=`${fmt(r.h,r.m)}${dayStr} (CST)`;
+}
+
+function copyConversion(){
+  const pst=document.getElementById('pst-input').value;
+  const cst=document.getElementById('cst-output').textContent;
+  navigator.clipboard.writeText(`${pst} PST = ${cst}\nGlobeTimeZone.com`);
+}
+
+const tbody=document.getElementById('conversion-table');
+const isDST=isDSTActive();
+const keyHours=[6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21];
+keyHours.forEach(h=>{
+  const r=pstToCST(h,0,isDST);
+  const dayStr=r.dayOffset>0?' (next day)':r.dayOffset<0?' (prev day)':'';
+  const cstWorking=r.h>=9&&r.h<18;
+  const row=document.createElement('tr');
+  row.style.cssText=h%2===0?'background:#f9fafb;':'';
+  row.innerHTML=`<td style="padding:8px 14px;">${fmt(h,0)} ${isDST?'PDT':'PST'}</td><td style="padding:8px 14px;${cstWorking?'background:#dcfce7;':''}">${fmt(r.h,r.m)}${dayStr} CST</td><td style="padding:8px 14px;font-size:0.8rem;">${cstWorking?'✅ Business hours in China':''}</td>`;
+  tbody.appendChild(row);
+});
+
+convertPSTtoCST();
+setInterval(()=>{const el=document.getElementById('sync-time');if(el)el.textContent='Updated: '+new Date().toLocaleTimeString('en-US',{hour12:false});},1000);
+</script>
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js')}</script>
+</body>
+</html>

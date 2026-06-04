@@ -1,0 +1,20 @@
+name = "globetimezone-reminder-api"
+main = "workers/reminder-api/index.ts"
+compatibility_date = "2026-05-29"
+compatibility_flags = ["nodejs_compat"]
+account_id = "b73e041dfa2e834c1cd23d11f1971cd5"
+
+routes = [
+  { pattern = "globetimezone.com/api/reminders*", zone_id = "4b8640caf424bf01cae67e92862961ef" }
+]
+
+[[kv_namespaces]]
+binding = "REMINDERS"
+id = "c29503afef6b4dee987a85ae9cb251d7"
+
+[env.production.vars]
+SENDGRID_API_KEY = "【必须创建：你的 SendGrid API Key】"
+ENVIRONMENT = "production"
+
+[env.production.observability]
+enabled = true

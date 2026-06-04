@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About GlobeTimeZone – Our Story & Mission</title>
+  <meta name="description" content="Learn about GlobeTimeZone's mission to make time zone conversion effortless. Built by a remote work veteran with 10+ years of cross-continental team management experience." />
+  <meta name="robots" content="index, follow" />
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="About GlobeTimeZone – Our Story" />
+  <meta property="og:description" content="Making time zone conversion effortless for remote workers, travelers, and global businesses." />
+  <meta property="og:locale" content="en_US" />
+  
+  <!-- Hreflang -->
+  <link rel="alternate" hreflang="en" href="https://globetimezone.com/pages/about.html" />
+  <link rel="alternate" hreflang="zh" href="https://globetimezone.com/pages/about-zh.html" />
+  
+  <!-- Canonical -->
+  <link rel="canonical" href="https://globetimezone.com/pages/about.html" />
+  <link rel="canonical" href="https://globetimezone.com/pages/about.html" />
+  
+  <link rel="stylesheet" href="/css/style.min.css" />
+  
+  <style>
+    .page-header {
+      background: linear-gradient(135deg, #064e3b 0%, #059669 100%);
+      color: white;
+      padding: 60px 24px;
+      text-align: center;
+    }
+    
+    .page-header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+    
+    .page-header p { font-size: 1.2rem; color: rgba(255,255,255,0.95);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .page-content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+    
+    .story-section {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    
+    .story-section h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .story-section p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    
+    .founder-card {
+      background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+      border: 2px solid #6ee7b7;
+      border-radius: 16px;
+      padding: 32px;
+      margin: 30px 0;
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+    }
+    
+    .founder-avatar {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+    
+    .founder-info h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 8px;
+    }
+    
+    .founder-info .role {
+      color: #059669;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+    }
+    
+    .founder-info p {
+      color: var(--text);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 0;
+    }
+    
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+    
+    .value-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    
+    .value-card:hover {
+      border-color: #059669;
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.1);
+    }
+    
+    .value-icon {
+      font-size: 2.5rem;
+      margin-bottom: 12px;
+    }
+    
+    .value-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 8px;
+    }
+    
+    .value-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin: 0;
+      line-height: 1.6;
+    }
+    
+    .trust-badges {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 24px;
+      margin: 30px 0;
+    }
+    
+    .trust-badges h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    
+    .badges-row {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    
+    .badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+    
+    .badge-icon {
+      color: #059669;
+      font-size: 1.2rem;
+    }
+    
+    .contact-section {
+      background: linear-gradient(135deg, #064e3b 0%, #059669 100%);
+      border-radius: 16px;
+      padding: 40px;
+      color: white;
+      text-align: center;
+    }
+    
+    .contact-section h2 {
+      color: white;
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+    }
+    
+    .contact-section p {
+      opacity: 0.9;
+      margin-bottom: 24px;
+    }
+    
+    .contact-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: white;
+      color: #059669;
+      padding: 14px 28px;
+      border-radius: 100px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    
+    .contact-email:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      text-decoration: none;
+    }
+    
+    @media (max-width: 600px) {
+      .founder-card {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .page-header h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+  <!-- Google Analytics 4 -->
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script src="../js/ga4.min.js"></script>
+</head>
+<body>
+
+<!-- ===== Accessibility: Skip to main content ===== -->
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo">🌍 Globe<span>TimeZone</span></a>
+    <nav> aria-label="Main navigation"
+      <a href="/">Converter</a>
+      <a href="world-clock.html">World Clock</a>
+      <a href="articles.html">Articles</a>
+      <a href="about.html" class="active">About</a>
+      <span class="lang-switch">
+        <a href="about.html" class="lang-btn active">EN</a>
+        <a href="about-zh.html" class="lang-btn">中文</a>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<div class="page-header">
+  <h1>Our Story</h1>
+  <p>Built by someone who's lived the timezone nightmare — and wanted to fix it</p>
+</div>
+
+<main class="page-content" id="main-content" role="main">
+  
+  <!-- The Problem We Solved -->
+  <div class="story-section">
+    <h2>💭 The Problem We Lived</h2>
+    
+    <p>In 2016, I took a remote role managing a product team spread across San Francisco, Berlin, and Singapore. The first month was chaos. I scheduled meetings at "9 AM" without specifying timezones. I missed critical standups because I forgot about the 8-hour jump. I sent messages at midnight my colleagues' time.</p>
+    
+    <p>After the third timezone mishap that cost us a deal, I started keeping a spreadsheet. Then a notepad. Then a mental checklist. Eventually, I built a simple tool to do the math for me.</p>
+    
+    <p>That tool became GlobeTimeZone.</p>
+    
+    <div class="founder-card">
+      <div class="founder-avatar">🌍</div>
+      <div class="founder-info">
+        <h3>Why I Built This</h3>
+        <div class="role">10+ years managing cross-continental teams</div>
+        <p>I've been on both ends of the timezone gap. I've taken calls at 4 AM to accommodate Beijing colleagues. I've sent messages at midnight without realizing it was morning for my London team. I know what it's like to feel perpetually out of sync with your own colleagues.</p>
+        <p style="margin-top:12px;"><strong>That's why GlobeTimeZone is free, fast, and requires no signup.</strong> Nobody should need an account just to figure out what time it is somewhere else.</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Our Values -->
+  <div class="story-section">
+    <h2>🎯 What We Believe</h2>
+    
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-icon">⚡</div>
+        <h3>Speed Matters</h3>
+        <p>No pages to load, no forms to fill. Get your answer in under 3 seconds.</p>
+      </div>
+      
+      <div class="value-card">
+        <div class="value-icon">🎯</div>
+        <h3>Accuracy First</h3>
+        <p>All times verified against IANA Time Zone Database, the global standard.</p>
+      </div>
+      
+      <div class="value-card">
+        <div class="value-icon">🔒</div>
+        <h3>No Strings Attached</h3>
+        <p>No account required. No cookies. No tracking. Your privacy is respected.</p>
+      </div>
+      
+      <div class="value-card">
+        <div class="value-icon">🌍</div>
+        <h3>Global by Design</h3>
+        <p>From Auckland to Reykjavik, we support 400+ cities and timezones.</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Trust & Accuracy -->
+  <div class="story-section">
+    <h2>✅ How We Stay Accurate</h2>
+    
+    <p>Time zones aren't static. Countries change their timezone rules. Daylight saving dates shift. Political decisions can move a country's offset overnight. This is why accuracy requires ongoing effort.</p>
+    
+    <div class="trust-badges">
+      <h3>Our Accuracy Commitments</h3>
+      <div class="badges-row">
+        <div class="badge">
+          <span class="badge-icon">✓</span>
+          <span>IANA Time Zone Database</span>
+        </div>
+        <div class="badge">
+          <span class="badge-icon">✓</span>
+          <span>DST updates before change dates</span>
+        </div>
+        <div class="badge">
+          <span class="badge-icon">✓</span>
+          <span>Fact-checked content</span>
+        </div>
+        <div class="badge">
+          <span class="badge-icon">✓</span>
+          <span>Quarterly verification</span>
+        </div>
+      </div>
+    </div>
+    
+    <p>We update our timezone data whenever IANA releases new tzdata versions. For articles and guides, we review and update content before major DST transitions (March and October).</p>
+  </div>
+  
+  <!-- What We Don't Do -->
+  <div class="story-section">
+    <h2>🚫 What We're NOT</h2>
+    
+    <ul style="font-size:1.05rem;line-height:1.8;color:var(--text);padding-left:24px;">
+      <li style="margin-bottom:12px;"><strong>Not a tracking tool.</strong> We don't store your searches, your location, or your timezone preferences in a database.</li>
+      <li style="margin-bottom:12px;"><strong>Not a calendar app.</strong> We're a conversion tool, not a scheduling solution. For scheduling, try our <a href="meeting-scheduler.html" style="color:#059669;font-weight:600;">Meeting Scheduler</a>.</li>
+      <li style="margin-bottom:12px;"><strong>Not a news source.</strong> Our articles cover timezone knowledge, not current events.</li>
+      <li><strong>Not affiliated with any government.</strong> We use IANA data but are an independent project.</li>
+    </ul>
+  </div>
+  
+  <!-- Contact -->
+  <div class="contact-section">
+    <h2>📬 Get In Touch</h2>
+    <p>Have feedback, found an error, or want to suggest a feature?<br/>We read every message.</p>
+    <a href="mailto:contact@globetimezone.com" class="contact-email">
+      ✉️ contact@globetimezone.com
+    </a>
+  </div>
+  
+</main>
+
+<footer role="contentinfo">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h4>🌍 GlobeTimeZone</h4>
+      <p>Free, accurate time zone conversion for everyone.</p>
+    </div>
+    <div class="footer-section">
+      <h4>Quick Links</h4>
+      <a href="/">Time Converter</a>
+      <a href="world-clock.html">World Clock</a>
+      <a href="articles.html">Articles</a>
+      <a href="about.html">About</a>
+    </div>
+    <div class="footer-section">
+      <h4>Resources</h4>
+      <a href="meeting-scheduler.html">Meeting Scheduler</a>
+      <a href="api.html">API Access</a>
+      <a href="embed-widget.html">Embed Widget</a>
+    </div>
+    <div class="footer-section">
+      <h4>Legal</h4>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="contact.html">Contact Us</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 GlobeTimeZone. Times verified against IANA Time Zone Database.</p>
+  </div>
+</footer>
+
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js')}</script>
+</body>
+</html>

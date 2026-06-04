@@ -1,0 +1,87 @@
+/**
+ * Homepage-specific scripts (index.html)
+ * Service Worker registration, PWA install prompt, Quick city clocks
+ */
+
+// Service Worker Registration
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js')
+      .then(function(registration) {
+        console.log('SW registered:', registration.scope);
+      })
+      .catch(function(error) {
+        console.log('SW registration failed:', error);
+      });
+  });
+}
+
+// PWA Install Prompt
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  deferredPrompt = e;
+  var banner = document.getElementById('pwa-install-banner');
+  if (banner) banner.style.display = 'flex';
+});
+
+function installPWA() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function(choiceResult) {
+      if (choiceResult.outcome === 'accepted') {
+        console.log('User accepted the A2HS prompt');
+      }
+      deferredPrompt = null;
+      var banner = document.getElementById('pwa-install-banner');
+      if (banner) banner.style.display = 'none';
+    });
+  }
+}
+
+function dismissPWA() {
+  var banner = document.getElementById('pwa-install-banner');
+  if (banner) banner.style.display = 'none';
+  localStorage.setItem('pwaDismissed', 'true');
+}
+
+// Quick city time updates on homepage
+var QUICK_CITIES = {
+  'qc-newyork': 'America/New_York',
+  'qc-london': 'Europe/London',
+  'qc-paris': 'Europe/Paris',
+  'qc-dubai': 'Asia/Dubai',
+  'qc-beijing': 'Asia/Shanghai',
+  'qc-singapore': 'Asia/Singapore',
+  'qc-tokyo': 'Asia/Tokyo',
+  'qc-sydney': 'Australia/Sydney',
+  'qc-seoul': 'Asia/Seoul',
+  'qc-la': 'America/Los_Angeles',
+  'qc-chicago': 'America/Chicago',
+  'qc-toronto': 'America/Toronto'
+};
+
+function updateQuickCities() {
+  var now = new Date();
+  Object.keys(QUICK_CITIES).forEach(function(id) {
+    var tz = QUICK_CITIES[id];
+    var el = document.getElementById(id);
+    if (!el) return;
+    var timeFormatter = new Intl.DateTimeFormat('en-US', { timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false });
+    var timeStr = timeFormatter.format(now);
+    var partsFormatter = new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: 'short' });
+    var parts = partsFormatter.formatToParts(now);
+    var tzPart = parts.find(function(p) { return p.type === 'timeZoneName'; });
+    var tzName = tzPart ? tzPart.value : '';
+    el.textContent = timeStr + ' · ' + tzName;
+  });
+  var footerSync = document.getElementById('footer-sync');
+  if (footerSync) {
+    var footerFormatter = new Intl.DateTimeFormat('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+    footerSync.textContent = 'Last synced: ' + footerFormatter.format(now);
+  }
+}
+
+setInterval(updateQuickCities, 1000);
+updateQuickCities();

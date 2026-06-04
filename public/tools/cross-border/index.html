@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>跨境发货时间计算器 | GlobeTimeZone</title>
+  <meta name="description" content="计算跨境发货时效，了解目标国家当前时间和客服上班时间。">
+  <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+  <main id="main-content">
+    <h1>📦 跨境发货时间计算器</h1>
+    <label for="country-select">选择目标国家：</label>
+    <select id="country-select">
+      <option value="America/New_York">美国 (东部)</option>
+      <option value="Europe/London">英国</option>
+      <option value="Asia/Tokyo">日本</option>
+    </select>
+    <div id="result-panel">
+      <p>当地时间：<real-clock timezone="America/New_York"><span class="time-display">--:--</span></real-clock></p>
+      <p>客服上班时间：<span id="work-hours">9:00 - 18:00</span></p>
+      <p>主要节假日：<span id="holidays">加载中...</span></p>
+      <p>预计发货到达：<span id="delivery-estimate">计算中...</span></p>
+    </div>
+    <aside class="ad-sidebar">
+      <div class="ad-container" data-ad-slot="【通过广告系统配置】" data-width="300" data-height="250"></div>
+    </aside>
+  </main>
+  <script src="/scripts/cross-border.js"></script>
+</body>
+</html>

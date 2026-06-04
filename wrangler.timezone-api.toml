@@ -1,0 +1,19 @@
+name = "globetimezone-timezone-api"
+main = "./workers/timezone-api/index.ts"
+compatibility_date = "2026-05-30"
+compatibility_flags = ["nodejs_compat"]
+account_id = "b73e041dfa2e834c1cd23d11f1971cd5"
+workers_dev = true
+
+routes = [
+  { pattern = "globetimezone.com/api/v1/timezone/*", zone_id = "4b8640caf424bf01cae67e92862961ef" },
+  { pattern = "www.globetimezone.com/api/v1/timezone/*", zone_id = "4b8640caf424bf01cae67e92862961ef" }
+]
+
+[[kv_namespaces]]
+binding = "TZ_DATA"
+id = "71c0cb3a54094834ab733f4537162fa0"
+
+[[kv_namespaces]]
+binding = "CALIBRATION"
+id = "5a026ac173d84ca5836d47357cd4df65"

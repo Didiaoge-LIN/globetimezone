@@ -1,0 +1,443 @@
+- generic [active] [ref=e1]:
+  - link "Skip to main content" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - link "GlobeTimeZone Homepage" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - text: 🌍 Globe
+        - generic [ref=e6]: TimeZone
+      - navigation "Main navigation" [ref=e7]:
+        - link "Converter" [ref=e8] [cursor=pointer]:
+          - /url: /
+        - link "World Clock" [ref=e9] [cursor=pointer]:
+          - /url: pages/world-clock.html
+        - link "Team Panel" [ref=e10] [cursor=pointer]:
+          - /url: pages/team-overlap.html
+        - link "Articles" [ref=e11] [cursor=pointer]:
+          - /url: pages/articles.html
+        - link "About" [ref=e12] [cursor=pointer]:
+          - /url: pages/about.html
+        - button "🌐 EN" [ref=e15] [cursor=pointer]
+        - button "Login" [ref=e16] [cursor=pointer]
+  - generic [ref=e18]:
+    - heading "🚀 Get GlobeTimeZone on Your Browser" [level=3] [ref=e19]
+    - paragraph [ref=e20]: One click to check any city time. No more tab switching!
+    - generic [ref=e21]:
+      - link "Chrome / Edge" [ref=e22] [cursor=pointer]:
+        - /url: https://github.com
+      - link "Firefox" [ref=e23] [cursor=pointer]:
+        - /url: https://github.com
+      - link "Download Extension" [ref=e24] [cursor=pointer]:
+        - /url: globetimezone-extension/
+  - generic [ref=e26]:
+    - heading "🌍 World Time Zone Converter" [level=1] [ref=e27]
+    - paragraph [ref=e28]: Free, No Ads, Multi-City Comparison | Automatic Daylight Saving Time | Supports 400+ Time Zones
+    - link "🚀 Start Converting Now" [ref=e30] [cursor=pointer]:
+      - /url: "#converter"
+    - generic [ref=e31]:
+      - generic [ref=e32]: ⭐ Customizable World Clocks
+      - generic [ref=e33]: 🌍 400+ Time Zones
+      - generic [ref=e34]: ⚡ Instant Conversion
+      - generic [ref=e35]: 📱 Mobile Friendly
+      - generic [ref=e36]: 🕐 Multi-City Comparison
+      - generic [ref=e37]: 📚 Time Zone Guides
+  - navigation "Breadcrumb" [ref=e38]:
+    - list [ref=e39]:
+      - listitem [ref=e40]:
+        - link "Home" [ref=e41] [cursor=pointer]:
+          - /url: /
+      - listitem [ref=e42]: ›
+      - listitem [ref=e43]: Time Zone Converter
+  - main [ref=e44]:
+    - generic [ref=e45]:
+      - heading "🕐 Multi-City Time Zone Converter" [level=2] [ref=e46]
+      - paragraph [ref=e47]: Compare up to 6 time zones simultaneously. Drag the slider to see all cities at different times.
+      - generic [ref=e49]:
+        - generic [ref=e50]:
+          - generic [ref=e51]: Date
+          - textbox "Date" [ref=e52]
+        - generic [ref=e53]:
+          - generic [ref=e54]: Base Time
+          - textbox "Base Time" [ref=e55]: 09:00
+        - generic [ref=e56]:
+          - generic [ref=e57]: Base Time Zone
+          - combobox "Base Time Zone" [ref=e58]
+      - generic [ref=e59]:
+        - text: ⏱️ Time Slider — Drag to see all cities at different times
+        - generic [ref=e60]:
+          - slider "⏱️ Time Slider — Drag to see all cities at different times" [ref=e61] [cursor=pointer]: "9"
+          - generic [ref=e62]:
+            - generic [ref=e63]: 00:00
+            - generic [ref=e64]: 06:00
+            - generic [ref=e65]: 12:00
+            - generic [ref=e66]: 18:00
+            - generic [ref=e67]: 23:00
+        - generic [ref=e68]: 09:00
+      - generic [ref=e69]:
+        - generic [ref=e70]:
+          - heading "📊 Comparing 2 Time Zones" [level=3] [ref=e71]
+          - button "+ Add Time Zone" [ref=e72] [cursor=pointer]
+        - region "Timezone comparison results"
+      - generic [ref=e73]:
+        - button "📧 Email" [ref=e74] [cursor=pointer]
+        - button "📋 Copy" [ref=e75] [cursor=pointer]
+        - button "📅 Calendar" [ref=e76] [cursor=pointer]
+        - button "💾 Save Pair" [ref=e77] [cursor=pointer]
+        - button "⚙️ More" [ref=e78] [cursor=pointer]
+    - generic [ref=e79]:
+      - heading "🛠️ Quick Tools" [level=2] [ref=e80]
+      - paragraph [ref=e81]: Essential tools for international coordination and scheduling
+      - generic [ref=e82]:
+        - link "Meeting Scheduler — Find optimal meeting times across multiple time zones" [ref=e83] [cursor=pointer]:
+          - /url: pages/meeting-scheduler.html
+          - generic [ref=e84]: 📅
+          - generic [ref=e85]:
+            - heading "Meeting Scheduler" [level=3] [ref=e86]
+            - paragraph [ref=e87]: Find optimal meeting times across multiple time zones with visual timeline
+            - generic [ref=e88]: Team Scheduling
+        - link "Event Countdown — Countdown to any event in multiple time zones" [ref=e89] [cursor=pointer]:
+          - /url: pages/countdown.html
+          - generic [ref=e90]: ⏱️
+          - generic [ref=e91]:
+            - heading "Event Countdown" [level=3] [ref=e92]
+            - paragraph [ref=e93]: Countdown to any event in multiple time zones simultaneously
+            - generic [ref=e94]: Time Tracking
+        - link "World Holidays — Check public holidays in 200+ countries" [ref=e95] [cursor=pointer]:
+          - /url: pages/holidays.html
+          - generic [ref=e96]: 🎉
+          - generic [ref=e97]:
+            - heading "World Holidays" [level=3] [ref=e98]
+            - paragraph [ref=e99]: Check public holidays in 200+ countries for planning purposes
+            - generic [ref=e100]: Calendar Integration
+        - link "Time Unit Converter — Convert between hours, minutes, seconds, and decimal time" [ref=e101] [cursor=pointer]:
+          - /url: pages/time-units.html
+          - generic [ref=e102]: 🔄
+          - generic [ref=e103]:
+            - heading "Time Unit Converter" [level=3] [ref=e104]
+            - paragraph [ref=e105]: Convert between hours, minutes, seconds, and decimal time
+            - generic [ref=e106]: Utilities
+        - link "Embed Widget — Add a world clock widget to your website for free" [ref=e107] [cursor=pointer]:
+          - /url: pages/embed-widget.html
+          - generic [ref=e108]: 📱
+          - generic [ref=e109]:
+            - heading "Embed Widget" [level=3] [ref=e110]
+            - paragraph [ref=e111]: Add a world clock widget to your website or blog for free
+            - generic [ref=e112]: For Developers
+        - link "API Access — Integrate timezone data into your applications with our free API" [ref=e113] [cursor=pointer]:
+          - /url: pages/api.html
+          - generic [ref=e114]: ⚡
+          - generic [ref=e115]:
+            - heading "API Access" [level=3] [ref=e116]
+            - paragraph [ref=e117]: Integrate timezone data into your applications with our free API
+            - generic [ref=e118]: For Developers
+    - generic [ref=e119]:
+      - heading "🌐 Live World Clocks" [level=2] [ref=e120]
+      - paragraph [ref=e121]: Real-time clocks for major cities. Click any clock to add it to the converter. Hover to see controls.
+      - textbox "Search city to add" [ref=e123]:
+        - /placeholder: 🔍 Search city to add...
+      - region "World clock displays"
+      - paragraph [ref=e124]:
+        - text: 💡
+        - strong [ref=e125]: "Tip:"
+        - text: Click × to remove, click the clock to add to converter. Your selections are auto-saved!
+    - generic [ref=e126]:
+      - heading "🗺️ World Time Zone Map" [level=2] [ref=e127]
+      - paragraph [ref=e128]: Click on major regions to quickly compare time zones around the world.
+      - generic [ref=e129]:
+        - link "🌎 Americas New York, LA, Toronto" [ref=e130] [cursor=pointer]:
+          - /url: pages/world-map.html
+          - generic [ref=e131]: 🌎
+          - generic [ref=e132]: Americas
+          - generic [ref=e133]: New York, LA, Toronto
+        - link "🌍 Europe London, Paris, Berlin" [ref=e134] [cursor=pointer]:
+          - /url: pages/world-map.html#europe
+          - generic [ref=e135]: 🌍
+          - generic [ref=e136]: Europe
+          - generic [ref=e137]: London, Paris, Berlin
+        - link "🌏 Asia Tokyo, Beijing, Dubai" [ref=e138] [cursor=pointer]:
+          - /url: pages/world-map.html#asia
+          - generic [ref=e139]: 🌏
+          - generic [ref=e140]: Asia
+          - generic [ref=e141]: Tokyo, Beijing, Dubai
+        - link "🏝️ Pacific Sydney, Auckland" [ref=e142] [cursor=pointer]:
+          - /url: pages/world-map.html#pacific
+          - generic [ref=e143]: 🏝️
+          - generic [ref=e144]: Pacific
+          - generic [ref=e145]: Sydney, Auckland
+    - generic [ref=e146]:
+      - heading "🌆 Current Time in Popular Cities" [level=2] [ref=e147]
+      - paragraph [ref=e148]: Click any city for detailed time zone info, DST status, and world comparisons.
+      - generic [ref=e149]:
+        - link "🗽 New York EST · UTC-5" [ref=e150] [cursor=pointer]:
+          - /url: pages/time-in/new-york.html
+          - generic [ref=e151]: 🗽
+          - generic [ref=e152]:
+            - generic [ref=e153]: New York
+            - generic [ref=e154]: EST · UTC-5
+        - link "🇬🇧 London GMT · UTC+0" [ref=e155] [cursor=pointer]:
+          - /url: pages/time-in/london.html
+          - generic [ref=e156]: 🇬🇧
+          - generic [ref=e157]:
+            - generic [ref=e158]: London
+            - generic [ref=e159]: GMT · UTC+0
+        - link "🇫🇷 Paris CET · UTC+1" [ref=e160] [cursor=pointer]:
+          - /url: pages/time-in/paris.html
+          - generic [ref=e161]: 🇫🇷
+          - generic [ref=e162]:
+            - generic [ref=e163]: Paris
+            - generic [ref=e164]: CET · UTC+1
+        - link "🇦🇪 Dubai GST · UTC+4" [ref=e165] [cursor=pointer]:
+          - /url: pages/time-in/dubai.html
+          - generic [ref=e166]: 🇦🇪
+          - generic [ref=e167]:
+            - generic [ref=e168]: Dubai
+            - generic [ref=e169]: GST · UTC+4
+        - link "🇨🇳 Beijing CST · UTC+8" [ref=e170] [cursor=pointer]:
+          - /url: pages/time-in/beijing.html
+          - generic [ref=e171]: 🇨🇳
+          - generic [ref=e172]:
+            - generic [ref=e173]: Beijing
+            - generic [ref=e174]: CST · UTC+8
+        - link "🇸🇬 Singapore SGT · UTC+8" [ref=e175] [cursor=pointer]:
+          - /url: pages/time-in/singapore.html
+          - generic [ref=e176]: 🇸🇬
+          - generic [ref=e177]:
+            - generic [ref=e178]: Singapore
+            - generic [ref=e179]: SGT · UTC+8
+        - link "🇯🇵 Tokyo JST · UTC+9" [ref=e180] [cursor=pointer]:
+          - /url: pages/time-in/tokyo.html
+          - generic [ref=e181]: 🇯🇵
+          - generic [ref=e182]:
+            - generic [ref=e183]: Tokyo
+            - generic [ref=e184]: JST · UTC+9
+        - link "🇦🇺 Sydney AEST · UTC+10" [ref=e185] [cursor=pointer]:
+          - /url: pages/time-in/sydney.html
+          - generic [ref=e186]: 🇦🇺
+          - generic [ref=e187]:
+            - generic [ref=e188]: Sydney
+            - generic [ref=e189]: AEST · UTC+10
+        - link "🇰🇷 Seoul KST · UTC+9" [ref=e190] [cursor=pointer]:
+          - /url: pages/time-in/seoul.html
+          - generic [ref=e191]: 🇰🇷
+          - generic [ref=e192]:
+            - generic [ref=e193]: Seoul
+            - generic [ref=e194]: KST · UTC+9
+        - link "🌴 Los Angeles PST · UTC-8" [ref=e195] [cursor=pointer]:
+          - /url: pages/time-in/los-angeles.html
+          - generic [ref=e196]: 🌴
+          - generic [ref=e197]:
+            - generic [ref=e198]: Los Angeles
+            - generic [ref=e199]: PST · UTC-8
+        - link "🏙️ Chicago CST · UTC-6" [ref=e200] [cursor=pointer]:
+          - /url: pages/time-in/chicago.html
+          - generic [ref=e201]: 🏙️
+          - generic [ref=e202]:
+            - generic [ref=e203]: Chicago
+            - generic [ref=e204]: CST · UTC-6
+        - link "🇨🇦 Toronto EST · UTC-5" [ref=e205] [cursor=pointer]:
+          - /url: pages/time-in/toronto.html
+          - generic [ref=e206]: 🇨🇦
+          - generic [ref=e207]:
+            - generic [ref=e208]: Toronto
+            - generic [ref=e209]: EST · UTC-5
+    - generic [ref=e210]:
+      - heading "📖 Time Zone Guides" [level=2] [ref=e211]
+      - paragraph [ref=e212]: Learn about time zones, daylight saving time, and more.
+      - generic [ref=e213]:
+        - link "Read US vs China Time Difference Complete Guide — 5 min read" [ref=e214] [cursor=pointer]:
+          - /url: pages/us-china-time-difference.html
+          - generic [ref=e216]:
+            - generic [ref=e217]: Popular
+            - 'heading "US vs China Time Difference: Complete Guide" [level=3] [ref=e218]'
+            - paragraph [ref=e219]: Everything you need to know about the time difference between the United States and China, including daylight saving adjustments.
+            - generic [ref=e220]:
+              - generic [ref=e221]: 5 min read
+              - generic [ref=e222]: → Read more
+        - link "Read What is UTC? Universal Time Explained — 4 min read" [ref=e223] [cursor=pointer]:
+          - /url: pages/what-is-utc.html
+          - generic [ref=e225]:
+            - generic [ref=e226]: Basics
+            - heading "What is UTC? Universal Time Explained" [level=3] [ref=e227]
+            - paragraph [ref=e228]: UTC (Coordinated Universal Time) is the world's time standard. Learn how UTC works and why it matters for global communication.
+            - generic [ref=e229]:
+              - generic [ref=e230]: 4 min read
+              - generic [ref=e231]: → Read more
+        - 'link "Read Daylight Saving Time: Which Countries Use It? — 6 min read" [ref=e232] [cursor=pointer]':
+          - /url: pages/daylight-saving-time.html
+          - generic [ref=e234]:
+            - generic [ref=e235]: Guide
+            - 'heading "Daylight Saving Time: Which Countries Use It?" [level=3] [ref=e236]'
+            - paragraph [ref=e237]: A comprehensive list of which countries observe daylight saving time, when clocks change, and how it affects international business.
+            - generic [ref=e238]:
+              - generic [ref=e239]: 6 min read
+              - generic [ref=e240]: → Read more
+        - link "Read Best Times for International Business Meetings — 5 min read" [ref=e241] [cursor=pointer]:
+          - /url: pages/business-meeting-scheduler.html
+          - generic [ref=e243]:
+            - generic [ref=e244]: Tips
+            - heading "Best Times for International Business Meetings" [level=3] [ref=e245]
+            - paragraph [ref=e246]: Find the optimal meeting times that work across multiple time zones for your remote team or global clients.
+            - generic [ref=e247]:
+              - generic [ref=e248]: 5 min read
+              - generic [ref=e249]: → Read more
+        - link "Read Why Does Daylight Saving Time Exist? Full History — 10 min read" [ref=e250] [cursor=pointer]:
+          - /url: pages/why-daylight-saving-time.html
+          - generic [ref=e252]:
+            - generic [ref=e253]: New
+            - heading "Why Does Daylight Saving Time Exist? Full History" [level=3] [ref=e254]
+            - paragraph [ref=e255]: From World War I coal conservation to modern health debates — the surprising history of why we change our clocks twice a year.
+            - generic [ref=e256]:
+              - generic [ref=e257]: 10 min read
+              - generic [ref=e258]: → Read more
+        - link "Read Remote Team Time Zone Playbook — 12 min read" [ref=e259] [cursor=pointer]:
+          - /url: pages/remote-work-timezone.html
+          - generic [ref=e261]:
+            - generic [ref=e262]: New
+            - heading "Remote Team Time Zone Playbook" [level=3] [ref=e263]
+            - paragraph [ref=e264]: Best practices for scheduling meetings, setting core hours, and managing distributed teams across 3+ time zones.
+            - generic [ref=e265]:
+              - generic [ref=e266]: 12 min read
+              - generic [ref=e267]: → Read more
+        - link "Read How Distributed Teams Build a Time Respect Culture — 8 min read" [ref=e268] [cursor=pointer]:
+          - /url: pages/distributed-team-time-culture.html
+          - generic [ref=e270]:
+            - generic [ref=e271]: Featured
+            - heading "How Distributed Teams Build a \"Time Respect\" Culture" [level=3] [ref=e272]
+            - paragraph [ref=e273]: Concrete rules, tools, and habits for preventing burnout in cross-timezone teams. From anchor hours to async-first communication.
+            - generic [ref=e274]:
+              - generic [ref=e275]: 8 min read
+              - generic [ref=e276]: → Read more
+    - generic [ref=e277]:
+      - heading "About GlobeTimeZone" [level=2] [ref=e278]
+      - paragraph [ref=e279]: GlobeTimeZone is a free, easy-to-use time zone converter designed for travelers, remote workers, and global businesses. Whether you need to schedule an international meeting, call a friend abroad, or simply check what time it is on the other side of the world — our tool gives you instant, accurate results.
+      - paragraph [ref=e280]:
+        - text: We cover all major time zones worldwide, including US time zones (EST, CST, MST, PST), European zones (GMT, CET, EET), Asian zones (IST, CST, JST, KST), and many more. Our converter automatically accounts for
+        - strong [ref=e281]: daylight saving time
+        - text: changes in countries that observe DST.
+      - paragraph [ref=e282]: Bookmark this page for quick access — no app download needed, works on any device, completely free.
+  - generic [ref=e284]:
+    - generic [ref=e285]: 📬
+    - heading "Stay in Sync with the World" [level=2] [ref=e286]
+    - paragraph [ref=e287]: Get weekly time zone tips, DST reminders, and remote work hacks. No spam, unsubscribe anytime.
+    - generic [ref=e288]:
+      - textbox "Email address for newsletter" [ref=e289]:
+        - /placeholder: your@email.com
+      - button "Subscribe" [ref=e290] [cursor=pointer]
+    - paragraph [ref=e291]
+  - generic [ref=e292]:
+    - heading "📚 Related Tutorials & Guides" [level=2] [ref=e293]
+    - generic [ref=e294]:
+      - link "Why Does Daylight Saving Time Exist? The complete history, science, and global status of DST" [ref=e295] [cursor=pointer]:
+        - /url: pages/why-daylight-saving-time.html
+        - heading "Why Does Daylight Saving Time Exist?" [level=3] [ref=e296]
+        - paragraph [ref=e297]: The complete history, science, and global status of DST.
+      - 'link "Complete Guide to World Time Zones: Understanding UTC, GMT, offsets, and global scheduling" [ref=e298] [cursor=pointer]':
+        - /url: pages/timezone-guide.html
+        - heading "Complete Guide to World Time Zones" [level=3] [ref=e299]
+        - paragraph [ref=e300]: Understanding UTC, GMT, offsets, and global scheduling.
+      - 'link "Remote Work & Time Zone Guide: Best practices for global team scheduling and async collaboration" [ref=e301] [cursor=pointer]':
+        - /url: pages/remote-work-timezone.html
+        - heading "Remote Work & Time Zone Guide" [level=3] [ref=e302]
+        - paragraph [ref=e303]: Best practices for global team scheduling and async collaboration.
+      - 'link "Remote Team Timezone Management: Complete strategies for managing distributed teams across timezones" [ref=e304] [cursor=pointer]':
+        - /url: pages/remote-team-timezone-guide.html
+        - heading "Remote Team Timezone Management" [level=3] [ref=e305]
+        - paragraph [ref=e306]: Complete strategies for managing distributed teams across timezones.
+      - 'link "Building a Time-Respect Culture: How distributed teams prevent burnout with async-first habits" [ref=e307] [cursor=pointer]':
+        - /url: pages/distributed-team-time-culture.html
+        - heading "Building a Time-Respect Culture" [level=3] [ref=e308]
+        - paragraph [ref=e309]: How distributed teams prevent burnout with async-first habits.
+      - 'link "Time Units Converter: Convert seconds, minutes, hours, days, weeks, months and years" [ref=e310] [cursor=pointer]':
+        - /url: pages/time-units.html
+        - heading "Time Units Converter" [level=3] [ref=e311]
+        - paragraph [ref=e312]: Convert seconds, minutes, hours, days, weeks, months and years.
+  - contentinfo [ref=e313]:
+    - generic [ref=e314]:
+      - generic [ref=e315]:
+        - generic [ref=e316]:
+          - link "🌍 GlobeTimeZone" [ref=e317] [cursor=pointer]:
+            - /url: /
+          - paragraph [ref=e318]: Free world time zone converter. Convert time between any two cities instantly, view live world clocks, and learn about time zones.
+        - generic [ref=e319]:
+          - heading "Tools" [level=4] [ref=e320]
+          - list [ref=e321]:
+            - listitem [ref=e322]:
+              - link "Time Zone Converter" [ref=e323] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e324]:
+              - link "World Clock" [ref=e325] [cursor=pointer]:
+                - /url: pages/world-clock.html
+        - generic [ref=e326]:
+          - heading "Articles" [level=4] [ref=e327]
+          - list [ref=e328]:
+            - listitem [ref=e329]:
+              - link "All Articles" [ref=e330] [cursor=pointer]:
+                - /url: pages/articles.html
+            - listitem [ref=e331]:
+              - link "Why DST Exists?" [ref=e332] [cursor=pointer]:
+                - /url: pages/why-daylight-saving-time.html
+            - listitem [ref=e333]:
+              - link "Time Zone Guide" [ref=e334] [cursor=pointer]:
+                - /url: pages/timezone-guide.html
+            - listitem [ref=e335]:
+              - link "Remote Work Tips" [ref=e336] [cursor=pointer]:
+                - /url: pages/remote-work-timezone.html
+            - listitem [ref=e337]:
+              - link "Time Respect Culture" [ref=e338] [cursor=pointer]:
+                - /url: pages/distributed-team-time-culture.html
+        - generic [ref=e339]:
+          - heading "Popular Cities" [level=4] [ref=e340]
+          - list [ref=e341]:
+            - listitem [ref=e342]:
+              - link "New York" [ref=e343] [cursor=pointer]:
+                - /url: pages/time-in/new-york.html
+            - listitem [ref=e344]:
+              - link "London" [ref=e345] [cursor=pointer]:
+                - /url: pages/time-in/london.html
+            - listitem [ref=e346]:
+              - link "Paris" [ref=e347] [cursor=pointer]:
+                - /url: pages/time-in/paris.html
+            - listitem [ref=e348]:
+              - link "Tokyo" [ref=e349] [cursor=pointer]:
+                - /url: pages/time-in/tokyo.html
+            - listitem [ref=e350]:
+              - link "Beijing" [ref=e351] [cursor=pointer]:
+                - /url: pages/time-in/beijing.html
+            - listitem [ref=e352]:
+              - link "Dubai" [ref=e353] [cursor=pointer]:
+                - /url: pages/time-in/dubai.html
+            - listitem [ref=e354]:
+              - link "Singapore" [ref=e355] [cursor=pointer]:
+                - /url: pages/time-in/singapore.html
+            - listitem [ref=e356]:
+              - link "Sydney" [ref=e357] [cursor=pointer]:
+                - /url: pages/time-in/sydney.html
+        - generic [ref=e358]:
+          - heading "Info" [level=4] [ref=e359]
+          - list [ref=e360]:
+            - listitem [ref=e361]:
+              - link "About" [ref=e362] [cursor=pointer]:
+                - /url: pages/about.html
+            - listitem [ref=e363]:
+              - link "Embed Widget" [ref=e364] [cursor=pointer]:
+                - /url: pages/embed-widget.html
+            - listitem [ref=e365]:
+              - link "Privacy Policy" [ref=e366] [cursor=pointer]:
+                - /url: pages/privacy.html
+            - listitem [ref=e367]:
+              - link "Disclaimer" [ref=e368] [cursor=pointer]:
+                - /url: pages/disclaimer.html
+            - listitem [ref=e369]:
+              - link "Contact" [ref=e370] [cursor=pointer]:
+                - /url: pages/contact.html
+      - generic [ref=e371]:
+        - generic [ref=e372]:
+          - generic [ref=e373]:
+            - text: "🔒 Data:"
+            - link "IANA Timezone Database" [ref=e374] [cursor=pointer]:
+              - /url: https://www.iana.org/time-zones
+          - generic [ref=e375]: ✅ Auto DST-aware
+          - generic [ref=e376]: ⚡ Browser-native precision
+        - generic [ref=e377]: "Last synced: —"
+      - paragraph [ref=e379]: © 2026 GlobeTimeZone.com · All rights reserved · Free Time Zone Converter

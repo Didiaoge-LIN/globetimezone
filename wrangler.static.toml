@@ -1,0 +1,14 @@
+name = "globetimezone-static"
+compatibility_date = "2026-05-30"
+main = "./workers/static/index.ts"
+
+# Workers Assets：自动挂载 public/ 目录
+[assets]
+directory = "public"
+binding = "ASSETS"
+
+[env.production]
+route = { pattern = "globetimezone.com/*", zone_id = "4b8640caf424bf01cae67e92862961ef" }
+
+[observability]
+enabled = true

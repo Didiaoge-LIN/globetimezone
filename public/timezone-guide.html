@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Complete Guide to World Time Zones | GlobeTimeZone</title>
+  <meta name="description" content="Everything you need to know about world time zones: UTC offsets, how they work, the IANA database, UTC vs GMT, and tips for scheduling across time zones." />
+  <meta name="keywords" content="world time zones guide, UTC explained, GMT vs UTC, IANA timezone database, time zone abbreviations, how time zones work" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:locale" content="en_US" />
+  <link rel="alternate" hreflang="en" href="https://globetimezone.com/pages/timezone-guide.html" />
+  <link rel="alternate" hreflang="zh" href="https://globetimezone.com/pages/timezone-guide-zh.html" />
+  <link rel="canonical" href="https://globetimezone.com/pages/timezone-guide.html" />
+    <!-- PWA & Social -->
+  <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+  <link rel="manifest" href="../manifest.json" />
+  <meta name="twitter:card" content="summary_large_image" />
+  
+  <link rel="stylesheet" href="../css/style.min.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Complete Guide to World Time Zones",
+    "author": { "@type": "Organization", "name": "GlobeTimeZone" },
+    "publisher": { "@type": "Organization", "name": "GlobeTimeZone" },
+    "datePublished": "2026-05-01",
+    "dateModified": "2026-05-12",
+    "description": "A comprehensive guide to understanding world time zones, UTC offsets, and global scheduling."
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type":"Question","name":"What is UTC?","acceptedAnswer":{"@type":"Answer","text":"UTC (Coordinated Universal Time) is the primary time standard by which the world regulates clocks and time. It does not observe daylight saving time and is the successor to Greenwich Mean Time (GMT)."}},
+      {"@type":"Question","name":"What is the difference between UTC and GMT?","acceptedAnswer":{"@type":"Answer","text":"For most practical purposes, UTC and GMT are the same. UTC is a scientific standard maintained by atomic clocks, while GMT is based on mean solar time at the Greenwich meridian. UTC is the modern standard used in computing and aviation."}},
+      {"@type":"Question","name":"How many time zones are there in the world?","acceptedAnswer":{"@type":"Answer","text":"There are 38 distinct time zone offsets in the world, ranging from UTC-12 to UTC+14. However, there are only 24 main time zones corresponding to each hour. Some countries use half-hour or 45-minute offsets."}}
+    ]
+  }
+  </script>
+  <style>
+    .article-content h2 { font-size: 1.5rem; font-weight: 700; margin: 2.5rem 0 1rem; }
+    .article-content h3 { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.75rem; }
+    .article-content p { line-height: 1.8; color: var(--text-muted); margin-bottom: 1rem; }
+    .article-content ul, .article-content ol { color: var(--text-muted); line-height: 2; padding-left: 1.5rem; margin-bottom: 1rem; }
+    .tz-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.9rem; }
+    .tz-table th { background: var(--primary); color: white; padding: 10px 14px; text-align: left; }
+    .tz-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+    .tz-table tr:nth-child(even) { background: #f9fafb; }
+    .highlight-box { background: var(--primary-light); border-left: 4px solid var(--primary); padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 1.5rem 0; }
+    .highlight-box p { margin: 0; color: var(--text); }
+  </style>
+  <!-- Google Analytics 4 -->
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script src="../js/ga4.min.js"></script>
+</head>
+<body>
+
+<!-- ===== Accessibility: Skip to main content ===== -->
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<header role="banner">
+  <div class="header-inner">
+    <a href="../" class="logo">🌍 Globe<span>TimeZone</span></a>
+    <nav> aria-label="Main navigation"
+      <a href="../">Converter</a>
+      <a href="world-clock.html">World Clock</a>
+      <a href="meeting-scheduler.html">Meeting Scheduler</a>
+      <a href="articles.html">Articles</a>
+      <span class="lang-switch">
+        <a href="timezone-guide.html" class="lang-btn active">EN</a>
+        <a href="timezone-guide-zh.html" class="lang-btn">中文</a>
+      </span>
+    </nav>
+  </div>
+</header>
+<nav class="breadcrumb" style="padding:12px 24px;max-width:1200px;margin:0 auto;font-size:0.875rem;color:#595959;">
+  <a href="../" style="color:#2563eb;text-decoration:none;">Home</a> &gt;
+  <a href="articles.html" style="color:#2563eb;text-decoration:none;">Articles</a> &gt;
+  <span>Complete Time Zone Guide</span>
+</nav>
+
+<main style="max-width:1200px;margin:0 auto;padding:20px 24px;" id="main-content" role="main">
+  <article class="article-content" style="max-width:800px;">
+    
+    <header style="margin-bottom:2rem;">
+      <div style="display:flex;gap:8px;margin-bottom:12px;">
+        <span style="background:#dbeafe;color:#2563eb;padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:600;">GUIDE</span>
+        <span style="background:#f3f4f6;color:#595959;padding:4px 12px;border-radius:20px;font-size:0.75rem;">15 min read</span>
+      </div>
+      <h1 style="font-size:2.2rem;font-weight:800;line-height:1.2;margin-bottom:16px;">Complete Guide to World Time Zones</h1>
+      <p style="font-size:1.15rem;color:#595959;line-height:1.6;">From UTC offsets to the IANA database, from DST confusion to scheduling international meetings — this is everything you need to understand time zones in the modern world.</p>
+    </header>
+
+    <nav style="background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:2rem;">
+      <strong style="display:block;margin-bottom:12px;">📋 Table of Contents</strong>
+      <ol style="margin:0;padding-left:1.5rem;line-height:2.2;">
+        <li><a href="#what-are-time-zones" style="color:var(--primary);">What Are Time Zones?</a></li>
+        <li><a href="#utc-and-gmt" style="color:var(--primary);">UTC vs GMT: What's the Difference?</a></li>
+        <li><a href="#common-time-zones" style="color:var(--primary);">Major World Time Zones</a></li>
+        <li><a href="#dst" style="color:var(--primary);">Daylight Saving Time</a></li>
+        <li><a href="#iana-database" style="color:var(--primary);">The IANA Time Zone Database</a></li>
+        <li><a href="#scheduling-tips" style="color:var(--primary);">Tips for Scheduling Across Time Zones</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="what-are-time-zones">1. What Are Time Zones?</h2>
+    <p>A time zone is a region of the globe that observes a uniform standard time. Before time zones existed, every city kept its own "local solar time" — noon meant when the sun was at its highest. This was fine when travel was slow, but when railroads connected cities within hours, conflicting local times became a logistical nightmare.</p>
+    <p>In 1884, the International Meridian Conference established the Greenwich Meridian as the prime meridian (0° longitude), and the world was theoretically divided into 24 hour-wide zones. Each zone is one hour ahead or behind its neighbor. In practice, political boundaries mean time zones are far from perfectly geometric.</p>
+    <div class="highlight-box">
+      <p>🌍 <strong>Key fact:</strong> China has 5 geographic time zones but uses only one (UTC+8). The US has 6 time zones. Russia spans 11 time zones — the most of any single country.</p>
+    </div>
+
+    <h2 id="utc-and-gmt">2. UTC vs GMT: What's the Difference?</h2>
+    <p>You'll often see "UTC" and "GMT" used interchangeably, but they have different origins:</p>
+    <ul>
+      <li><strong>GMT (Greenwich Mean Time):</strong> Based on the mean solar time at the Greenwich Observatory in London. It was the global time standard for over a century.</li>
+      <li><strong>UTC (Coordinated Universal Time):</strong> The modern international standard, maintained by a network of atomic clocks. UTC is more precise than GMT and doesn't drift with Earth's rotation.</li>
+    </ul>
+    <p>For everyday purposes, UTC and GMT are identical — both represent the same moment in time and neither observes daylight saving time. UTC is the standard used in aviation, computing, and scientific contexts.</p>
+
+    <h2 id="common-time-zones">3. Major World Time Zones Reference</h2>
+    <table class="tz-table">
+      <thead>
+        <tr><th>Abbreviation</th><th>Full Name</th><th>UTC Offset</th><th>Key Cities</th><th>DST?</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>UTC</td><td>Coordinated Universal Time</td><td>UTC+0</td><td>—</td><td>No</td></tr>
+        <tr><td>GMT</td><td>Greenwich Mean Time</td><td>UTC+0</td><td>London (winter)</td><td>—</td></tr>
+        <tr><td>BST</td><td>British Summer Time</td><td>UTC+1</td><td>London (summer)</td><td>Yes</td></tr>
+        <tr><td>CET</td><td>Central European Time</td><td>UTC+1</td><td>Paris, Berlin (winter)</td><td>Yes</td></tr>
+        <tr><td>CEST</td><td>Central European Summer Time</td><td>UTC+2</td><td>Paris, Berlin (summer)</td><td>Yes</td></tr>
+        <tr><td>IST</td><td>India Standard Time</td><td>UTC+5:30</td><td>Mumbai, Delhi</td><td>No</td></tr>
+        <tr><td>CST</td><td>China Standard Time</td><td>UTC+8</td><td>Beijing, Shanghai</td><td>No</td></tr>
+        <tr><td>SGT</td><td>Singapore Standard Time</td><td>UTC+8</td><td>Singapore</td><td>No</td></tr>
+        <tr><td>JST</td><td>Japan Standard Time</td><td>UTC+9</td><td>Tokyo, Osaka</td><td>No</td></tr>
+        <tr><td>KST</td><td>Korea Standard Time</td><td>UTC+9</td><td>Seoul, Busan</td><td>No</td></tr>
+        <tr><td>AEST</td><td>Australia Eastern Standard Time</td><td>UTC+10</td><td>Sydney (winter)</td><td>Yes</td></tr>
+        <tr><td>EST</td><td>Eastern Standard Time</td><td>UTC-5</td><td>New York (winter)</td><td>Yes</td></tr>
+        <tr><td>EDT</td><td>Eastern Daylight Time</td><td>UTC-4</td><td>New York (summer)</td><td>Yes</td></tr>
+        <tr><td>CST</td><td>Central Standard Time</td><td>UTC-6</td><td>Chicago (winter)</td><td>Yes</td></tr>
+        <tr><td>MST</td><td>Mountain Standard Time</td><td>UTC-7</td><td>Denver (winter)</td><td>Yes</td></tr>
+        <tr><td>PST</td><td>Pacific Standard Time</td><td>UTC-8</td><td>Los Angeles (winter)</td><td>Yes</td></tr>
+        <tr><td>PDT</td><td>Pacific Daylight Time</td><td>UTC-7</td><td>Los Angeles (summer)</td><td>Yes</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="dst">4. Daylight Saving Time (DST)</h2>
+    <p>Daylight saving time complicates time zone calculations significantly. Approximately one-third of the world's countries observe DST, but they don't all change clocks on the same day.</p>
+    <ul>
+      <li><strong>USA/Canada:</strong> 2nd Sunday in March (spring forward), 1st Sunday in November (fall back)</li>
+      <li><strong>EU/UK:</strong> Last Sunday in March (spring forward), last Sunday in October (fall back)</li>
+      <li><strong>Australia (east):</strong> 1st Sunday in October (spring forward), 1st Sunday in April (fall back)</li>
+    </ul>
+    <p>This means there are several weeks per year when the time difference between, say, London and New York is not the usual 5 hours — it can be 4 or 6 hours, depending on which side has changed clocks already. Our converter always shows the <em>current</em> difference, not a fixed one.</p>
+
+    <h2 id="iana-database">5. The IANA Time Zone Database</h2>
+    <p>The authoritative source for time zone data is the <strong>IANA (Internet Assigned Numbers Authority) Time Zone Database</strong>, also called the "tz database" or "zoneinfo database."</p>
+    <p>This database, maintained by volunteers and updated whenever any country changes its time zone rules, is used by virtually all modern operating systems, programming languages, and web browsers. GlobeTimeZone uses this database (via your browser's built-in <code>Intl.DateTimeFormat</code> API) to ensure accuracy.</p>
+    <p>IANA time zone identifiers follow the format <code>Region/City</code>, for example:</p>
+    <ul>
+      <li><code>America/New_York</code> — Eastern Time (US)</li>
+      <li><code>Europe/London</code> — UK time</li>
+      <li><code>Asia/Shanghai</code> — China Standard Time</li>
+      <li><code>Asia/Kolkata</code> — India Standard Time</li>
+    </ul>
+
+    <h2 id="scheduling-tips">6. Tips for Scheduling Across Time Zones</h2>
+    <h3>Always use UTC as the anchor</h3>
+    <p>When scheduling across multiple time zones, express the meeting time in UTC first, then convert to local times. This eliminates ambiguity caused by DST transitions.</p>
+    <h3>Beware of half-hour and 45-minute offsets</h3>
+    <p>Not all time zones are whole hours from UTC. India (UTC+5:30), Nepal (UTC+5:45), Iran (UTC+3:30), and some Australian zones use fractional offsets. Always use a converter, never mental arithmetic.</p>
+    <h3>Check if DST has recently changed</h3>
+    <p>The 2-3 week periods when the US has changed clocks but Europe hasn't (or vice versa) are the most dangerous time for scheduling mistakes. Always verify with a real-time converter.</p>
+    <h3>Communicate with time zone information</h3>
+    <p>Instead of writing "10 AM your time," write "10 AM EST" or "10 AM New York time." This removes all ambiguity.</p>
+    <div class="highlight-box">
+      <p>📅 <strong>Pro tip:</strong> Use our <a href="meeting-scheduler.html" style="color:var(--primary);">Meeting Scheduler</a> to find overlapping business hours across multiple time zones automatically, including DST-aware calculations.</p>
+    </div>
+
+    <section style="margin-top:2rem;">
+      <h2>Frequently Asked Questions</h2>
+      <details style="margin-bottom:12px;border:1px solid var(--border);border-radius:8px;padding:16px;"><summary style="font-weight:600;cursor:pointer;">What is UTC?</summary><p style="margin-top:12px;color:#595959;">UTC (Coordinated Universal Time) is the primary international time standard. It's maintained by atomic clocks and never observes daylight saving time. All world time zones are expressed as offsets from UTC (e.g., UTC+8, UTC-5).</p></details>
+      <details style="margin-bottom:12px;border:1px solid var(--border);border-radius:8px;padding:16px;"><summary style="font-weight:600;cursor:pointer;">What is the difference between UTC and GMT?</summary><p style="margin-top:12px;color:#595959;">For practical purposes, UTC and GMT represent the same time. The difference is technical: GMT is based on Earth's rotation (mean solar time), while UTC is based on atomic clocks and is more precise. Modern systems use UTC.</p></details>
+      <details style="margin-bottom:12px;border:1px solid var(--border);border-radius:8px;padding:16px;"><summary style="font-weight:600;cursor:pointer;">How many time zones are there?</summary><p style="margin-top:12px;color:#595959;">There are 38 distinct UTC offsets in use worldwide, ranging from UTC-12 to UTC+14. However, most people interact with only about 24 main zones. Some territories use unusual half-hour or 45-minute offsets.</p></details>
+    </section>
+
+  </article>
+</main>
+
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div><a href="../" class="footer-logo">🌍 GlobeTimeZone</a><p class="footer-desc">Free world time zone tools. IANA timezone database powered.</p></div>
+      <div><h4 class="footer-heading">Tools</h4><ul class="footer-links"><li><a href="../">Converter</a></li><li><a href="world-clock.html">World Clock</a></li><li><a href="meeting-scheduler.html">Meeting</a></li></ul></div>
+      <div><h4 class="footer-heading">Articles</h4><ul class="footer-links"><li><a href="why-daylight-saving-time.html">Why DST?</a></li><li><a href="timezone-guide.html">Time Zone Guide</a></li><li><a href="remote-work-timezone.html">Remote Work Guide</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><p>© 2026 GlobeTimeZone.com · Data: IANA Timezone Database</p></div>
+  </div>
+</footer>
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js')}</script>
+</body>
+</html>

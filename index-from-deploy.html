@@ -1,0 +1,642 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>World Time Zone Converter - Free, No Ads, Multi-City Comparison | GlobeTimeZone</title>
+  <meta name="description" content="Free online time zone converter. Compare multiple time zones simultaneously, automatically accounts for daylight saving time. Perfect for remote teams, international meetings, and travelers. No registration required." />
+  <meta name="keywords" content="world time zone converter, time zone converter, multi-city time comparison, free time converter, UTC converter, international time, world clock, timezone calculator" />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="GlobeTimeZone" />
+  <meta name="revisit-after" content="7 days" />
+  
+  <!-- Bing Webmaster Verification -->
+  <meta name="msvalidate.01" content="9257831BCEDCB778FD826CE014062D9A" />
+  
+  <!-- Google Search Console Verification -->
+  <meta name="google-site-verification" content="4dz0bb0jj_vb0Q32xWrJiKqdCIo698PLtibNdwSxi4s" />
+  
+  <!-- Open Graph / Social -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="World Time Zone Converter - Free, No Ads, Multi-City Comparison" />
+  <meta property="og:description" content="Compare multiple time zones simultaneously. Automatic DST handling. Perfect for remote teams and international meetings." />
+  <meta property="og:url" content="https://globetimezone.com" />
+  <meta property="og:site_name" content="GlobeTimeZone" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="zh_CN" />
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="World Time Zone Converter - GlobeTimeZone" />
+  <meta name="twitter:description" content="Free online time zone converter. Compare multiple time zones simultaneously." />
+  
+  <!-- Hreflang for multi-language -->
+  <link rel="alternate" hreflang="en" href="https://globetimezone.com/" />
+  <link rel="alternate" hreflang="zh-CN" href="https://globetimezone.com/zh/" />
+  <link rel="alternate" hreflang="es" href="https://globetimezone.com/es/" />
+  <link rel="alternate" hreflang="fr" href="https://globetimezone.com/fr/" />
+  <link rel="alternate" hreflang="de" href="https://globetimezone.com/de/" />
+  <link rel="alternate" hreflang="ja" href="https://globetimezone.com/ja/" />
+  <link rel="alternate" hreflang="pt-BR" href="https://globetimezone.com/pt/" />
+  <link rel="alternate" hreflang="ko" href="https://globetimezone.com/ko/" />
+  <link rel="alternate" hreflang="ar" href="https://globetimezone.com/ar/" />
+  <link rel="alternate" hreflang="x-default" href="https://globetimezone.com/" />
+  
+  <!-- Canonical -->
+  <link rel="canonical" href="https://globetimezone.com" />
+  
+  <!-- Favicon & Icons -->
+  <link rel="icon" type="image/png" sizes="128x128" href="/apple-touch-icon.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="GlobeTimeZone" />
+  <meta name="application-name" content="GlobeTimeZone" />
+  <meta name="msapplication-TileColor" content="#2563eb" />
+  <meta name="theme-color" content="#2563eb" />
+
+  <!-- DNS Preconnect (GA4) -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" />
+  <link rel="preconnect" href="https://www.google-analytics.com" />
+
+  <link rel="stylesheet" href="/css/style.min.css" />
+  
+  <!-- Structured Data - Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "GlobeTimeZone",
+    "url": "https://globetimezone.com",
+    "description": "Free online time zone converter. Compare multiple time zones simultaneously.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://globetimezone.com/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+  
+  <!-- Google AdSense placeholder: add your publisher ID here later -->
+  <!-- <script async src="https://pagead2.goosyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+  <!-- Google Analytics 4 -->
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script defer src="/js/ga4.min.js"></script>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo">
+      🌍 Globe<span>TimeZone</span>
+    </a>
+    <nav>
+      <a href="/" class="active">Converter</a>
+      <a href="pages/world-clock.html">World Clock</a>
+      <a href="pages/articles.html">Articles</a>
+      <a href="pages/about.html">About</a>
+      <span class="lang-switch">
+        <div class="lang-dropdown">
+          <button class="lang-btn active" id="current-lang">🌐 EN</button>
+          <div class="lang-menu">
+            <a href="/" class="lang-option active" data-lang="en">
+              <span class="lang-flag">🇺🇸</span>
+              <span class="lang-name">English</span>
+              <span class="lang-native">English</span>
+            </a>
+            <a href="/zh/" class="lang-option" data-lang="zh">
+              <span class="lang-flag">🇨🇳</span>
+              <span class="lang-name">Chinese</span>
+              <span class="lang-native">中文</span>
+            </a>
+            <a href="/es/" class="lang-option" data-lang="es">
+              <span class="lang-flag">🇪🇸</span>
+              <span class="lang-name">Spanish</span>
+              <span class="lang-native">Español</span>
+            </a>
+            <a href="/fr/" class="lang-option" data-lang="fr">
+              <span class="lang-flag">🇫🇷</span>
+              <span class="lang-name">French</span>
+              <span class="lang-native">Français</span>
+            </a>
+            <a href="/de/" class="lang-option" data-lang="de">
+              <span class="lang-flag">🇩🇪</span>
+              <span class="lang-name">German</span>
+              <span class="lang-native">Deutsch</span>
+            </a>
+            <a href="/ja/" class="lang-option" data-lang="ja">
+              <span class="lang-flag">🇯🇵</span>
+              <span class="lang-name">Japanese</span>
+              <span class="lang-native">日本語</span>
+            </a>
+            <a href="/pt/" class="lang-option" data-lang="pt">
+              <span class="lang-flag">🇧🇷</span>
+              <span class="lang-name">Portuguese</span>
+              <span class="lang-native">Português</span>
+            </a>
+            <a href="/ko/" class="lang-option" data-lang="ko">
+              <span class="lang-flag">🇰🇷</span>
+              <span class="lang-name">Korean</span>
+              <span class="lang-native">한국어</span>
+            </a>
+            <a href="/ar/" class="lang-option" data-lang="ar">
+              <span class="lang-flag">🇸🇦</span>
+              <span class="lang-name">Arabic</span>
+              <span class="lang-native">العربية</span>
+            </a>
+          </div>
+        </div>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== BROWSER EXTENSION BANNER ===== -->
+<section style="background:linear-gradient(135deg,#1e3a5f 0%,#0f172a 100%);padding:24px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1);">
+  <div style="max-width:800px;margin:0 auto;">
+    <h3 style="color:#fff;margin-bottom:8px;font-size:1.2rem;">🚀 Get GlobeTimeZone on Your Browser</h3>
+    <p style="color:#cbd5e1;margin-bottom:16px;font-size:0.95rem;">One click to check any city time. No more tab switching!</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="https://github.com" style="background:#2563eb;color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:600;font-size:0.9rem;">Chrome / Edge</a>
+      <a href="https://github.com" style="background:#c2410c;color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:600;font-size:0.9rem;">Firefox</a>
+      <a href="globetimezone-extension/" style="background:rgba(255,255,255,0.1);color:#fff;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:600;font-size:0.9rem;border:1px solid rgba(255,255,255,0.2);">Download Extension</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>🌍 World Time Zone Converter</h1>
+    <p class="hero-subtitle">
+      Free, No Ads, Multi-City Comparison | Automatic Daylight Saving Time | Supports 400+ Time Zones
+    </p>
+    <div class="hero-cta">
+      <a href="#converter" class="btn btn-primary btn-large">🚀 Start Converting Now</a>
+    </div>
+    <div class="hero-badges">
+      <span class="badge">⭐ Customizable World Clocks</span>
+      <span class="badge">🌍 400+ Time Zones</span>
+      <span class="badge">⚡ Instant Conversion</span>
+      <span class="badge">📱 Mobile Friendly</span>
+      <span class="badge">🕐 Multi-City Comparison</span>
+      <span class="badge">📚 Time Zone Guides</span>
+    </div>
+  </div>
+</section>
+
+<!-- Breadcrumb Navigation -->
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <div class="breadcrumb-inner">
+    <a href="/">Home</a>
+    <span class="breadcrumb-sep">›</span>
+    <span class="breadcrumb-current">Time Zone Converter</span>
+  </div>
+</nav>
+
+<!-- ===== MAIN ===== -->
+<main>
+
+  <!-- Multi-Timezone Converter Tool -->
+  <div class="card" id="converter">
+    <h2 class="card-title">🕐 Multi-City Time Zone Converter</h2>
+    <p style="color:var(--text-muted);margin-bottom:20px;">Compare up to 6 time zones simultaneously. Drag the slider to see all cities at different times.</p>
+    
+    <!-- Base Time Input -->
+    <div class="base-time-section">
+      <div class="base-time-grid">
+        <div class="form-group">
+          <label class="form-label" for="base-date">Date</label>
+          <input type="date" id="base-date" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="base-time">Base Time</label>
+          <input type="time" id="base-time" class="form-input" value="09:00" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="base-tz">Base Time Zone</label>
+          <select id="base-tz" class="form-select"></select>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Time Slider -->
+    <div class="time-slider-container">
+      <label class="form-label" for="time-slider">⏱️ Time Slider — Drag to see all cities at different times</label>
+      <div class="slider-wrapper">
+        <input type="range" id="time-slider" min="0" max="23" step="1" value="9" class="time-slider">
+        <div class="slider-labels">
+          <span>00:00</span>
+          <span>06:00</span>
+          <span>12:00</span>
+          <span>18:00</span>
+          <span>23:00</span>
+        </div>
+      </div>
+      <div class="current-slider-time" id="slider-time-display">09:00</div>
+    </div>
+    
+    <!-- Multi-Timezone Cards -->
+    <div class="multi-tz-section">
+      <div class="multi-tz-header">
+        <h3>📊 Comparing <span id="tz-count">2</span> Time Zones</h3>
+        <button class="btn btn-outline btn-sm" id="add-tz-btn" onclick="addTimezoneCard()">+ Add Time Zone</button>
+      </div>
+      <div class="multi-tz-grid" id="multi-tz-grid">
+        <!-- Dynamically generated timezone cards -->
+      </div>
+    </div>
+    
+    <!-- Share Buttons -->
+    <div class="share-section">
+      <button class="btn btn-outline btn-sm" onclick="shareViaEmail()" title="Share via Email">📧 Email</button>
+      <button class="btn btn-outline btn-sm" onclick="copyResults()" title="Copy to Clipboard">📋 Copy</button>
+      <button class="btn btn-outline btn-sm" onclick="addToCalendar()" title="Add to Calendar">📅 Calendar</button>
+      <button class="btn btn-outline btn-sm" onclick="saveCurrentPair()" title="Save this pair">💾 Save Pair</button>
+      <button class="btn btn-outline btn-sm" onclick="showPreferencesPanel()" title="Settings">⚙️ More</button>
+    </div>
+  </div>
+  
+  <!-- Preferences Panel (collapsible) -->
+  <div class="card" id="preferences-panel" style="display:none;">
+    <h2 class="card-title">📊 Saved Pairs & History</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <!-- Saved Pairs -->
+      <div>
+        <h3 style="font-size:1rem;margin-bottom:12px;">💾 Frequently Used Pairs</h3>
+        <div id="saved-pairs-list" style="max-height:300px;overflow-y:auto;"></div>
+      </div>
+      <!-- Conversion History -->
+      <div>
+        <h3 style="font-size:1rem;margin-bottom:12px;">📋 Recent Conversions</h3>
+        <div id="history-list" style="max-height:300px;overflow-y:auto;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Tools -->
+  <section style="margin-top:40px;">
+    <h2 class="section-title">🛠️ Quick Tools</h2>
+    <p class="section-sub">Essential tools for international coordination and scheduling</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:20px;">
+      <a href="pages/meeting-scheduler.html" class="tool-card">
+        <div class="tool-icon" style="background:linear-gradient(135deg,#2563eb 0%,#1d4ed8 100%);">📅</div>
+        <div class="tool-content">
+          <h3>Meeting Scheduler</h3>
+          <p>Find optimal meeting times across multiple time zones with visual timeline</p>
+          <span class="tool-tag">Team Scheduling</span>
+        </div>
+      </a>
+      <a href="pages/countdown.html" class="tool-card">
+        <div class="tool-icon" style="background:linear-gradient(135deg,#f59e0b 0%,#d97706 100%);">⏱️</div>
+        <div class="tool-content">
+          <h3>Event Countdown</h3>
+          <p>Countdown to any event in multiple time zones simultaneously</p>
+          <span class="tool-tag">Time Tracking</span>
+        </div>
+      </a>
+      <a href="pages/holidays.html" class="tool-card">
+        <div class="tool-icon" style="background:linear-gradient(135deg,#10b981 0%,#059669 100%);">🎉</div>
+        <div class="tool-content">
+          <h3>World Holidays</h3>
+          <p>Check public holidays in 200+ countries for planning purposes</p>
+          <span class="tool-tag">Calendar Integration</span>
+        </div>
+      </a>
+      <a href="pages/time-units.html" class="tool-card">
+        <div class="tool-icon" style="background:linear-gradient(135deg,#7c3aed 0%,#6d28d9 100%);">🔄</div>
+        <div class="tool-content">
+          <h3>Time Unit Converter</h3>
+          <p>Convert between hours, minutes, seconds, and decimal time</p>
+          <span class="tool-tag">Utilities</span>
+        </div>
+      </a>
+      <a href="pages/embed-widget.html" class="tool-card">
+        <div class="tool-icon" style="background:linear-gradient(135deg,#ec4899 0%,#db2777 100%);">📱</div>
+        <div class="tool-content">
+          <h3>Embed Widget</h3>
+          <p>Add a world clock widget to your website or blog for free</p>
+          <span class="tool-tag">For Developers</span>
+        </div>
+      </a>
+      <a href="pages/api.html" class="tool-card">
+        <div class="tool-icon" style="background:linear-gradient(135deg,#64748b 0%,#475569 100%);">⚡</div>
+        <div class="tool-content">
+          <h3>API Access</h3>
+          <p>Integrate timezone data into your applications with our free API</p>
+          <span class="tool-tag">For Developers</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- World Clocks -->
+  <div class="card">
+    <h2 class="card-title">🌐 Live World Clocks</h2>
+    <p style="color:var(--text-muted);margin-bottom:20px;">Real-time clocks for major cities. Click any clock to add it to the converter. Hover to see controls.</p>
+    
+    <!-- City Search -->
+    <div class="clock-controls">
+      <input type="text" id="city-search" class="form-input" placeholder="🔍 Search city to add..." aria-label="Search city to add" oninput="searchCity(this.value)" autocomplete="off">
+      <div class="search-results" id="search-results"></div>
+    </div>
+    
+    <div class="clocks-grid" id="world-clocks"></div>
+    <p class="clocks-hint">💡 <strong>Tip:</strong> Click × to remove, click the clock to add to converter. Your selections are auto-saved!</p>
+  </div>
+  
+  <!-- World Map Quick Access -->
+  <div class="card" style="background:linear-gradient(135deg,#f0f9ff 0%,#e0f2fe 100%);border-color:#0ea5e9;">
+    <h2 class="card-title">🗺️ World Time Zone Map</h2>
+    <p style="color:var(--text-muted);margin-bottom:16px;">Click on major regions to quickly compare time zones around the world.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;">
+      <a href="pages/world-map.html" class="quick-region-btn" style="background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);">
+        <span style="font-size:1.5rem;">🌎</span>
+        <span>Americas</span>
+        <small>New York, LA, Toronto</small>
+      </a>
+      <a href="pages/world-map.html#europe" class="quick-region-btn" style="background:linear-gradient(135deg,#059669 0%,#10b981 100%);">
+        <span style="font-size:1.5rem;">🌍</span>
+        <span>Europe</span>
+        <small>London, Paris, Berlin</small>
+      </a>
+      <a href="pages/world-map.html#asia" class="quick-region-btn" style="background:linear-gradient(135deg,#d97706 0%,#f59e0b 100%);">
+        <span style="font-size:1.5rem;">🌏</span>
+        <span>Asia</span>
+        <small>Tokyo, Beijing, Dubai</small>
+      </a>
+      <a href="pages/world-map.html#pacific" class="quick-region-btn" style="background:linear-gradient(135deg,#7c3aed 0%,#a78bfa 100%);">
+        <span style="font-size:1.5rem;">🏝️</span>
+        <span>Pacific</span>
+        <small>Sydney, Auckland</small>
+      </a>
+    </div>
+  </div>
+
+  <!-- Popular Cities Quick Access -->
+  <section style="margin-top:40px;">
+    <h2 class="section-title">🌆 Current Time in Popular Cities</h2>
+    <p class="section-sub">Click any city for detailed time zone info, DST status, and world comparisons.</p>
+    <div class="quick-convert-grid" style="margin-top:20px;">
+      <a href="pages/time-in/new-york.html" class="quick-convert-item">
+        <span class="qc-flag">🗽</span>
+        <div class="qc-info"><span class="qc-name">New York</span><span class="qc-desc" id="qc-newyork">EST · UTC-5</span></div>
+      </a>
+      <a href="pages/time-in/london.html" class="quick-convert-item">
+        <span class="qc-flag">🇬🇧</span>
+        <div class="qc-info"><span class="qc-name">London</span><span class="qc-desc" id="qc-london">GMT · UTC+0</span></div>
+      </a>
+      <a href="pages/time-in/paris.html" class="quick-convert-item">
+        <span class="qc-flag">🇫🇷</span>
+        <div class="qc-info"><span class="qc-name">Paris</span><span class="qc-desc" id="qc-paris">CET · UTC+1</span></div>
+      </a>
+      <a href="pages/time-in/dubai.html" class="quick-convert-item">
+        <span class="qc-flag">🇦🇪</span>
+        <div class="qc-info"><span class="qc-name">Dubai</span><span class="qc-desc" id="qc-dubai">GST · UTC+4</span></div>
+      </a>
+      <a href="pages/time-in/beijing.html" class="quick-convert-item">
+        <span class="qc-flag">🇨🇳</span>
+        <div class="qc-info"><span class="qc-name">Beijing</span><span class="qc-desc" id="qc-beijing">CST · UTC+8</span></div>
+      </a>
+      <a href="pages/time-in/singapore.html" class="quick-convert-item">
+        <span class="qc-flag">🇸🇬</span>
+        <div class="qc-info"><span class="qc-name">Singapore</span><span class="qc-desc" id="qc-singapore">SGT · UTC+8</span></div>
+      </a>
+      <a href="pages/time-in/tokyo.html" class="quick-convert-item">
+        <span class="qc-flag">🇯🇵</span>
+        <div class="qc-info"><span class="qc-name">Tokyo</span><span class="qc-desc" id="qc-tokyo">JST · UTC+9</span></div>
+      </a>
+      <a href="pages/time-in/sydney.html" class="quick-convert-item">
+        <span class="qc-flag">🇦🇺</span>
+        <div class="qc-info"><span class="qc-name">Sydney</span><span class="qc-desc" id="qc-sydney">AEST · UTC+10</span></div>
+      </a>
+      <a href="pages/time-in/seoul.html" class="quick-convert-item">
+        <span class="qc-flag">🇰🇷</span>
+        <div class="qc-info"><span class="qc-name">Seoul</span><span class="qc-desc" id="qc-seoul">KST · UTC+9</span></div>
+      </a>
+      <a href="pages/time-in/los-angeles.html" class="quick-convert-item">
+        <span class="qc-flag">🌴</span>
+        <div class="qc-info"><span class="qc-name">Los Angeles</span><span class="qc-desc" id="qc-la">PST · UTC-8</span></div>
+      </a>
+      <a href="pages/time-in/chicago.html" class="quick-convert-item">
+        <span class="qc-flag">🏙️</span>
+        <div class="qc-info"><span class="qc-name">Chicago</span><span class="qc-desc" id="qc-chicago">CST · UTC-6</span></div>
+      </a>
+      <a href="pages/time-in/toronto.html" class="quick-convert-item">
+        <span class="qc-flag">🇨🇦</span>
+        <div class="qc-info"><span class="qc-name">Toronto</span><span class="qc-desc" id="qc-toronto">EST · UTC-5</span></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Articles Section -->
+  <section style="margin-top:40px;">
+    <h2 class="section-title">📖 Time Zone Guides</h2>
+    <p class="section-sub">Learn about time zones, daylight saving time, and more.</p>
+
+    <div class="articles-grid">
+      <a href="pages/us-china-time-difference.html" class="article-card">
+        <div class="article-img blue"></div>
+        <div class="article-body">
+          <span class="article-tag">Popular</span>
+          <h3 class="article-title">US vs China Time Difference: Complete Guide</h3>
+          <p class="article-excerpt">Everything you need to know about the time difference between the United States and China, including daylight saving adjustments.</p>
+          <div class="article-meta">
+            <span>5 min read</span>
+            <span>→ Read more</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="pages/what-is-utc.html" class="article-card">
+        <div class="article-img green"></div>
+        <div class="article-body">
+          <span class="article-tag">Basics</span>
+          <h3 class="article-title">What is UTC? Universal Time Explained</h3>
+          <p class="article-excerpt">UTC (Coordinated Universal Time) is the world's time standard. Learn how UTC works and why it matters for global communication.</p>
+          <div class="article-meta">
+            <span>4 min read</span>
+            <span>→ Read more</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="pages/daylight-saving-time.html" class="article-card">
+        <div class="article-img purple"></div>
+        <div class="article-body">
+          <span class="article-tag">Guide</span>
+          <h3 class="article-title">Daylight Saving Time: Which Countries Use It?</h3>
+          <p class="article-excerpt">A comprehensive list of which countries observe daylight saving time, when clocks change, and how it affects international business.</p>
+          <div class="article-meta">
+            <span>6 min read</span>
+            <span>→ Read more</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="pages/business-meeting-scheduler.html" class="article-card">
+        <div class="article-img orange"></div>
+        <div class="article-body">
+          <span class="article-tag">Tips</span>
+          <h3 class="article-title">Best Times for International Business Meetings</h3>
+          <p class="article-excerpt">Find the optimal meeting times that work across multiple time zones for your remote team or global clients.</p>
+          <div class="article-meta">
+            <span>5 min read</span>
+            <span>→ Read more</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="pages/why-daylight-saving-time.html" class="article-card">
+        <div class="article-img blue"></div>
+        <div class="article-body">
+          <span class="article-tag">New</span>
+          <h3 class="article-title">Why Does Daylight Saving Time Exist? Full History</h3>
+          <p class="article-excerpt">From World War I coal conservation to modern health debates — the surprising history of why we change our clocks twice a year.</p>
+          <div class="article-meta">
+            <span>10 min read</span>
+            <span>→ Read more</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="pages/remote-work-timezone.html" class="article-card">
+        <div class="article-img green"></div>
+        <div class="article-body">
+          <span class="article-tag">New</span>
+          <h3 class="article-title">Remote Team Time Zone Playbook</h3>
+          <p class="article-excerpt">Best practices for scheduling meetings, setting core hours, and managing distributed teams across 3+ time zones.</p>
+          <div class="article-meta">
+            <span>12 min read</span>
+            <span>→ Read more</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- SEO Content Block -->
+  <section class="card" style="margin-top:40px;">
+    <h2 style="font-size:1.4rem;font-weight:700;margin-bottom:16px;">About GlobeTimeZone</h2>
+    <p style="color:var(--text-muted);line-height:1.8;margin-bottom:12px;">
+      GlobeTimeZone is a free, easy-to-use time zone converter designed for travelers, remote workers, and global businesses.
+      Whether you need to schedule an international meeting, call a friend abroad, or simply check what time it is on the other side of the world —
+      our tool gives you instant, accurate results.
+    </p>
+    <p style="color:var(--text-muted);line-height:1.8;margin-bottom:12px;">
+      We cover all major time zones worldwide, including US time zones (EST, CST, MST, PST), European zones (GMT, CET, EET),
+      Asian zones (IST, CST, JST, KST), and many more. Our converter automatically accounts for <strong>daylight saving time</strong>
+      changes in countries that observe DST.
+    </p>
+    <p style="color:var(--text-muted);line-height:1.8;">
+      Bookmark this page for quick access — no app download needed, works on any device, completely free.
+    </p>
+  </section>
+
+</main>
+
+<!-- ===== NEWSLETTER SUBSCRIPTION ===== -->
+<section style="background:linear-gradient(135deg,#2563eb,#1d4ed8);padding:40px 24px;margin-top:20px;">
+  <div style="max-width:600px;margin:0 auto;text-align:center;">
+    <div style="font-size:2rem;margin-bottom:12px;">📬</div>
+    <h2 style="color:white;font-size:1.5rem;margin-bottom:8px;">Stay in Sync with the World</h2>
+    <p style="color:rgba(255,255,255,0.92);font-size:1rem;margin-bottom:24px;">
+      Get weekly time zone tips, DST reminders, and remote work hacks. No spam, unsubscribe anytime.
+    </p>
+    <form id="newsletter-form" action="pages/subscribe.html" method="GET" style="display:flex;gap:8px;max-width:440px;margin:0 auto;flex-wrap:wrap;justify-content:center;">
+      <input type="email" name="email" placeholder="your@email.com" aria-label="Email address for newsletter" required 
+        style="flex:1;min-width:240px;padding:12px 16px;border-radius:8px;border:none;font-size:1rem;outline:none;" />
+      <button type="submit" 
+        style="padding:12px 28px;border-radius:8px;border:none;background:#1e293b;color:white;font-weight:600;font-size:1rem;cursor:pointer;transition:background 0.2s;"
+        onmouseover="this.style.background='#334155'" onmouseout="this.style.background='#1e293b'">
+        Subscribe
+      </button>
+    </form>
+    <p style="color:rgba(255,255,255,0.92);font-size:0.75rem;margin-top:12px;">
+      🔒 We respect your privacy. No spam, ever.
+    </p>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <a href="/" class="footer-logo">🌍 GlobeTimeZone</a>
+        <p class="footer-desc">Free world time zone converter. Convert time between any two cities instantly, view live world clocks, and learn about time zones.</p>
+      </div>
+      <div>
+        <h4 class="footer-heading">Tools</h4>
+        <ul class="footer-links">
+          <li><a href="/">Time Zone Converter</a></li>
+          <li><a href="pages/world-clock.html">World Clock</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">Articles</h4>
+        <ul class="footer-links">
+          <li><a href="pages/articles.html">All Articles</a></li>
+          <li><a href="pages/why-daylight-saving-time.html">Why DST Exists?</a></li>
+          <li><a href="pages/timezone-guide.html">Time Zone Guide</a></li>
+          <li><a href="pages/remote-work-timezone.html">Remote Work Tips</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">Popular Cities</h4>
+        <ul class="footer-links">
+          <li><a href="pages/time-in/new-york.html">New York</a></li>
+          <li><a href="pages/time-in/london.html">London</a></li>
+          <li><a href="pages/time-in/paris.html">Paris</a></li>
+          <li><a href="pages/time-in/tokyo.html">Tokyo</a></li>
+          <li><a href="pages/time-in/beijing.html">Beijing</a></li>
+          <li><a href="pages/time-in/dubai.html">Dubai</a></li>
+          <li><a href="pages/time-in/singapore.html">Singapore</a></li>
+          <li><a href="pages/time-in/sydney.html">Sydney</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">Info</h4>
+        <ul class="footer-links">
+          <li><a href="pages/about.html">About</a></li>
+          <li><a href="pages/embed-widget.html">Embed Widget</a></li>
+          <li><a href="pages/privacy.html">Privacy Policy</a></li>
+          <li><a href="pages/disclaimer.html">Disclaimer</a></li>
+          <li><a href="pages/contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <!-- Trust & Data Source -->
+    <div style="border-top:1px solid rgba(255,255,255,0.1);padding:16px 0;margin-top:16px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;">
+      <div style="display:flex;gap:20px;flex-wrap:wrap;font-size:0.75rem;color:rgba(255,255,255,0.92);">
+        <span>🔒 Data: <a href="https://www.iana.org/time-zones" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.95);">IANA Timezone Database</a></span>
+        <span>✅ Auto DST-aware</span>
+        <span>⚡ Browser-native precision</span>
+      </div>
+      <span style="font-size:0.75rem;color:rgba(255,255,255,0.75);" id="footer-sync">Last synced: —</span>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 GlobeTimeZone.com · All rights reserved · Free Time Zone Converter</p>
+    </div>
+  </div>
+</footer>
+
+<!-- PWA Install Prompt -->
+<div id="pwa-install-banner" class="pwa-install-banner" style="display:none;">
+  <span>📱 Install GlobeTimeZone for quick access</span>
+  <div style="display:flex;gap:8px;">
+    <button class="btn" onclick="installPWA()">Install</button>
+    <button class="btn" onclick="dismissPWA()" style="background:transparent;color:white;border:1px solid rgba(255,255,255,0.3);">Not Now</button>
+  </div>
+</div>
+
+<script defer src="/js/main.js"></script>
+<script defer src="/js/home.js"></script>
+
+</body>
+</html>

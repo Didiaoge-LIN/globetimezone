@@ -1,0 +1,24 @@
+name = "globetimezone-api-admin"
+main = "./workers/api-admin/index.ts"
+compatibility_date = "2026-05-30"
+compatibility_flags = ["nodejs_compat"]
+account_id = "b73e041dfa2e834c1cd23d11f1971cd5"
+workers_dev = false
+
+routes = [
+  { pattern = "globetimezone.com/api/admin/*", zone_id = "4b8640caf424bf01cae67e92862961ef" }
+]
+
+# ADMIN_API_KEY 通过 wrangler secret put 注入，不在 toml 中明文存储
+# npx wrangler secret put ADMIN_API_KEY --config wrangler.api-admin.toml
+
+[[kv_namespaces]]
+binding = "API_KEYS"
+id = "d89a7aa6340f4f3790495e119a94acf7"
+
+# 定时触发器：每日凌晨清理过期密钥
+[triggers]
+crons = ["0 0 * * *"]
+
+[env.production.observability]
+enabled = true

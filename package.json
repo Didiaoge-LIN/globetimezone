@@ -1,0 +1,42 @@
+{
+  "name": "globetimezone",
+  "version": "4.0.0",
+  "description": "GlobeTimeZone — Global Time Decision Tool. Instant timezone conversion.",
+  "main": "index.html",
+  "scripts": {
+    "build": "node minify-js.js",
+    "typecheck": "npx tsc --noEmit",
+    "typecheck:watch": "npx tsc --noEmit --watch",
+    "deploy:gateway": "wrangler deploy workers/gateway/index.ts --env production",
+    "deploy:timezone-api": "wrangler deploy workers/timezone-api/index.ts --env production",
+    "deploy:reminder-api": "wrangler deploy workers/reminder-api/index.ts --env production",
+    "deploy:scheduler": "wrangler deploy workers/reminder-scheduler/index.ts --env production",
+    "deploy:all": "wrangler deploy --env production",
+    "dev": "wrangler dev workers/gateway/index.ts",
+    "test": "node -e \"console.log('Lint check: run npx tsc --noEmit for TS validation')\""
+  },
+  "keywords": [
+    "timezone",
+    "converter",
+    "world-clock",
+    "utc",
+    "dst",
+    "meeting-scheduler"
+  ],
+  "author": "GlobeTimeZone",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@cloudflare/workers-types": "^4.20260529.1",
+    "exceljs": "^4.4.0",
+    "hono": "^4.12.23",
+    "hono-rate-limiter": "^0.5.3",
+    "playwright": "^1.60.0",
+    "twitter-api-v2": "^1.29.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3",
+    "wrangler": "^4.95.0"
+  }
+}

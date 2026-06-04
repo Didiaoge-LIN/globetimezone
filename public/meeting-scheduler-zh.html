@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>跨国会议调度器 - 跨时区寻找最佳会议时间 | GlobeTimeZone</title>
+  <meta name="description" content="免费智能会议调度器。在多个时区之间寻找最佳会议时间。支持团队排班，显示工作时间可视化图表。" />
+  <meta name="keywords" content="会议调度,会议安排,跨国会议,时区会议,团队排程,国际会议,跨时区会议" />
+  <meta name="robots" content="index, follow" />
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="跨国会议调度器 - 跨时区寻找最佳会议时间 | GlobeTimeZone" />
+  <meta property="og:description" content="免费智能会议调度器。在多个时区之间寻找最佳会议时间。" />
+  <meta property="og:url" content="https://globetimezone.com/pages/meeting-scheduler-zh.html" />
+  <meta property="og:locale" content="zh_CN" />
+  
+  <!-- Hreflang -->
+  <link rel="alternate" hreflang="en" href="https://globetimezone.com/pages/meeting-scheduler.html" />
+  <link rel="alternate" hreflang="zh" href="https://globetimezone.com/pages/meeting-scheduler-zh.html" />
+  <link rel="canonical" href="https://globetimezone.com/pages/meeting-scheduler-zh.html" />
+  
+    <!-- PWA & Social -->
+  <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+  <link rel="manifest" href="../manifest.json" />
+  <meta name="twitter:card" content="summary_large_image" />
+  
+  <link rel="stylesheet" href="../css/style.min.css" />
+  
+  <!-- HowTo Schema (Chinese) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "如何安排跨国会议",
+    "description": "了解如何使用 GlobeTimeZone 会议调度器在多个时区之间寻找最佳会议时间。",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "添加团队成员",
+        "text": "从列表中选择成员所在城市或时区来添加团队成员。"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "设置工作时间",
+        "text": "每位参与者的工作时间将显示在图表上。默认设置为当地时间上午9点至下午6点。"
+      },
+      {
+        "@type": "HowToStep",
+        "name": "查看建议时间",
+        "text": "调度器将高亮显示所有参与者都在工作时间内的最佳会议窗口。"
+      }
+    ]
+  }
+  </script>
+  <!-- Google Analytics 4 -->
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script src="../js/ga4.min.js"></script>
+</head>
+<body>
+
+<!-- ===== Accessibility: Skip to main content ===== -->
+<a class="skip-link" href="#main-content">跳到主内容</a>
+
+
+<!-- Header -->
+<header>
+  <div class="header-inner">
+    <a href="../" class="logo">🌍 世界<span>时区</span></a>
+    <nav> aria-label="主导航"
+      <a href="../index-zh.html">时区转换</a>
+      <a href="world-clock.html">世界时钟</a>
+      <a href="meeting-scheduler-zh.html" style="color:var(--primary);font-weight:600;">会议调度</a>
+      <a href="about-zh.html">关于我们</a>
+      <span class="lang-switch">
+        <a href="meeting-scheduler.html" class="lang-btn">EN</a>
+        <a href="meeting-scheduler-zh.html" class="lang-btn active">中文</a>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<!-- Breadcrumb -->
+<nav class="breadcrumb" style="padding:12px 24px;max-width:1200px;margin:0 auto;font-size:0.875rem;color:#595959;">
+  <a href="../index-zh.html" style="color:#2563eb;text-decoration:none;">首页</a> &gt;
+  <span>会议调度器</span>
+</nav>
+
+<main style="max-width:1200px;margin:0 auto;padding:20px 24px;" id="main-content" role="main">
+
+  <!-- Hero Section -->
+  <section style="text-align:center;padding:40px 0;">
+    <h1 class="section-title" style="font-size:2.5rem;margin-bottom:16px;">📅 跨国会议调度器</h1>
+    <p style="font-size:1.2rem;color:#595959;max-width:600px;margin:0 auto;">
+      跨时区寻找完美会议时间。添加团队成员，即刻查看最佳排程窗口。
+    </p>
+  </section>
+
+  <!-- Participant Input Section -->
+  <section class="card" id="participant-section">
+    <h2 class="card-title">👥 添加团队成员</h2>
+    <p style="color:#595959;margin-bottom:20px;">添加参与者及其时区，查找重叠的工作时间。</p>
+    
+    <div class="form-group" style="margin-bottom:20px;">
+      <label class="form-label">搜索城市或时区</label>
+      <div style="display:flex;gap:12px;">
+        <input type="text" id="city-search" class="form-input" placeholder="例：纽约、伦敦、东京..." style="flex:1;" />
+        <select id="working-hours-start" class="form-input" style="width:120px;">
+          <option value="6">上午6:00</option>
+          <option value="7">上午7:00</option>
+          <option value="8">上午8:00</option>
+          <option value="9" selected>上午9:00</option>
+          <option value="10">上午10:00</option>
+        </select>
+        <span style="color:#595959;align-self:center;">至</span>
+        <select id="working-hours-end" class="form-input" style="width:120px;">
+          <option value="16">下午4:00</option>
+          <option value="17">下午5:00</option>
+          <option value="18" selected>下午6:00</option>
+          <option value="19">下午7:00</option>
+          <option value="20">下午8:00</option>
+        </select>
+        <button class="btn btn-primary" onclick="addParticipant()">+ 添加</button>
+      </div>
+    </div>
+    
+    <!-- Popular Cities Quick Add -->
+    <div style="margin-bottom:20px;">
+      <span style="font-size:0.875rem;color:#595959;margin-bottom:8px;display:block;">快速添加：</span>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        <button class="btn btn-outline btn-sm" onclick="quickAdd('New York', 'America/New_York')">🇺🇸 纽约</button>
+        <button class="btn btn-outline btn-sm" onclick="quickAdd('Los Angeles', 'America/Los_Angeles')">🇺🇸 洛杉矶</button>
+        <button class="btn btn-outline btn-sm" onclick="quickAdd('London', 'Europe/London')">🇬🇧 伦敦</button>
+        <button class="btn btn-outline btn-sm" onclick="quickAdd('Beijing', 'Asia/Shanghai')">🇨🇳 北京</button>
+        <button class="btn btn-outline btn-sm" onclick="quickAdd('Tokyo', 'Asia/Tokyo')">🇯🇵 东京</button>
+        <button class="btn btn-outline btn-sm" onclick="quickAdd('Singapore', 'Asia/Singapore')">🇸🇬 新加坡</button>
+        <button class="btn btn-outline btn-sm" onclick="quickAdd('Sydney', 'Australia/Sydney')">🇦🇺 悉尼</button>
+        <button class="btn btn-outline btn-sm" onclick="quickAdd('Dubai', 'Asia/Dubai')">🇦🇪 迪拜</button>
+        <button class="btn btn-outline btn-sm" onclick="quickAdd('Paris', 'Europe/Paris')">🇫🇷 巴黎</button>
+      </div>
+    </div>
+    
+    <!-- Participant List -->
+    <div id="participants-container">
+      <p style="color:#595959;font-style:italic;">尚未添加参与者，请在上方添加团队成员。</p>
+    </div>
+  </section>
+
+  <!-- Meeting Duration -->
+  <section class="card" style="margin-top:24px;">
+    <h2 class="card-title">⏱️ 会议时长</h2>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <button class="btn btn-outline duration-btn active" data-duration="30" onclick="setDuration(30)">30 分钟</button>
+      <button class="btn btn-outline duration-btn" data-duration="60" onclick="setDuration(60)">1 小时</button>
+      <button class="btn btn-outline duration-btn" data-duration="90" onclick="setDuration(90)">1.5 小时</button>
+      <button class="btn btn-outline duration-btn" data-duration="120" onclick="setDuration(120)">2 小时</button>
+    </div>
+  </section>
+
+  <!-- Date Selection -->
+  <section class="card" style="margin-top:24px;">
+    <h2 class="card-title">📆 选择日期范围</h2>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+      <div class="form-group" style="margin:0;">
+        <label class="form-label">从</label>
+        <input type="date" id="date-from" class="form-input" />
+      </div>
+      <div class="form-group" style="margin:0;">
+        <label class="form-label">到</label>
+        <input type="date" id="date-to" class="form-input" />
+      </div>
+      <button class="btn btn-primary" onclick="generateSchedule()" style="margin-top:20px;">查找最佳时间</button>
+    </div>
+  </section>
+
+  <!-- Results Section -->
+  <section class="card" style="margin-top:24px;" id="results-section" style="display:none;">
+    <h2 class="card-title">🎯 建议的会议时间</h2>
+    <p style="color:#595959;margin-bottom:20px;">所有团队成员均在工作时间内的时段：</p>
+    
+    <div id="schedule-results">
+      <!-- Generated by JS -->
+    </div>
+    
+    <div id="schedule-table-container" style="margin-top:24px;overflow-x:auto;">
+      <!-- Generated by JS -->
+    </div>
+  </section>
+
+  <!-- Time Grid Preview -->
+  <section class="card" style="margin-top:24px;" id="preview-section">
+    <h2 class="card-title">🕐 今日可用时间 (24小时视图)</h2>
+    <p style="color:#595959;margin-bottom:20px;">在单日视图中查看所有参与者的工作时间。绿色 = 工作时间内，红色 = 工作时间外。</p>
+    
+    <div id="time-grid">
+      <!-- Generated by JS -->
+    </div>
+    
+    <div style="margin-top:16px;display:flex;gap:24px;font-size:0.875rem;">
+      <span><span style="color:#16a34a;">🟢</span> 工作时间内</span>
+      <span><span style="color:#dc2626;">🔴</span> 工作时间外</span>
+      <span><span style="color:#3b82f6;">🔵</span> 当前时间</span>
+    </div>
+  </section>
+
+  <!-- Share Section -->
+  <section class="card" style="margin-top:24px;background:linear-gradient(135deg,#ecfdf5 0%,#d1fae5 100%);border-color:#10b981;">
+    <h2 class="card-title">📤 分享与导出</h2>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;">
+      <button class="btn btn-outline" onclick="copyMeetingLink()">📋 复制会议链接</button>
+      <button class="btn btn-outline" onclick="shareViaEmail()">📧 通过邮件分享</button>
+      <button class="btn btn-outline" onclick="addToCalendar()">📅 添加到 Google 日历</button>
+      <button class="btn btn-primary" onclick="downloadICS()" style="background:#10b981;border-color:#10b981;">📥 下载 .ics 文件</button>
+    </div>
+    <p style="margin-top:12px;font-size:0.875rem;color:#065f46;">💡 .ics 文件可兼容 Apple 日历、Outlook、Google 日历及所有主流日历应用。</p>
+    <p style="margin-top:8px;font-size:0.875rem;color:#065f46;" id="share-status"></p>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <a href="../" class="footer-logo">🌍 世界时区</a>
+        <p class="footer-desc">免费世界时区换算器。即时转换任意两个城市之间的时间。</p>
+      </div>
+      <div>
+        <h4 class="footer-heading">工具</h4>
+        <ul class="footer-links">
+          <li><a href="../index-zh.html">时区换算器</a></li>
+          <li><a href="world-clock.html">世界时钟</a></li>
+          <li><a href="meeting-scheduler-zh.html">会议调度器</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">热门</h4>
+        <ul class="footer-links">
+          <li><a href="est-to-cst-converter.html">EST 转 CST</a></li>
+          <li><a href="gmt-to-cst-converter.html">GMT 转 CST</a></li>
+          <li><a href="us-china-time-difference.html">美国 vs 中国</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">信息</h4>
+        <ul class="footer-links">
+          <li><a href="about-zh.html">关于我们</a></li>
+          <li><a href="contact.html">联系我们</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 GlobeTimeZone.com · 版权所有</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Global state
+let participants = [];
+let meetingDuration = 60;
+let currentOffsets = {};
+
+// Popular cities with time zones
+const cityDatabase = {
+  'New York': { tz: 'America/New_York', offset: -5 },
+  'Los Angeles': { tz: 'America/Los_Angeles', offset: -8 },
+  'Chicago': { tz: 'America/Chicago', offset: -6 },
+  'London': { tz: 'Europe/London', offset: 0 },
+  'Paris': { tz: 'Europe/Paris', offset: 1 },
+  'Berlin': { tz: 'Europe/Berlin', offset: 1 },
+  'Tokyo': { tz: 'Asia/Tokyo', offset: 9 },
+  'Beijing': { tz: 'Asia/Shanghai', offset: 8 },
+  'Shanghai': { tz: 'Asia/Shanghai', offset: 8 },
+  'Hong Kong': { tz: 'Asia/Hong_Kong', offset: 8 },
+  'Singapore': { tz: 'Asia/Singapore', offset: 8 },
+  'Sydney': { tz: 'Australia/Sydney', offset: 10 },
+  'Dubai': { tz: 'Asia/Dubai', offset: 4 },
+  'Mumbai': { tz: 'Asia/Kolkata', offset: 5.5 },
+  'Seoul': { tz: 'Asia/Seoul', offset: 9 },
+  'Toronto': { tz: 'America/Toronto', offset: -5 },
+  'Vancouver': { tz: 'America/Vancouver', offset: -8 },
+  'Amsterdam': { tz: 'Europe/Amsterdam', offset: 1 },
+  'Stockholm': { tz: 'Europe/Stockholm', offset: 1 },
+  'Moscow': { tz: 'Europe/Moscow', offset: 3 },
+};
+
+// Initialize dates
+function initDates() {
+  const today = new Date();
+  const y = today.getFullYear();
+  const m = String(today.getMonth() + 1).padStart(2, '0');
+  const d = String(today.getDate()).padStart(2, '0');
+  
+  document.getElementById('date-from').value = `${y}-${m}-${d}`;
+  
+  // Set to next 7 days
+  const nextWeek = new Date(today);
+  nextWeek.setDate(nextWeek.getDate() + 7);
+  const ny = nextWeek.getFullYear();
+  const nm = String(nextWeek.getMonth() + 1).padStart(2, '0');
+  const nd = String(nextWeek.getDate()).padStart(2, '0');
+  document.getElementById('date-to').value = `${ny}-${nm}-${nd}`;
+}
+
+// Quick add participant
+function quickAdd(city, timezone) {
+  const cityData = cityDatabase[city];
+  if (!cityData) return;
+  
+  const workStart = parseInt(document.getElementById('working-hours-start').value);
+  const workEnd = parseInt(document.getElementById('working-hours-end').value);
+  
+  // Check if already added
+  if (participants.find(p => p.city === city)) {
+    return;
+  }
+  
+  participants.push({
+    id: Date.now(),
+    city: city,
+    timezone: timezone,
+    workStart: workStart,
+    workEnd: workEnd
+  });
+  
+  renderParticipants();
+  updateTimeGrid();
+}
+
+// Add participant from search
+function addParticipant() {
+  const searchInput = document.getElementById('city-search').value.trim();
+  if (!searchInput) return;
+  
+  // Find city in database
+  const cityKey = Object.keys(cityDatabase).find(c => 
+    c.toLowerCase().includes(searchInput.toLowerCase())
+  );
+  
+  if (cityKey) {
+    quickAdd(cityKey, cityDatabase[cityKey].tz);
+    document.getElementById('city-search').value = '';
+  } else {
+    alert('未找到该城市。请尝试：纽约、伦敦、东京、北京等。');
+  }
+}
+
+// Remove participant
+function removeParticipant(id) {
+  participants = participants.filter(p => p.id !== id);
+  renderParticipants();
+  updateTimeGrid();
+}
+
+// Render participant list
+function renderParticipants() {
+  const container = document.getElementById('participants-container');
+  
+  if (participants.length === 0) {
+    container.innerHTML = '<p style="color:#595959;font-style:italic;">尚未添加参与者，请在上方添加团队成员。</p>';
+    return;
+  }
+  
+  const now = new Date();
+  let html = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;">';
+  
+  participants.forEach(p => {
+    const localTime = new Date(now.toLocaleString('en-US', { timeZone: p.timezone }));
+    const hours = String(localTime.getHours()).padStart(2, '0');
+    const minutes = String(localTime.getMinutes()).padStart(2, '0');
+    const isWorking = localTime.getHours() >= p.workStart && localTime.getHours() < p.workEnd;
+    
+    html += `
+      <div class="card" style="padding:16px;${isWorking ? 'border-color:#10b981;' : 'border-color:#f59e0b;'}">
+        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px;">
+          <strong>${p.city}</strong>
+          <button onclick="removeParticipant(${p.id})" style="background:none;border:none;cursor:pointer;color:#dc2626;font-size:1.2rem;">×</button>
+        </div>
+        <div style="font-size:0.875rem;color:#595959;">
+          <div>当地时间: ${hours}:${minutes}</div>
+          <div>工作时间: ${p.workStart}:00 - ${p.workEnd}:00</div>
+        </div>
+        <span class="working-badge" style="margin-top:8px;${isWorking ? '' : 'background:#fef3c7;color:#92400e;'}">
+          ${isWorking ? '🟢 工作中' : '🟡 已下班'}
+        </span>
+      </div>
+    `;
+  });
+  
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+// Set meeting duration
+function setDuration(minutes) {
+  meetingDuration = minutes;
+  document.querySelectorAll('.duration-btn').forEach(btn => {
+    btn.classList.remove('active');
+    if (parseInt(btn.dataset.duration) === minutes) {
+      btn.classList.add('active');
+    }
+  });
+}
+
+// Generate schedule
+function generateSchedule() {
+  if (participants.length === 0) {
+    alert('请先添加至少一位参与者。');
+    return;
+  }
+  
+  const fromDate = document.getElementById('date-from').value;
+  const toDate = document.getElementById('date-to').value;
+  
+  if (!fromDate || !toDate) {
+    alert('请选择日期范围。');
+    return;
+  }
+  
+  document.getElementById('results-section').style.display = 'block';
+  
+  const start = new Date(fromDate);
+  const end = new Date(toDate);
+  const results = document.getElementById('schedule-results');
+  
+  let html = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;">';
+  let foundSlots = 0;
+  
+  for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+    const slots = findBestSlots(d);
+    
+    if (slots.length > 0) {
+      foundSlots++;
+      html += `
+        <div class="card" style="padding:16px;text-align:center;background:linear-gradient(135deg,#ecfdf5 0%,#d1fae5 100%);border-color:#10b981;">
+          <div style="font-weight:600;font-size:1.1rem;">${d.toLocaleDateString('zh-CN', { weekday: 'short', month: 'short', day: 'numeric' })}</div>
+          <div style="color:#595959;font-size:0.875rem;margin:8px 0;">
+            可用时段: ${slots.length} 个
+          </div>
+          <div style="font-size:0.875rem;">
+            ${slots.slice(0, 3).map(s => `<span style="background:#10b981;color:white;padding:2px 8px;border-radius:4px;margin:2px;display:inline-block;">${s}</span>`).join('')}
+            ${slots.length > 3 ? `<span style="color:#595959;">+${slots.length - 3}</span>` : ''}
+          </div>
+        </div>
+      `;
+    }
+  }
+  
+  if (foundSlots === 0) {
+    html += `
+      <div class="card" style="padding:24px;text-align:center;grid-column:1/-1;">
+        <p style="color:#595959;">在此日期范围内未找到重叠的工作时间。</p>
+        <p style="font-size:0.875rem;color:#595959;">请尝试扩大日期范围或调整工作时间。</p>
+      </div>
+    `;
+  }
+  
+  html += '</div>';
+  results.innerHTML = html;
+  
+  // Generate detailed table
+  generateDetailedTable(start, end);
+}
+
+// Find best meeting slots for a given day
+function findBestSlots(date) {
+  const slots = [];
+  const baseDate = new Date(date);
+  
+  for (let hour = 0; hour < 24; hour++) {
+    let allInWorkHours = true;
+    
+    for (const p of participants) {
+      const localTime = new Date(baseDate);
+      localTime.setUTCHours(hour);
+      const participantHour = parseInt(localTime.toLocaleString('en-US', { timeZone: p.timezone, hour: 'numeric', hour12: false }));
+      
+      if (participantHour < p.workStart || participantHour >= p.workEnd) {
+        allInWorkHours = false;
+        break;
+      }
+    }
+    
+    if (allInWorkHours) {
+      const startTime = `${String(hour).padStart(2, '0')}:00`;
+      const endHour = hour + Math.ceil(meetingDuration / 60);
+      const endTime = `${String(endHour % 24).padStart(2, '0')}:00`;
+      slots.push(`${startTime}-${endTime}`);
+    }
+  }
+  
+  return slots;
+}
+
+// Generate detailed schedule table
+function generateDetailedTable(start, end) {
+  const container = document.getElementById('schedule-table-container');
+  let html = '<table style="width:100%;border-collapse:collapse;">';
+  
+  // Header
+  html += '<thead><tr style="background:var(--primary);color:white;"><th style="padding:12px;border:1px solid var(--border);">日期</th>';
+  for (let h = 0; h < 24; h++) {
+    html += `<th style="padding:8px;border:1px solid var(--border);font-size:0.75rem;">${String(h).padStart(2, '0')}</th>`;
+  }
+  html += '</tr></thead><tbody>';
+  
+  // Rows
+  for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+    html += `<tr><td style="padding:8px;border:1px solid var(--border);font-weight:500;white-space:nowrap;">${d.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric' })}</td>`;
+    
+    for (let h = 0; h < 24; h++) {
+      let allWorking = true;
+      
+      for (const p of participants) {
+        const localTime = new Date(d);
+        localTime.setUTCHours(h);
+        const hour = parseInt(localTime.toLocaleString('en-US', { timeZone: p.timezone, hour: 'numeric', hour12: false }));
+        
+        if (hour < p.workStart || hour >= p.workEnd) {
+          allWorking = false;
+          break;
+        }
+      }
+      
+      const bg = allWorking ? '#10b981' : (participants.length > 0 ? '#fee2e2' : '#f3f4f6');
+      html += `<td style="padding:4px;border:1px solid var(--border);background:${bg};" title="${h}:00"></td>`;
+    }
+    
+    html += '</tr>';
+  }
+  
+  html += '</tbody></table>';
+  container.innerHTML = html;
+}
+
+// Update time grid preview
+function updateTimeGrid() {
+  const grid = document.getElementById('time-grid');
+  
+  if (participants.length === 0) {
+    grid.innerHTML = '<p style="color:#595959;text-align:center;">添加参与者以查看其工作时间。</p>';
+    return;
+  }
+  
+  const now = new Date();
+  let html = '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;">';
+  
+  // Header with hours
+  html += '<thead><tr><th style="padding:8px;border:1px solid var(--border);background:var(--bg-secondary);">时区</th>';
+  for (let h = 0; h < 24; h++) {
+    const isCurrentHour = now.getUTCHours() === h;
+    html += `<th style="padding:8px;border:1px solid var(--border);background:${isCurrentHour ? '#dbeafe' : 'var(--bg-secondary)'};font-size:0.75rem;">${String(h).padStart(2, '0')}</th>`;
+  }
+  html += '</tr></thead><tbody>';
+  
+  // Participant rows
+  participants.forEach(p => {
+    html += `<tr><td style="padding:8px;border:1px solid var(--border);font-weight:500;white-space:nowrap;">${p.city}</td>`;
+    
+    for (let h = 0; h < 24; h++) {
+      const localTime = new Date(now);
+      localTime.setUTCHours(h);
+      const localHour = parseInt(localTime.toLocaleString('en-US', { timeZone: p.timezone, hour: 'numeric', hour12: false }));
+      const isWorking = localHour >= p.workStart && localHour < p.workEnd;
+      const isCurrentHour = now.getUTCHours() === h;
+      
+      const bg = isCurrentHour ? '#3b82f6' : (isWorking ? '#10b981' : '#fee2e2');
+      const textColor = isCurrentHour ? 'white' : (isWorking ? 'white' : '#991b1b');
+      
+      html += `<td style="padding:4px;border:1px solid var(--border);background:${bg};color:${textColor};text-align:center;font-size:0.75rem;" title="${localHour}:00 ${p.city}">${String(localHour).padStart(2, '0')}</td>`;
+    }
+    
+    html += '</tr>';
+  });
+  
+  html += '</tbody></table></div>';
+  grid.innerHTML = html;
+}
+
+// Copy meeting link
+function copyMeetingLink() {
+  const participantNames = participants.map(p => p.city).join(', ');
+  const link = window.location.href;
+  const text = `会议调度 - ${participantNames}\n\n${link}`;
+  
+  navigator.clipboard.writeText(text).then(() => {
+    document.getElementById('share-status').textContent = '✓ 会议信息已复制到剪贴板！';
+    setTimeout(() => {
+      document.getElementById('share-status').textContent = '';
+    }, 3000);
+  });
+}
+
+// Share via email
+function shareViaEmail() {
+  const participantNames = participants.map(p => p.city).join(', ');
+  const subject = encodeURIComponent(`会议调度 - ${participantNames}`);
+  const body = encodeURIComponent(`您好，\n\n我为我们的跨地区团队设置了会议时间查找器，参与者包括 ${participantNames}。\n\n您可以在此处查看和建议时间：${window.location.href}\n\n此致敬礼`);
+  
+  window.location.href = `mailto:?subject=${subject}&body=${body}`;
+}
+
+// Add to calendar
+function addToCalendar() {
+  const dateFrom = document.getElementById('date-from').value;
+  const title = encodeURIComponent('团队会议 - GlobeTimeZone');
+  const details = encodeURIComponent('通过 GlobeTimeZone.com 会议调度器安排');
+  if (dateFrom) {
+    const date = dateFrom.replace(/-/g, '');
+    const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${date}T090000/${date}T100000&details=${details}`;
+    window.open(url, '_blank');
+  } else {
+    alert('请先设置日期范围，然后点击"查找最佳时间"。');
+  }
+}
+
+// Download .ics calendar file
+function downloadICS() {
+  if (participants.length === 0) {
+    alert('请先添加至少一位参与者并找到会议时间。');
+    return;
+  }
+  const dateFrom = document.getElementById('date-from').value || new Date().toISOString().split('T')[0];
+  const dateStr = dateFrom.replace(/-/g,'');
+  const now = new Date();
+  const dtStamp = now.toISOString().replace(/[-:]/g,'').split('.')[0]+'Z';
+  const participantStr = participants.map(p => p.city).join(', ');
+  const uid = `meeting-${Date.now()}@globetimezone.com`;
+  const icsContent = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//GlobeTimeZone//Meeting Scheduler//EN',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    `UID:${uid}`,
+    `DTSTAMP:${dtStamp}`,
+    `DTSTART:${dateStr}T090000Z`,
+    `DTEND:${dateStr}T100000Z`,
+    `SUMMARY:团队会议 (${participantStr})`,
+    `DESCRIPTION:通过 GlobeTimeZone.com 安排会议\\n参与者: ${participantStr}\\n\\n访问 https://globetimezone.com/pages/meeting-scheduler-zh.html 重新安排。`,
+    'LOCATION:线上',
+    'STATUS:CONFIRMED',
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].join('\r\n');
+  
+  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'meeting-globetimezone.ics';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  document.getElementById('share-status').textContent = '✅ .ics 文件已下载！可导入到您的日历应用中。';
+}
+
+// Initialize
+initDates();
+updateTimeGrid();
+
+// Update time grid every minute
+setInterval(() => {
+  renderParticipants();
+  updateTimeGrid();
+}, 60000);
+</script>
+
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js')}</script>
+</body>
+</html>

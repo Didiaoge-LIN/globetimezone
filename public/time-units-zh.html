@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>时间单位换算器 - 转换小时、分钟、秒、十进制时间 | GlobeTimeZone</title>
+  <meta name="description" content="免费时间单位换算器。在小时、分钟、秒、十进制小时等之间进行转换。完美适用于工资计算、项目管理和时间追踪。" />
+  <meta name="keywords" content="时间单位换算,小时转分钟,分钟转秒,十进制时间,时间计算器" />
+  <meta name="robots" content="index, follow" />
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="时间单位换算器 | GlobeTimeZone" />
+  <meta property="og:description" content="免费时间单位换算器。小时、分钟、秒互转。" />
+  <meta property="og:locale" content="zh_CN" />
+  
+  <!-- Hreflang -->
+  <link rel="alternate" hreflang="en" href="https://globetimezone.com/pages/time-units.html" />
+  <link rel="alternate" hreflang="zh" href="https://globetimezone.com/pages/time-units-zh.html" />
+  <link rel="canonical" href="https://globetimezone.com/pages/time-units-zh.html" />
+  
+    <!-- PWA & Social -->
+  <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+  <link rel="manifest" href="../manifest.json" />
+  <meta name="twitter:card" content="summary_large_image" />
+  
+  <link rel="stylesheet" href="../css/style.min.css" />
+  <style>
+    .converter-card { background: white; border-radius: 16px; padding: 32px; border: 1px solid var(--border); margin-bottom: 24px; }
+    .input-section { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: center; }
+    @media (max-width: 768px) { .input-section { grid-template-columns: 1fr; } }
+    .swap-vertical { display: flex; flex-direction: column; gap: 8px; }
+    .conversion-results { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 32px; }
+    .result-item { background: var(--bg); border-radius: 12px; padding: 20px; text-align: center; transition: all 0.3s; border: 2px solid transparent; }
+    .result-item:hover { border-color: var(--primary); transform: translateY(-2px); }
+    .result-item.highlight { background: var(--primary-light); border-color: var(--primary); }
+    .result-value { font-size: 2rem; font-weight: 800; color: var(--primary); font-variant-numeric: tabular-nums; }
+    .result-label { font-size: 0.875rem; color: var(--text-muted); margin-top: 8px; letter-spacing: 0.05em; }
+    .quick-conversions { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-top: 24px; }
+    .quick-item { padding: 12px 16px; background: var(--bg); border-radius: 8px; text-align: center; cursor: pointer; transition: all 0.2s; border: 1px solid var(--border); }
+    .quick-item:hover { background: var(--primary-light); border-color: var(--primary); }
+    .decimal-chart { margin-top: 32px; overflow-x: auto; }
+    .decimal-table { width: 100%; border-collapse: collapse; }
+    .decimal-table th, .decimal-table td { padding: 12px 16px; text-align: center; border-bottom: 1px solid var(--border); }
+    .decimal-table th { background: var(--primary); color: white; font-weight: 600; }
+    .decimal-table tr:hover td { background: var(--primary-light); }
+    .copy-btn { padding: 4px 8px; background: transparent; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-size: 0.75rem; margin-left: 8px; transition: all 0.2s; }
+    .copy-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
+  </style>
+  <!-- Google Analytics 4 -->
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script src="../js/ga4.min.js"></script>
+</head>
+<body>
+
+<!-- ===== Accessibility: Skip to main content ===== -->
+<a class="skip-link" href="#main-content">跳到主内容</a>
+
+
+<header>
+  <div class="header-inner">
+    <a href="../" class="logo">🌍 世界<span>时区</span></a>
+    <nav> aria-label="主导航"
+      <a href="../index-zh.html">时区转换</a>
+      <a href="world-clock.html">世界时钟</a>
+      <a href="meeting-scheduler-zh.html">会议调度</a>
+      <a href="countdown-zh.html">倒计时</a>
+      <a href="articles-zh.html">使用教程</a>
+      <span class="lang-switch">
+        <a href="time-units.html" class="lang-btn">EN</a>
+        <a href="time-units-zh.html" class="lang-btn active">中文</a>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <div class="breadcrumb-inner">
+    <a href="../index-zh.html">首页</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>工具</span>
+    <span class="breadcrumb-sep">›</span>
+    <span>时间单位换算</span>
+  </div>
+</nav>
+
+<main style="max-width:900px;margin:0 auto;padding:24px;" id="main-content" role="main">
+  
+  <div class="converter-card">
+    <h1 style="font-size:1.75rem;margin-bottom:8px;">🔄 时间单位换算器</h1>
+    <p style="color:#595959;margin-bottom:24px;">即时换算不同的时间单位</p>
+    
+    <div class="input-section">
+      <div class="form-group">
+        <label class="form-label">数值</label>
+        <input type="number" id="input-value" class="form-input" placeholder="输入数值" value="1" step="any" oninput="convertTime()" />
+      </div>
+      
+      <div class="swap-vertical">
+        <span style="font-size:0.75rem;color:#595959;text-align:center;">从</span>
+        <select id="from-unit" class="form-select" onchange="convertTime()">
+          <option value="hours">小时</option>
+          <option value="minutes">分钟</option>
+          <option value="seconds">秒</option>
+          <option value="days">天</option>
+          <option value="weeks">周</option>
+          <option value="decimal">十进制小时</option>
+        </select>
+      </div>
+      
+      <div class="swap-vertical">
+        <span style="font-size:0.75rem;color:#595959;text-align:center;">到</span>
+        <select id="to-unit" class="form-select" onchange="convertTime()">
+          <option value="hours">小时</option>
+          <option value="minutes" selected>分钟</option>
+          <option value="seconds">秒</option>
+          <option value="days">天</option>
+          <option value="weeks">周</option>
+          <option value="decimal">十进制小时</option>
+        </select>
+      </div>
+    </div>
+    
+    <div style="background:var(--primary-light);border-radius:12px;padding:24px;margin-top:24px;text-align:center;">
+      <div style="font-size:0.875rem;color:var(--primary);font-weight:600;margin-bottom:8px;">结果</div>
+      <div style="font-size:3rem;font-weight:800;color:var(--primary-dark);" id="result">60</div>
+      <div style="font-size:1rem;color:#595959;margin-top:8px;" id="result-unit">分钟</div>
+    </div>
+    
+    <h3 style="margin-top:32px;margin-bottom:16px;">📊 全部换算结果</h3>
+    <div class="conversion-results" id="all-results">
+    </div>
+  </div>
+  
+  <div class="converter-card">
+    <h2 style="font-size:1.25rem;margin-bottom:16px;">⚡ 快速换算</h2>
+    <p style="color:#595959;margin-bottom:16px;">常用时间换算一览</p>
+    
+    <div class="quick-conversions">
+      <div class="quick-item" onclick="quickConvert(8, 'hours', 'minutes')">
+        <div style="font-weight:700;">8 小时</div>
+        <div style="font-size:0.85rem;color:#595959;">= 480 分钟</div>
+      </div>
+      <div class="quick-item" onclick="quickConvert(1, 'days', 'hours')">
+        <div style="font-weight:700;">1 天</div>
+        <div style="font-size:0.85rem;color:#595959;">= 24 小时</div>
+      </div>
+      <div class="quick-item" onclick="quickConvert(1, 'weeks', 'days')">
+        <div style="font-weight:700;">1 周</div>
+        <div style="font-size:0.85rem;color:#595959;">= 7 天</div>
+      </div>
+      <div class="quick-item" onclick="quickConvert(1.5, 'decimal', 'hours')">
+        <div style="font-weight:700;">1.5 十进制</div>
+        <div style="font-size:0.85rem;color:#595959;">= 1时30分</div>
+      </div>
+      <div class="quick-item" onclick="quickConvert(90, 'minutes', 'decimal')">
+        <div style="font-weight:700;">90 分钟</div>
+        <div style="font-size:0.85rem;color:#595959;">= 1.5 十进制</div>
+      </div>
+      <div class="quick-item" onclick="quickConvert(3600, 'seconds', 'minutes')">
+        <div style="font-weight:700;">3600 秒</div>
+        <div style="font-size:0.85rem;color:#595959;">= 60 分钟</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="converter-card">
+    <h2 style="font-size:1.25rem;margin-bottom:16px;">📋 十进制小时换算表</h2>
+    <p style="color:#595959;margin-bottom:16px;">工资计算和时间追踪常用的十进制小时换算</p>
+    
+    <div class="decimal-chart">
+      <table class="decimal-table">
+        <thead>
+          <tr>
+            <th>十进制小时</th>
+            <th>小时与分钟</th>
+            <th>换算为秒</th>
+          </tr>
+        </thead>
+        <tbody id="decimal-table-body">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</main>
+
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-bottom">
+      <p>© 2026 GlobeTimeZone.com · 时间单位换算器</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+const TO_SECONDS = {
+  seconds: 1, minutes: 60, hours: 3600, days: 86400, weeks: 604800, decimal: 3600
+};
+
+const UNITS = ['hours', 'minutes', 'seconds', 'days', 'weeks', 'decimal'];
+const UNIT_LABELS = { hours: '小时', minutes: '分钟', seconds: '秒', days: '天', weeks: '周', decimal: '十进制小时' };
+
+function convertTime() {
+  const value = parseFloat(document.getElementById('input-value').value) || 0;
+  const fromUnit = document.getElementById('from-unit').value;
+  const toUnit = document.getElementById('to-unit').value;
+  const seconds = value * TO_SECONDS[fromUnit];
+  const result = seconds / TO_SECONDS[toUnit];
+  document.getElementById('result').textContent = formatNumber(result);
+  document.getElementById('result-unit').textContent = UNIT_LABELS[toUnit];
+  renderAllConversions(value, fromUnit);
+}
+
+function renderAllConversions(value, fromUnit) {
+  const container = document.getElementById('all-results');
+  const seconds = value * TO_SECONDS[fromUnit];
+  let html = '';
+  UNITS.forEach(unit => {
+    if (unit !== fromUnit) {
+      const converted = seconds / TO_SECONDS[unit];
+      const isHighlight = unit === document.getElementById('to-unit').value;
+      html += `<div class="result-item ${isHighlight ? 'highlight' : ''}"><div class="result-value">${formatNumber(converted)}</div><div class="result-label">${UNIT_LABELS[unit]}</div></div>`;
+    }
+  });
+  container.innerHTML = html;
+}
+
+function formatNumber(num) {
+  if (Number.isInteger(num)) return num;
+  return num.toFixed(4).replace(/\.?0+$/, '');
+}
+
+function quickConvert(value, from, to) {
+  document.getElementById('input-value').value = value;
+  document.getElementById('from-unit').value = from;
+  document.getElementById('to-unit').value = to;
+  convertTime();
+}
+
+function generateDecimalChart() {
+  const tbody = document.getElementById('decimal-table-body');
+  const decimals = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.5, 3, 4, 5, 6, 7, 8];
+  tbody.innerHTML = decimals.map(decimal => {
+    const totalMinutes = decimal * 60;
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = Math.round(totalMinutes % 60);
+    const seconds = Math.round(decimal * 3600);
+    return `<tr><td>${decimal}</td><td>${hours}时 ${minutes}分</td><td>${seconds.toLocaleString()}秒</td></tr>`;
+  }).join('');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  convertTime();
+  generateDecimalChart();
+});
+</script>
+
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js')}</script>
+</body>
+</html>

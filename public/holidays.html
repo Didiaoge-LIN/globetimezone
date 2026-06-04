@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>World Holidays 2026 - Public Holidays in 200+ Countries | GlobeTimeZone</title>
+  <meta name="description" content="Check public holidays and observances in 200+ countries. Perfect for international business planning, travel, and cultural awareness." />
+  <meta name="robots" content="index, follow" />
+  
+  <meta property="og:locale" content="en_US" />
+  <link rel="alternate" hreflang="en" href="https://globetimezone.com/pages/holidays.html" />
+  <link rel="alternate" hreflang="zh" href="https://globetimezone.com/pages/holidays-zh.html" />
+  <link rel="canonical" href="https://globetimezone.com/pages/holidays.html" />
+  
+    <!-- PWA & Social -->
+  <link rel="icon" type="image/x-icon" href="../favicon.ico" />
+  <link rel="manifest" href="../manifest.json" />
+  <meta name="twitter:card" content="summary_large_image" />
+  
+  <link rel="stylesheet" href="../css/style.min.css" />
+  <style>
+    .search-hero {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      padding: 48px 24px;
+      text-align: center;
+      border-radius: 16px;
+      margin-bottom: 32px;
+    }
+    
+    .search-hero h1 {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+    
+    .country-selector {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    
+    .country-btn {
+      padding: 16px;
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+    }
+    
+    .country-btn:hover {
+      border-color: #10b981;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+    
+    .country-btn.active {
+      border-color: #10b981;
+      background: #ecfdf5;
+    }
+    
+    .country-flag {
+      font-size: 2.5rem;
+      margin-bottom: 8px;
+    }
+    
+    .country-name {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    
+    .holidays-list {
+      background: white;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    
+    .month-section {
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .month-header {
+      background: var(--bg);
+      padding: 16px 20px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .holiday-item {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.2s;
+    }
+    
+    .holiday-item:last-child {
+      border-bottom: none;
+    }
+    
+    .holiday-item:hover {
+      background: var(--bg);
+    }
+    
+    .holiday-date {
+      display: flex;
+      flex-direction: column;
+      min-width: 80px;
+    }
+    
+    .holiday-day {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #10b981;
+      line-height: 1;
+    }
+    
+    .holiday-month {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    
+    .holiday-info {
+      flex: 1;
+      margin-left: 16px;
+    }
+    
+    .holiday-name {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    
+    .holiday-type {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    
+    .holiday-type.national {
+      color: #10b981;
+    }
+    
+    .holiday-type.observance {
+      color: #6366f1;
+    }
+    
+    .holiday-type.bank {
+      color: #f59e0b;
+    }
+    
+    .days-until {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    
+    .days-until.soon {
+      color: #ef4444;
+      font-weight: 600;
+    }
+    
+    .filter-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .filter-tab {
+      padding: 8px 16px;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: white;
+    }
+    
+    .filter-tab:hover {
+      border-color: #10b981;
+    }
+    
+    .filter-tab.active {
+      background: #10b981;
+      color: white;
+      border-color: #10b981;
+    }
+    
+    .upcoming-section {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border: 2px solid #f59e0b;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    
+    .upcoming-section h3 {
+      color: #92400e;
+      margin-bottom: 12px;
+    }
+    
+    .upcoming-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+    
+    .upcoming-item:last-child {
+      border-bottom: none;
+    }
+  </style>
+  <!-- Google Analytics 4 -->
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script src="../js/ga4.min.js"></script>
+</head>
+<body>
+
+<!-- ===== Accessibility: Skip to main content ===== -->
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+
+<!-- Header -->
+<header>
+  <div class="header-inner">
+    <a href="../" class="logo">🌍 Globe<span>TimeZone</span></a>
+    <nav> aria-label="Main navigation"
+      <a href="../">Converter</a>
+      <a href="world-clock.html">World Clock</a>
+      <a href="meeting-scheduler.html">Scheduler</a>
+      <a href="countdown.html">Countdown</a>
+      <a href="articles.html">Articles</a>
+      <span class="lang-switch">
+        <a href="holidays.html" class="lang-btn active">EN</a>
+        <a href="holidays-zh.html" class="lang-btn">中文</a>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<nav class="breadcrumb">
+  <div class="breadcrumb-inner">
+    <a href="../">Home</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>Tools</span>
+    <span class="breadcrumb-sep">›</span>
+    <span>World Holidays</span>
+  </div>
+</nav>
+
+<main style="max-width:900px;margin:0 auto;padding:24px;" id="main-content" role="main">
+  
+  <!-- Hero -->
+  <div class="search-hero">
+    <h1>🎉 World Holidays 2026</h1>
+    <p>Check public holidays and observances worldwide</p>
+  </div>
+  
+  <!-- Country Selection -->
+  <h2 style="margin-bottom:16px;">🌍 Select a Country</h2>
+  <div class="country-selector" id="country-selector">
+    <div class="country-btn active" onclick="selectCountry('US', '🇺🇸', 'United States')">
+      <div class="country-flag">🇺🇸</div>
+      <div class="country-name">United States</div>
+    </div>
+    <div class="country-btn" onclick="selectCountry('CN', '🇨🇳', 'China')">
+      <div class="country-flag">🇨🇳</div>
+      <div class="country-name">China</div>
+    </div>
+    <div class="country-btn" onclick="selectCountry('GB', '🇬🇧', 'United Kingdom')">
+      <div class="country-flag">🇬🇧</div>
+      <div class="country-name">United Kingdom</div>
+    </div>
+    <div class="country-btn" onclick="selectCountry('JP', '🇯🇵', 'Japan')">
+      <div class="country-flag">🇯🇵</div>
+      <div class="country-name">Japan</div>
+    </div>
+    <div class="country-btn" onclick="selectCountry('DE', '🇩🇪', 'Germany')">
+      <div class="country-flag">🇩🇪</div>
+      <div class="country-name">Germany</div>
+    </div>
+    <div class="country-btn" onclick="selectCountry('FR', '🇫🇷', 'France')">
+      <div class="country-flag">🇫🇷</div>
+      <div class="country-name">France</div>
+    </div>
+    <div class="country-btn" onclick="selectCountry('IN', '🇮🇳', 'India')">
+      <div class="country-flag">🇮🇳</div>
+      <div class="country-name">India</div>
+    </div>
+    <div class="country-btn" onclick="selectCountry('AU', '🇦🇺', 'Australia')">
+      <div class="country-flag">🇦🇺</div>
+      <div class="country-name">Australia</div>
+    </div>
+    <div class="country-btn" onclick="selectCountry('SG', '🇸🇬', 'Singapore')">
+      <div class="country-flag">🇸🇬</div>
+      <div class="country-name">Singapore</div>
+    </div>
+    <div class="country-btn" onclick="selectCountry('AE', '🇦🇪', 'UAE')">
+      <div class="country-flag">🇦🇪</div>
+      <div class="country-name">UAE</div>
+    </div>
+  </div>
+  
+  <!-- Upcoming Holidays -->
+  <div class="upcoming-section" id="upcoming-section">
+    <h3>📅 Upcoming Holidays (Next 30 days)</h3>
+    <div id="upcoming-list">
+      <!-- Generated by JS -->
+    </div>
+  </div>
+  
+  <!-- Filter Tabs -->
+  <div class="filter-tabs">
+    <button class="filter-tab active" onclick="filterHolidays('all')">All</button>
+    <button class="filter-tab" onclick="filterHolidays('national')">National</button>
+    <button class="filter-tab" onclick="filterHolidays('observance')">Observances</button>
+    <button class="filter-tab" onclick="filterHolidays('bank')">Bank Holidays</button>
+  </div>
+  
+  <!-- Selected Country Header -->
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+    <h2 id="selected-country-name">🇺🇸 United States Holidays 2026</h2>
+    <select id="year-select" class="form-select" style="width:auto;" onchange="loadHolidays()">
+      <option value="2026" selected>2026</option>
+      <option value="2025">2025</option>
+      <option value="2027">2027</option>
+    </select>
+  </div>
+  
+  <!-- Holidays List -->
+  <div class="holidays-list" id="holidays-list">
+    <!-- Generated by JS -->
+  </div>
+
+</main>
+
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-bottom">
+      <p>© 2026 GlobeTimeZone.com · World Holidays</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Holiday data (simplified - in production would come from API)
+const HOLIDAYS_DATA = {
+  US: [
+    { name: "New Year's Day", date: '2026-01-01', type: 'national' },
+    { name: "Martin Luther King Jr. Day", date: '2026-01-19', type: 'observance' },
+    { name: "Presidents' Day", date: '2026-02-16', type: 'federal' },
+    { name: "Memorial Day", date: '2026-05-25', type: 'federal' },
+    { name: "Independence Day", date: '2026-07-04', type: 'national' },
+    { name: "Labor Day", date: '2026-09-07', type: 'federal' },
+    { name: "Columbus Day", date: '2026-10-12', type: 'federal' },
+    { name: "Veterans Day", date: '2026-11-11', type: 'national' },
+    { name: "Thanksgiving Day", date: '2026-11-26', type: 'national' },
+    { name: "Christmas Day", date: '2026-12-25', type: 'national' },
+  ],
+  CN: [
+    { name: "New Year's Day", date: '2026-01-01', type: 'national' },
+    { name: "Spring Festival", date: '2026-02-17', type: 'national' },
+    { name: "Qingming Festival", date: '2026-04-04', type: 'national' },
+    { name: "Labor Day", date: '2026-05-01', type: 'national' },
+    { name: "Dragon Boat Festival", date: '2026-05-31', type: 'national' },
+    { name: "Mid-Autumn Festival", date: '2026-09-25', type: 'national' },
+    { name: "National Day", date: '2026-10-01', type: 'national' },
+  ],
+  GB: [
+    { name: "New Year's Day", date: '2026-01-01', type: 'bank' },
+    { name: "Good Friday", date: '2026-04-03', type: 'bank' },
+    { name: "Easter Monday", date: '2026-04-06', type: 'bank' },
+    { name: "Early May Bank Holiday", date: '2026-05-04', type: 'bank' },
+    { name: "Spring Bank Holiday", date: '2026-05-25', type: 'bank' },
+    { name: "Summer Bank Holiday", date: '2026-08-31', type: 'bank' },
+    { name: "Christmas Day", date: '2026-12-25', type: 'bank' },
+    { name: "Boxing Day", date: '2026-12-26', type: 'bank' },
+  ],
+  JP: [
+    { name: "New Year's Day", date: '2026-01-01', type: 'national' },
+    { name: "Coming of Age Day", date: '2026-01-12', type: 'national' },
+    { name: "National Foundation Day", date: '2026-02-11', type: 'national' },
+    { name: "Vernal Equinox Day", date: '2026-03-20', type: 'national' },
+    { name: "Showa Day", date: '2026-04-29', type: 'national' },
+    { name: "Constitution Memorial Day", date: '2026-05-03', type: 'national' },
+    { name: "Greenery Day", date: '2026-05-04', type: 'national' },
+    { name: "Children's Day", date: '2026-05-05', type: 'national' },
+    { name: "Marine Day", date: '2026-07-20', type: 'national' },
+    { name: "Mountain Day", date: '2026-08-11', type: 'national' },
+    { name: "Respect for the Aged Day", date: '2026-09-21', type: 'national' },
+    { name: "Autumnal Equinox Day", date: '2026-09-23', type: 'national' },
+    { name: "Sports Day", date: '2026-10-12', type: 'national' },
+    { name: "Culture Day", date: '2026-11-03', type: 'national' },
+    { name: "Labor Thanksgiving Day", date: '2026-11-23', type: 'national' },
+  ],
+  DE: [
+    { name: "New Year's Day", date: '2026-01-01', type: 'national' },
+    { name: "Good Friday", date: '2026-04-03', type: 'observance' },
+    { name: "Easter Monday", date: '2026-04-06', type: 'bank' },
+    { name: "Labor Day", date: '2026-05-01', type: 'national' },
+    { name: "Ascension Day", date: '2026-05-14', type: 'observance' },
+    { name: "Whit Monday", date: '2026-05-25', type: 'bank' },
+    { name: "German Unity Day", date: '2026-10-03', type: 'national' },
+    { name: "Christmas Day", date: '2026-12-25', type: 'national' },
+    { name: "2nd Day of Christmas", date: '2026-12-26', type: 'national' },
+  ],
+  FR: [
+    { name: "New Year's Day", date: '2026-01-01', type: 'national' },
+    { name: "Easter Monday", date: '2026-04-06', type: 'bank' },
+    { name: "Labor Day", date: '2026-05-01', type: 'national' },
+    { name: "Victory in Europe Day", date: '2026-05-08', type: 'observance' },
+    { name: "Ascension Day", date: '2026-05-14', type: 'national' },
+    { name: "Whit Monday", date: '2026-05-25', type: 'bank' },
+    { name: "Bastille Day", date: '2026-07-14', type: 'national' },
+    { name: "Assumption of Mary", date: '2026-08-15', type: 'observance' },
+    { name: "All Saints' Day", date: '2026-11-01', type: 'observance' },
+    { name: "Armistice Day", date: '2026-11-11', type: 'observance' },
+    { name: "Christmas Day", date: '2026-12-25', type: 'national' },
+  ],
+  IN: [
+    { name: "New Year's Day", date: '2026-01-01', type: 'observance' },
+    { name: "Republic Day", date: '2026-01-26', type: 'national' },
+    { name: "Holi", date: '2026-03-10', type: 'national' },
+    { name: "Good Friday", date: '2026-04-03', type: 'observance' },
+    { name: "Independence Day", date: '2026-08-15', type: 'national' },
+    { name: "Gandhi Jayanti", date: '2026-10-02', type: 'national' },
+    { name: "Diwali", date: '2026-11-08', type: 'national' },
+    { name: "Christmas Day", date: '2026-12-25', type: 'national' },
+  ],
+  AU: [
+    { name: "New Year's Day", date: '2026-01-01', type: 'national' },
+    { name: "Australia Day", date: '2026-01-26', type: 'national' },
+    { name: "Good Friday", date: '2026-04-03', type: 'bank' },
+    { name: "Easter Monday", date: '2026-04-06', type: 'bank' },
+    { name: "Anzac Day", date: '2026-04-25', type: 'national' },
+    { name: "Queen's Birthday", date: '2026-06-08', type: 'observance' },
+    { name: "Christmas Day", date: '2026-12-25', type: 'national' },
+    { name: "Boxing Day", date: '2026-12-26', type: 'bank' },
+  ],
+  SG: [
+    { name: "New Year's Day", date: '2026-01-01', type: 'national' },
+    { name: "Chinese New Year", date: '2026-02-17', type: 'national' },
+    { name: "Chinese New Year", date: '2026-02-18', type: 'national' },
+    { name: "Good Friday", date: '2026-04-03', type: 'bank' },
+    { name: "Labor Day", date: '2026-05-01', type: 'national' },
+    { name: "Vesak Day", date: '2026-05-03', type: 'observance' },
+    { name: "National Day", date: '2026-08-09', type: 'national' },
+    { name: "Deepavali", date: '2026-10-20', type: 'observance' },
+    { name: "Christmas Day", date: '2026-12-25', type: 'national' },
+  ],
+  AE: [
+    { name: "New Year's Day", date: '2026-01-01', type: 'national' },
+    { name: "Eid al-Fitr", date: '2026-03-20', type: 'national' },
+    { name: "Eid al-Fitr", date: '2026-03-21', type: 'national' },
+    { name: "Eid al-Fitr", date: '2026-03-22', type: 'national' },
+    { name: "Arafat Day", date: '2026-05-27', type: 'national' },
+    { name: "Eid al-Adha", date: '2026-05-28', type: 'national' },
+    { name: "Islamic New Year", date: '2026-06-17', type: 'observance' },
+    { name: "Prophet's Birthday", date: '2026-09-05', type: 'observance' },
+    { name: "UAE National Day", date: '2026-12-02', type: 'national' },
+  ],
+};
+
+let currentCountry = 'US';
+let currentFilter = 'all';
+
+function selectCountry(code, flag, name) {
+  currentCountry = code;
+  
+  // Update UI
+  document.querySelectorAll('.country-btn').forEach(btn => btn.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  
+  document.getElementById('selected-country-name').textContent = `${flag} ${name} Holidays ${new Date().getFullYear()}`;
+  
+  loadHolidays();
+  updateUpcoming();
+}
+
+function loadHolidays() {
+  const year = document.getElementById('year-select').value;
+  const holidays = HOLIDAYS_DATA[currentCountry] || [];
+  
+  // Filter by year
+  let filtered = holidays.filter(h => h.date.startsWith(year));
+  
+  // Filter by type
+  if (currentFilter !== 'all') {
+    filtered = filtered.filter(h => h.type === currentFilter);
+  }
+  
+  // Sort by date
+  filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+  
+  // Group by month
+  const byMonth = {};
+  filtered.forEach(h => {
+    const month = new Date(h.date).toLocaleString('en-US', { month: 'long' });
+    if (!byMonth[month]) byMonth[month] = [];
+    byMonth[month].push(h);
+  });
+  
+  // Render
+  const container = document.getElementById('holidays-list');
+  container.innerHTML = Object.entries(byMonth).map(([month, holidays]) => `
+    <div class="month-section">
+      <div class="month-header">
+        <span>📅 ${month}</span>
+        <span style="font-size:0.85rem;font-weight:400;">${holidays.length} holiday${holidays.length > 1 ? 's' : ''}</span>
+      </div>
+      ${holidays.map(h => renderHolidayItem(h)).join('')}
+    </div>
+  `).join('');
+}
+
+function renderHolidayItem(holiday) {
+  const date = new Date(holiday.date + 'T00:00:00');
+  const day = date.getDate();
+  const month = date.toLocaleString('en-US', { month: 'short' });
+  const daysUntil = Math.ceil((date - new Date()) / (1000 * 60 * 60 * 24));
+  
+  let daysText = '';
+  let daysClass = '';
+  
+  if (daysUntil > 0 && daysUntil <= 30) {
+    daysText = `${daysUntil} day${daysUntil > 1 ? 's' : ''} away`;
+    daysClass = daysUntil <= 7 ? 'soon' : '';
+  } else if (daysUntil === 0) {
+    daysText = 'Today!';
+    daysClass = 'soon';
+  } else if (daysUntil < 0) {
+    daysText = 'Passed';
+    daysClass = '';
+  } else {
+    daysText = `${daysUntil} days away`;
+    daysClass = '';
+  }
+  
+  return `
+    <div class="holiday-item">
+      <div class="holiday-date">
+        <span class="holiday-day">${day}</span>
+        <span class="holiday-month">${month}</span>
+      </div>
+      <div class="holiday-info">
+        <div class="holiday-name">${holiday.name}</div>
+        <span class="holiday-type ${holiday.type}">${holiday.type.charAt(0).toUpperCase() + holiday.type.slice(1)} Holiday</span>
+      </div>
+      <span class="days-until ${daysClass}">${daysText}</span>
+    </div>
+  `;
+}
+
+function filterHolidays(type) {
+  currentFilter = type;
+  
+  document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  
+  loadHolidays();
+}
+
+function updateUpcoming() {
+  const holidays = HOLIDAYS_DATA[currentCountry] || [];
+  const today = new Date();
+  const thirtyDaysLater = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
+  
+  const upcoming = holidays
+    .filter(h => {
+      const date = new Date(h.date + 'T00:00:00');
+      return date >= today && date <= thirtyDaysLater;
+    })
+    .sort((a, b) => new Date(a.date) - new Date(b.date))
+    .slice(0, 5);
+  
+  const container = document.getElementById('upcoming-list');
+  
+  if (upcoming.length === 0) {
+    container.innerHTML = '<p style="color:#92400e;">No upcoming holidays in the next 30 days.</p>';
+    return;
+  }
+  
+  container.innerHTML = upcoming.map(h => {
+    const date = new Date(h.date + 'T00:00:00');
+    const daysUntil = Math.ceil((date - today) / (1000 * 60 * 60 * 24));
+    
+    return `
+      <div class="upcoming-item">
+        <span style="font-weight:600;">${h.name}</span>
+        <span style="color:#92400e;">${date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</span>
+        <span style="font-size:0.85rem;color:#92400e;">${daysUntil} day${daysUntil > 1 ? 's' : ''}</span>
+      </div>
+    `;
+  }).join('');
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', () => {
+  loadHolidays();
+  updateUpcoming();
+});
+</script>
+
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js')}</script>
+</body>
+</html>
