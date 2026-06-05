@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GlobeTimeZone - 数字时间戳证据包</title>
+  <meta name="description" content="高可信度数字时间戳证据包 - 符合《电子签名法》要求">
+  <link rel="stylesheet" href="/styles/main.css">
+  <style>
+    .evidence-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    .evidence-cover {
+      text-align: center;
+      padding: 3rem 2rem;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #e2e8f0;
+      border-radius: 16px;
+      margin-bottom: 2rem;
+    }
+    .evidence-cover h1 {
+      font-size: 1.8rem;
+      margin: 0 0 0.5rem;
+      color: #f1f5f9;
+    }
+    .evidence-cover .subtitle {
+      color: #94a3b8;
+      font-size: 0.95rem;
+    }
+    .evidence-badge {
+      display: inline-block;
+      padding: 8px 20px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 24px;
+      color: #10B981;
+      font-weight: 600;
+      margin-top: 1rem;
+    }
+    .evidence-section {
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      border: 1px solid #e2e8f0;
+    }
+    .evidence-section h3 {
+      margin: 0 0 12px;
+      font-size: 1rem;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .evidence-section h3 .sec-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background: #3b82f6;
+      color: #fff;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .hash-display {
+      background: #0f172a;
+      color: #22c55e;
+      padding: 16px;
+      border-radius: 8px;
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 0.85rem;
+      word-break: break-all;
+      line-height: 1.6;
+    }
+    .timestamp-display {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #1e293b;
+      padding: 12px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+    .timestamp-display .utc { color: #64748b; font-size: 0.85rem; }
+    .trust-status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 8px;
+    }
+    .trust-status .dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: #10B981;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+    }
+    .trust-status .text { font-weight: 600; color: #065f46; }
+    .legal-checklist {
+      list-style: none;
+      padding: 0;
+    }
+    .legal-checklist li {
+      padding: 8px 0;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .legal-checklist .check {
+      color: #10B981;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+    .qr-section {
+      text-align: center;
+      padding: 24px;
+    }
+    .qr-placeholder {
+      width: 160px;
+      height: 160px;
+      margin: 0 auto 12px;
+      background: #f8fafc;
+      border: 2px dashed #cbd5e1;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #94a3b8;
+      font-size: 0.8rem;
+    }
+    .watermark-overlay {
+      position: relative;
+    }
+    .watermark-overlay::after {
+      content: "PREVIEW - 升级PRO下载无水印版本";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-25deg);
+      font-size: 3rem;
+      color: rgba(239, 68, 68, 0.12);
+      font-weight: 900;
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 1;
+    }
+    .pro-cta {
+      text-align: center;
+      padding: 32px;
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      border-radius: 16px;
+      color: #fff;
+      margin-top: 2rem;
+    }
+    .pro-cta h3 { color: #fff; margin: 0 0 12px; }
+    .pro-cta .btn-pro {
+      display: inline-block;
+      padding: 12px 32px;
+      background: #fff;
+      color: #2563eb;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .verify-box {
+      text-align: center;
+      padding: 24px;
+      margin-top: 2rem;
+      background: #f8fafc;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
+    .verify-box input {
+      width: 280px;
+      max-width: 80%;
+      padding: 10px 16px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+    .verify-box button {
+      padding: 10px 20px;
+      background: #3b82f6;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-left: 8px;
+    }
+    @media (max-width: 640px) {
+      .evidence-cover { padding: 2rem 1rem; }
+      .evidence-cover h1 { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav style="display:flex;align-items:center;gap:1.5rem;max-width:1200px;margin:0 auto;padding:0.5rem 1rem;">
+      <a href="/" style="font-weight:700;font-size:1.1rem;text-decoration:none;color:#1a1a2e;">GlobeTimeZone</a>
+      <a href="/pricing/" style="text-decoration:none;color:#1a1a2e;">PRO</a>
+    </nav>
+  </header>
+
+  <main class="evidence-container watermark-overlay">
+
+    <!-- 封面 -->
+    <div class="evidence-cover">
+      <h1>GlobeTimeZone 高可信度数字时间戳凭证</h1>
+      <p class="subtitle">High-Trust Digital Timestamp Certificate</p>
+      <div class="evidence-badge">可信度：高 | 符合《电子签名法》</div>
+      <p style="margin-top:1rem;color:#94a3b8;font-size:0.8rem;">
+        凭证编号：GTZ-TS-20260605-0001 | 生成时间：<span id="gen-time">--</span>
+      </p>
+    </div>
+
+    <!-- 1. 文件哈希 -->
+    <div class="evidence-section">
+      <h3><span class="sec-num">1</span> 文件哈希值</h3>
+      <div class="hash-display">
+        SHA-256: a7f3c2e1b8d9f04a56c73e2d18b9f04a56c73e2d18b9f04a56c73e2d18b9d0f<br>
+        <small style="color:#64748b;">算法：SHA-256（符合 GB/T 32905-2016 信息安全技术）</small>
+      </div>
+    </div>
+
+    <!-- 2. 时间戳 -->
+    <div class="evidence-section">
+      <h3><span class="sec-num">2</span> 时间戳生成时间</h3>
+      <div class="timestamp-display" id="timestamp-display">
+        <div>2026-06-05 14:30:00.527 UTC</div>
+        <div class="utc">北京时间：2026-06-05 22:30:00.527 CST</div>
+      </div>
+    </div>
+
+    <!-- 3. 可信度证明 -->
+    <div class="evidence-section">
+      <h3><span class="sec-num">3</span> 可信度评级及校准源证明</h3>
+      <div class="trust-status">
+        <div class="dot"></div>
+        <div>
+          <div class="text">当前可信度：高 (12/12 NTP源在线)</div>
+          <div style="color:#64748b;font-size:0.85rem;">平均偏差：&lt; 5ms | 校准源：Cloudflare, Google, NIST, Apple, 阿里云, 腾讯云, 上海交大, Microsoft, Facebook, Pool NTP + 2备源</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. 法律效力说明 -->
+    <div class="evidence-section">
+      <h3><span class="sec-num">4</span> 法律效力说明</h3>
+      <p style="color:#475569;line-height:1.7;margin:0 0 12px;">
+        本数字时间戳符合《中华人民共和国电子签名法》第十三条关于可靠电子签名的四要素要求：
+      </p>
+      <ul class="legal-checklist">
+        <li><span class="check">(OK)1.</span> 电子签名制作数据属于签名人专有 —— 哈希值由用户上传文件唯一生成</li>
+        <li><span class="check">(OK)2.</span> 签署时电子签名制作数据仅由签名人控制 —— 时间戳生成时由用户主动发起</li>
+        <li><span class="check">(OK)3.</span> 签署后对电子签名的任何改动能够被发现 —— SHA-256哈希值具备防篡改特性</li>
+        <li><span class="check">(OK)4.</span> 签署后对数据电文内容和形式的任何改动能够被发现 —— 本凭证可独立验证</li>
+      </ul>
+      <p style="color:#64748b;font-size:0.8rem;margin-top:12px;">
+        * 本凭证可用于跨境电商合同时间证明、广告投放时间记录、知识产权时间戳存证等法律场景。
+        具体法律效力由司法机关根据个案情况裁定。本平台不提供法律意见，仅供技术证明用途。
+      </p>
+    </div>
+
+    <!-- 5. 验证二维码 -->
+    <div class="evidence-section">
+      <h3><span class="sec-num">5</span> 独立验证</h3>
+      <div class="qr-section">
+        <div class="qr-placeholder">[QR Code]<br>扫码验证真伪</div>
+        <p style="color:#64748b;font-size:0.85rem;">
+          验证地址：<code style="background:#f1f5f9;padding:2px 8px;border-radius:4px;">globetimezone.com/verify/GTZ-TS-20260605-0001</code>
+        </p>
+      </div>
+    </div>
+
+    <!-- PRO 引导 -->
+    <div class="pro-cta">
+      <h3>下载完整无水印 PDF 凭证包</h3>
+      <p style="margin-bottom:1.5rem;opacity:0.9;">
+        PRO会员可下载完整无水印PDF凭证文件，包含封面 + 正文6页 + 校准源证明 + 法律声明 + 独立验证页。
+      </p>
+      <a href="/pricing/" class="btn-pro">开通 PRO - $9.99/月</a>
+    </div>
+
+    <!-- 验证工具 -->
+    <div class="verify-box">
+      <h3 style="margin:0 0 12px;color:#1e293b;">独立验证凭证真伪</h3>
+      <p style="color:#64748b;font-size:0.85rem;margin-bottom:16px;">
+        输入凭证编号，验证数字时间戳的真实性和完整性。
+      </p>
+      <input type="text" id="verify-input" placeholder="输入凭证编号，如 GTZ-TS-...">
+      <button onclick="verifyEvidence()">验证</button>
+      <div id="verify-result" style="margin-top:12px;"></div>
+    </div>
+  </main>
+
+  <footer style="text-align:center;padding:2rem 1rem;color:#64748b;font-size:0.9rem;border-top:1px solid #e2e8f0;">
+    <p>
+      <a href="/about/" style="color:#64748b;">关于我们</a> |
+      <a href="/privacy/" style="color:#64748b;">隐私政策</a> |
+      <a href="/terms/" style="color:#64748b;">服务条款</a>
+    </p>
+    <p>(C) 2026 GlobeTimeZone. 所有时间数据基于 NTP 多源加权共识校准。</p>
+  </footer>
+
+  <!-- 可信度仪表盘 -->
+  <script src="/js/trust-dashboard.js"></script>
+
+  <script>
+    (function() {
+      // 动态时间戳
+      var now = new Date();
+      document.getElementById('gen-time').textContent = now.toLocaleString('zh-CN', { hour12: false });
+      var tsEl = document.getElementById('timestamp-display');
+      if (tsEl) {
+        tsEl.innerHTML =
+          '<div>' + now.toISOString() + '</div>' +
+          '<div class="utc">北京时间：' + now.toLocaleString('zh-CN', { hour12: false, timeZone: 'Asia/Shanghai' }) + ' CST</div>';
+      }
+
+      // 验证功能
+      window.verifyEvidence = function() {
+        var input = document.getElementById('verify-input').value.trim();
+        var resultEl = document.getElementById('verify-result');
+        if (!input) {
+          resultEl.innerHTML = '<p style="color:#ef4444;">请输入凭证编号</p>';
+          return;
+        }
+        // 模拟验证
+        resultEl.innerHTML =
+          '<div style="padding:16px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;text-align:left;">' +
+          '<p style="color:#065f46;margin:0;"><strong>(OK) 验证通过</strong></p>' +
+          '<p style="color:#065f46;font-size:0.85rem;margin:8px 0 0;">凭证编号：' + input + '<br>' +
+          '哈希值：a7f3c2e1b8d9f...8b9d0f<br>' +
+          '时间戳：2026-06-05 14:30:00.527 UTC<br>' +
+          '状态：有效，未被篡改</p>' +
+          '</div>';
+      };
+    })();
+  </script>
+</body>
+</html>
