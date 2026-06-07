@@ -84,10 +84,11 @@
   </header>
 
   <main id="main-content">
-    <section class="hero" style="text-align:center;padding:3rem 1rem;max-width:800px;margin:0 auto;">
-      <h1 style="font-size:2.5rem;margin-bottom:0.5rem;">🌍 全球时间决策，一秒到位</h1>
-      <p style="color:var(--text-secondary);margin-bottom:2rem;">
-        不再查询，直接决策。智能判断联系时机、规划跨国会议、计算跨境时效。
+    <section class="hero" style="text-align:center;padding:3rem 1rem;max-width:900px;margin:0 auto;">
+      <p style="font-size:0.85rem;color:var(--text-secondary);letter-spacing:1px;text-transform:uppercase;margin-bottom:0.5rem;">全球此刻</p>
+      <h1 style="font-size:2.8rem;margin-bottom:0.5rem;font-weight:700;">🌍 他们在干嘛，一眼就知道</h1>
+      <p style="color:var(--text-secondary);font-size:1.1rem;margin-bottom:2rem;max-width:600px;margin-left:auto;margin-right:auto;">
+        旧金山在睡、伦敦在上班、东京在下班路上的黄昏。<br>不查时区，直接感知全球节奏。
       </p>
       
       <div class="smart-search" style="max-width:600px;margin:0 auto 2rem;position:relative;">
@@ -132,42 +133,59 @@
 
   <script>
     (function() {
+      var tzData = {
+        'America/New_York':    { name: '纽约', hint: '美东时间' },
+        'Europe/London':       { name: '伦敦', hint: '格林威治' },
+        'Asia/Tokyo':          { name: '东京', hint: '日本时间' },
+        'Asia/Shanghai':       { name: '北京', hint: '中国时间' }
+      };
+
+      function getHour(tz) {
+        try {
+          var now = new Date();
+          var parts = new Intl.DateTimeFormat('en-US', {
+            timeZone: tz,
+            hour: 'numeric',
+            hour12: false
+          }).formatToParts(now);
+          var hourPart = parts.find(p => p.type === 'hour');
+          return hourPart ? parseInt(hourPart.value, 10) : new Date().getUTCHours();
+        } catch(e) { return new Date().getUTCHours(); }
+      }
+
       function updateStatusBadges() {
         document.querySelectorAll('.city-status-card').forEach(card => {
           var tz = card.getAttribute('data-tz');
           if (!tz) return;
-          try {
-            var now = new Date();
-            var formatter = new Intl.DateTimeFormat('en-US', {
-              timeZone: tz,
-              hour: 'numeric',
-              hourCycle: 'h23'
-            });
-            var localHour = parseInt(formatter.format(now), 10);
-            
-            var badge = card.querySelector('.status-badge');
-            if (!badge) return;
-            
-            if (localHour >= 9 && localHour < 18) {
-              badge.textContent = '🟢 工作中';
-              badge.style.background = '#d1fae5';
-              badge.style.color = '#065f46';
-            } else if (localHour >= 7 && localHour < 22) {
-              badge.textContent = '🟡 非工作时段';
-              badge.style.background = '#fef3c7';
-              badge.style.color = '#92400e';
-            } else {
-              badge.textContent = '🔴 深夜勿扰';
-              badge.style.background = '#fee2e2';
-              badge.style.color = '#991b1b';
-            }
-          } catch(e) {
-            console.error('Error updating badge for', tz, e);
+          var badge = card.querySelector('.status-badge');
+          if (!badge) return;
+          var hour = getHour(tz);
+          var nextWork = '';
+          if (hour < 7) nextWork = ' 明天 07:00 可联系';
+          else if (hour >= 22) nextWork = ' 明天 10:00 可联系';
+
+          if (hour >= 9 && hour < 18) {
+            badge.textContent = '🟢 工作中 · 可联系';
+            badge.style.background = '#d1fae5';
+            badge.style.color = '#065f46';
+          } else if (hour >= 7 && hour < 22) {
+            badge.textContent = '🟡 非工作时段';
+            badge.style.background = '#fef3c7';
+            badge.style.color = '#92400e';
+          } else {
+            badge.textContent = '🔴 深夜勿扰' + nextWork;
+            badge.style.background = '#fee2e2';
+            badge.style.color = '#991b1b';
           }
         });
       }
-      
-      updateStatusBadges();
+
+      // 等 DOM + 时区数据就绪
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', updateStatusBadges);
+      } else {
+        updateStatusBadges();
+      }
       setInterval(updateStatusBadges, 60000);
     })();
   </script>
@@ -190,6 +208,7 @@
     import { initSentry } from '/scripts/sentry-init.js';
     initSentry();
   </script>
+  <script src="/js/trust-dashboard.js" defer></script>
   <script src="/cookie-consent.js" defer></script>
   <script src="/ads-loader.js" defer></script>
   <script>
