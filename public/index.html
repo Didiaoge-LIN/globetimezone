@@ -59,7 +59,17 @@
       font-size: 0.8rem;
       font-weight: 500;
     }
-    .pro-link {
+    .city-status-card {
+      transition: box-shadow 0.2s, transform 0.15s;
+    }
+    .city-status-card:hover {
+      box-shadow: 0 8px 24px -4px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
+    .remove-btn:hover { color: #ef4444 !important; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .city-status-card { animation: fadeIn 0.35s ease-out; }
+    #meeting-toggle:hover { background: var(--accent) !important; color: #fff !important; }
       background: var(--accent);
       color: #fff !important;
       padding: 0.4rem 1rem;
@@ -97,6 +107,9 @@
                autocomplete="off"
                style="width:100%;padding:1rem 1.5rem;font-size:1.1rem;border:2px solid #e2e8f0;border-radius:12px;outline:none;">
       </div>
+
+      <!-- 地球昼夜可视化 -->
+      <div id="earth-visual" style="margin:1.5rem auto 0;max-width:600px;"></div>
 
       <!-- 自定义城市搜索 -->
       <div style="max-width:600px;margin:1.5rem auto 0;position:relative;">
@@ -181,6 +194,7 @@
     <p>© 2026 GlobeTimeZone. 所有时间数据基于 NTP 校准。</p>
   </footer>
 
+  <script src="/js/earth-visual.js" defer></script>
   <script src="/js/custom-cities.js" defer></script>
   <script src="/js/meeting-planner.js" defer></script>
   <script type="module" src="/scripts/app.js" defer></script>
