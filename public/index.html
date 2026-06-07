@@ -98,36 +98,14 @@
                style="width:100%;padding:1rem 1.5rem;font-size:1.1rem;border:2px solid #e2e8f0;border-radius:12px;outline:none;">
       </div>
 
-      <div class="quick-cards" style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;margin-top:1rem;">
-        <!-- 纽约 -->
-        <div class="city-status-card" data-tz="America/New_York" style="background:var(--bg-card);border-radius:12px;padding:1rem 1.5rem;box-shadow:var(--shadow);min-width:140px;text-align:center;">
-          <div style="font-size:1.5rem;">🇺🇸</div>
-          <div style="font-weight:600;">纽约</div>
-          <real-clock timezone="America/New_York" style="font-size:1.3rem;font-weight:700;display:block;margin:0.3rem 0;"></real-clock>
-          <span class="status-badge" style="display:inline-block;padding:0.2rem 0.8rem;border-radius:20px;font-size:0.8rem;font-weight:500;background:#e2e8f0;">加载中</span>
-        </div>
-        <!-- 伦敦 -->
-        <div class="city-status-card" data-tz="Europe/London" style="background:var(--bg-card);border-radius:12px;padding:1rem 1.5rem;box-shadow:var(--shadow);min-width:140px;text-align:center;">
-          <div style="font-size:1.5rem;">🇬🇧</div>
-          <div style="font-weight:600;">伦敦</div>
-          <real-clock timezone="Europe/London" style="font-size:1.3rem;font-weight:700;display:block;margin:0.3rem 0;"></real-clock>
-          <span class="status-badge" style="display:inline-block;padding:0.2rem 0.8rem;border-radius:20px;font-size:0.8rem;font-weight:500;background:#e2e8f0;">加载中</span>
-        </div>
-        <!-- 东京 -->
-        <div class="city-status-card" data-tz="Asia/Tokyo" style="background:var(--bg-card);border-radius:12px;padding:1rem 1.5rem;box-shadow:var(--shadow);min-width:140px;text-align:center;">
-          <div style="font-size:1.5rem;">🇯🇵</div>
-          <div style="font-weight:600;">东京</div>
-          <real-clock timezone="Asia/Tokyo" style="font-size:1.3rem;font-weight:700;display:block;margin:0.3rem 0;"></real-clock>
-          <span class="status-badge" style="display:inline-block;padding:0.2rem 0.8rem;border-radius:20px;font-size:0.8rem;font-weight:500;background:#e2e8f0;">加载中</span>
-        </div>
-        <!-- 上海 -->
-        <div class="city-status-card" data-tz="Asia/Shanghai" style="background:var(--bg-card);border-radius:12px;padding:1rem 1.5rem;box-shadow:var(--shadow);min-width:140px;text-align:center;">
-          <div style="font-size:1.5rem;">🇨🇳</div>
-          <div style="font-weight:600;">上海</div>
-          <real-clock timezone="Asia/Shanghai" style="font-size:1.3rem;font-weight:700;display:block;margin:0.3rem 0;"></real-clock>
-          <span class="status-badge" style="display:inline-block;padding:0.2rem 0.8rem;border-radius:20px;font-size:0.8rem;font-weight:500;background:#e2e8f0;">加载中</span>
-        </div>
+      <!-- 自定义城市搜索 -->
+      <div style="max-width:600px;margin:1.5rem auto 0;position:relative;">
+        <input type="text" id="city-search-input" placeholder="添加城市…（例如：Paris、Dubai、Sydney）" autocomplete="off" style="width:100%;padding:0.7rem 1rem;font-size:0.95rem;border:1.5px solid #e2e8f0;border-radius:10px;outline:none;box-sizing:border-box;">
+        <div id="city-search-dropdown" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.08);z-index:100;max-height:220px;overflow-y:auto;"></div>
       </div>
+
+      <!-- 动态城市卡片容器 -->
+      <div id="custom-city-cards" class="quick-cards" style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;margin-top:1.2rem;"></div>
     </section>
   </main>
 
@@ -203,6 +181,7 @@
     <p>© 2026 GlobeTimeZone. 所有时间数据基于 NTP 校准。</p>
   </footer>
 
+  <script src="/js/custom-cities.js" defer></script>
   <script type="module" src="/scripts/app.js" defer></script>
   <script type="module" defer>
     import { initSentry } from '/scripts/sentry-init.js';
