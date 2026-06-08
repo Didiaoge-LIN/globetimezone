@@ -59,7 +59,8 @@
         <button class="remove-btn" title="移除" style="position:absolute;top:6px;right:8px;border:none;background:none;cursor:pointer;font-size:14px;color:var(--text-secondary);">&times;</button>
         <div style="font-size:1.5rem;">${flagEmoji(tz)}</div>
         <div style="font-weight:600;">${tzLabel(tz)}</div>
-        <span class="city-hour" style="font-size:1.3rem;font-weight:700;display:block;margin:0.3rem 0;"></span>
+        <span class="city-hour" style="font-size:1.6rem;font-weight:700;display:block;margin:0.2rem 0;font-variant-numeric:tabular-nums;"></span>
+        <span class="city-date" style="display:block;font-size:0.75rem;color:var(--text-secondary);margin-bottom:0.3rem;"></span>
         <span class="status-badge" style="display:inline-block;padding:0.2rem 0.8rem;border-radius:20px;font-size:0.8rem;font-weight:500;background:${st.bg};color:${st.color};">${st.text}</span>
       `;
       card.querySelector('.remove-btn').addEventListener('click', () => {
@@ -73,17 +74,22 @@
     updateClocks();
   }
 
-  // 更新所有卡片的时钟
+  // 更新所有卡片的时钟 + 日期
   function updateClocks() {
     document.querySelectorAll('.city-status-card').forEach(card => {
       const tz = card.getAttribute('data-tz');
       if (!tz) return;
       const hourEl = card.querySelector('.city-hour');
+      const dateEl = card.querySelector('.city-date');
       if (!hourEl) return;
       try {
         const now = new Date();
-        const timeStr = new Intl.DateTimeFormat('zh-CN', { timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false }).format(now);
+        const timeStr = new Intl.DateTimeFormat('zh-CN', { timeZone: tz, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).format(now);
         hourEl.textContent = timeStr;
+        if (dateEl) {
+          const dateStr = new Intl.DateTimeFormat('zh-CN', { timeZone: tz, month: 'short', day: 'numeric', weekday: 'short' }).format(now);
+          dateEl.textContent = dateStr;
+        }
       } catch {}
     });
   }
@@ -128,8 +134,13 @@
     });
   }
 
-  // 定时刷新
+  // 定时刷新：每秒更新时钟，每分钟重新渲染（刷新状态徽章）
   function startTimer() {
+    // 每秒更新时间（含秒数跳动）
+    setInterval(() => {
+      updateClocks();
+    }, 1000);
+    // 每分钟重新渲染（刷新工作状态徽章 + 日期）
     setInterval(() => {
       render();
     }, 60000);
