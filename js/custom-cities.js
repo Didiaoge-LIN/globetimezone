@@ -145,9 +145,37 @@
       lst.push(tz);
       save(lst);
       render();
-      return true;
+      return 'added';
     }
-    return false;
+    // 已在列表中 → 高亮闪烁该卡片
+    highlightCard(tz);
+    return 'exists';
+  }
+
+  // 高亮闪烁已有城市卡片
+  function highlightCard(tz) {
+    const card = document.querySelector('.city-status-card[data-tz="' + tz + '"]');
+    if (!card) return;
+    card.style.transition = 'box-shadow 0.15s, transform 0.15s';
+    card.style.boxShadow = '0 0 0 3px var(--accent), 0 8px 24px rgba(0,102,204,0.25)';
+    card.style.transform = 'scale(1.05)';
+    setTimeout(() => {
+      card.style.boxShadow = 'var(--shadow)';
+      card.style.transform = 'scale(1)';
+    }, 800);
+  }
+
+  // Toast 提示
+  function showToast(msg) {
+    const existing = document.getElementById('gtz-toast');
+    if (existing) existing.remove();
+    const t = document.createElement('div');
+    t.id = 'gtz-toast';
+    t.textContent = msg;
+    t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a1a2e;color:#fff;padding:8px 20px;border-radius:24px;font-size:14px;z-index:9999;opacity:0;transition:opacity 0.3s;pointer-events:none;';
+    document.body.appendChild(t);
+    requestAnimationFrame(() => { t.style.opacity = '1'; });
+    setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 2000);
   }
 
   // ─── 显示层 ───────────────────────────────
@@ -222,9 +250,11 @@
       item.addEventListener('mouseenter', () => item.style.background = '#f1f5f9');
       item.addEventListener('mouseleave', () => item.style.background = 'transparent');
       item.addEventListener('click', () => {
-        addCity(r.tz);
+        const status = addCity(r.tz);
         input.value = '';
         dropdown.style.display = 'none';
+        if (status === 'exists') showToast(r.cnName + ' 已在列表中');
+        else showToast('已添加 ' + r.cnName);
       });
       dropdown.appendChild(item);
     });
@@ -237,13 +267,16 @@
     const results = searchCities(q);
     if (!results.length) {
       if (dropdown) dropdown.style.display = 'none';
+      showToast('未找到匹配城市');
       return;
     }
     if (results.length === 1) {
       // 只有一个匹配 → 自动添加
-      addCity(results[0].tz);
+      const status = addCity(results[0].tz);
       input.value = '';
       if (dropdown) dropdown.style.display = 'none';
+      if (status === 'exists') showToast(results[0].cnName + ' 已在列表中');
+      else showToast('已添加 ' + results[0].cnName);
     } else if (dropdown) {
       // 多个匹配 → 显示下拉
       showDropdown(dropdown, input, results);
