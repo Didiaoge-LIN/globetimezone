@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GlobeTimeZone — 全球时间决策工具</title>
-  <meta name="description" content="一眼判断该不该联系、何时开会。实时感知全球节奏。">
+  <title>GlobeTimeZone — Global Time Decision Tool</title>
+  <meta name="description" content="Instantly know whether to reach out or schedule a meeting. Real-time global rhythm at your fingertips.">
 
-  <!-- 浏览器语言自动检测（同步加载，渲染前跳转） -->
+  <!-- Browser language auto-detection (sync, redirect before render) -->
   <script src="/js/auto-lang.js?v=1"></script>
 
-  <!-- Hreflang 多语言 SEO -->
+  <!-- Hreflang multi-language SEO -->
   <link rel="alternate" hreflang="en" href="https://globetimezone.com/en/" />
   <link rel="alternate" hreflang="zh-CN" href="https://globetimezone.com/zh/" />
   <link rel="alternate" hreflang="de" href="https://globetimezone.com/de/" />
@@ -19,7 +19,7 @@
   <link rel="alternate" hreflang="ko" href="https://globetimezone.com/ko/" />
   <link rel="alternate" hreflang="pt-BR" href="https://globetimezone.com/pt/" />
   <link rel="alternate" hreflang="ar" href="https://globetimezone.com/ar/" />
-  <link rel="alternate" hreflang="x-default" href="https://globetimezone.com/" />
+  <link rel="alternate" hreflang="x-default" href="https://globetimezone.com/en/" />
   <link rel="preconnect" href="https://www.googletagmanager.com">
   <link rel="preconnect" href="https://pagead2.googlesyndication.com">
   <link rel="manifest" href="/manifest.json">
@@ -31,37 +31,37 @@
     real-clock:defined, smart-clock:defined { visibility: visible; }
     .ad-container { width: 300px; height: 250px; background: #f8fafc; contain: layout style; }
     .skip-link { position: absolute; top: -100px; left: 0; }
-    /* 语言切换器 */
+    /* Language switcher */
     .lang-picker #lang-drop.show { display: block !important; }
     .lang-picker #lang-drop a:hover { background: var(--bg-secondary, #f0f4f8); }
   </style>
 </head>
 <body>
-  <a href="#main-content" class="skip-link">跳到主内容</a>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
   
   <header id="site-header">
-    <nav aria-label="主导航" style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;max-width:1200px;margin:0 auto;padding:0.75rem 1.5rem;">
-      <a href="/" style="font-weight:800;font-size:1.05rem;text-decoration:none;color:var(--text);display:flex;align-items:center;gap:0.4rem;">
+    <nav aria-label="Main navigation" style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;max-width:1200px;margin:0 auto;padding:0.75rem 1.5rem;">
+      <a href="/en/" style="font-weight:800;font-size:1.05rem;text-decoration:none;color:var(--text);display:flex;align-items:center;gap:0.4rem;">
         <span style="font-size:1.3rem;">🌍</span>GlobeTimeZone
       </a>
-      <a href="/time-difference/" style="text-decoration:none;color:var(--text);">时差查询</a>
-      <a href="/meeting-planner/" style="text-decoration:none;color:var(--text);">会议规划</a>
-      <a href="/tools/cross-border/" style="text-decoration:none;color:var(--text);">跨境工具</a>
-      <a href="/blog/" style="text-decoration:none;color:var(--text);">教程</a>
-      <a href="/pricing/" class="pro-link">升级 PRO</a>
+      <a href="/time-difference/" style="text-decoration:none;color:var(--text);">Time Zones</a>
+      <a href="/meeting-planner/" style="text-decoration:none;color:var(--text);">Meeting Planner</a>
+      <a href="/tools/cross-border/" style="text-decoration:none;color:var(--text);">Cross-Border</a>
+      <a href="/blog/" style="text-decoration:none;color:var(--text);">Guides</a>
+      <a href="/pricing/" class="pro-link">Upgrade PRO</a>
 
-      <!-- 语言切换器 -->
+      <!-- Language switcher -->
       <div style="margin-left:auto;position:relative;" class="lang-picker">
-        <button id="lang-btn" aria-label="切换语言" aria-expanded="false"
+        <button id="lang-btn" aria-label="Switch language" aria-expanded="false"
           style="background:none;border:1px solid var(--border);border-radius:6px;padding:0.3rem 0.6rem;font-size:0.78rem;cursor:pointer;color:var(--text-secondary);display:flex;align-items:center;gap:0.25rem;white-space:nowrap;"
           onclick="var d=document.getElementById('lang-drop');var s=d.classList.contains('show');d.classList.toggle('show');this.setAttribute('aria-expanded',s?'false':'true')">
-          🌐 中文 ▾
+          🌐 English ▾
         </button>
         <div id="lang-drop"
           style="display:none;position:absolute;right:0;top:100%;margin-top:6px;background:var(--bg,#fff);border:1px solid var(--border);border-radius:8px;min-width:148px;box-shadow:0 6px 20px rgba(0,0,0,0.12);z-index:1000;"
           onclick="event.stopPropagation()">
-          <a href="/zh/" onclick="localStorage.setItem('gtz_lang','zh')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;border-radius:4px 4px 0 0;">🇨🇳 中文</a>
-          <a href="/en/" onclick="localStorage.setItem('gtz_lang','en')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇺🇸 English</a>
+          <a href="/en/" onclick="localStorage.setItem('gtz_lang','en')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;border-radius:4px 4px 0 0;">🇺🇸 English</a>
+          <a href="/zh/" onclick="localStorage.setItem('gtz_lang','zh')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇨🇳 中文</a>
           <a href="/de/" onclick="localStorage.setItem('gtz_lang','de')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇩🇪 Deutsch</a>
           <a href="/fr/" onclick="localStorage.setItem('gtz_lang','fr')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇫🇷 Français</a>
           <a href="/es/" onclick="localStorage.setItem('gtz_lang','es')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇪🇸 Español</a>
@@ -77,57 +77,57 @@
   <main id="main-content">
     <!-- ═══════ Hero ═══════ -->
     <section class="hero" style="text-align:center;padding:3.5rem 1rem 2.5rem;max-width:900px;margin:0 auto;">
-      <div class="hero-badge">🌏 全球此刻</div>
-      <h1>他们在干嘛，<br>一眼就知道</h1>
+      <div class="hero-badge">🌏 Right Now Worldwide</div>
+      <h1>Know What Time It Is,<br>Anywhere. Instantly.</h1>
       <p class="subtitle">
-        旧金山在沉睡、伦敦刚上班、东京正黄昏。<br>
-        不需要换算时区，直接感受全球节奏。
+        San Francisco is asleep. London just started work. Tokyo is winding down.<br>
+        No mental math, no conversions — feel the global rhythm in one glance.
       </p>
       
-      <!-- 智能搜索 -->
+      <!-- Smart search -->
       <div class="smart-search" style="max-width:540px;margin:0 auto 1.8rem;position:relative;display:flex;gap:0.5rem;">
         <input type="text" id="decision-input" 
-               placeholder="搜索任何城市… 东京、伦敦、New York、Paris…"
+               placeholder="Search any city… Tokyo, London, New York, Paris…"
                autocomplete="off"
                style="flex:1;padding:0.95rem 1.2rem;font-size:1rem;border:1.5px solid var(--border);border-radius:var(--radius);outline:none;">
-        <button id="decision-btn" aria-label="搜索" style="padding:0 1.2rem;background:var(--accent);color:#fff;border:none;border-radius:var(--radius);font-size:0.95rem;font-weight:600;cursor:pointer;white-space:nowrap;">🔍 搜索</button>
+        <button id="decision-btn" aria-label="Search" style="padding:0 1.2rem;background:var(--accent);color:#fff;border:none;border-radius:var(--radius);font-size:0.95rem;font-weight:600;cursor:pointer;white-space:nowrap;">🔍 Search</button>
       </div>
 
-      <!-- 动态地球 -->
+      <!-- Dynamic globe -->
       <div id="earth-visual" style="margin:1rem auto 0;max-width:600px;"></div>
 
-      <!-- 添加城市 -->
+      <!-- Add city -->
       <div style="max-width:540px;margin:1.2rem auto 0;position:relative;display:flex;gap:0.5rem;">
         <div style="flex:1;position:relative;">
-          <input type="text" id="city-search-input" placeholder="添加城市到看板…（中英文均可）" autocomplete="off" style="width:100%;padding:0.7rem 1rem;font-size:0.9rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);outline:none;box-sizing:border-box;">
+          <input type="text" id="city-search-input" placeholder="Add a city to your dashboard…" autocomplete="off" style="width:100%;padding:0.7rem 1rem;font-size:0.9rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);outline:none;box-sizing:border-box;">
           <div id="city-search-dropdown" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:100;max-height:220px;overflow-y:auto;margin-top:4px;"></div>
         </div>
-        <button id="city-search-btn" aria-label="添加城市" style="padding:0 1.2rem;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);font-size:0.9rem;font-weight:600;cursor:pointer;white-space:nowrap;">+ 添加</button>
+        <button id="city-search-btn" aria-label="Add city" style="padding:0 1.2rem;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);font-size:0.9rem;font-weight:600;cursor:pointer;white-space:nowrap;">+ Add</button>
       </div>
 
-      <!-- 动态城市卡片 -->
+      <!-- Dynamic city cards -->
       <div id="custom-city-cards" class="quick-cards" style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;margin-top:1.2rem;position:relative;z-index:1;"></div>
     </section>
   </main>
 
-  <aside class="sidebar-ad" aria-label="广告">
-    <div class="ad-container" data-ad-slot="【通过广告系统配置】" data-width="300" data-height="250"></div>
+  <aside class="sidebar-ad" aria-label="Advertisement">
+    <div class="ad-container" data-ad-slot="【Configured via ad system】" data-width="300" data-height="250"></div>
   </aside>
 
   <!-- ═══════ Footer ═══════ -->
   <footer style="text-align:center;padding:2rem 1rem;color:var(--text-secondary);font-size:0.85rem;border-top:1px solid var(--border-subtle);">
     <p style="display:flex;justify-content:center;gap:1.2rem;flex-wrap:wrap;">
-      <a href="/about/" style="color:var(--text-secondary);text-decoration:none;">关于我们</a>
-      <a href="/privacy/" style="color:var(--text-secondary);text-decoration:none;">隐私政策</a>
-      <a href="/terms/" style="color:var(--text-secondary);text-decoration:none;">服务条款</a>
-      <a href="mailto:support@globetimezone.com" style="color:var(--text-secondary);text-decoration:none;">联系我们</a>
+      <a href="/about/" style="color:var(--text-secondary);text-decoration:none;">About Us</a>
+      <a href="/privacy/" style="color:var(--text-secondary);text-decoration:none;">Privacy Policy</a>
+      <a href="/terms/" style="color:var(--text-secondary);text-decoration:none;">Terms of Service</a>
+      <a href="mailto:support@globetimezone.com" style="color:var(--text-secondary);text-decoration:none;">Contact Us</a>
     </p>
-    <p style="margin-top:0.5rem;">© 2026 GlobeTimeZone · 所有时间数据基于 NTP 实时校准 · 时区数据来源 IANA</p>
+    <p style="margin-top:0.5rem;">&copy; 2026 GlobeTimeZone &middot; All times calibrated via NTP &middot; Time zone data via IANA</p>
   </footer>
 
   <!-- ═══════ Scripts ═══════ -->
   <script>
-    // 滚动时导航栏加阴影
+    // Scroll shadow on header
     (function() {
       var header = document.getElementById('site-header');
       if (!header) return;
@@ -137,7 +137,7 @@
       }, { passive: true });
     })();
 
-    // 语言切换器：点击外部关闭下拉
+    // Language switcher: close on outside click
     document.addEventListener('click', function(e) {
       var drop = document.getElementById('lang-drop');
       var btn = document.getElementById('lang-btn');
@@ -147,7 +147,7 @@
       }
     });
 
-    // 滚动揭示动画
+    // Scroll reveal animation
     (function() {
       var observer = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry) {
