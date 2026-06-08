@@ -115,9 +115,9 @@
    */
   PrefetchStrategy.prototype.prefetchCritical = function () {
     var critical = [
-      '/pages/world-map.html',
-      '/pages/countdown.html',
-      '/pages/holidays.html'
+      '/world-map.html',
+      '/countdown.html',
+      '/holidays.html'
     ];
     var self = this;
     for (var i = 0; i < critical.length; i++) {
