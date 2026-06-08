@@ -1,76 +1,433 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Privacy Policy - GlobeTimeZone</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy – GlobeTimeZone</title>
+  <meta name="description" content="GlobeTimeZone privacy policy. We don't track you, store personal data, or use cookies. Your privacy is our priority." />
+  <meta name="robots" content="index, follow" />
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Privacy Policy – GlobeTimeZone" />
+  <meta property="og:description" content="We don't track you or store personal data. Read our straightforward privacy policy." />
+  
+  <!-- Canonical -->
+  <link rel="canonical" href="https://globetimezone.com/privacy.html" />
+  
+  <link rel="stylesheet" href="/css/style.min.css" />
+  
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #333; line-height: 1.7; background: #fafafa; }
-    .container { max-width: 720px; margin: 0 auto; padding: 40px 24px; }
-    h1 { font-size: 28px; margin-bottom: 8px; color: #1a1a2e; }
-    .updated { color: #888; font-size: 14px; margin-bottom: 32px; }
-    h2 { font-size: 20px; margin: 28px 0 12px; color: #16213e; }
-    p, li { margin-bottom: 10px; font-size: 15px; }
-    ul { padding-left: 20px; }
-    a { color: #0f3460; }
-    .footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid #eee; font-size: 13px; color: #999; }
+    .page-header {
+      background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+      color: white;
+      padding: 60px 24px;
+      text-align: center;
+    }
+    
+    .page-header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+    
+    .page-header p { font-size: 1.2rem; color: rgba(255,255,255,0.95);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .page-content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+    
+    .last-updated {
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 30px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: #166534;
+    }
+    
+    .policy-section {
+      background: white;
+      border-radius: 16px;
+      padding: 32px 40px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    
+    .policy-section h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .policy-section p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+    
+    .policy-section p:last-child {
+      margin-bottom: 0;
+    }
+    
+    .policy-section ul, .policy-section ol {
+      margin: 16px 0;
+      padding-left: 24px;
+    }
+    
+    .policy-section li {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    
+    .highlight-box {
+      background: #fef3c7;
+      border: 1px solid #f59e0b;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin: 20px 0;
+    }
+    
+    .highlight-box p {
+      margin-bottom: 0;
+      color: #92400e;
+    }
+    
+    .table-wrapper {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+    
+    .comparison-table th, .comparison-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .comparison-table th {
+      background: #f8fafc;
+      font-weight: 600;
+      color: var(--secondary);
+    }
+    
+    .comparison-table tr:hover {
+      background: #f8fafc;
+    }
+    
+    .yes { color: #059669; font-weight: 600; }
+    .no { color: #dc2626; font-weight: 600; }
+    
+    .contact-box {
+      background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+      border-radius: 16px;
+      padding: 40px;
+      color: white;
+      text-align: center;
+      margin-top: 30px;
+    }
+    
+    .contact-box h2 {
+      color: white;
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+    }
+    
+    .contact-box p {
+      opacity: 0.9;
+      margin-bottom: 24px;
+    }
+    
+    .contact-box a {
+      color: white;
+      text-decoration: underline;
+    }
+    
+    @media (max-width: 600px) {
+      .page-header h1 {
+        font-size: 1.8rem;
+      }
+      
+      .policy-section {
+        padding: 24px;
+      }
+    }
   </style>
+  <!-- Google Analytics 4 -->
+  <meta name="ga4-measurement-id" content="G-14921330046" />
+  <script src="../js/ga4.min.js"></script>
+  <meta name="baidu-tongji-id" content="p9b0f0beec495c2521ce8dab67f55615" />
+  <script defer src="/js/ba.min.js"></script>
 </head>
 <body>
-  <div class="container">
-    <h1>Privacy Policy</h1>
-    <p class="updated">Last updated: May 23, 2026</p>
 
-    <p>GlobeTimeZone ("we", "our", "us") operates the website <a href="https://globetimezone.com">globetimezone.com</a>. This page informs you of our policies regarding the collection, use, and disclosure of personal information when you use our Service.</p>
+<!-- ===== Accessibility: Skip to main content ===== -->
+<a class="skip-link" href="#main-content">Skip to main content</a>
 
-    <h2>Information We Collect</h2>
-    <p>We do not require user registration. We may collect the following information automatically:</p>
-    <ul>
-      <li><strong>Usage Data:</strong> IP address (anonymized), browser type, pages visited, time spent on pages, and referring URLs.</li>
-      <li><strong>Cookies:</strong> We use essential cookies to ensure site functionality and analytics cookies to understand usage patterns. No tracking cookies from third-party advertisers are used.</li>
-    </ul>
 
-    <h2>How We Use Information</h2>
-    <p>The information we collect is used solely to:</p>
-    <ul>
-      <li>Maintain and improve site performance</li>
-      <li>Analyze usage trends to enhance user experience</li>
-      <li>Ensure security and prevent abuse</li>
-    </ul>
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo">🌍 Globe<span>TimeZone</span></a>
+    <nav> aria-label="Main navigation"
+      <a href="/">Converter</a>
+      <a href="world-clock.html">World Clock</a>
+      <a href="articles.html">Articles</a>
+      <a href="about.html">About</a>
+    </nav>
+  </div>
+</header>
 
-    <h2>Third-Party Services</h2>
-    <p>We may use the following third-party services:</p>
-    <ul>
-      <li><strong>Analytics:</strong> Privacy-focused analytics tools to understand site usage. No personally identifiable information is shared.</li>
-      <li><strong>Hosting:</strong> Cloudflare/EdgeOne for content delivery and security.</li>
-    </ul>
+<div class="page-header">
+  <h1>Privacy Policy</h1>
+  <p>Straightforward privacy information. No legal jargon, no surprises.</p>
+</div>
 
-    <h2>Data Retention</h2>
-    <p>Log data is retained for a maximum of 30 days and then automatically deleted. We do not store personal user data beyond what is necessary for site operation.</p>
-
-    <h2>Children's Privacy</h2>
-    <p>Our Service is not directed to anyone under the age of 13. We do not knowingly collect personal information from children.</p>
-
-    <h2>Your Rights</h2>
-    <p>You have the right to:</p>
-    <ul>
-      <li>Opt out of analytics tracking via your browser settings</li>
-      <li>Clear cookies at any time</li>
-      <li>Request deletion of any data you believe we hold about you</li>
-    </ul>
-
-    <h2>Changes to This Policy</h2>
-    <p>We may update this Privacy Policy from time to time. Changes will be posted on this page with an updated revision date.</p>
-
-    <h2>Contact Us</h2>
-    <p>If you have any questions about this Privacy Policy, please contact us at:</p>
-    <p>Email: <a href="mailto:privacy@globetimezone.com">privacy@globetimezone.com</a><br>
-    Website: <a href="https://globetimezone.com">globetimezone.com</a></p>
-
-    <div class="footer">
-      &copy; 2026 GlobeTimeZone. All rights reserved.
+<main class="page-content" id="main-content" role="main">
+  
+  <div class="last-updated">
+    📅 Last updated: May 12, 2026
+  </div>
+  
+  <!-- TL;DR -->
+  <div class="policy-section">
+    <h2>⚡ TL;DR</h2>
+    
+    <div class="highlight-box">
+      <p><strong>In plain English:</strong> We don't track you, we don't store your data, and we don't use cookies for advertising. When you use GlobeTimeZone, we don't know who you are, where you are, or what you're converting.</p>
+    </div>
+    
+    <div class="table-wrapper">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>What We Do</th>
+            <th>What We DON'T Do</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="yes">✓ Show accurate time conversions</td>
+            <td class="no">✗ Track your location</td>
+          </tr>
+          <tr>
+            <td class="yes">✓ Store preferences locally (on YOUR device only)</td>
+            <td class="no">✗ Store your searches in a database</td>
+          </tr>
+          <tr>
+            <td class="yes">✓ Use essential cookies only (functional)</td>
+            <td class="no">✗ Use advertising cookies</td>
+          </tr>
+          <tr>
+            <td class="yes">✓ Show anonymous analytics (optional)</td>
+            <td class="no">✗ Sell your data to anyone</td>
+          </tr>
+          <tr>
+            <td class="yes">✓ Fix bugs when reported</td>
+            <td class="no">✗ Share data with third parties</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
+  
+  <!-- Information We Collect -->
+  <div class="policy-section">
+    <h2>📋 Information We Collect</h2>
+    
+    <h3 style="font-size:1.1rem;font-weight:600;color:var(--secondary);margin:20px 0 12px;">Automatically Collected</h3>
+    <p>When you visit GlobeTimeZone, our hosting provider may automatically collect:</p>
+    <ul>
+      <li><strong>Basic server logs:</strong> Pages visited, time of visit, browser type (standard web hosting data)</li>
+      <li><strong>Anonymous analytics:</strong> Aggregated, anonymized usage statistics (Google Analytics with IP anonymization)</li>
+    </ul>
+    
+    <h3 style="font-size:1.1rem;font-weight:600;color:var(--secondary);margin:20px 0 12px;">Information You Choose to Provide</h3>
+    <p>We don't require any personal information to use our converter. If you contact us via email, we may collect:</p>
+    <ul>
+      <li>Email address (if you contact us)</li>
+      <li>Message content (to respond to your inquiry)</li>
+    </ul>
+    
+    <h3 style="font-size:1.1rem;font-weight:600;color:var(--secondary);margin:20px 0 12px;">Local Storage (On Your Device Only)</h3>
+    <p>We may save preferences locally using your browser's localStorage:</p>
+    <ul>
+      <li>Selected time format (12h/24h)</li>
+      <li>Recently used cities</li>
+      <li>Favorite timezone pairs</li>
+    </ul>
+    <p>None of this data is sent to our servers. It's stored only on YOUR device and can be cleared by clearing your browser data.</p>
+  </div>
+  
+  <!-- How We Use Information -->
+  <div class="policy-section">
+    <h2>🔧 How We Use Information</h2>
+    
+    <p>We use collected information solely to:</p>
+    <ol>
+      <li><strong>Operate the service:</strong> Keep GlobeTimeZone running and fix technical issues</li>
+      <li><strong>Improve the site:</strong> Understand which features are popular (anonymized analytics only)</li>
+      <li><strong>Respond to inquiries:</strong> Reply to messages you send us</li>
+      <li><strong>Ensure security:</strong> Detect and prevent abuse or attacks</li>
+    </ol>
+    
+    <p>We <strong>never</strong>:</p>
+    <ul>
+      <li>Sell, rent, or share your personal information with advertisers</li>
+      <li>Use your data for profiling or targeted advertising</li>
+      <li>Build user profiles based on your activity</li>
+      <li>Combine anonymized data with identifiable information</li>
+    </ul>
+  </div>
+  
+  <!-- Cookies -->
+  <div class="policy-section">
+    <h2>🍪 Cookies</h2>
+    
+    <p>We use minimal cookies for essential functionality only:</p>
+    <ul>
+      <li><strong>No advertising cookies</strong></li>
+      <li><strong>No tracking cookies</strong></li>
+      <li><strong>No third-party tracking cookies</strong></li>
+    </ul>
+    
+    <p>If we add analytics in the future, we will use anonymized IP addresses and provide clear opt-out options.</p>
+    
+    <p>You can disable cookies in your browser settings without affecting the core functionality of our converter.</p>
+  </div>
+  
+  <!-- Third Parties -->
+  <div class="policy-section">
+    <h2>🤝 Third-Party Services</h2>
+    
+    <p>We use the following third-party services:</p>
+    <ul>
+      <li><strong>Web hosting:</strong> To store and serve our website files</li>
+      <li><strong>Google Analytics</strong> (optional): For anonymized, aggregated site statistics</li>
+    </ul>
+    
+    <p>We carefully select service providers who share our commitment to privacy. We do not share personal information with any third party for marketing purposes.</p>
+  </div>
+  
+  <!-- Data Retention -->
+  <div class="policy-section">
+    <h2>💾 Data Retention</h2>
+    
+    <p><strong>Server logs:</strong> Typically retained for 30 days for security purposes, then deleted or anonymized.</p>
+    
+    <p><strong>Contact form submissions:</strong> Retained until your inquiry is resolved, then deleted.</p>
+    
+    <p><strong>Local storage (your device):</strong> Retained until you clear your browser data or manually delete saved preferences.</p>
+  </div>
+  
+  <!-- Your Rights -->
+  <div class="policy-section">
+    <h2>✅ Your Rights</h2>
+    
+    <p>Depending on your location, you may have the right to:</p>
+    <ul>
+      <li><strong>Access:</strong> Request a copy of any personal data we hold about you</li>
+      <li><strong>Correction:</strong> Request correction of inaccurate data</li>
+      <li><strong>Deletion:</strong> Request deletion of your data</li>
+      <li><strong>Opt-out:</strong> Opt out of analytics tracking</li>
+    </ul>
+    
+    <p>To exercise any of these rights, contact us at <a href="mailto:contact@globetimezone.com" style="color:#059669;font-weight:600;">contact@globetimezone.com</a>. We will respond within 30 days.</p>
+  </div>
+  
+  <!-- Children's Privacy -->
+  <div class="policy-section">
+    <h2>👶 Children's Privacy</h2>
+    
+    <p>GlobeTimeZone is not directed to children under 13 (or the equivalent minimum age in your jurisdiction). We do not knowingly collect personal information from children. If you believe a child has provided us with personal information, please contact us and we will promptly delete it.</p>
+  </div>
+  
+  <!-- International Transfers -->
+  <div class="policy-section">
+    <h2>🌍 International Data Transfers</h2>
+    
+    <p>GlobeTimeZone is operated from [Your Country/Region]. If you access our site from outside this region, your information may be transferred internationally. We ensure appropriate safeguards are in place for any such transfers.</p>
+  </div>
+  
+  <!-- Changes to Policy -->
+  <div class="policy-section">
+    <h2>📝 Changes to This Policy</h2>
+    
+    <p>We may update this Privacy Policy from time to time to reflect changes in our practices or for legal, operational, or regulatory reasons.</p>
+    
+    <p>When we make significant changes, we will:</p>
+    <ul>
+      <li>Update the "Last updated" date at the top of this page</li>
+      <li>Post a notice on our website for 30 days</li>
+      <li>Email subscribers (if applicable) about significant changes</li>
+    </ul>
+    
+    <p>We encourage you to review this page periodically to stay informed about our privacy practices.</p>
+  </div>
+  
+  <!-- Contact -->
+  <div class="contact-box">
+    <h2>📬 Questions?</h2>
+    <p>If you have questions about this Privacy Policy or our data practices,<br/>please reach out:</p>
+    <p><strong>Email:</strong> <a href="mailto:contact@globetimezone.com">contact@globetimezone.com</a></p>
+    <p style="font-size:0.9rem;opacity:0.8;margin-top:16px;margin-bottom:0;">We typically respond within 2 business days.</p>
+  </div>
+  
+</main>
+
+<footer role="contentinfo">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h4>🌍 GlobeTimeZone</h4>
+      <p>Free, accurate time zone conversion for everyone.</p>
+    </div>
+    <div class="footer-section">
+      <h4>Quick Links</h4>
+      <a href="/">Time Converter</a>
+      <a href="world-clock.html">World Clock</a>
+      <a href="articles.html">Articles</a>
+      <a href="about.html">About</a>
+    </div>
+    <div class="footer-section">
+      <h4>Resources</h4>
+      <a href="meeting-scheduler.html">Meeting Scheduler</a>
+      <a href="api.html">API Access</a>
+      <a href="embed-widget.html">Embed Widget</a>
+    </div>
+    <div class="footer-section">
+      <h4>Legal</h4>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="contact.html">Contact Us</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 GlobeTimeZone. Times verified against IANA Time Zone Database.</p>
+  </div>
+</footer>
+
+
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js')}</script>
+  <script src="/baidu-analytics.js" defer></script>
 </body>
 </html>

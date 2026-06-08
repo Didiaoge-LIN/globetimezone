@@ -1,7 +1,7 @@
 # GlobeTimeZone 每日社交媒体帖子生成与发布 - 执行记录
 
 ## 最后执行时间
-2026-06-04 07:14 GMT+8
+2026-06-08 08:29 GMT+8
 
 ## 功能状态
 - ✅ 帖子生成：正常工作
@@ -25,6 +25,9 @@
 ## 最近执行记录
 | 日期 | 城市组 | 发布状态 |
 |------|--------|----------|
+| 2026-06-08 | apac | 生成成功，凭据未配置 |
+| 2026-06-07 | us-eu | 生成成功，凭据未配置 |
+| 2026-06-06 | apac | 生成成功，凭据未配置 |
 | 2026-06-04 | global | 生成成功，凭据未配置 |
 | 2026-06-03 | global | 生成成功，凭据未配置 |
 | 2026-06-01 | global | 生成成功，凭据未配置 |
@@ -38,15 +41,15 @@
 | 2026-05-24 | apac | 生成成功，凭据未配置 |
 | 2026-05-23 | - | 脚本错误（todayPost未定义） |
 
-## 今日帖子内容 (2026-06-04)
-**城市组**: global
-**时间戳**: 2026-06-03T23:14:57.884Z
+## 今日帖子内容 (2026-06-08)
+**城市组**: apac
+**时间戳**: 2026-06-08T00:29:51.487Z
 
 **帖子文案**:
 ```
 🕐 What time is it for your team right now?
 
-🌉 San Francisco 04:14 PM | 🇬🇧 London 12:14 AM | 🗼 Tokyo 08:14 AM | 🇦🇪 Dubai 03:14 AM
+🇨🇳 Beijing 08:29 AM | 🗼 Tokyo 09:29 AM | 🇸🇬 Singapore 08:29 AM | 🇦🇺 Sydney 10:29 AM
 
 See all time zones instantly → https://globetimezone.com
 ```
@@ -59,7 +62,7 @@ See all time zones instantly → https://globetimezone.com
 - **状态**: 优雅降级，仅生成帖子不发布
 
 ## 历史记录
-- social-posts.json 当前包含 14 条历史记录
+- social-posts.json 当前包含 17 条历史记录
 - 自动维护最近90天记录
 
 ## 依赖
@@ -69,6 +72,5 @@ See all time zones instantly → https://globetimezone.com
 - 每日自动任务正常运行
 - 缺少凭据时脚本会优雅降级（仅生成不发布，输出警告）
 - social-posts.json 自动维护最近90天记录
-- 下次城市组轮换：us-eu (2026-06-05)
+- 下次城市组轮换：us-eu (2026-06-09)
 - 路径问题已解决：脚本已重命名为 .cjs 扩展名以兼容 ES module 项目
-- 原 twitter-bot.js 已重命名为 twitter-bot.cjs

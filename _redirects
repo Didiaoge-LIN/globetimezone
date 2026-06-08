@@ -1,5 +1,0 @@
-# GlobeTimeZone — Cloudflare Pages Redirects
-# 根部署到 /public/ 目录代理（Pages 输出目录无法改为 public，用代理解决）
-
-# 所有请求代理到 public/ 目录
-/* /public/:splat 200
