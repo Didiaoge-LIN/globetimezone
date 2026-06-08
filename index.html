@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GlobeTimeZone — 全球时间决策工具</title>
   <meta name="description" content="一眼判断该不该联系、何时开会。实时感知全球节奏。">
+
+  <!-- 浏览器语言自动检测（同步加载，渲染前跳转） -->
+  <script src="/js/auto-lang.js?v=1"></script>
+
+  <!-- Hreflang 多语言 SEO -->
+  <link rel="alternate" hreflang="zh-CN" href="https://globetimezone.com/zh/" />
+  <link rel="alternate" hreflang="de" href="https://globetimezone.com/de/" />
+  <link rel="alternate" hreflang="fr" href="https://globetimezone.com/fr/" />
+  <link rel="alternate" hreflang="es" href="https://globetimezone.com/es/" />
+  <link rel="alternate" hreflang="ja" href="https://globetimezone.com/ja/" />
+  <link rel="alternate" hreflang="ko" href="https://globetimezone.com/ko/" />
+  <link rel="alternate" hreflang="pt-BR" href="https://globetimezone.com/pt/" />
+  <link rel="alternate" hreflang="ar" href="https://globetimezone.com/ar/" />
+  <link rel="alternate" hreflang="x-default" href="https://globetimezone.com/" />
   <link rel="preconnect" href="https://www.googletagmanager.com">
   <link rel="preconnect" href="https://pagead2.googlesyndication.com">
   <link rel="manifest" href="/manifest.json">
@@ -16,6 +30,9 @@
     real-clock:defined, smart-clock:defined { visibility: visible; }
     .ad-container { width: 300px; height: 250px; background: #f8fafc; contain: layout style; }
     .skip-link { position: absolute; top: -100px; left: 0; }
+    /* 语言切换器 */
+    .lang-picker #lang-drop.show { display: block !important; }
+    .lang-picker #lang-drop a:hover { background: var(--bg-secondary, #f0f4f8); }
   </style>
 </head>
 <body>
@@ -31,6 +48,27 @@
       <a href="/tools/cross-border/" style="text-decoration:none;color:var(--text);">跨境工具</a>
       <a href="/blog/" style="text-decoration:none;color:var(--text);">教程</a>
       <a href="/pricing/" class="pro-link">升级 PRO</a>
+
+      <!-- 语言切换器 -->
+      <div style="margin-left:auto;position:relative;" class="lang-picker">
+        <button id="lang-btn" aria-label="切换语言" aria-expanded="false"
+          style="background:none;border:1px solid var(--border);border-radius:6px;padding:0.3rem 0.6rem;font-size:0.78rem;cursor:pointer;color:var(--text-secondary);display:flex;align-items:center;gap:0.25rem;white-space:nowrap;"
+          onclick="var d=document.getElementById('lang-drop');var s=d.classList.contains('show');d.classList.toggle('show');this.setAttribute('aria-expanded',s?'false':'true')">
+          🌐 中文 ▾
+        </button>
+        <div id="lang-drop"
+          style="display:none;position:absolute;right:0;top:100%;margin-top:6px;background:var(--bg,#fff);border:1px solid var(--border);border-radius:8px;min-width:148px;box-shadow:0 6px 20px rgba(0,0,0,0.12);z-index:1000;"
+          onclick="event.stopPropagation()">
+          <a href="/zh/" onclick="localStorage.setItem('gtz_lang','zh')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;border-radius:4px 4px 0 0;">🇨🇳 中文</a>
+          <a href="/de/" onclick="localStorage.setItem('gtz_lang','de')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇩🇪 Deutsch</a>
+          <a href="/fr/" onclick="localStorage.setItem('gtz_lang','fr')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇫🇷 Français</a>
+          <a href="/es/" onclick="localStorage.setItem('gtz_lang','es')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇪🇸 Español</a>
+          <a href="/ja/" onclick="localStorage.setItem('gtz_lang','ja')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇯🇵 日本語</a>
+          <a href="/ko/" onclick="localStorage.setItem('gtz_lang','ko')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇰🇷 한국어</a>
+          <a href="/pt/" onclick="localStorage.setItem('gtz_lang','pt')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇧🇷 Português</a>
+          <a href="/ar/" onclick="localStorage.setItem('gtz_lang','ar')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;border-radius:0 0 4px 4px;">🇸🇦 العربية</a>
+        </div>
+      </div>
     </nav>
   </header>
 
@@ -96,6 +134,16 @@
         else header.classList.remove('scrolled');
       }, { passive: true });
     })();
+
+    // 语言切换器：点击外部关闭下拉
+    document.addEventListener('click', function(e) {
+      var drop = document.getElementById('lang-drop');
+      var btn = document.getElementById('lang-btn');
+      if (drop && btn && !btn.contains(e.target) && !drop.contains(e.target)) {
+        drop.classList.remove('show');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
 
     // 滚动揭示动画
     (function() {
