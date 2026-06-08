@@ -2,30 +2,429 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>跨境发货时间计算器 | GlobeTimeZone</title>
-  <meta name="description" content="计算跨境发货时效，了解目标国家当前时间和客服上班时间。">
-  <link rel="stylesheet" href="/styles/main.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>跨境物流时效计算器 | GlobeTimeZone</title>
+  <meta name="description" content="跨境电商物流时效与运费计算工具。查询DHL、UPS、FedEx等12+主流物流商时效价格，实时追踪全球包裹。">
+  <meta name="keywords" content="跨境物流,国际快递,物流时效,运费计算,DHL,UPS,FedEx,包裹追踪">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://globetimezone.com/tools/cross-border/">
+  <link rel="icon" type="image/png" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/styles/style.min.css">
+  <style>
+    /* ===== Cross-Border Specific Styles ===== */
+    .cross-hero {
+      background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 50%, #1d4ed8 100%);
+      color: #fff; padding: 60px 24px 48px; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .cross-hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/svg%3E");
+    }
+    .cross-hero-content { position: relative; max-width: 800px; margin: 0 auto; }
+    .cross-hero h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 12px; }
+    .cross-hero p { font-size: 1.05rem; color: rgba(255,255,255,0.85); margin-bottom: 28px; }
+
+    .track-box {
+      max-width: 580px; margin: 0 auto; display: flex; gap: 8px;
+      background: rgba(255,255,255,0.15); backdrop-filter: blur(10px);
+      border-radius: 12px; padding: 6px; border: 1px solid rgba(255,255,255,0.2);
+    }
+    .track-box input {
+      flex: 1; padding: 14px 20px; border: none; border-radius: 8px;
+      font-size: 1rem; background: #fff; color: #1e293b; outline: none;
+    }
+    .track-box input::placeholder { color: #94a3b8; }
+    .track-box button {
+      padding: 14px 28px; background: #f59e0b; color: #0f172a;
+      border: none; border-radius: 8px; font-weight: 700; font-size: 0.95rem;
+      cursor: pointer; transition: background 0.2s; white-space: nowrap;
+    }
+    .track-box button:hover { background: #d97706; }
+    .track-hint { font-size: 0.78rem; color: rgba(255,255,255,0.55); margin-top: 10px; }
+
+    .trust-bar { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+    .trust-badge {
+      background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18);
+      padding: 6px 18px; border-radius: 100px; font-size: 0.82rem; backdrop-filter: blur(6px);
+    }
+
+    /* Two-column layout */
+    .two-col { display: grid; grid-template-columns: 1fr 380px; gap: 24px; }
+    @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* Form inside card */
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .dim-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    @media (max-width: 600px) { .form-row, .dim-row { grid-template-columns: 1fr; } }
+    .dim-pair { display: flex; gap: 8px; align-items: center; }
+    .dim-pair input { flex: 1; }
+    .dim-sep { color: var(--text-muted); }
+
+    /* Scheme cards */
+    .scheme-card {
+      background: var(--card); border: 2px solid var(--border);
+      border-radius: var(--radius); padding: 18px 20px; cursor: pointer;
+      transition: all 0.2s; position: relative; margin-bottom: 12px;
+    }
+    .scheme-card:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+    .scheme-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .scheme-name { font-weight: 700; font-size: 1.05rem; }
+    .scheme-price { font-size: 1.3rem; font-weight: 800; color: var(--primary); }
+    .scheme-meta { display: flex; gap: 24px; font-size: 0.85rem; color: var(--text-muted); flex-wrap: wrap; }
+    .scheme-features { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+    .feature-tag { background: var(--bg); padding: 3px 10px; border-radius: 6px; font-size: 0.75rem; color: var(--text-muted); }
+
+    .status-fast { color: #10b981; font-weight: 600; }
+    .status-mid { color: #f59e0b; font-weight: 600; }
+    .status-slow { color: #ef4444; font-weight: 600; }
+    .badge-fast { background: #d1fae5; color: #065f46; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; }
+    .badge-cheap { background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; }
+
+    /* Progress steps */
+    .progress-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; text-align: center; margin-bottom: 20px; }
+    .progress-dot { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; font-size: 1rem; }
+    .progress-dot.done { background: #d1fae5; color: #065f46; }
+    .progress-dot.active { background: var(--primary-light); color: var(--primary); }
+    .progress-dot.pending { background: var(--bg); color: var(--text-muted); }
+    .progress-label { font-size: 0.78rem; color: var(--text-muted); }
+
+    /* Timeline */
+    .timeline-node { position: relative; padding-left: 20px; padding-bottom: 20px; }
+    .timeline-dot { position: absolute; left: -5px; top: 2px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid #fff; }
+    .timeline-dot.current { background: var(--primary); }
+    .timeline-dot.past { background: var(--border); }
+    .timeline-line { position: absolute; left: 11px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+    .timeline-time { font-size: 0.8rem; color: var(--text-muted); }
+    .timeline-desc { font-size: 0.9rem; color: var(--text); }
+    .timeline-loc { font-size: 0.78rem; color: var(--text-muted); }
+
+    /* Panel cards */
+    .panel-card {
+      background: var(--card); border-radius: var(--radius);
+      border: 1px solid var(--border); box-shadow: var(--shadow);
+      padding: 22px; margin-bottom: 18px;
+    }
+    .panel-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .panel-icon { font-size: 1.1rem; }
+
+    /* Time display */
+    .time-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; }
+    .time-row + .time-row { border-top: 1px solid var(--border); }
+    .time-label { font-size: 0.82rem; color: var(--text-muted); }
+    .time-value { font-size: 1.5rem; font-weight: 800; color: var(--text); font-variant-numeric: tabular-nums; }
+    .time-gmt { font-size: 0.78rem; color: var(--text-muted); text-align: right; }
+    .time-date { font-size: 0.78rem; color: var(--text-muted); }
+
+    /* Guarantee */
+    .guarantee-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; font-size: 0.9rem; color: var(--text); }
+    .guarantee-icon { color: var(--success); font-weight: 700; flex-shrink: 0; }
+
+    /* Holiday */
+    .holiday-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: var(--bg); border-radius: 8px; margin-bottom: 6px; font-size: 0.88rem; }
+    .holiday-date { color: var(--text-muted); font-size: 0.8rem; }
+
+    /* Customer service card */
+    .cs-card {
+      background: linear-gradient(135deg, rgba(37,99,235,0.05), rgba(37,99,235,0.1));
+      border-radius: var(--radius); border: 1px solid rgba(37,99,235,0.15);
+      padding: 22px; margin-bottom: 18px;
+    }
+    .cs-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .cs-desc { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 14px; }
+    .cs-info { display: flex; flex-direction: column; gap: 8px; }
+    .cs-item { font-size: 0.88rem; display: flex; align-items: center; gap: 8px; color: var(--text); }
+    .cs-item .cs-dot { color: var(--primary); flex-shrink: 0; }
+
+    /* Partner grid */
+    .partner-grid {
+      display: flex; flex-wrap: wrap; justify-content: center;
+      gap: 24px 32px; opacity: 0.6; padding: 10px 0;
+    }
+    .partner-item { font-size: 1.15rem; font-weight: 700; color: var(--text-muted); }
+
+    /* Filter buttons */
+    .filter-bar { display: flex; gap: 6px; flex-wrap: wrap; }
+    .filter-btn {
+      padding: 4px 14px; font-size: 0.82rem; border-radius: 6px;
+      border: 1px solid var(--border); background: var(--bg); color: var(--text-muted);
+      cursor: pointer; transition: all 0.2s; font-weight: 500;
+    }
+    .filter-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .filter-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    /* Tracking badge */
+    .tracking-badge {
+      display: inline-block; padding: 4px 12px; border-radius: 100px;
+      font-size: 0.82rem; font-weight: 600;
+    }
+    .tracking-badge.transit { background: var(--primary-light); color: var(--primary); }
+    .tracking-badge.done { background: #d1fae5; color: #065f46; }
+
+    /* Card header with filter */
+    .card-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+  </style>
 </head>
 <body>
-  <main id="main-content">
-    <h1>📦 跨境发货时间计算器</h1>
-    <label for="country-select">选择目标国家：</label>
-    <select id="country-select">
-      <option value="America/New_York">美国 (东部)</option>
-      <option value="Europe/London">英国</option>
-      <option value="Asia/Tokyo">日本</option>
-    </select>
-    <div id="result-panel">
-      <p>当地时间：<real-clock timezone="America/New_York"><span class="time-display">--:--</span></real-clock></p>
-      <p>客服上班时间：<span id="work-hours">9:00 - 18:00</span></p>
-      <p>主要节假日：<span id="holidays">加载中...</span></p>
-      <p>预计发货到达：<span id="delivery-estimate">计算中...</span></p>
+
+<a class="skip-link" href="#main-content">跳到主内容</a>
+
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo">Globe<span>TimeZone</span></a>
+    <nav aria-label="主导航">
+      <a href="/">首页</a>
+      <a href="/time-difference/">时差查询</a>
+      <a href="/meeting-scheduler.html">会议规划</a>
+      <a href="/tools/cross-border/" class="active">跨境工具</a>
+      <a href="/pricing/">升级PRO</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main-content">
+  <section class="cross-hero">
+    <div class="cross-hero-content">
+      <h1>跨境物流时效与运费计算器</h1>
+      <p>一键查询 DHL、UPS、FedEx 等 12+ 主流物流商的时效与价格，实时追踪全球包裹。基于 IANA 时区数据与 NTP 时间校准。</p>
+      <div class="track-box">
+        <input type="text" id="quickTrackingNumber" placeholder="输入运单号快速查询包裹状态">
+        <button id="quickTrackBtn">查询物流</button>
+      </div>
+      <p class="track-hint">支持 DHL、UPS、FedEx、TNT、EMS、Amazon Logistics 等全球 500+ 物流商</p>
+      <div class="trust-bar">
+        <span class="trust-badge">&#10003; 官方时区数据</span>
+        <span class="trust-badge">&#10003; 实时节假日追踪</span>
+        <span class="trust-badge">&#10003; NTP 时间校准</span>
+        <span class="trust-badge">&#10003; 完全免费使用</span>
+      </div>
     </div>
-    <aside class="ad-sidebar">
-      <div class="ad-container" data-ad-slot="【通过广告系统配置】" data-width="300" data-height="250"></div>
+  </section>
+
+  <div class="two-col" style="max-width:1200px;margin:0 auto;padding:30px 24px;">
+
+    <!-- ===== LEFT COLUMN: Calculator + Results ===== -->
+    <div>
+      <div class="card">
+        <h2 class="card-title">时效与运费计算</h2>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="origin">发货地</label>
+            <select id="origin" class="form-select">
+              <option value="shenzhen">中国 · 深圳</option>
+              <option value="guangzhou">中国 · 广州</option>
+              <option value="yiwu">中国 · 义乌</option>
+              <option value="shanghai">中国 · 上海</option>
+              <option value="ningbo">中国 · 宁波</option>
+              <option value="qingdao">中国 · 青岛</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="destination">目的地</label>
+            <select id="destination" class="form-select">
+              <option value="us-east">美国 · 东部(纽约)</option>
+              <option value="us-west">美国 · 西部(洛杉矶)</option>
+              <option value="uk">英国 · 伦敦</option>
+              <option value="de">德国 · 柏林</option>
+              <option value="fr">法国 · 巴黎</option>
+              <option value="jp">日本 · 东京</option>
+              <option value="au">澳大利亚 · 悉尼</option>
+              <option value="ca">加拿大 · 多伦多</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="dim-row">
+          <div class="form-group">
+            <label class="form-label" for="weight">包裹重量 (kg)</label>
+            <input type="number" id="weight" value="1" min="0.1" step="0.1" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="length">长 (cm)</label>
+            <input type="number" id="length" value="20" min="1" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">宽 × 高 (cm)</label>
+            <div class="dim-pair">
+              <input type="number" id="width" value="15" min="1" class="form-input">
+              <span class="dim-sep">×</span>
+              <input type="number" id="height" value="10" min="1" class="form-input">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom:20px;">
+          <label class="form-label" for="shipDate">发货日期</label>
+          <input type="date" id="shipDate" class="form-input">
+        </div>
+
+        <button id="calculateBtn" class="btn btn-primary" style="width:100%;padding:16px;font-size:1.05rem;">查询物流方案</button>
+      </div>
+
+      <div id="logisticsResults" style="display:none;">
+        <div class="card">
+          <div class="card-header-row">
+            <h2 class="card-title" style="margin:0;">可用物流方案</h2>
+            <div class="filter-bar">
+              <button class="filter-btn active" data-filter="all">全部</button>
+              <button class="filter-btn" data-filter="express">国际快递</button>
+              <button class="filter-btn" data-filter="fast">最快</button>
+              <button class="filter-btn" data-filter="cheap">最便宜</button>
+            </div>
+          </div>
+          <div id="logisticsList"></div>
+        </div>
+
+        <div class="card" id="trackingDetail" style="display:none;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);">
+            <div>
+              <span style="font-size:0.85rem;color:var(--text-muted);">运单号：</span>
+              <span id="detailTrackingNumber" style="font-weight:700;"></span>
+            </div>
+            <span id="detailStatusBadge" class="tracking-badge transit">运输中</span>
+          </div>
+
+          <div class="progress-steps">
+            <div><div class="progress-dot done" id="dot-pickup">&#10003;</div><p class="progress-label">已揽收</p></div>
+            <div><div class="progress-dot active" id="dot-transit">&#9992;</div><p class="progress-label">运输中</p></div>
+            <div><div class="progress-dot pending" id="dot-customs">&#9873;</div><p class="progress-label">清关中</p></div>
+            <div><div class="progress-dot pending" id="dot-delivered">&#8962;</div><p class="progress-label">已签收</p></div>
+          </div>
+
+          <div id="trackingTimeline" style="position:relative;padding-left:24px;">
+            <div class="timeline-line"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:24px;">
+        <h2 class="card-title">合作物流商</h2>
+        <div class="partner-grid">
+          <span class="partner-item">DHL</span>
+          <span class="partner-item">UPS</span>
+          <span class="partner-item">FedEx</span>
+          <span class="partner-item">TNT</span>
+          <span class="partner-item">EMS</span>
+          <span class="partner-item">Amazon Logistics</span>
+          <span class="partner-item">USPS</span>
+          <span class="partner-item">Royal Mail</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== RIGHT COLUMN: Sidebar ===== -->
+    <aside>
+      <div class="panel-card">
+        <h3><span class="panel-icon">&#9200;</span> 实时时间对比</h3>
+        <div class="time-row">
+          <div>
+            <div class="time-label">发货地 (中国)</div>
+            <div id="originTime" class="time-value">--:--</div>
+            <div id="originDate" class="time-date">--</div>
+          </div>
+          <div class="time-gmt">GMT+8</div>
+        </div>
+        <div class="time-row">
+          <div>
+            <div id="destinationName" class="time-label">目的地</div>
+            <div id="destinationTime" class="time-value">--:--</div>
+            <div id="destinationDate" class="time-date">--</div>
+          </div>
+          <div id="destinationTz" class="time-gmt">--</div>
+        </div>
+      </div>
+
+      <div class="panel-card">
+        <h3><span class="panel-icon">&#9993;</span> 服务保障</h3>
+        <div class="guarantee-item"><span class="guarantee-icon">&#10003;</span> 官方授权渠道，时效稳定可靠</div>
+        <div class="guarantee-item"><span class="guarantee-icon">&#10003;</span> 全程物流追踪，实时更新状态</div>
+        <div class="guarantee-item"><span class="guarantee-icon">&#10003;</span> 专业清关团队，降低查验风险</div>
+        <div class="guarantee-item"><span class="guarantee-icon">&#10003;</span> 丢件破损全额赔付，安心无忧</div>
+      </div>
+
+      <div class="panel-card">
+        <h3><span class="panel-icon">&#128197;</span> 近期影响时效的节假日</h3>
+        <div id="holidaysList">
+          <div class="holiday-item"><span>端午节 (中国)</span><span class="holiday-date">2026-06-14</span></div>
+          <div class="holiday-item"><span>独立日 (美国)</span><span class="holiday-date">2026-07-04</span></div>
+          <div class="holiday-item"><span>海之日 (日本)</span><span class="holiday-date">2026-07-20</span></div>
+          <div class="holiday-item"><span>圣诞节 (全球)</span><span class="holiday-date">2026-12-25</span></div>
+        </div>
+      </div>
+
+      <div class="panel-card">
+        <h3><span class="panel-icon">&#10067;</span> 常见问题</h3>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary class="faq-question">为什么实际时效会有差异？</summary>
+            <div class="faq-answer"><p>实际时效可能受节假日、清关速度、天气、航班延误等因素影响。计算结果为理论最快时效，仅供参考。</p></div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">如何计算体积重量？</summary>
+            <div class="faq-answer"><p>体积重量(kg) = 长(cm) × 宽(cm) × 高(cm) ÷ 5000。最终计费重量取实际重量和体积重量中的较大值。</p></div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">哪些物品不能国际邮寄？</summary>
+            <div class="faq-answer"><p>易燃易爆品、液体粉末、电池、仿牌商品、食品、药品等属于国际快递禁运品。具体请以各物流商规定为准。</p></div>
+          </details>
+        </div>
+      </div>
+
+      <div class="cs-card">
+        <h3><span class="panel-icon">&#128222;</span> 专业客服支持</h3>
+        <p class="cs-desc">如有任何物流问题，我们的专业团队随时为您提供帮助。</p>
+        <div class="cs-info">
+          <div class="cs-item"><span class="cs-dot">&#9200;</span> 周一至周五 9:00-18:00（北京时间）</div>
+          <div class="cs-item"><span class="cs-dot">&#9993;</span> support@globetimezone.com</div>
+        </div>
+      </div>
     </aside>
-  </main>
-  <script src="/scripts/cross-border.js"></script>
-  <script src="/baidu-analytics.js" defer></script>
+  </div>
+</main>
+
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <a href="/" class="footer-logo">GlobeTimeZone</a>
+        <p class="footer-desc">全球时间决策工具。跨境电商物流时效计算器，基于 IANA 时区数据和 NTP 时间校准。</p>
+      </div>
+      <div>
+        <h4 class="footer-heading">工具</h4>
+        <ul class="footer-links">
+          <li><a href="/">时区转换</a></li>
+          <li><a href="/world-clock.html">世界时钟</a></li>
+          <li><a href="/meeting-scheduler.html">会议规划</a></li>
+          <li><a href="/tools/cross-border/">跨境工具</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">关于</h4>
+        <ul class="footer-links">
+          <li><a href="/about.html">关于我们</a></li>
+          <li><a href="/privacy.html">隐私政策</a></li>
+          <li><a href="/terms.html">服务条款</a></li>
+          <li><a href="/contact.html">联系我们</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">热门</h4>
+        <ul class="footer-links">
+          <li><a href="/us-china-time-difference.html">中美时差</a></li>
+          <li><a href="/est-to-cst-converter.html">EST转CST</a></li>
+          <li><a href="/gmt-to-cst-converter.html">GMT转CST</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 GlobeTimeZone. 数据仅供参考，实际以物流商官方信息为准。</p>
+    </div>
+  </div>
+</footer>
+
+<script src="/scripts/cross-border.js"></script>
+<script src="/baidu-analytics.js" defer></script>
 </body>
 </html>

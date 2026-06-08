@@ -718,29 +718,15 @@ footer {
 }
 
 .btn-outline:hover {
-
-.btn.active,
-.btn-outline.active {
-  background: var(--primary);
-  color: white;
-  border-color: var(--primary);
-}
   background: var(--primary-light);
-
-.btn.active,
-.btn-outline.active {
-  background: var(--primary);
-  color: white;
-  border-color: var(--primary);
-}
   text-decoration: none;
+}
 
 .btn.active,
 .btn-outline.active {
   background: var(--primary);
   color: white;
   border-color: var(--primary);
-}
 }
 
 .btn.active,
