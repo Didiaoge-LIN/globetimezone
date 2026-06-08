@@ -1,4 +1,4 @@
-// custom-cities.js — V9.3 城市搜索（中英文支持 + 搜索按钮）
+// custom-cities.js — V10 城市搜索（Premium 卡片 + 实时秒级更新）
 // 依赖：localStorage，Intl.supportedValuesOf
 (() => {
   const STORAGE_KEY = 'gtz_custom_cities';
@@ -191,9 +191,9 @@
   }
 
   function statusText(hour) {
-    if (hour >= 9 && hour < 18) return { text: '🟢 工作中 · 可联系', bg: '#d1fae5', color: '#065f46' };
-    if (hour >= 7 && hour < 22) return { text: '🟡 非工作时段', bg: '#fef3c7', color: '#92400e' };
-    return { text: '🔴 深夜勿扰', bg: '#fee2e2', color: '#991b1b' };
+    if (hour >= 9 && hour < 18) return { text: '工作中 · 可联系', cssClass: 'status-working', emoji: '🟢' };
+    if (hour >= 7 && hour < 22) return { text: '非工作时段', cssClass: 'status-off', emoji: '🟡' };
+    return { text: '深夜勿扰', cssClass: 'status-night', emoji: '🔵' };
   }
 
   function flagEmoji(tz) {
@@ -209,23 +209,23 @@
     list.forEach(tz => {
       const hour = getHour(tz), st = statusText(hour);
       const card = document.createElement('div');
-      card.className = 'city-status-card';
+      card.className = 'city-status-card ' + st.cssClass;
       card.setAttribute('data-tz', tz);
-      card.style.cssText = 'background:var(--bg-card);border-radius:12px;padding:1rem 1.5rem;box-shadow:var(--shadow);min-width:140px;text-align:center;position:relative;';
       card.innerHTML =
-        '<button class="remove-btn" title="移除" style="position:absolute;top:6px;right:8px;border:none;background:none;cursor:pointer;font-size:14px;color:var(--text-secondary);">&times;</button>' +
-        '<div style="font-size:1.5rem;">'+flagEmoji(tz)+'</div>' +
-        '<div style="font-weight:600;">'+tzLabelRaw(tz)+'</div>' +
-        '<span class="city-hour" style="font-size:1.6rem;font-weight:700;display:block;margin:0.2rem 0;font-variant-numeric:tabular-nums;"></span>' +
-        '<span class="city-date" style="display:block;font-size:0.75rem;color:var(--text-secondary);margin-bottom:0.3rem;"></span>' +
-        '<span class="status-badge" style="display:inline-block;padding:0.2rem 0.8rem;border-radius:20px;font-size:0.8rem;font-weight:500;background:'+st.bg+';color:'+st.color+';">'+st.text+'</span>';
-      card.querySelector('.remove-btn').addEventListener('click', () => {
+        '<button class="remove-btn" title="移除" style="position:absolute;top:8px;right:10px;border:none;background:none;cursor:pointer;font-size:16px;color:var(--text-muted);z-index:2;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all 0.2s;">&times;</button>' +
+        '<div class="card-city-name">'+tzLabelRaw(tz)+'</div>' +
+        '<div class="card-time city-hour" style="font-variant-numeric:tabular-nums;"></div>' +
+        '<div class="card-date city-date"></div>' +
+        '<span class="status-badge" style="background:#f1f5f9;color:#475569;">'+st.emoji+' '+st.text+'</span>';
+      card.querySelector('.remove-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
         save(load().filter(t => t !== tz));
         render();
       });
       container.appendChild(card);
     });
     updateClocks();
+    updateStatusBadges();
   }
 
   function updateClocks() {
@@ -239,6 +239,20 @@
         hourEl.textContent = new Intl.DateTimeFormat('zh-CN', { timeZone: tz, hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false }).format(now);
         if (dateEl) dateEl.textContent = new Intl.DateTimeFormat('zh-CN', { timeZone: tz, month:'short', day:'numeric', weekday:'short' }).format(now);
       } catch {}
+    });
+  }
+
+  function updateStatusBadges() {
+    document.querySelectorAll('.city-status-card').forEach(card => {
+      const tz = card.getAttribute('data-tz');
+      if (!tz) return;
+      const badge = card.querySelector('.status-badge');
+      if (!badge) return;
+      const hour = getHour(tz), st = statusText(hour);
+      badge.textContent = st.emoji + ' ' + st.text;
+      // 更新卡片 CSS class
+      card.classList.remove('status-working', 'status-off', 'status-night');
+      card.classList.add(st.cssClass);
     });
   }
 
@@ -363,7 +377,7 @@
   // ─── 定时器 ────────────────────────────────
   function startTimer() {
     setInterval(updateClocks, 1000);
-    setInterval(render, 60000);
+    setInterval(updateStatusBadges, 60000);
   }
 
   // ─── 入口 ──────────────────────────────────
