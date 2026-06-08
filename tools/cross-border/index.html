@@ -286,6 +286,46 @@
     /* Empty state */
     .xb-empty { text-align: center; padding: 40px 20px; color: var(--xb-muted); }
     .xb-empty-icon { font-size: 2.2rem; margin-bottom: 10px; opacity: 0.35; }
+
+    /* ───── Dashboard ───── */
+    .xb-dash { max-width: 1200px; margin: 0 auto; padding: 20px 24px 0; display: none; }
+    .xb-dash.show { display: block; }
+    .xb-dash-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 960px) { .xb-dash-inner { grid-template-columns: 1fr; } }
+    .xb-dash-card { background: #fff; border: 1px solid var(--xb-border); border-radius: 12px; padding: 16px 18px; transition: .2s; }
+    .xb-dash-card:hover { box-shadow: var(--xb-shadow-md); }
+    .xb-dash-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .xb-dash-head h4 { font-size: 0.85rem; font-weight: 700; margin: 0; color: var(--xb-text); display: flex; align-items: center; gap: 6px; }
+    .xb-dash-label { font-size: 0.7rem; color: var(--xb-muted); font-weight: 500; }
+    .xb-dash-route-btn {
+      display: inline-block; padding: 6px 14px; border: 1.5px solid var(--xb-border); border-radius: 20px;
+      font-size: 0.78rem; cursor: pointer; transition: .2s; font-weight: 500; background: #fff; color: var(--xb-text);
+      margin: 0 6px 6px 0;
+    }
+    .xb-dash-route-btn:hover { border-color: var(--xb-primary); color: var(--xb-primary); background: #eff6ff; }
+    .xb-dash-empty { font-size: 0.82rem; color: var(--xb-muted); padding: 8px 0; }
+    .xb-dash-track-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; background: #f8fafc; border-radius: 8px; margin-bottom: 6px; font-size: 0.8rem; }
+    .xb-dash-track-tn { font-weight: 600; color: var(--xb-primary); font-family: monospace; }
+    .xb-dash-track-status { font-size: 0.72rem; padding: 2px 8px; border-radius: 4px; }
+    .xb-dash-track-status.ok { background: #d1fae5; color: #065f46; }
+    .xb-dash-track-status.warn { background: #fef3c7; color: #92400e; }
+    .xb-dash-track-actions { display: flex; gap: 4px; }
+    .xb-dash-track-actions button { padding: 3px 8px; border: 1px solid var(--xb-border); border-radius: 5px; background: #fff; cursor: pointer; font-size: 0.7rem; transition: .15s; }
+    .xb-dash-track-actions button:hover { border-color: var(--xb-primary); }
+    .xb-dash-track-actions button.del:hover { border-color: var(--xb-red); color: var(--xb-red); }
+
+    /* ───── Scheme timezone ETA ───── */
+    .xb-tz-eta { font-size: 0.8rem; padding: 8px 12px; border-radius: 8px; margin-top: 6px; display: flex; align-items: center; gap: 8px; }
+    .xb-tz-eta.ok { background: #f0fdf4; color: #065f46; }
+    .xb-tz-eta.warn { background: #fefce8; color: #92400e; }
+    .xb-tz-eta.bad { background: #fef2f2; color: #991b1b; }
+    .xb-tz-eta-icon { font-size: 1rem; flex-shrink: 0; }
+    .xb-tz-eta-text { font-size: 0.78rem; line-height: 1.4; }
+
+    /* ───── Save route button ───── */
+    .xb-save-route { padding: 10px 18px; border: 1.5px dashed var(--xb-border); border-radius: 10px; font-size: 0.8rem; cursor: pointer; background: #fff; color: var(--xb-muted); transition: .2s; width: 100%; text-align: center; margin-top: 10px; }
+    .xb-save-route:hover { border-color: var(--xb-primary); color: var(--xb-primary); background: #eff6ff; }
+    .xb-save-route.saved { border-color: var(--xb-green); color: #065f46; background: #f0fdf4; border-style: solid; }
   </style>
 </head>
 <body>
@@ -310,9 +350,9 @@
   <!-- ═══════ HERO ═══════ -->
   <section class="xb-hero">
     <div class="xb-hero-inner">
-      <div class="xb-hero-badge">🧰 跨境工具箱 v3.0</div>
+      <div class="xb-hero-badge">🧰 跨境工具箱 v4.0</div>
       <h1>跨境难题，<span>一站搞定</span></h1>
-      <p>物流比价 · 关税预估 · 汇率换算 · HS编码 · 禁运查询 — 跨境人必备的6大工具</p>
+      <p>物流比价 · 关税预估 · 汇率换算 · HS编码 · 禁运查询 — 你的专属跨境工具箱</p>
       <div class="xb-quick-track">
         <input type="text" id="quickTrackingNumber" placeholder="输入运单号快速追踪包裹…">
         <button id="quickTrackBtn">查询物流</button>
@@ -326,6 +366,26 @@
       </div>
     </div>
   </section>
+
+  <!-- ═══════ SMART DASHBOARD ═══════ -->
+  <div class="xb-dash" id="smartDashboard">
+    <div class="xb-dash-inner">
+      <div class="xb-dash-card">
+        <div class="xb-dash-head">
+          <h4>⭐ 我的常用路线</h4>
+          <span class="xb-dash-label" id="dashRouteCount">0条路线</span>
+        </div>
+        <div id="dashRoutes"><div class="xb-dash-empty">查询物流后，点击"收藏此路线"即可快速复用</div></div>
+      </div>
+      <div class="xb-dash-card">
+        <div class="xb-dash-head">
+          <h4>📮 我的包裹追踪</h4>
+          <span class="xb-dash-label" id="dashTrackCount">0个包裹</span>
+        </div>
+        <div id="dashTracking"><div class="xb-dash-empty">追踪包裹后，点击"添加到关注列表"保存</div></div>
+      </div>
+    </div>
+  </div>
 
   <!-- ═══════ TAB NAV ═══════ -->
   <div class="xb-tab-nav">
@@ -401,6 +461,7 @@
             </div>
           </div>
           <button id="calculateBtn" class="xb-btn-primary">🔍 查询全部物流方案</button>
+          <button id="saveRouteBtn" class="xb-save-route">📌 收藏此路线，下次一键调用</button>
         </div>
 
         <!-- Results -->
@@ -578,6 +639,18 @@
 
     <!-- ===== RIGHT SIDEBAR ===== -->
     <aside>
+
+      <!-- 我的常用路线 -->
+      <div class="xb-widget xb-widget-compact">
+        <h4>⭐ 我的常用路线</h4>
+        <div id="sidebarRoutes" style="font-size:0.8rem;color:var(--xb-muted);">暂无收藏路线</div>
+      </div>
+
+      <!-- 包裹追踪关注列表 -->
+      <div class="xb-widget xb-widget-compact">
+        <h4>📮 包裹关注列表</h4>
+        <div id="sidebarTracking" style="font-size:0.8rem;color:var(--xb-muted);">暂无追踪包裹</div>
+      </div>
 
       <!-- 实时时间对比 -->
       <div class="xb-widget">
