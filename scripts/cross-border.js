@@ -1,6 +1,7 @@
 /**
- * GlobeTimeZone - 跨境工具箱 v4.0
+ * GlobeTimeZone - 跨境工具箱 v4.0.1
  * Smart Dashboard + Timezone-aware ETA + Best Shipping Day
+ * Fix: auto-scroll on init competes with tab navigation
  * 2026-06-08
  */
 (function() {
@@ -407,7 +408,7 @@
   }
 
   // ═══════════ LOGISTICS CALCULATION ═══════════
-  function calculate() {
+  function calculate(shouldScroll) {
     var destKey = $('destination').value;
     var weight = parseFloat($('weight').value) || 1;
     var length = parseFloat($('length').value) || 20;
@@ -468,7 +469,7 @@
     renderResults();
     $('logisticsResults').style.display = 'block';
     $('trackingDetail').style.display = 'none';
-    $('logisticsResults').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (shouldScroll !== false) { $('logisticsResults').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
   }
 
   function renderResults() {
@@ -700,14 +701,14 @@
     initTabs();
 
     // Logistics
-    var calcBtn = $('calculateBtn'); if (calcBtn) calcBtn.addEventListener('click', calculate);
+    var calcBtn = $('calculateBtn'); if (calcBtn) calcBtn.addEventListener('click', function() { calculate(true); });
     var destSel = $('destination'); if (destSel) destSel.addEventListener('change', updateTimeDisplay);
     var qTrackBtn = $('quickTrackBtn'); if (qTrackBtn) qTrackBtn.addEventListener('click', quickTrack);
     var qTrackInp = $('quickTrackingNumber'); if (qTrackInp) qTrackInp.addEventListener('keydown', function(e) { if (e.key === 'Enter') quickTrack(); });
     var saveBtn = $('saveRouteBtn'); if (saveBtn) saveBtn.addEventListener('click', saveCurrentRoute);
 
     attachAutoCalc();
-    setTimeout(function() { calculate(); }, 300);
+    setTimeout(function() { calculate(false); }, 300);
 
     // Filters
     document.querySelectorAll('#tab-logistics .xb-fbtn').forEach(function(btn) {
