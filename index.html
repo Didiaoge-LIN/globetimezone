@@ -101,20 +101,24 @@
         旧金山在睡、伦敦在上班、东京在下班路上的黄昏。<br>不查时区，直接感知全球节奏。
       </p>
       
-      <div class="smart-search" style="max-width:600px;margin:0 auto 2rem;position:relative;">
+      <div class="smart-search" style="max-width:600px;margin:0 auto 2rem;position:relative;display:flex;gap:0.5rem;">
         <input type="text" id="decision-input" 
-               placeholder="例如：给纽约打电话、规划东京+伦敦会议、旧金山现在几点？"
+               placeholder="输入城市名（中英文均可）：日本、东京、Paris、London…"
                autocomplete="off"
-               style="width:100%;padding:1rem 1.5rem;font-size:1.1rem;border:2px solid #e2e8f0;border-radius:12px;outline:none;">
+               style="flex:1;padding:1rem 1.5rem;font-size:1.1rem;border:2px solid #e2e8f0;border-radius:12px;outline:none;">
+        <button id="decision-btn" aria-label="搜索" style="padding:0 1.5rem;background:var(--accent);color:#fff;border:none;border-radius:12px;font-size:1rem;font-weight:600;cursor:pointer;white-space:nowrap;">🔍 搜索</button>
       </div>
 
       <!-- 地球昼夜可视化 -->
       <div id="earth-visual" style="margin:1.5rem auto 0;max-width:600px;"></div>
 
       <!-- 自定义城市搜索 -->
-      <div style="max-width:600px;margin:1.5rem auto 0;position:relative;">
-        <input type="text" id="city-search-input" placeholder="添加城市…（支持中文：日本、巴黎、迪拜、伦敦…）" autocomplete="off" style="width:100%;padding:0.7rem 1rem;font-size:0.95rem;border:1.5px solid #e2e8f0;border-radius:10px;outline:none;box-sizing:border-box;">
-        <div id="city-search-dropdown" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.08);z-index:100;max-height:220px;overflow-y:auto;"></div>
+      <div style="max-width:600px;margin:1.5rem auto 0;position:relative;display:flex;gap:0.5rem;">
+        <div style="flex:1;position:relative;">
+          <input type="text" id="city-search-input" placeholder="添加城市…（中英文均可）" autocomplete="off" style="width:100%;padding:0.7rem 1rem;font-size:0.95rem;border:1.5px solid #e2e8f0;border-radius:10px;outline:none;box-sizing:border-box;">
+          <div id="city-search-dropdown" style="display:none;position:absolute;top:100%;left:0;right:0;background:#fff;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.08);z-index:100;max-height:220px;overflow-y:auto;"></div>
+        </div>
+        <button id="city-search-btn" aria-label="添加城市" style="padding:0 1.2rem;background:var(--accent);color:#fff;border:none;border-radius:10px;font-size:0.9rem;font-weight:600;cursor:pointer;white-space:nowrap;">+ 添加</button>
       </div>
 
       <!-- 动态城市卡片容器 -->
@@ -195,7 +199,7 @@
   </footer>
 
   <script src="/js/earth-visual.js" defer></script>
-  <script src="/js/custom-cities.js" defer></script>
+  <script src="/js/custom-cities.js?v=3" defer></script>
   <script src="/js/meeting-planner.js" defer></script>
   <script type="module" src="/scripts/app.js" defer></script>
   <script type="module" defer>
