@@ -326,6 +326,74 @@
     .xb-save-route { padding: 10px 18px; border: 1.5px dashed var(--xb-border); border-radius: 10px; font-size: 0.8rem; cursor: pointer; background: #fff; color: var(--xb-muted); transition: .2s; width: 100%; text-align: center; margin-top: 10px; }
     .xb-save-route:hover { border-color: var(--xb-primary); color: var(--xb-primary); background: #eff6ff; }
     .xb-save-route.saved { border-color: var(--xb-green); color: #065f46; background: #f0fdf4; border-style: solid; }
+
+    /* ==================== 钩子系统样式 ==================== */
+    /* 价值量化条 */
+    .hk-value-bar {
+      background: linear-gradient(135deg, #eff6ff 0%, #eef2ff 100%);
+      border: 1px solid #bfdbfe; border-radius: 12px; padding: 18px 20px; margin-bottom: 20px;
+      transition: all 0.3s;
+    }
+    .hk-value-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    @media (max-width: 600px) { .hk-value-grid { grid-template-columns: 1fr 1fr; } }
+    .hk-value-item { text-align: center; }
+    .hk-value-num { font-size: 1.35rem; font-weight: 800; }
+    .hk-value-label { font-size: 0.72rem; color: #737373; margin-top: 3px; }
+
+    /* 智能推荐卡片 */
+    .hk-rec-card {
+      border: 1px solid var(--xb-border); border-radius: 10px; padding: 14px 16px;
+      transition: all 0.25s; cursor: pointer; background: #fff;
+    }
+    .hk-rec-card:hover { border-color: rgba(37,99,235,0.45); box-shadow: 0 2px 10px rgba(0,0,0,0.04); transform: translateY(-1px); }
+    .hk-rec-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+    @media (max-width: 768px) { .hk-rec-grid { grid-template-columns: 1fr; } }
+
+    /* 通知系统 */
+    .hk-bell {
+      position: relative; cursor: pointer; padding: 8px; border-radius: 9999px;
+      transition: background 0.2s; display: inline-flex; align-items: center;
+    }
+    .hk-bell:hover { background: rgba(255,255,255,0.1); }
+    .hk-bell-dot {
+      position: absolute; top: 6px; right: 6px; width: 8px; height: 8px;
+      background: #ef4444; border-radius: 9999px; border: 2px solid #fff; display: none;
+    }
+    .hk-bell-dot.show { display: block; }
+    .hk-dropdown {
+      position: absolute; right: 0; top: 44px; width: 320px; max-height: 420px;
+      background: #fff; border-radius: 14px; box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+      border: 1px solid var(--xb-border); z-index: 100; overflow: hidden; display: none;
+    }
+    .hk-dropdown.show { display: block; }
+
+    /* 记忆卡片 */
+    .hk-memory-card {
+      border: 1px solid var(--xb-border); border-radius: 10px; padding: 14px 16px;
+      transition: all 0.25s; cursor: pointer; background: #fff;
+    }
+    .hk-memory-card:hover { border-color: rgba(37,99,235,0.3); background: #fafafa; }
+    .hk-memory-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .hk-share-btn {
+      padding: 6px 14px; background: rgba(37,99,235,0.08); color: #2563eb;
+      border-radius: 8px; font-size: 0.82rem; transition: background 0.2s;
+      display: inline-flex; align-items: center; gap: 6px; border: none; cursor: pointer;
+      font-weight: 600;
+    }
+    .hk-share-btn:hover { background: rgba(37,99,235,0.16); }
+
+    /* 动画 */
+    .hk-fade-in { animation: hkFadeIn 0.35s ease-out; }
+    @keyframes hkFadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 通知项 */
+    .hk-notif-item { padding: 12px 16px; border-bottom: 1px solid #f1f5f9; cursor: pointer; transition: .15s; }
+    .hk-notif-item:hover { background: #f8fafc; }
+    .hk-notif-empty { padding: 24px; text-align: center; color: #94a3b8; font-size: 0.85rem; }
   </style>
 </head>
 <body>
@@ -342,6 +410,15 @@
       <a href="/tools/cross-border/" class="active">跨境工具</a>
       <a href="/pricing/">升级PRO</a>
     </nav>
+    <!-- 通知铃铛 -->
+    <div class="hk-bell" id="hkBell" style="margin-left:8px;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#94a3b8;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <span class="hk-bell-dot" id="hkBellDot"></span>
+      <div class="hk-dropdown" id="hkDropdown">
+        <div style="padding:14px 16px;border-bottom:1px solid #f1f5f9;font-weight:700;font-size:0.9rem;">🔔 通知中心</div>
+        <div id="hkNotifList" style="max-height:320px;overflow-y:auto;"><div class="hk-notif-empty">暂无新通知</div></div>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -640,10 +717,24 @@
     <!-- ===== RIGHT SIDEBAR ===== -->
     <aside>
 
-      <!-- 我的常用路线 -->
-      <div class="xb-widget xb-widget-compact">
-        <h4>⭐ 我的常用路线</h4>
-        <div id="sidebarRoutes" style="font-size:0.8rem;color:var(--xb-muted);">暂无收藏路线</div>
+      <!-- 我的最近使用（自动记忆系统） -->
+      <div class="xb-widget">
+        <h4 style="display:flex;align-items:center;justify-content:space-between;">
+          <span style="display:flex;align-items:center;gap:6px;">🧠 我的最近使用</span>
+          <button id="hkClearAllHistory" style="font-size:0.72rem;color:#94a3b8;border:none;background:none;cursor:pointer;transition:.2s;" onmouseenter="this.style.color='#ef4444'" onmouseleave="this.style.color='#94a3b8'">清空历史</button>
+        </h4>
+        <div style="margin-bottom:12px;">
+          <p style="font-size:0.78rem;font-weight:600;color:#64748b;margin:0 0 6px;">📦 最近物流查询</p>
+          <div id="hkShippingHistory" class="hk-memory-list" style="max-height:240px;overflow-y:auto;">
+            <div style="text-align:center;padding:16px 0;color:#94a3b8;font-size:0.8rem;">暂无查询记录</div>
+          </div>
+        </div>
+        <div>
+          <p style="font-size:0.78rem;font-weight:600;color:#64748b;margin:0 0 6px;">📮 最近追踪包裹</p>
+          <div id="hkTrackingHistory" class="hk-memory-list" style="max-height:200px;overflow-y:auto;">
+            <div style="text-align:center;padding:16px 0;color:#94a3b8;font-size:0.8rem;">暂无追踪记录</div>
+          </div>
+        </div>
       </div>
 
       <!-- 包裹追踪关注列表 -->
@@ -740,7 +831,7 @@
   </div>
 </footer>
 
-<script src="/scripts/cross-border.js?v=4"></script>
+<script src="/scripts/cross-border.js?v=5"></script>
 <script src="/baidu-analytics.js" defer></script>
 </body>
 </html>
