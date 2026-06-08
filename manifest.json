@@ -35,14 +35,14 @@
       "name": "World Clock",
       "short_name": "Clocks",
       "description": "View world clocks",
-      "url": "/pages/world-clock.html",
+      "url": "/world-clock.html",
       "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
     },
     {
       "name": "Meeting Scheduler",
       "short_name": "Meetings",
       "description": "Schedule international meetings",
-      "url": "/pages/meeting-scheduler.html",
+      "url": "/meeting-scheduler.html",
       "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
     }
   ],
