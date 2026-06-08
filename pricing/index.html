@@ -1,26 +1,438 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
   <meta charset="UTF-8">
-  <title>Upgrade to PRO | GlobeTimeZone</title>
-  <link rel="stylesheet" href="/styles/main.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>升级 PRO | GlobeTimeZone</title>
+  <meta name="description" content="解锁 GlobeTimeZone 全部功能。无广告、无限会议规划、团队时钟、优先支持，每月仅 $3.99。">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://globetimezone.com/pricing/">
+  <link rel="icon" type="image/png" href="/apple-touch-icon.png">
+  <link rel="stylesheet" href="/styles/style.min.css">
+  <style>
+    /* ===== Hero ===== */
+    .pr-hero {
+      background: linear-gradient(160deg, #0f172a 0%, #1e3a5f 40%, #b45309 70%, #f59e0b 100%);
+      color: #fff;
+      padding: 72px 24px 64px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .pr-hero::after {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 50% 40% at 25% 60%, rgba(245,158,11,0.12) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 35% at 75% 25%, rgba(251,191,36,0.08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .pr-hero-inner { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+    .pr-hero .pr-badge {
+      display: inline-block; padding: 4px 14px; border-radius: 100px;
+      background: rgba(245,158,11,0.18); border: 1px solid rgba(245,158,11,0.25);
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em;
+      color: #fbbf24; margin-bottom: 16px;
+    }
+    .pr-hero h1 { font-size: 2.4rem; font-weight: 800; margin: 0 0 12px; letter-spacing: -0.02em; }
+    .pr-hero p  { color: rgba(255,255,255,0.72); font-size: 1.05rem; margin-bottom: 36px; }
+
+    .pr-hero-stats { display: flex; gap: 32px; justify-content: center; flex-wrap: wrap; margin-top: 28px; }
+    .pr-hero-stat {
+      text-align: center; padding: 12px 20px; background: rgba(255,255,255,0.06);
+      border-radius: 12px; border: 1px solid rgba(255,255,255,0.08);
+      min-width: 110px;
+    }
+    .pr-hero-stat .pr-stat-num { font-size: 1.6rem; font-weight: 800; color: #fbbf24; }
+    .pr-hero-stat .pr-stat-label { font-size: 0.75rem; color: rgba(255,255,255,0.6); }
+
+    /* ===== Main ===== */
+    .pr-main { max-width: 1120px; margin: 0 auto; padding: 40px 24px; }
+
+    /* Plans */
+    .pr-plans {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-bottom: 48px;
+      max-width: 900px; margin-left: auto; margin-right: auto;
+    }
+    @media (max-width: 750px) { .pr-plans { grid-template-columns: 1fr; } }
+
+    .pr-plan {
+      background: var(--card); border-radius: 18px; border: 1.5px solid var(--border);
+      padding: 36px 28px; position: relative; transition: all 0.25s;
+    }
+    .pr-plan:hover { transform: translateY(-3px); }
+    .pr-plan.pro {
+      border-color: #f59e0b; border-width: 2px;
+      box-shadow: 0 4px 24px rgba(245,158,11,0.12), 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .pr-plan.pro::before {
+      content: '最受欢迎'; position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #fff; padding: 5px 16px; border-radius: 100px;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.02em;
+    }
+    .pr-plan-header { text-align: center; margin-bottom: 24px; }
+    .pr-plan-header .pr-plan-name { font-size: 1.15rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+    .pr-plan.pro .pr-plan-name { color: #d97706; }
+    .pr-plan-header .pr-price {
+      font-size: 3rem; font-weight: 800; color: var(--text); line-height: 1;
+    }
+    .pr-plan-header .pr-price-cycle { font-size: 0.9rem; color: var(--text-muted); font-weight: 400; }
+    .pr-plan-header .pr-save-tag {
+      display: inline-block; padding: 3px 10px; border-radius: 20px;
+      background: #fef3c7; color: #92400e; font-size: 0.75rem; font-weight: 600; margin-top: 6px;
+    }
+    .pr-plan .pr-cta {
+      display: block; text-align: center; padding: 14px 24px; border-radius: 12px;
+      font-size: 0.95rem; font-weight: 700; text-decoration: none; transition: all 0.2s;
+      margin-bottom: 28px; cursor: pointer;
+    }
+    .pr-plan.free .pr-cta {
+      background: var(--bg); border: 1.5px solid var(--border); color: var(--text);
+    }
+    .pr-plan.free .pr-cta:hover { border-color: var(--text-muted); }
+    .pr-plan.pro .pr-cta {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #fff; border: none;
+    }
+    .pr-plan.pro .pr-cta:hover { box-shadow: 0 6px 20px rgba(245,158,11,0.35); transform: translateY(-1px); }
+
+    .pr-plan-features { list-style: none; padding: 0; margin: 0; }
+    .pr-plan-features li {
+      display: flex; align-items: flex-start; gap: 10px; padding: 10px 0;
+      border-bottom: 1px solid var(--border); font-size: 0.9rem;
+    }
+    .pr-plan-features li:last-child { border-bottom: none; }
+    .pr-check { color: #10b981; font-weight: 700; flex-shrink: 0; }
+    .pr-cross { color: #94a3b8; flex-shrink: 0; }
+    .pr-tag-new {
+      display: inline-block; padding: 1px 7px; border-radius: 20px;
+      background: #d1fae5; color: #065f46; font-size: 0.7rem; font-weight: 700;
+      margin-left: 6px; vertical-align: middle;
+    }
+    .feature-name { flex: 1; }
+    .feature-limit { color: var(--text-muted); font-size: 0.82rem; }
+
+    /* Feature detail table */
+    .pr-section { max-width: 900px; margin: 0 auto 56px; }
+    .pr-section h2 {
+      font-size: 1.4rem; font-weight: 800; text-align: center; margin-bottom: 8px;
+    }
+    .pr-section .pr-section-sub { text-align: center; color: var(--text-muted); font-size: 0.95rem; margin-bottom: 28px; }
+    .pr-compare {
+      background: var(--card); border-radius: 16px; border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .pr-compare-row {
+      display: grid; grid-template-columns: 1fr 130px 130px; gap: 0;
+      padding: 16px 24px; border-bottom: 1px solid var(--border);
+      align-items: center; font-size: 0.92rem;
+    }
+    @media (max-width: 600px) { .pr-compare-row { grid-template-columns: 1fr 70px 70px; padding: 14px 16px; } }
+    .pr-compare-row:last-child { border-bottom: none; }
+    .pr-compare-row.head {
+      background: #f8fafc; font-weight: 700; font-size: 0.85rem;
+      color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .pr-compare-row .pr-col-feature { font-weight: 500; }
+    .pr-compare-row .pr-col-free,
+    .pr-compare-row .pr-col-pro { text-align: center; }
+    .pr-compare-row .pr-col-pro { font-weight: 600; color: #d97706; }
+
+    /* FAQ */
+    .pr-faq { max-width: 720px; margin: 0 auto 56px; }
+    .pr-faq-item {
+      background: var(--card); border-radius: 12px; border: 1px solid var(--border);
+      margin-bottom: 8px; overflow: hidden;
+    }
+    .pr-faq-q {
+      padding: 18px 20px; cursor: pointer; display: flex; justify-content: space-between;
+      align-items: center; font-weight: 600; font-size: 0.95rem; user-select: none;
+    }
+    .pr-faq-q:hover { background: #f8fafc; }
+    .pr-faq-q .pr-faq-arrow { transition: transform 0.25s; color: var(--text-muted); }
+    .pr-faq-q.open .pr-faq-arrow { transform: rotate(180deg); }
+    .pr-faq-a {
+      padding: 0 20px; max-height: 0; overflow: hidden; transition: all 0.3s;
+      color: var(--text-muted); font-size: 0.9rem; line-height: 1.7;
+    }
+    .pr-faq-q.open + .pr-faq-a { max-height: 200px; padding: 0 20px 18px; }
+
+    /* Trust / CTA bar */
+    .pr-cta-bar {
+      text-align: center; max-width: 720px; margin: 0 auto 48px;
+      background: linear-gradient(135deg, #fffbeb, #fef3c7);
+      border-radius: 18px; border: 1px solid #fcd34d;
+      padding: 36px 28px;
+    }
+    .pr-cta-bar h2 { font-size: 1.35rem; font-weight: 800; margin-bottom: 8px; }
+    .pr-cta-bar p  { color: #92400e; font-size: 0.95rem; margin-bottom: 20px; }
+    .pr-cta-bar .pr-cta-btn {
+      display: inline-block; padding: 14px 36px; border-radius: 12px;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #fff; font-size: 1rem; font-weight: 700; text-decoration: none;
+      transition: all 0.2s;
+    }
+    .pr-cta-bar .pr-cta-btn:hover {
+      box-shadow: 0 6px 24px rgba(245,158,11,0.35); transform: translateY(-1px);
+      text-decoration: none;
+    }
+    .pr-cta-bar .pr-trust-row {
+      display: flex; gap: 24px; justify-content: center; margin-top: 18px;
+      font-size: 0.82rem; color: #92400e; flex-wrap: wrap;
+    }
+    .pr-cta-bar .pr-trust-row span { display: flex; align-items: center; gap: 5px; }
+
+    /* PRO special services highlight */
+    .pr-specials { max-width: 900px; margin: 0 auto 56px; }
+    .pr-specials h2 { font-size: 1.4rem; font-weight: 800; text-align: center; margin-bottom: 28px; }
+    .pr-special-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 18px; }
+    .pr-special-card {
+      background: var(--card); border-radius: 14px; border: 1px solid var(--border);
+      padding: 24px; transition: all 0.2s;
+    }
+    .pr-special-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); transform: translateY(-2px); }
+    .pr-special-card .pr-special-icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .pr-special-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+    .pr-special-card p  { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      .pr-hero h1 { font-size: 1.6rem; }
+      .pr-hero-stats { gap: 14px; }
+      .pr-plan { padding: 24px 18px; }
+    }
+  </style>
 </head>
 <body>
-  <main id="main-content">
-    <h1>Upgrade to PRO</h1>
-    <div class="pricing-table">
-      <div class="plan">
-        <h2>Free</h2>
-        <p>Basic, ads, 3 reminders</p>
-        <button disabled>Current Plan</button>
-      </div>
-      <div class="plan">
-        <h2>PRO</h2>
-        <p>$3.99/mo - No ads, unlimited reminders, team clock</p>
-        <a href="【通过Stripe配置】" class="btn">Subscribe</a>
+
+<a class="skip-link" href="#main-content">跳到主内容</a>
+
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo">Globe<span>TimeZone</span></a>
+    <nav aria-label="主导航">
+      <a href="/">首页</a>
+      <a href="/time-difference/">时差查询</a>
+      <a href="/meeting-planner/">会议规划</a>
+      <a href="/tools/cross-border/">跨境工具</a>
+      <a href="/pricing/" class="active">升级PRO</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main-content">
+
+  <!-- Hero -->
+  <section class="pr-hero">
+    <div class="pr-hero-inner">
+      <div class="pr-badge">GlobeTimeZone PRO</div>
+      <h1>一杯咖啡的钱，换全年高效协作</h1>
+      <p>去广告、无限会议规划、团队时钟、智能提醒——把你的全球时间管理升级到专业级</p>
+      <div class="pr-hero-stats">
+        <div class="pr-hero-stat"><div class="pr-stat-num">0</div><div class="pr-stat-label">广告骚扰</div></div>
+        <div class="pr-hero-stat"><div class="pr-stat-num">无限</div><div class="pr-stat-label">会议参与者</div></div>
+        <div class="pr-hero-stat"><div class="pr-stat-num">无限</div><div class="pr-stat-label">时区提醒</div></div>
+        <div class="pr-hero-stat"><div class="pr-stat-num">全天候</div><div class="pr-stat-label">优先支持</div></div>
       </div>
     </div>
-  </main>
-  <script src="/baidu-analytics.js" defer></script>
+  </section>
+
+  <div class="pr-main">
+
+    <!-- Plans -->
+    <div class="pr-plans">
+      <!-- Free -->
+      <div class="pr-plan free">
+        <div class="pr-plan-header">
+          <div class="pr-plan-name">免费版</div>
+          <div class="pr-price">免费<span class="pr-price-cycle">/永久</span></div>
+        </div>
+        <span class="pr-cta">当前方案</span>
+        <ul class="pr-plan-features">
+          <li><span class="pr-check">✓</span> 全球时区转换</li>
+          <li><span class="pr-check">✓</span> 双城市时差查询</li>
+          <li><span class="pr-check">✓</span> 世界时钟挂件</li>
+          <li><span class="pr-check">✓</span> 跨境物流工具</li>
+          <li><span class="pr-cross">✗</span> <span class="feature-name">含广告</span></li>
+          <li><span class="pr-cross">✗</span> <span class="feature-name">时区提醒</span><span class="feature-limit">3个</span></li>
+          <li><span class="pr-cross">✗</span> <span class="feature-name">会议规划</span><span class="feature-limit">3个城市</span></li>
+          <li><span class="pr-cross">✗</span> 团队时钟</li>
+          <li><span class="pr-cross">✗</span> 数据导出</li>
+        </ul>
+      </div>
+
+      <!-- PRO -->
+      <div class="pr-plan pro">
+        <div class="pr-plan-header">
+          <div class="pr-plan-name">PRO</div>
+          <div class="pr-price">$3.99<span class="pr-price-cycle">/月</span></div>
+          <div class="pr-save-tag">年付仅 $39.99（省$7.89）</div>
+        </div>
+        <a class="pr-cta" href="https://buy.stripe.com/【待配置】" target="_blank" rel="noopener">立即升级 PRO &#8594;</a>
+        <ul class="pr-plan-features">
+          <li><span class="pr-check">✓</span> 免费版全部功能</li>
+          <li><span class="pr-check">✓</span> <span class="feature-name">零广告体验</span><span class="pr-tag-new">爽</span></li>
+          <li><span class="pr-check">✓</span> <span class="feature-name">时区提醒</span><span class="feature-limit">无限</span></li>
+          <li><span class="pr-check">✓</span> <span class="feature-name">会议规划</span><span class="feature-limit">无限参与者</span></li>
+          <li><span class="pr-check">✓</span> 团队时钟<span class="pr-tag-new">NEW</span></li>
+          <li><span class="pr-check">✓</span> 自定义城市列表</li>
+          <li><span class="pr-check">✓</span> 数据导出（.ics/CSV）</li>
+          <li><span class="pr-check">✓</span> 暗色主题</li>
+          <li><span class="pr-check">✓</span> API 访问（更高频率）</li>
+          <li><span class="pr-check">✓</span> 优先客服支持</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Feature Comparison -->
+    <div class="pr-section">
+      <h2>功能对比</h2>
+      <p class="pr-section-sub">一目了然，PRO 多了什么</p>
+      <div class="pr-compare">
+        <div class="pr-compare-row head">
+          <span>功能</span><span>免费版</span><span class="pr-col-pro">PRO</span>
+        </div>
+        <div class="pr-compare-row"><span class="pr-col-feature">浏览体验</span><span>含广告</span><span class="pr-col-pro">零广告</span></div>
+        <div class="pr-compare-row"><span class="pr-col-feature">全站所有工具</span><span>全部可用</span><span class="pr-col-pro">全部可用 + 增强</span></div>
+        <div class="pr-compare-row"><span class="pr-col-feature">时区提醒</span><span>3个</span><span class="pr-col-pro">无限</span></div>
+        <div class="pr-compare-row"><span class="pr-col-feature">会议规划参与者</span><span>3个城市</span><span class="pr-col-pro">无限</span></div>
+        <div class="pr-compare-row"><span class="pr-col-feature">团队时钟（多城同屏）</span><span>—</span><span class="pr-col-pro">✓</span></div>
+        <div class="pr-compare-row"><span class="pr-col-feature">自定义常驻城市</span><span>—</span><span class="pr-col-pro">✓</span></div>
+        <div class="pr-compare-row"><span class="pr-col-feature">.ics 日历导出</span><span>—</span><span class="pr-col-pro">✓</span></div>
+        <div class="pr-compare-row"><span class="pr-col-feature">数据导出 CSV</span><span>—</span><span class="pr-col-pro">✓</span></div>
+        <div class="pr-compare-row"><span class="pr-col-feature">暗色主题</span><span>—</span><span class="pr-col-pro">✓</span></div>
+        <div class="pr-compare-row"><span class="pr-col-feature">API 调用频率</span><span>100次/分钟</span><span class="pr-col-pro">1000次/分钟</span></div>
+        <div class="pr-compare-row"><span class="pr-col-feature">客服响应</span><span>社区支持</span><span class="pr-col-pro">24h 优先响应</span></div>
+      </div>
+    </div>
+
+    <!-- PRO Special Services -->
+    <div class="pr-specials">
+      <h2>PRO 会员专属权益</h2>
+      <div class="pr-special-grid">
+        <div class="pr-special-card">
+          <div class="pr-special-icon">🚫</div>
+          <h3>零广告沉浸体验</h3>
+          <p>全站无横幅、无弹窗、无推广。纯粹的工具，干净的界面，让你专注于时间管理而不被任何广告打断。</p>
+        </div>
+        <div class="pr-special-card">
+          <div class="pr-special-icon">👥</div>
+          <h3>团队时钟</h3>
+          <p>一屏同时监控 10 个城市，团队成员时区一目了然。谁在线、谁在休息、谁在深夜——无需逐一查询，工作效率暴增。</p>
+        </div>
+        <div class="pr-special-card">
+          <div class="pr-special-icon">🔔</div>
+          <h3>无限智能提醒</h3>
+          <p>为任何时区转换创建定时提醒。会议前 15 分钟自动推送，再也不会忘记跨时区合作窗口。</p>
+        </div>
+        <div class="pr-special-card">
+          <div class="pr-special-icon">📅</div>
+          <h3>无限会议规划</h3>
+          <p>添加任意数量的参会城市。自动算出所有人在工作时间的重合窗口，一键导出日历邀请。跨国团队协作必备。</p>
+        </div>
+        <div class="pr-special-card">
+          <div class="pr-special-icon">🏙️</div>
+          <h3>自定义常驻城市</h3>
+          <p>把你最常关注的 10+ 城市固定在首页。秒开秒看，不用每次都搜索。支持拖拽排序、自定义标签。</p>
+        </div>
+        <div class="pr-special-card">
+          <div class="pr-special-icon">📤</div>
+          <h3>数据导出</h3>
+          <p>导出你的时区查询历史为 CSV，导出会议安排为 .ics 日历文件。数据永远在你手里。</p>
+        </div>
+        <div class="pr-special-card">
+          <div class="pr-special-icon">🌙</div>
+          <h3>暗色主题</h3>
+          <p>深夜工作不再刺眼。全局暗色模式，保护眼睛的同时保持全站无缝体验。</p>
+        </div>
+        <div class="pr-special-card">
+          <div class="pr-special-icon">⚡</div>
+          <h3>API 优先访问</h3>
+          <p>10 倍调用频率上限（1000次/分钟 vs 100次）。适合集成到自己工作流或自动化脚本中的高级用户。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="pr-cta-bar">
+      <h2>每月 $3.99，还不如一杯咖啡贵</h2>
+      <p>30天内不满意全额退款。零风险，随时取消。</p>
+      <a class="pr-cta-btn" href="https://buy.stripe.com/【待配置】" target="_blank" rel="noopener">立即升级 PRO &#8594;</a>
+      <div class="pr-trust-row">
+        <span>&#128274; 安全支付</span>
+        <span>&#9851; 30天退款保证</span>
+        <span>&#128260; 随时取消</span>
+        <span>&#128231; 24h 客服响应</span>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="pr-faq">
+      <h2 style="text-align:center;font-size:1.4rem;font-weight:800;margin-bottom:24px;">常见问题</h2>
+      <div class="pr-faq-item">
+        <div class="pr-faq-q" onclick="this.classList.toggle('open')">PRO 和免费版有什么区别？<span class="pr-faq-arrow">&#9660;</span></div>
+        <div class="pr-faq-a">PRO 版去除了所有广告，提供了无限时区提醒、无限会议规划参与者、团队时钟、自定义城市列表、数据导出、暗色主题和更高频率的 API 访问。免费版可以永久使用基本功能，但会有广告和数量限制。</div>
+      </div>
+      <div class="pr-faq-item">
+        <div class="pr-faq-q" onclick="this.classList.toggle('open')">可以随时取消吗？<span class="pr-faq-arrow">&#9660;</span></div>
+        <div class="pr-faq-a">当然。PRO 按月订阅，你可以在任何时间取消，取消后当前付费周期内仍然可以享受全部 PRO 权益。不会自动扣下一期的款。</div>
+      </div>
+      <div class="pr-faq-item">
+        <div class="pr-faq-q" onclick="this.classList.toggle('open')">公司/团队可以团购吗？<span class="pr-faq-arrow">&#9660;</span></div>
+        <div class="pr-faq-a">可以。如果你需要 5 人以上的团队订阅，请联系我们获取团队折扣。邮箱：support@globetimezone.com。</div>
+      </div>
+      <div class="pr-faq-item">
+        <div class="pr-faq-q" onclick="this.classList.toggle('open')">数据安全吗？我的查询记录会被收集吗？<span class="pr-faq-arrow">&#9660;</span></div>
+        <div class="pr-faq-a">GlobeTimeZone 不会收集你的时区查询历史。我们使用 Cloudflare 全球 CDN 加速，你的数据完全匿名。PRO 用户的导出功能也完全由你控制。</div>
+      </div>
+      <div class="pr-faq-item">
+        <div class="pr-faq-q" onclick="this.classList.toggle('open')">年付有优惠吗？<span class="pr-faq-arrow">&#9660;</span></div>
+        <div class="pr-faq-a">有。年付 $39.99/年，相当于每月 $3.33，比月付节省约 16%。开通后你会立即获得完整 PRO 权限。</div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <a href="/" class="footer-logo">GlobeTimeZone</a>
+        <p class="footer-desc">全球时间决策工具。基于 IANA 时区数据库，提供精准的时差计算和会议规划。</p>
+      </div>
+      <div>
+        <h4 class="footer-heading">工具</h4>
+        <ul class="footer-links">
+          <li><a href="/">时区转换</a></li>
+          <li><a href="/time-difference/">时差查询</a></li>
+          <li><a href="/meeting-planner/">会议规划</a></li>
+          <li><a href="/tools/cross-border/">跨境工具</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">关于</h4>
+        <ul class="footer-links">
+          <li><a href="/about.html">关于我们</a></li>
+          <li><a href="/privacy.html">隐私政策</a></li>
+          <li><a href="/terms.html">服务条款</a></li>
+          <li><a href="/pricing/">升级 PRO</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">联系方式</h4>
+        <ul class="footer-links">
+          <li><a href="mailto:support@globetimezone.com">support@globetimezone.com</a></li>
+          <li><a href="https://twitter.com/GlobeTimeZone" target="_blank" rel="noopener">Twitter @GlobeTimeZone</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 GlobeTimeZone. 所有时间数据基于 IANA 时区数据库，仅供参考。</p>
+    </div>
+  </div>
+</footer>
+
+<script src="/baidu-analytics.js" defer></script>
 </body>
 </html>
