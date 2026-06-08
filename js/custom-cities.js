@@ -90,6 +90,9 @@
       if (!tzToCN[tz].includes(cn)) tzToCN[tz].push(cn);
     }
   })();
+  // 暴露给其他模块（meeting-planner 等）
+  window.__gtz_tzToCN = tzToCN;
+  window.__gtz_CN_NAMES = CN_NAMES;
 
   // ─── 搜索核心 ─────────────────────────────
   function searchCities(q) {
