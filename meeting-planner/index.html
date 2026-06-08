@@ -37,7 +37,17 @@
       display: flex; align-items: center; gap: 6px;
       background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
       padding: 7px 16px; border-radius: 100px; font-size: 0.8rem;
+      cursor: pointer; transition: all 0.2s;
+      font-family: inherit; color: #fff; white-space: nowrap;
+      outline: none; line-height: 1.4;
     }
+    .mp-hero-badge:hover {
+      background: rgba(255,255,255,0.2);
+      border-color: rgba(255,255,255,0.35);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .mp-hero-badge:active { transform: translateY(0); }
     .mp-hero-badge .mp-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #6ee7b7; flex-shrink: 0; }
 
     /* ===== Main ===== */
@@ -231,10 +241,10 @@
       <h1>跨时区会议 · 一键找最佳时间</h1>
       <p>添加团队成员所在城市，自动计算24小时时间轴，找出所有人都在工作时间的最佳会议窗口</p>
       <div class="mp-hero-badges">
-        <span class="mp-hero-badge"><span class="mp-badge-dot"></span> 支持无限参与者</span>
-        <span class="mp-hero-badge"><span class="mp-badge-dot"></span> 工作时间重叠分析</span>
-        <span class="mp-hero-badge"><span class="mp-badge-dot"></span> 一键导出 .ics</span>
-        <span class="mp-hero-badge"><span class="mp-badge-dot"></span> 完全免费</span>
+        <button class="mp-hero-badge" id="badge-participants"><span class="mp-badge-dot"></span> 支持无限参与者</button>
+        <button class="mp-hero-badge" id="badge-timeline"><span class="mp-badge-dot"></span> 工作时间重叠分析</button>
+        <button class="mp-hero-badge" id="badge-export"><span class="mp-badge-dot"></span> 一键导出 .ics</button>
+        <button class="mp-hero-badge" id="badge-pricing"><span class="mp-badge-dot"></span> 完全免费</button>
       </div>
     </div>
   </section>
@@ -242,7 +252,7 @@
   <div class="mp-main">
 
     <!-- Add Participants -->
-    <div class="mp-card">
+    <div class="mp-card" id="mpAddCard">
       <h2>&#128101; 添加参会者</h2>
       <div class="mp-add-row">
         <select id="mpCitySelect" class="mp-city-select">
@@ -745,6 +755,39 @@
     updateParticipantCards();
     updateTimeline();
   }, 1000);
+
+  // ─── Hero Badge 点击交互 ────────────────────
+  function ensureParticipantsAndScroll(targetId) {
+    if (participants.length === 0) {
+      // 自动添加 4 个默认城市
+      addParticipant('Asia/Shanghai', 9, 17);
+      addParticipant('Europe/London', 9, 17);
+      addParticipant('America/New_York', 9, 17);
+      addParticipant('Asia/Tokyo', 9, 17);
+    }
+    var target = el(targetId);
+    if (target) {
+      target.style.display = 'block';
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  el('badge-participants').addEventListener('click', function() {
+    var target = el('mpAddCard');
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  el('badge-timeline').addEventListener('click', function() {
+    ensureParticipantsAndScroll('mpTimelineCard');
+  });
+
+  el('badge-export').addEventListener('click', function() {
+    ensureParticipantsAndScroll('mpExportCard');
+  });
+
+  el('badge-pricing').addEventListener('click', function() {
+    window.location.href = '/pricing/';
+  });
 })();
 </script>
 <script src="/baidu-analytics.js" defer></script>
