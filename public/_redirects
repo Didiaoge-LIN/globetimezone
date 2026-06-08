@@ -1,0 +1,32 @@
+# Cloudflare Pages Redirects
+# Format: <source> <destination> <status>
+# NOTE: Cloudflare Pretty URLs feature 会先将 .html 请求 308 到无后缀 URL
+# 因此需要同时匹配两种情况
+
+# Language redirect (JS-reliant page → root with noscript fallback)
+/lang.html / 301
+/lang / 301
+
+# Old flat language pages → folder-based (SEO canonical consolidation)
+/index-zh.html /zh/ 301
+/index-zh /zh/ 301
+/index-es.html /es/ 301
+/index-es /es/ 301
+/index-fr.html /fr/ 301
+/index-fr /fr/ 301
+/index-de.html /de/ 301
+/index-de /de/ 301
+/index-ja.html /ja/ 301
+/index-ja /ja/ 301
+/index-pt.html /pt/ 301
+/index-pt /pt/ 301
+/index-ko.html /ko/ 301
+/index-ko /ko/ 301
+/index-ar.html /ar/ 301
+/index-ar /ar/ 301
+
+# Static assets passthrough (should not be needed but safe to keep)
+/css/* /css/:splat 200
+/js/* /js/:splat 200
+/pages/* /pages/:splat 200
+/widget/* /widget/:splat 200

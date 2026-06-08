@@ -6,12 +6,10 @@ compatibility_date = "2026-06-01"
 # 通过 GitHub 连接时，Pages 会自动读取此文件
 
 [build]
-command = "npm install && npm run build"
-publish = "."
+command = ""
+publish = "public"
 
-# 不需要构建命令（纯静态），取消上面注释改为：
-# command = ""
-# publish = "."
+# 纯静态站点，无需构建命令
 
 # 环境变量（如需要）
 #[vars]
