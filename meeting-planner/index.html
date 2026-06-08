@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>全球会议规划器 | GlobeTimeZone</title>
+  <meta name="description" content="跨时区会议规划工具 — 添加多个城市参与者，自动找出最佳会议时间。可视化24小时时间轴，工作时间重叠分析，一键导出日历邀请。">
+  <meta name="keywords" content="会议规划,跨时区会议,最佳会议时间,时区会议安排,国际会议,team scheduling">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://globetimezone.com/meeting-planner/">
+  <link rel="icon" type="image/png" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/styles/style.min.css">
+  <style>
+    /* ===== Hero ===== */
+    .mp-hero {
+      background: linear-gradient(160deg, #0f172a 0%, #065f46 35%, #10b981 65%, #34d399 100%);
+      color: #fff;
+      padding: 64px 24px 56px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .mp-hero::after {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 30% 70%, rgba(16,185,129,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 70% 20%, rgba(52,211,153,0.12) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .mp-hero-inner { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; }
+    .mp-hero h1 { font-size: 2.25rem; font-weight: 800; margin: 0 0 10px; letter-spacing: -0.02em; }
+    .mp-hero p  { color: rgba(255,255,255,0.78); font-size: 1.02rem; margin-bottom: 36px; }
+
+    .mp-hero-badges { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+    .mp-hero-badge {
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+      padding: 7px 16px; border-radius: 100px; font-size: 0.8rem;
+    }
+    .mp-hero-badge .mp-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #6ee7b7; flex-shrink: 0; }
+
+    /* ===== Main ===== */
+    .mp-main { max-width: 1120px; margin: 0 auto; padding: 32px 24px; }
+
+    /* Cards */
+    .mp-card {
+      background: var(--card); border-radius: 14px; border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04); padding: 24px; margin-bottom: 20px;
+    }
+    .mp-card h2 {
+      font-size: 1.05rem; font-weight: 700; margin: 0 0 18px;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    /* Add participant form */
+    .mp-add-row {
+      display: flex; gap: 10px; align-items: flex-end; flex-wrap: wrap;
+    }
+    .mp-add-row select, .mp-add-row input {
+      padding: 12px 14px; border-radius: 10px; border: 1.5px solid var(--border);
+      font-size: 0.92rem; font-family: inherit; color: var(--text); outline: none;
+      background: #fff;
+    }
+    .mp-add-row select:focus, .mp-add-row input:focus { border-color: #10b981; box-shadow: 0 0 0 3px rgba(16,185,129,0.12); }
+    .mp-add-row .mp-city-select { flex: 1; min-width: 200px; }
+    .mp-add-row .mp-hour-select { width: 100px; }
+    .mp-add-row .mp-add-btn {
+      padding: 12px 22px; border-radius: 10px; border: none;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff; font-size: 0.92rem; font-weight: 600; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .mp-add-row .mp-add-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
+
+    /* Quick add chips */
+    .mp-quick-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .mp-chip {
+      padding: 7px 14px; border-radius: 100px; border: 1.5px solid var(--border);
+      background: #fff; font-size: 0.85rem; cursor: pointer; transition: all 0.15s;
+      color: var(--text);
+    }
+    .mp-chip:hover { border-color: #10b981; background: #ecfdf5; }
+    .mp-chip.on { border-color: #10b981; background: #d1fae5; color: #065f46; font-weight: 600; }
+
+    /* Participant cards grid */
+    .mp-participants-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 14px; }
+    .mp-pcard {
+      background: var(--card); border-radius: 14px; border: 1px solid var(--border);
+      padding: 18px; position: relative; transition: all 0.2s;
+    }
+    .mp-pcard:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+    .mp-pcard .mp-pcard-header {
+      display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;
+    }
+    .mp-pcard .mp-pcard-city { font-size: 1.05rem; font-weight: 700; }
+    .mp-pcard .mp-pcard-tz { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 10px; }
+    .mp-pcard .mp-pcard-time {
+      font-size: 1.8rem; font-weight: 800; font-variant-numeric: tabular-nums;
+      line-height: 1.1; letter-spacing: 0.01em;
+    }
+    .mp-pcard .mp-pcard-sec { font-size: 0.95rem; color: var(--text-muted); font-weight: 600; }
+    .mp-pcard .mp-pcard-date { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
+    .mp-pcard .mp-pcard-hours { font-size: 0.78rem; color: var(--text-muted); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+    .mp-pcard .mp-status {
+      display: inline-block; padding: 3px 10px; border-radius: 20px;
+      font-size: 0.72rem; font-weight: 600; margin-top: 8px;
+    }
+    .mp-status.work { background: #d1fae5; color: #065f46; }
+    .mp-status.off { background: #fef3c7; color: #92400e; }
+    .mp-status.sleep { background: #e0e7ff; color: #3730a3; }
+    .mp-pcard .mp-remove {
+      background: none; border: none; cursor: pointer; color: #94a3b8;
+      font-size: 1.3rem; line-height: 1; padding: 0; width: 28px; height: 28px;
+      border-radius: 6px; display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+    }
+    .mp-pcard .mp-remove:hover { background: #fee2e2; color: #dc2626; }
+
+    /* Duration selector */
+    .mp-duration-row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .mp-dur-btn {
+      padding: 10px 20px; border-radius: 10px; border: 1.5px solid var(--border);
+      background: #fff; font-size: 0.9rem; cursor: pointer; transition: all 0.15s;
+      color: var(--text);
+    }
+    .mp-dur-btn:hover { border-color: #10b981; }
+    .mp-dur-btn.on { border-color: #10b981; background: #ecfdf5; color: #065f46; font-weight: 600; }
+
+    /* 24h Timeline */
+    .mp-timeline-wrap { overflow-x: auto; }
+    .mp-timeline { min-width: 700px; }
+    .mp-timeline-header {
+      display: flex; gap: 2px; margin-bottom: 4px; padding-left: 120px;
+    }
+    .mp-timeline-header span {
+      flex: 1; text-align: center; font-size: 0.68rem; color: var(--text-muted);
+      padding: 2px 0;
+    }
+    .mp-timeline-row {
+      display: flex; align-items: center; gap: 2px; margin-bottom: 6px;
+    }
+    .mp-timeline-label {
+      width: 120px; font-size: 0.82rem; font-weight: 600;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      padding-right: 8px; text-align: right;
+    }
+    .mp-timeline-cells { display: flex; gap: 1px; flex: 1; }
+    .mp-timeline-cell {
+      flex: 1; height: 32px; border-radius: 3px; position: relative;
+      transition: all 0.15s;
+    }
+    .mp-timeline-cell.work { background: #10b981; }
+    .mp-timeline-cell.off { background: #e2e8f0; }
+    .mp-timeline-cell.sleep { background: #cbd5e1; }
+    .mp-timeline-cell.now { box-shadow: inset 0 0 0 2px #2563eb; }
+    .mp-timeline-cell.best { box-shadow: inset 0 0 0 2px #f59e0b; }
+    .mp-timeline-legend { display: flex; gap: 18px; font-size: 0.78rem; color: var(--text-muted); margin-top: 12px; flex-wrap: wrap; }
+    .mp-timeline-legend span { display: flex; align-items: center; gap: 5px; }
+    .mp-tl-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+    /* Best times */
+    .mp-best-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 14px; }
+    .mp-best-card {
+      background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+      border: 1px solid #6ee7b7; border-radius: 14px; padding: 18px;
+    }
+    .mp-best-card .mp-best-time {
+      font-size: 1.3rem; font-weight: 800; color: #065f46; margin-bottom: 6px;
+    }
+    .mp-best-card .mp-best-sub { font-size: 0.82rem; color: #047857; }
+    .mp-best-card .mp-best-tag {
+      display: inline-block; padding: 3px 10px; border-radius: 20px;
+      font-size: 0.72rem; font-weight: 600; margin-top: 10px;
+      background: #10b981; color: #fff;
+    }
+
+    /* Action buttons */
+    .mp-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+    .mp-btn {
+      padding: 10px 18px; border-radius: 10px; border: 1.5px solid var(--border);
+      background: #fff; font-size: 0.88rem; cursor: pointer; transition: all 0.15s;
+      color: var(--text); font-weight: 500;
+    }
+    .mp-btn:hover { border-color: var(--primary); }
+    .mp-btn-primary {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff; border-color: transparent;
+    }
+    .mp-btn-primary:hover { box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
+
+    /* Toast */
+    .mp-toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px);
+      background: #1e293b; color: #fff; padding: 12px 24px; border-radius: 12px;
+      font-size: 0.9rem; z-index: 9999; opacity: 0; transition: all 0.3s;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+    .mp-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    @media (max-width: 600px) {
+      .mp-hero h1 { font-size: 1.7rem; }
+      .mp-add-row { flex-direction: column; align-items: stretch; }
+      .mp-add-row .mp-city-select { width: 100%; }
+      .mp-timeline-label { width: 80px; font-size: 0.72rem; }
+    }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">跳到主内容</a>
+
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo">Globe<span>TimeZone</span></a>
+    <nav aria-label="主导航">
+      <a href="/">首页</a>
+      <a href="/time-difference/">时差查询</a>
+      <a href="/meeting-planner/" class="active">会议规划</a>
+      <a href="/tools/cross-border/">跨境工具</a>
+      <a href="/pricing/">升级PRO</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main-content">
+
+  <!-- Hero -->
+  <section class="mp-hero">
+    <div class="mp-hero-inner">
+      <h1>跨时区会议 · 一键找最佳时间</h1>
+      <p>添加团队成员所在城市，自动计算24小时时间轴，找出所有人都在工作时间的最佳会议窗口</p>
+      <div class="mp-hero-badges">
+        <span class="mp-hero-badge"><span class="mp-badge-dot"></span> 支持无限参与者</span>
+        <span class="mp-hero-badge"><span class="mp-badge-dot"></span> 工作时间重叠分析</span>
+        <span class="mp-hero-badge"><span class="mp-badge-dot"></span> 一键导出 .ics</span>
+        <span class="mp-hero-badge"><span class="mp-badge-dot"></span> 完全免费</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="mp-main">
+
+    <!-- Add Participants -->
+    <div class="mp-card">
+      <h2>&#128101; 添加参会者</h2>
+      <div class="mp-add-row">
+        <select id="mpCitySelect" class="mp-city-select">
+          <optgroup label="亚洲">
+            <option value="Asia/Shanghai">北京 / 上海</option>
+            <option value="Asia/Tokyo">东京</option>
+            <option value="Asia/Seoul">首尔</option>
+            <option value="Asia/Singapore">新加坡</option>
+            <option value="Asia/Dubai">迪拜</option>
+            <option value="Asia/Kolkata">孟买</option>
+            <option value="Asia/Hong_Kong">香港</option>
+            <option value="Asia/Bangkok">曼谷</option>
+            <option value="Asia/Jakarta">雅加达</option>
+          </optgroup>
+          <optgroup label="欧洲">
+            <option value="Europe/London">伦敦</option>
+            <option value="Europe/Paris">巴黎</option>
+            <option value="Europe/Berlin">柏林</option>
+            <option value="Europe/Moscow">莫斯科</option>
+            <option value="Europe/Madrid">马德里</option>
+            <option value="Europe/Rome">罗马</option>
+            <option value="Europe/Amsterdam">阿姆斯特丹</option>
+          </optgroup>
+          <optgroup label="北美洲">
+            <option value="America/New_York">纽约</option>
+            <option value="America/Chicago">芝加哥</option>
+            <option value="America/Denver">丹佛</option>
+            <option value="America/Los_Angeles">洛杉矶</option>
+            <option value="America/Toronto">多伦多</option>
+            <option value="America/Vancouver">温哥华</option>
+            <option value="America/Mexico_City">墨西哥城</option>
+          </optgroup>
+          <optgroup label="南美洲">
+            <option value="America/Sao_Paulo">圣保罗</option>
+            <option value="America/Argentina/Buenos_Aires">布宜诺斯艾利斯</option>
+          </optgroup>
+          <optgroup label="大洋洲">
+            <option value="Australia/Sydney">悉尼</option>
+            <option value="Pacific/Auckland">奥克兰</option>
+          </optgroup>
+          <optgroup label="非洲">
+            <option value="Africa/Cairo">开罗</option>
+            <option value="Africa/Johannesburg">约翰内斯堡</option>
+            <option value="Africa/Lagos">拉各斯</option>
+          </optgroup>
+        </select>
+        <select id="mpWorkStart" class="mp-hour-select">
+          <option value="6">6:00</option>
+          <option value="7">7:00</option>
+          <option value="8">8:00</option>
+          <option value="9" selected>9:00</option>
+          <option value="10">10:00</option>
+        </select>
+        <span style="color:var(--text-muted);font-size:0.9rem;padding-bottom:12px;">至</span>
+        <select id="mpWorkEnd" class="mp-hour-select">
+          <option value="16">16:00</option>
+          <option value="17">17:00</option>
+          <option value="18" selected>18:00</option>
+          <option value="19">19:00</option>
+          <option value="20">20:00</option>
+        </select>
+        <button class="mp-add-btn" id="mpAddBtn">+ 添加</button>
+      </div>
+      <div style="margin-top:10px;font-size:0.8rem;color:var(--text-muted);">快捷添加：</div>
+      <div class="mp-quick-chips" id="mpQuickChips">
+        <button class="mp-chip" data-tz="Asia/Shanghai">北京</button>
+        <button class="mp-chip" data-tz="Asia/Tokyo">东京</button>
+        <button class="mp-chip" data-tz="Asia/Singapore">新加坡</button>
+        <button class="mp-chip" data-tz="Europe/London">伦敦</button>
+        <button class="mp-chip" data-tz="Europe/Paris">巴黎</button>
+        <button class="mp-chip" data-tz="America/New_York">纽约</button>
+        <button class="mp-chip" data-tz="America/Los_Angeles">洛杉矶</button>
+        <button class="mp-chip" data-tz="Australia/Sydney">悉尼</button>
+        <button class="mp-chip" data-tz="Asia/Dubai">迪拜</button>
+      </div>
+    </div>
+
+    <!-- Duration -->
+    <div class="mp-card">
+      <h2>&#9201; 会议时长</h2>
+      <div class="mp-duration-row" id="mpDurationRow">
+        <button class="mp-dur-btn on" data-dur="30">30 分钟</button>
+        <button class="mp-dur-btn" data-dur="60">1 小时</button>
+        <button class="mp-dur-btn" data-dur="90">1.5 小时</button>
+        <button class="mp-dur-btn" data-dur="120">2 小时</button>
+      </div>
+    </div>
+
+    <!-- Participant Cards -->
+    <div class="mp-card" id="mpParticipantsCard" style="display:none;">
+      <h2>&#127757; 参会者实时状态</h2>
+      <div class="mp-participants-grid" id="mpParticipantGrid"></div>
+    </div>
+
+    <!-- 24h Timeline -->
+    <div class="mp-card" id="mpTimelineCard" style="display:none;">
+      <h2>&#128197; 24小时时间轴（UTC基准）</h2>
+      <div class="mp-timeline-wrap">
+        <div class="mp-timeline">
+          <div class="mp-timeline-header" id="mpTlHeader"></div>
+          <div id="mpTlBody"></div>
+        </div>
+      </div>
+      <div class="mp-timeline-legend">
+        <span><span class="mp-tl-dot" style="background:#10b981;"></span> 工作时间</span>
+        <span><span class="mp-tl-dot" style="background:#e2e8f0;"></span> 非工作时间</span>
+        <span><span class="mp-tl-dot" style="background:#cbd5e1;"></span> 深夜 (0-6点)</span>
+        <span><span class="mp-tl-dot" style="box-shadow:inset 0 0 0 2px #2563eb;background:#fff;"></span> 当前时刻</span>
+        <span><span class="mp-tl-dot" style="box-shadow:inset 0 0 0 2px #f59e0b;background:#fff;"></span> 推荐时段</span>
+      </div>
+    </div>
+
+    <!-- Best Meeting Times -->
+    <div class="mp-card" id="mpBestCard" style="display:none;">
+      <h2>&#127942; 最佳会议时间推荐</h2>
+      <div class="mp-best-grid" id="mpBestGrid"></div>
+    </div>
+
+    <!-- Empty State -->
+    <div class="mp-card" id="mpEmptyState">
+      <div style="text-align:center;padding:40px 20px;color:var(--text-muted);">
+        <div style="font-size:3rem;margin-bottom:12px;">&#128101;</div>
+        <div style="font-size:1.1rem;font-weight:600;color:var(--text);margin-bottom:6px;">还没有参会者</div>
+        <div>从上方添加团队成员所在城市，我们将自动找出最佳会议时间</div>
+      </div>
+    </div>
+
+    <!-- Export -->
+    <div class="mp-card" id="mpExportCard" style="display:none;">
+      <h2>&#128229; 导出与分享</h2>
+      <div class="mp-actions">
+        <button class="mp-btn" id="mpCopyLink">&#128203; 复制会议链接</button>
+        <button class="mp-btn mp-btn-primary" id="mpDownloadIcs">&#128230; 下载 .ics 日历文件</button>
+      </div>
+      <p style="margin-top:10px;font-size:0.82rem;color:var(--text-muted);">.ics 文件支持导入 Apple 日历、Outlook、Google Calendar 等所有主流日历应用</p>
+    </div>
+
+  </div>
+</main>
+
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <a href="/" class="footer-logo">GlobeTimeZone</a>
+        <p class="footer-desc">全球时间决策工具。基于 IANA 时区数据库，提供精准的时差计算和会议规划。</p>
+      </div>
+      <div>
+        <h4 class="footer-heading">工具</h4>
+        <ul class="footer-links">
+          <li><a href="/">时区转换</a></li>
+          <li><a href="/world-clock.html">世界时钟</a></li>
+          <li><a href="/meeting-planner/">会议规划</a></li>
+          <li><a href="/tools/cross-border/">跨境工具</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">关于</h4>
+        <ul class="footer-links">
+          <li><a href="/about.html">关于我们</a></li>
+          <li><a href="/privacy.html">隐私政策</a></li>
+          <li><a href="/terms.html">服务条款</a></li>
+          <li><a href="/contact.html">联系我们</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-heading">热门时差</h4>
+        <ul class="footer-links">
+          <li><a href="/time-difference/new-york-to-london">纽约-伦敦</a></li>
+          <li><a href="/time-difference/tokyo-to-new-york">东京-纽约</a></li>
+          <li><a href="/time-difference/la-to-beijing">洛杉矶-北京</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 GlobeTimeZone. 基于 IANA 时区数据库，数据仅供参考。</p>
+    </div>
+  </div>
+</footer>
+
+<div class="mp-toast" id="mpToast"></div>
+
+<script>
+(function() {
+  'use strict';
+
+  var cityInfo = {
+    'Asia/Shanghai': { name:'北京 / 上海', abbr:'CST', offset:'+8' },
+    'Asia/Tokyo': { name:'东京', abbr:'JST', offset:'+9' },
+    'Asia/Seoul': { name:'首尔', abbr:'KST', offset:'+9' },
+    'Asia/Singapore': { name:'新加坡', abbr:'SGT', offset:'+8' },
+    'Asia/Dubai': { name:'迪拜', abbr:'GST', offset:'+4' },
+    'Asia/Kolkata': { name:'孟买', abbr:'IST', offset:'+5:30' },
+    'Asia/Hong_Kong': { name:'香港', abbr:'HKT', offset:'+8' },
+    'Asia/Bangkok': { name:'曼谷', abbr:'ICT', offset:'+7' },
+    'Asia/Jakarta': { name:'雅加达', abbr:'WIB', offset:'+7' },
+    'Europe/London': { name:'伦敦', abbr:'BST', offset:'+1' },
+    'Europe/Paris': { name:'巴黎', abbr:'CEST', offset:'+2' },
+    'Europe/Berlin': { name:'柏林', abbr:'CEST', offset:'+2' },
+    'Europe/Moscow': { name:'莫斯科', abbr:'MSK', offset:'+3' },
+    'Europe/Madrid': { name:'马德里', abbr:'CEST', offset:'+2' },
+    'Europe/Rome': { name:'罗马', abbr:'CEST', offset:'+2' },
+    'Europe/Amsterdam': { name:'阿姆斯特丹', abbr:'CEST', offset:'+2' },
+    'America/New_York': { name:'纽约', abbr:'EDT', offset:'-4' },
+    'America/Chicago': { name:'芝加哥', abbr:'CDT', offset:'-5' },
+    'America/Denver': { name:'丹佛', abbr:'MDT', offset:'-6' },
+    'America/Los_Angeles': { name:'洛杉矶', abbr:'PDT', offset:'-7' },
+    'America/Toronto': { name:'多伦多', abbr:'EDT', offset:'-4' },
+    'America/Vancouver': { name:'温哥华', abbr:'PDT', offset:'-7' },
+    'America/Mexico_City': { name:'墨西哥城', abbr:'CST', offset:'-6' },
+    'America/Sao_Paulo': { name:'圣保罗', abbr:'BRT', offset:'-3' },
+    'America/Argentina/Buenos_Aires':{ name:'布宜诺斯艾利斯', abbr:'ART', offset:'-3' },
+    'Australia/Sydney': { name:'悉尼', abbr:'AEST', offset:'+10' },
+    'Pacific/Auckland': { name:'奥克兰', abbr:'NZST', offset:'+12' },
+    'Africa/Cairo': { name:'开罗', abbr:'EEST', offset:'+3' },
+    'Africa/Johannesburg': { name:'约翰内斯堡', abbr:'SAST', offset:'+2' },
+    'Africa/Lagos': { name:'拉各斯', abbr:'WAT', offset:'+1' }
+  };
+
+  var participants = [];
+  var duration = 30;
+  var el = function(id) { return document.getElementById(id); };
+
+  function toast(msg) {
+    var t = el('mpToast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(function() { t.classList.remove('show'); }, 2500);
+  }
+
+  function getOffsetHours(tz) {
+    var now = new Date();
+    var utc = new Date(now.toLocaleString('en-US', { timeZone: 'UTC' }));
+    var local = new Date(now.toLocaleString('en-US', { timeZone: tz }));
+    return (local - utc) / 3600000;
+  }
+
+  function formatTimeIn(tz) {
+    var now = new Date();
+    try {
+      var time = new Intl.DateTimeFormat('zh-CN', { timeZone: tz, hour:'2-digit', minute:'2-digit', hour12:false }).format(now);
+      var sec = new Intl.DateTimeFormat('zh-CN', { timeZone: tz, second:'2-digit', hour12:false }).format(now).slice(-2);
+      var date = new Intl.DateTimeFormat('zh-CN', { timeZone: tz, year:'numeric', month:'short', day:'numeric', weekday:'short' }).format(now);
+      var hour = parseInt(time.split(':')[0]);
+      return { time: time, sec: sec, date: date, hour: hour };
+    } catch(e) {
+      return { time:'--:--', sec:'--', date:'--', hour:0 };
+    }
+  }
+
+  function addParticipant(tz, wStart, wEnd) {
+    var info = cityInfo[tz];
+    if (!info) return;
+    if (participants.find(function(p) { return p.tz === tz; })) {
+      toast(info.name + ' 已添加');
+      return;
+    }
+    participants.push({
+      id: Date.now() + Math.random(),
+      tz: tz,
+      name: info.name,
+      abbr: info.abbr,
+      workStart: parseInt(wStart),
+      workEnd: parseInt(wEnd)
+    });
+    updateAll();
+    toast('已添加 ' + info.name);
+  }
+
+  function removeParticipant(id) {
+    participants = participants.filter(function(p) { return p.id !== id; });
+    updateAll();
+  }
+
+  function setDuration(min) {
+    duration = min;
+    document.querySelectorAll('.mp-dur-btn').forEach(function(btn) {
+      btn.classList.toggle('on', parseInt(btn.dataset.dur) === min);
+    });
+    updateBestTimes();
+  }
+
+  function updateParticipantCards() {
+    var grid = el('mpParticipantGrid');
+    if (participants.length === 0) { grid.innerHTML = ''; return; }
+    grid.innerHTML = participants.map(function(p) {
+      var t = formatTimeIn(p.tz);
+      var isWork = t.hour >= p.workStart && t.hour < p.workEnd;
+      var isSleep = t.hour < 6;
+      var statusClass = isWork ? 'work' : (isSleep ? 'sleep' : 'off');
+      var statusText = isWork ? '工作中' : (isSleep ? '深夜' : '休息中');
+      return '<div class="mp-pcard">' +
+        '<div class="mp-pcard-header">' +
+          '<div><div class="mp-pcard-city">' + p.name + '</div><div class="mp-pcard-tz">' + p.tz + ' · ' + p.abbr + '</div></div>' +
+          '<button class="mp-remove" onclick="mpRemove(' + p.id + ')" title="移除">&times;</button>' +
+        '</div>' +
+        '<div class="mp-pcard-time">' + t.time + '<span class="mp-pcard-sec">:' + t.sec + '</span></div>' +
+        '<div class="mp-pcard-date">' + t.date + '</div>' +
+        '<div class="mp-pcard-hours">工作时间: ' + p.workStart + ':00 - ' + p.workEnd + ':00</div>' +
+        '<span class="mp-status ' + statusClass + '">' + statusText + '</span>' +
+      '</div>';
+    }).join('');
+  }
+
+  function updateTimeline() {
+    var header = el('mpTlHeader');
+    var body = el('mpTlBody');
+    if (participants.length === 0) { header.innerHTML = ''; body.innerHTML = ''; return; }
+
+    // Header: 0-23 UTC hours
+    var hHtml = '';
+    for (var h = 0; h < 24; h++) {
+      hHtml += '<span>' + String(h).padStart(2,'0') + '</span>';
+    }
+    header.innerHTML = hHtml;
+
+    // Body rows
+    var now = new Date();
+    var currentUTCHour = now.getUTCHours();
+
+    body.innerHTML = participants.map(function(p) {
+      var off = getOffsetHours(p.tz);
+      var cells = '';
+      for (var h = 0; h < 24; h++) {
+        var localH = Math.floor((h + off + 24) % 24);
+        var isWork = localH >= p.workStart && localH < p.workEnd;
+        var isSleep = localH >= 0 && localH < 6;
+        var cellClass = isWork ? 'work' : (isSleep ? 'sleep' : 'off');
+        var isNow = h === currentUTCHour;
+        var nowClass = isNow ? ' now' : '';
+        cells += '<div class="mp-timeline-cell ' + cellClass + nowClass + '" title="' + p.name + ' ' + String(localH).padStart(2,'0') + ':00"></div>';
+      }
+      return '<div class="mp-timeline-row">' +
+        '<div class="mp-timeline-label">' + p.name + '</div>' +
+        '<div class="mp-timeline-cells">' + cells + '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  function updateBestTimes() {
+    var grid = el('mpBestGrid');
+    if (participants.length === 0) { grid.innerHTML = ''; return; }
+
+    // Find overlapping work hours in UTC
+    var slots = [];
+    for (var h = 0; h < 24; h++) {
+      var allWork = true;
+      for (var i = 0; i < participants.length; i++) {
+        var p = participants[i];
+        var off = getOffsetHours(p.tz);
+        var localH = Math.floor((h + off + 24) % 24);
+        if (localH < p.workStart || localH >= p.workEnd) {
+          allWork = false;
+          break;
+        }
+      }
+      if (allWork) slots.push(h);
+    }
+
+    // Group consecutive slots
+    var groups = [];
+    var start = null;
+    for (var j = 0; j < slots.length; j++) {
+      if (start === null) start = slots[j];
+      if (j === slots.length - 1 || slots[j+1] !== slots[j] + 1) {
+        groups.push({ start: start, end: slots[j] });
+        start = null;
+      }
+    }
+
+    // Filter by duration
+    var validGroups = groups.filter(function(g) {
+      return (g.end - g.start + 1) * 60 >= duration;
+    });
+
+    if (validGroups.length === 0) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:24px;color:var(--text-muted);">' +
+        '<div style="font-size:2rem;margin-bottom:8px;">&#128533;</div>' +
+        '<div style="font-weight:600;color:var(--text);margin-bottom:4px;">没有找到完全重叠的工作时间</div>' +
+        '<div>尝试缩短会议时长，或调整参与者的工作时间设置</div></div>';
+      return;
+    }
+
+    grid.innerHTML = validGroups.slice(0, 6).map(function(g) {
+      var startStr = String(g.start).padStart(2,'0') + ':00';
+      var endStr = String(g.end + 1).padStart(2,'0') + ':00';
+      var hrs = g.end - g.start + 1;
+      var cities = participants.map(function(p) {
+        var off = getOffsetHours(p.tz);
+        var localStart = Math.floor((g.start + off + 24) % 24);
+        var localEnd = Math.floor((g.end + off + 24) % 24);
+        return p.name + ' ' + String(localStart).padStart(2,'0') + ':00-' + String(localEnd + 1).padStart(2,'0') + ':00';
+      }).join(' · ');
+      return '<div class="mp-best-card">' +
+        '<div class="mp-best-time">UTC ' + startStr + ' - ' + endStr + '</div>' +
+        '<div class="mp-best-sub">' + cities + '</div>' +
+        '<span class="mp-best-tag">可安排 ' + Math.floor(hrs * 60 / duration) + ' 场 ' + duration + ' 分钟会议</span>' +
+      '</div>';
+    }).join('');
+  }
+
+  function updateAll() {
+    var hasParticipants = participants.length > 0;
+    el('mpParticipantsCard').style.display = hasParticipants ? 'block' : 'none';
+    el('mpTimelineCard').style.display = hasParticipants ? 'block' : 'none';
+    el('mpBestCard').style.display = hasParticipants ? 'block' : 'none';
+    el('mpExportCard').style.display = hasParticipants ? 'block' : 'none';
+    el('mpEmptyState').style.display = hasParticipants ? 'none' : 'block';
+
+    updateParticipantCards();
+    updateTimeline();
+    updateBestTimes();
+
+    // Update chip active states
+    document.querySelectorAll('.mp-chip').forEach(function(chip) {
+      var tz = chip.dataset.tz;
+      chip.classList.toggle('on', participants.some(function(p) { return p.tz === tz; }));
+    });
+  }
+
+  // Events
+  el('mpAddBtn').addEventListener('click', function() {
+    addParticipant(el('mpCitySelect').value, el('mpWorkStart').value, el('mpWorkEnd').value);
+  });
+
+  document.querySelectorAll('.mp-chip').forEach(function(chip) {
+    chip.addEventListener('click', function() {
+      var tz = this.dataset.tz;
+      if (participants.find(function(p) { return p.tz === tz; })) {
+        var p = participants.find(function(p) { return p.tz === tz; });
+        if (p) removeParticipant(p.id);
+      } else {
+        addParticipant(tz, el('mpWorkStart').value, el('mpWorkEnd').value);
+      }
+    });
+  });
+
+  document.querySelectorAll('.mp-dur-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      setDuration(parseInt(this.dataset.dur));
+    });
+  });
+
+  // Export
+  el('mpCopyLink').addEventListener('click', function() {
+    var params = participants.map(function(p) { return p.tz + ':' + p.workStart + '-' + p.workEnd; }).join(',');
+    var url = location.origin + '/meeting-planner/?p=' + encodeURIComponent(params) + '&d=' + duration;
+    navigator.clipboard.writeText(url).then(function() { toast('会议链接已复制'); });
+  });
+
+  el('mpDownloadIcs').addEventListener('click', function() {
+    if (participants.length === 0) { toast('请先添加参会者'); return; }
+    var now = new Date();
+    var dateStr = now.toISOString().split('T')[0].replace(/-/g,'');
+    var dtStamp = now.toISOString().replace(/[-:]/g,'').split('.')[0] + 'Z';
+    var names = participants.map(function(p) { return p.name; }).join(', ');
+    var uid = 'mp-' + Date.now() + '@globetimezone.com';
+    var ics = [
+      'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//GlobeTimeZone//Meeting Planner//EN',
+      'CALSCALE:GREGORIAN','METHOD:PUBLISH','BEGIN:VEVENT',
+      'UID:' + uid,'DTSTAMP:' + dtStamp,'DTSTART:' + dateStr + 'T090000Z',
+      'DTEND:' + dateStr + 'T100000Z','SUMMARY:跨时区会议 (' + names + ')',
+      'DESCRIPTION:通过 GlobeTimeZone 会议规划器安排\\n参会者: ' + names + '\\n\\nhttps://globetimezone.com/meeting-planner/',
+      'LOCATION:线上会议','STATUS:CONFIRMED','END:VEVENT','END:VCALENDAR'
+    ].join('\r\n');
+    var blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'meeting-globetimezone.ics';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    toast('.ics 文件已下载');
+  });
+
+  // Global remove function
+  window.mpRemove = function(id) { removeParticipant(id); };
+
+  // Parse URL params
+  function parseUrl() {
+    var params = new URLSearchParams(location.search);
+    var pStr = params.get('p');
+    var d = params.get('d');
+    if (d) setDuration(parseInt(d));
+    if (pStr) {
+      pStr.split(',').forEach(function(seg) {
+        var parts = seg.split(':');
+        if (parts.length === 2) {
+          var tz = parts[0];
+          var wh = parts[1].split('-');
+          if (wh.length === 2) addParticipant(tz, wh[0], wh[1]);
+        }
+      });
+    }
+  }
+
+  parseUrl();
+  updateAll();
+  setInterval(function() {
+    updateParticipantCards();
+    updateTimeline();
+  }, 1000);
+})();
+</script>
+<script src="/baidu-analytics.js" defer></script>
+</body>
+</html>
