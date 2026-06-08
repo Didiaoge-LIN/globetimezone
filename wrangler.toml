@@ -7,7 +7,7 @@ compatibility_date = "2026-06-01"
 
 [build]
 command = ""
-publish = "public"
+publish = "."
 
 # 纯静态站点，无需构建命令
 
