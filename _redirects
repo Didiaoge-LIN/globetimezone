@@ -1,13 +1,15 @@
 # GlobeTimeZone — Cloudflare Pages Redirects
 # 旧 URL 301 跳转，确保所有外部链接和书签都能正常访问
+# ⚠️ 规则按优先级排列，先具体后通配
 
-# === 旧 /pages/ 路径 → 根目录 ===
-# 之前文件放在 public/pages/ 下，现全部移至根目录
-/pages/* /:splat 301
-
-# === 旧错误文件名修正 ===
+# === 旧错误文件名（最高优先级，在通配符之前） ===
 /pages/business-meeting-scheduler.html /meeting-scheduler.html 301
 /business-meeting-scheduler.html /meeting-scheduler.html 301
+/business-meeting-scheduler /meeting-scheduler 301
 
 # === 旧隐私政策路径 ===
 /pages/privacy.html /privacy.html 301
+
+# === 旧 /pages/ 路径 → 根目录（通配符放最后） ===
+# 之前文件放在 public/pages/ 下，现全部移至根目录
+/pages/* /:splat 301
