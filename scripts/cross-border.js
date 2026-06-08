@@ -1,13 +1,13 @@
 /**
- * GlobeTimeZone - 跨境工具箱 v3.0
- * 物流·关税·汇率·HS编码·禁运品·追踪
+ * GlobeTimeZone - 跨境工具箱 v4.0
+ * Smart Dashboard + Timezone-aware ETA + Best Shipping Day
  * 2026-06-08
  */
 (function() {
   'use strict';
   var $ = function(id) { return document.getElementById(id); };
 
-  // ===================== DATA =====================
+  // ═══════════ DATA ═══════════
   var carriers = [
     { id:'dhl', name:'DHL', fullName:'DHL 国际快递', type:'express', processing:1, shipping:{'us-east':3,'us-west':2,'uk':3,'de':3,'fr':3,'jp':2,'au':3,'ca':3}, customs:1, delivery:1, baseRate:120, perKgRate:45, reliability:98, features:['最快时效','全程追踪','优先清关'] },
     { id:'ups', name:'UPS', fullName:'UPS 国际快递', type:'express', processing:1, shipping:{'us-east':4,'us-west':3,'uk':4,'de':4,'fr':4,'jp':3,'au':4,'ca':4}, customs:1, delivery:1, baseRate:110, perKgRate:42, reliability:97, features:['稳定可靠','北美优势','上门取件'] },
@@ -20,17 +20,20 @@
   ];
 
   var destinations = {
-    'us-east': { name:'美国·东部（纽约）', tz:'America/New_York', gmt:'GMT-5', countryCode:'US' },
-    'us-west': { name:'美国·西部（洛杉矶）', tz:'America/Los_Angeles', gmt:'GMT-8', countryCode:'US' },
-    'uk': { name:'英国·伦敦', tz:'Europe/London', gmt:'GMT+0', countryCode:'GB' },
-    'de': { name:'德国·柏林', tz:'Europe/Berlin', gmt:'GMT+1', countryCode:'DE' },
-    'fr': { name:'法国·巴黎', tz:'Europe/Paris', gmt:'GMT+1', countryCode:'FR' },
-    'jp': { name:'日本·东京', tz:'Asia/Tokyo', gmt:'GMT+9', countryCode:'JP' },
-    'au': { name:'澳大利亚·悉尼', tz:'Australia/Sydney', gmt:'GMT+10', countryCode:'AU' },
-    'ca': { name:'加拿大·多伦多', tz:'America/Toronto', gmt:'GMT-5', countryCode:'CA' }
+    'us-east': { name:'美国东部·纽约', tz:'America/New_York', gmt:'GMT-5', countryCode:'US' },
+    'us-west': { name:'美国西部·洛杉矶', tz:'America/Los_Angeles', gmt:'GMT-8', countryCode:'US' },
+    'uk':      { name:'英国·伦敦', tz:'Europe/London', gmt:'GMT+0', countryCode:'GB' },
+    'de':      { name:'德国·柏林', tz:'Europe/Berlin', gmt:'GMT+1', countryCode:'DE' },
+    'fr':      { name:'法国·巴黎', tz:'Europe/Paris', gmt:'GMT+1', countryCode:'FR' },
+    'jp':      { name:'日本·东京', tz:'Asia/Tokyo', gmt:'GMT+9', countryCode:'JP' },
+    'au':      { name:'澳大利亚·悉尼', tz:'Australia/Sydney', gmt:'GMT+10', countryCode:'AU' },
+    'ca':      { name:'加拿大·多伦多', tz:'America/Toronto', gmt:'GMT-5', countryCode:'CA' }
   };
 
-  // Tariff rules per country
+  var originNames = {
+    'shenzhen':'深圳','guangzhou':'广州','yiwu':'义乌','shanghai':'上海','ningbo':'宁波','qingdao':'青岛'
+  };
+
   var tariffRules = {
     US: { deMinimis:800, vatRate:0, dutyRates:{ electronics:0, clothing:0.12, toys:0, beauty:0.05, shoes:0.09, jewelry:0.055, sports:0.04, auto:0.025 } },
     GB: { deMinimis:135, vatRate:0.20, dutyRates:{ electronics:0, clothing:0.12, toys:0.04, beauty:0.065, shoes:0.08, jewelry:0.04, sports:0.04, auto:0.045 } },
@@ -41,49 +44,55 @@
     CA: { deMinimis:20, vatRate:0.05, dutyRates:{ electronics:0, clothing:0.17, toys:0.05, beauty:0.065, shoes:0.17, jewelry:0.06, sports:0.05, auto:0.06 } }
   };
 
-  // Exchange rates (approximate, for reference only)
   var fxRates = { CNY:1, USD:0.138, EUR:0.127, GBP:0.109, JPY:20.1, AUD:0.212, CAD:0.190 };
 
-  // HS codes
   var hsCodes = [
-    { code:'8471.30', name:'笔记本电脑', rate:'0%' },
-    { code:'8517.12', name:'智能手机', rate:'0%' },
-    { code:'8518.30', name:'耳机/耳塞', rate:'0%' },
-    { code:'9503.00', name:'玩具/模型', rate:'0-4.5%' },
-    { code:'6109.10', name:'T恤/上衣', rate:'12%' },
-    { code:'6204.62', name:'裤子/牛仔裤', rate:'12%' },
-    { code:'6403.99', name:'运动鞋', rate:'9-17%' },
-    { code:'4202.22', name:'手提包/箱包', rate:'8-17%' },
-    { code:'3304.99', name:'护肤品/面霜', rate:'5-6.5%' },
-    { code:'3304.20', name:'眼妆/睫毛膏', rate:'5%' },
-    { code:'7117.19', name:'时尚饰品', rate:'4-5.5%' },
-    { code:'9506.91', name:'健身器材', rate:'4%' },
-    { code:'9403.60', name:'家具/家居', rate:'0-5%' },
-    { code:'8525.80', name:'相机/摄像机', rate:'0%' },
-    { code:'8471.60', name:'键盘鼠标', rate:'0%' },
-    { code:'8544.42', name:'数据线/充电线', rate:'0%' },
-    { code:'8504.40', name:'充电器/电源适配器', rate:'0%' },
-    { code:'9504.40', name:'扑克牌/桌游', rate:'0%' },
-    { code:'9619.00', name:'纸尿裤', rate:'5%' },
-    { code:'6110.20', name:'卫衣/帽衫', rate:'12%' }
+    { code:'8471.30', name:'笔记本电脑', rate:'0%' },{ code:'8517.12', name:'智能手机', rate:'0%' },
+    { code:'8518.30', name:'耳机/耳塞', rate:'0%' },{ code:'9503.00', name:'玩具/模型', rate:'0-4.5%' },
+    { code:'6109.10', name:'T恤/上衣', rate:'12%' },{ code:'6204.62', name:'裤子/牛仔裤', rate:'12%' },
+    { code:'6403.99', name:'运动鞋', rate:'9-17%' },{ code:'4202.22', name:'手提包/箱包', rate:'8-17%' },
+    { code:'3304.99', name:'护肤品/面霜', rate:'5-6.5%' },{ code:'3304.20', name:'眼妆/睫毛膏', rate:'5%' },
+    { code:'7117.19', name:'时尚饰品', rate:'4-5.5%' },{ code:'9506.91', name:'健身器材', rate:'4%' },
+    { code:'9403.60', name:'家具/家居', rate:'0-5%' },{ code:'8525.80', name:'相机/摄像机', rate:'0%' },
+    { code:'8471.60', name:'键盘鼠标', rate:'0%' },{ code:'8544.42', name:'数据线/充电线', rate:'0%' },
+    { code:'8504.40', name:'充电器/电源适配器', rate:'0%' },{ code:'6110.20', name:'卫衣/帽衫', rate:'12%' }
   ];
 
-  // Prohibited items
   var prohibitedDB = {
-    US: { banned:'武器弹药、毒品、象牙制品、古巴雪茄、盗版商品、未批准药品、某些食品（肉类/乳制品）', restricted:'含酒精饮料(21+)、烟草产品(21+)、处方药(需FDA批准)、电子产品(需FCC认证)、儿童产品(需CPSC认证)', deMinimis:'<strong>$800</strong> 以下免税（Section 321），超过需缴关税。6月后可能调整。' },
-    GB: { banned:'武器、毒品、濒危动植物、无线设备(未经UKCA认证)、攻击性武器(蝴蝶刀等)、淫秽物品', restricted:'食品(需卫生证书)、药品(需MHRA许可)、含酒精饮料(需缴税)、烟草(高额税)、动植物(需检疫)', deMinimis:'<strong>£135</strong> 以下免征关税（礼品£39），但自2021年起均需缴VAT(20%)。' },
-    DE: { banned:'武器、毒品、纳粹相关物品(严格禁止)、假冒商品、未认证电子产品(无CE标志)、危险化学品', restricted:'食品(需欧盟卫生证书)、药品(需EMA许可)、动植物(需检疫证)、无线设备(需CE/RED)、化妆品(需CPNP注册)', deMinimis:'<strong>€0</strong> 起征，即所有进口商品均需缴关税+VAT(19%)。特别注意欧盟EPR合规要求。' },
-    JP: { banned:'武器、毒品、淫秽物品(严格)、假冒商品、侵犯知识产权的商品、某些药品(含伪麻黄碱等)', restricted:'食品(需检疫证明)、化妆品(需药事法许可)、电子产品(需PSE/TELEC认证)、动植物(严格检疫)', deMinimis:'<strong>¥10,000</strong> 以下免税。超过需缴关税+10%消费税。' },
-    AU: { banned:'武器、毒品、石棉制品、某些植物种子、未经批准的转基因产品、电动滑板车(部分州)', restricted:'食品(严格检疫)、药品(需TGA注册)、动植物制品(需检疫)、无线设备(需ACMA)、化妆品(需AICS注册)', deMinimis:'<strong>A$1,000</strong> 以下免税。超过需缴关税+10%GST。' },
-    CA: { banned:'武器(严格限制)、毒品、淫秽物品、仇恨言论材料、某些二手床垫、未申报食品', restricted:'食品(需CFIA许可)、药品(需Health Canada)、无线设备(需ISED认证)、动植物(需检疫)、含酒精饮料(省规)', deMinimis:'<strong>C$20</strong> 起征（极低！），超过即需缴关税+GST(5%)。USMCA协定下部分商品可免税。' }
+    US: { banned:'武器弹药、毒品、象牙制品、古巴雪茄、盗版商品、未批准药品、肉类乳制品', restricted:'含酒精饮料、烟草产品、处方药(FDA)、电子产品(FCC)、儿童产品(CPSC)', deMinimis:'<strong>$800</strong> 以下免税（Section 321）' },
+    GB: { banned:'武器、毒品、濒危动植物、未经UKCA认证无线设备、攻击性武器', restricted:'食品(卫生证书)、药品(MHRA)、含酒精饮料、烟草、动植物(检疫)', deMinimis:'<strong>£135</strong> 以下免征关税，但均需缴VAT(20%)' },
+    DE: { banned:'武器、毒品、纳粹物品、假冒商品、无CE标志电子产品、危险化学品', restricted:'食品(欧盟卫生证书)、药品(EMA)、动植物(检疫)、无线设备(CE/RED)、化妆品(CPNP)', deMinimis:'<strong>€0</strong> 起征 — 所有进口均需缴税。注意EPR合规。' },
+    JP: { banned:'武器、毒品、淫秽物品、假冒商品、侵权商品、含伪麻黄碱药品', restricted:'食品(检疫)、化妆品(药事法)、电子产品(PSE/TELEC)、动植物(严格检疫)', deMinimis:'<strong>¥10,000</strong> 以下免税' },
+    AU: { banned:'武器、毒品、石棉制品、未经批准转基因产品', restricted:'食品(严格检疫)、药品(TGA)、动植物制品(检疫)、无线设备(ACMA)', deMinimis:'<strong>A$1,000</strong> 以下免税' },
+    CA: { banned:'武器、毒品、淫秽物品、仇恨言论材料、未申报食品', restricted:'食品(CFIA)、药品(Health Canada)、无线设备(ISED)、动植物(检疫)', deMinimis:'<strong>C$20</strong> 起征（极低）' }
   };
 
-  // ===================== STATE =====================
+  // ═══════════ STATE ═══════════
   var currentFilter = 'all';
   var currentResults = [];
-  var countdownInterval = null;
+  var currentQuery = null;
 
-  // ===================== TOAST =====================
+  // ═══════════ LOCAL STORAGE ═══════════
+  function loadRoutes() {
+    try { return JSON.parse(localStorage.getItem('gtz_routes') || '[]'); } catch(e) { return []; }
+  }
+  function saveRoutes(routes) {
+    try { localStorage.setItem('gtz_routes', JSON.stringify(routes)); } catch(e) {}
+  }
+  function loadTracking() {
+    try { return JSON.parse(localStorage.getItem('gtz_tracking') || '[]'); } catch(e) { return []; }
+  }
+  function saveTracking(list) {
+    try { localStorage.setItem('gtz_tracking', JSON.stringify(list)); } catch(e) {}
+  }
+  function loadLastQuery() {
+    try { return JSON.parse(localStorage.getItem('gtz_last_query') || 'null'); } catch(e) { return null; }
+  }
+  function saveLastQuery(q) {
+    try { localStorage.setItem('gtz_last_query', JSON.stringify(q)); } catch(e) {}
+  }
+
+  // ═══════════ TOAST ═══════════
   function toast(msg) {
     var t = document.createElement('div');
     t.className = 'xb-toast'; t.textContent = msg;
@@ -92,7 +101,188 @@
     setTimeout(function() { t.classList.remove('show'); setTimeout(function() { t.remove(); }, 300); }, 2000);
   }
 
-  // ===================== TAB SWITCHING =====================
+  // ═══════════ DASHBOARD RENDERING ═══════════
+  function renderDashboard() {
+    var routes = loadRoutes();
+    var tracking = loadTracking();
+    var dash = $('smartDashboard');
+    var hasData = routes.length > 0 || tracking.length > 0;
+
+    if (dash) {
+      dash.classList.toggle('show', hasData);
+    }
+
+    // Routes
+    var dr = $('dashRoutes');
+    if (dr) {
+      if (routes.length === 0) {
+        dr.innerHTML = '<div class="xb-dash-empty">查询物流后，点击"收藏此路线"即可快速复用</div>';
+      } else {
+        dr.innerHTML = routes.map(function(r, i) {
+          return '<span class="xb-dash-route-btn" onclick="window._xBLoadRoute(' + i + ')" title="点击一键填入">' +
+            (originNames[r.origin] || r.origin) + ' → ' + (destinations[r.destination] ? destinations[r.destination].name : r.destination) +
+            (r.label ? ' (' + r.label + ')' : '') +
+            '</span>';
+        }).join('');
+      }
+      if ($('dashRouteCount')) $('dashRouteCount').textContent = routes.length + '条路线';
+    }
+
+    // Tracking
+    var dt = $('dashTracking');
+    if (dt) {
+      if (tracking.length === 0) {
+        dt.innerHTML = '<div class="xb-dash-empty">追踪包裹后，点击"添加到关注列表"保存</div>';
+      } else {
+        dt.innerHTML = tracking.map(function(t, i) {
+          return '<div class="xb-dash-track-item">' +
+            '<div><div class="xb-dash-track-tn">' + escapeHtml(t.tn) + '</div>' +
+            '<div style="font-size:0.7rem;color:var(--xb-muted);">' + (t.label || '') + ' · 上次更新：' + (t.lastChecked || '--') + '</div></div>' +
+            '<div class="xb-dash-track-actions">' +
+            '<button onclick="window._xBRefreshTrack(' + i + ')">🔄</button>' +
+            '<button class="del" onclick="window._xBRemoveTrack(' + i + ')">✕</button>' +
+            '</div></div>';
+        }).join('');
+      }
+      if ($('dashTrackCount')) $('dashTrackCount').textContent = tracking.length + '个包裹';
+    }
+
+    // Sidebar
+    renderSidebarRoutes();
+    renderSidebarTracking();
+  }
+
+  function renderSidebarRoutes() {
+    var routes = loadRoutes();
+    var el = $('sidebarRoutes');
+    if (!el) return;
+    if (routes.length === 0) {
+      el.innerHTML = '<span style="font-size:0.78rem;">暂无收藏路线</span>';
+    } else {
+      el.innerHTML = routes.slice(0, 5).map(function(r, i) {
+        return '<div style="padding:4px 0;font-size:0.78rem;cursor:pointer;display:flex;justify-content:space-between;" onclick="window._xBLoadRoute(' + i + ')">' +
+          '<span>' + (originNames[r.origin] || r.origin) + ' → ' + (destinations[r.destination] ? destinations[r.destination].name : r.destination) + '</span>' +
+          '<span onclick="event.stopPropagation();window._xBRemoveRoute(' + i + ')" style="color:var(--xb-muted);cursor:pointer;font-size:0.7rem;">✕</span>' +
+          '</div>';
+      }).join('');
+    }
+  }
+
+  function renderSidebarTracking() {
+    var tracking = loadTracking();
+    var el = $('sidebarTracking');
+    if (!el) return;
+    if (tracking.length === 0) {
+      el.innerHTML = '<span style="font-size:0.78rem;">暂无追踪包裹</span>';
+    } else {
+      el.innerHTML = tracking.slice(0, 5).map(function(t, i) {
+        return '<div style="padding:4px 0;font-size:0.78rem;display:flex;justify-content:space-between;">' +
+          '<span style="font-family:monospace;color:var(--xb-primary);">' + escapeHtml(t.tn) + '</span>' +
+          '<span onclick="window._xBRefreshTrack(' + i + ')" style="cursor:pointer;">🔄</span>' +
+          '</div>';
+      }).join('');
+    }
+  }
+
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  // ═══════════ ROUTE OPERATIONS ═══════════
+  function saveCurrentRoute() {
+    var origin = $('origin').value;
+    var destination = $('destination').value;
+    var weight = parseFloat($('weight').value) || 1;
+    var routes = loadRoutes();
+
+    var label = (originNames[origin] || origin) + '→' + (destinations[destination] ? destinations[destination].name.split('·')[0] : destination);
+    var route = { origin: origin, destination: destination, weight: weight, label: (originNames[origin]||origin) + ' → ' + (destinations[destination]?destinations[destination].name:destination) };
+
+    // Check duplicate
+    var dup = routes.findIndex(function(r) { return r.origin === origin && r.destination === destination; });
+    if (dup >= 0) {
+      routes[dup] = route;
+      toast('路线已更新！');
+    } else {
+      if (routes.length >= 10) routes.shift();
+      routes.push(route);
+      toast('路线已收藏！⭐');
+    }
+
+    saveRoutes(routes);
+    renderDashboard();
+    // Update save button style
+    var btn = $('saveRouteBtn');
+    if (btn) { btn.classList.add('saved'); btn.textContent = '✅ 已收藏，下次一键调用'; setTimeout(function() { btn.textContent = '📌 收藏此路线，下次一键调用'; btn.classList.remove('saved'); }, 2000); }
+  }
+
+  window._xBLoadRoute = function(index) {
+    var routes = loadRoutes();
+    var r = routes[index];
+    if (!r) return;
+    $('origin').value = r.origin;
+    $('destination').value = r.destination;
+    if (r.weight) $('weight').value = r.weight;
+
+    // Switch to logistics tab
+    document.querySelectorAll('.xb-tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    var logisticsTab = document.querySelector('.xb-tab-btn[data-tab="tab-logistics"]');
+    if (logisticsTab) logisticsTab.classList.add('active');
+    document.querySelectorAll('.xb-tab-panel').forEach(function(p) { p.classList.remove('active'); });
+    var panel = $('tab-logistics');
+    if (panel) panel.classList.add('active');
+
+    calculate();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  window._xBRemoveRoute = function(index) {
+    var routes = loadRoutes();
+    routes.splice(index, 1);
+    saveRoutes(routes);
+    renderDashboard();
+  };
+
+  // ═══════════ TRACKING OPERATIONS ═══════════
+  function saveTrackingNumber(tn, label) {
+    var list = loadTracking();
+    // Check dup
+    var idx = list.findIndex(function(t) { return t.tn === tn; });
+    var now = new Date();
+    var nowStr = now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0')+' '+String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+    if (idx >= 0) {
+      list[idx].lastChecked = nowStr;
+    } else {
+      if (list.length >= 20) list.shift();
+      list.push({ tn: tn, label: label || '', lastChecked: nowStr });
+    }
+    saveTracking(list);
+    renderDashboard();
+    toast('已添加到关注列表 📌');
+  }
+
+  window._xBRefreshTrack = function(index) {
+    var list = loadTracking();
+    var t = list[index];
+    if (!t) return;
+    // Refresh timestamp
+    var now = new Date();
+    t.lastChecked = now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0')+' '+String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+    saveTracking(list);
+    showTracking(t.tn, null, '');
+    renderDashboard();
+  };
+
+  window._xBRemoveTrack = function(index) {
+    var list = loadTracking();
+    list.splice(index, 1);
+    saveTracking(list);
+    renderDashboard();
+  };
+
+  // ═══════════ TABS ═══════════
   function initTabs() {
     document.querySelectorAll('.xb-tab-btn').forEach(function(btn) {
       btn.addEventListener('click', function() {
@@ -105,7 +295,7 @@
     });
   }
 
-  // ===================== REAL-TIME CLOCK =====================
+  // ═══════════ REAL-TIME CLOCK ═══════════
   function updateTimeDisplay() {
     var destSelect = $('destination');
     if (!destSelect) return;
@@ -117,7 +307,6 @@
     var ot = $('originTime'), od = $('originDate');
     if (ot) ot.textContent = cnTime;
     if (od) od.textContent = cnDate;
-
     var dn = $('destName'), dtm = $('destTime'), dd = $('destDate'), dtz = $('destTz');
     if (dn) dn.textContent = '目的地 · ' + dest.name.split('·')[1].trim();
     if (dtz) dtz.textContent = dest.gmt;
@@ -126,49 +315,89 @@
       var dDate = new Intl.DateTimeFormat('zh-CN', { timeZone: dest.tz, month:'short', day:'numeric', weekday:'short' }).format(now);
       if (dtm) dtm.textContent = dTime;
       if (dd) dd.textContent = dDate;
+    } catch(e) { if (dtm) dtm.textContent = '--:--'; }
+  }
+
+  // ═══════════ TIMEZONE-AWARE ETA ═══════════
+  function getTimezoneETA(etaDate, destTz) {
+    try {
+      var fmt = new Intl.DateTimeFormat('zh-CN', { timeZone: destTz, weekday:'short', hour:'2-digit', minute:'2-digit', hour12:false, month:'numeric', day:'numeric' });
+      var parts = fmt.formatToParts(etaDate);
+      var text = '';
+      parts.forEach(function(p) { text += p.value; });
+      // Parse hour
+      var hourFmt = new Intl.DateTimeFormat('en-US', { timeZone: destTz, hour:'numeric', hour12:false });
+      var hour = parseInt(hourFmt.format(etaDate));
+      var dayFmt = new Intl.DateTimeFormat('en-US', { timeZone: destTz, weekday:'short' });
+      var dayName = dayFmt.format(etaDate);
+      // Chinese weekday
+      var cnWeek = { Mon:'周一', Tue:'周二', Wed:'周三', Thu:'周四', Fri:'周五', Sat:'周六', Sun:'周日' };
+      var dow = cnWeek[dayName] || dayName;
+
+      var cls = 'ok', icon = '✅', msg = '派送员正在工作';
+      if (dow === '周六' || dow === '周日') { cls = 'bad'; icon = '⚠️'; msg = '周末到达，可能下周一才派送'; }
+      else if (hour < 8 || hour >= 18) { cls = 'warn'; icon = '⚠️'; msg = '非工作时间到达，可能次日派送'; }
+
+      return { cls:cls, icon:icon, dow:dow, time:text, msg:msg };
     } catch(e) {
-      if (dtm) dtm.textContent = '--:--';
-      if (dd) dd.textContent = '--';
+      return { cls:'ok', icon:'✅', dow:'', time:'', msg:'预计准时到达' };
     }
   }
 
-  // ===================== COUNTDOWN =====================
+  // ═══════════ BEST SHIPPING DAY ═══════════
+  function getBestShippingDay(shipDateStr, totalDays, destTz) {
+    var shipDate = new Date(shipDateStr);
+    var now = new Date();
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var shipDay = new Date(shipDate.getFullYear(), shipDate.getMonth(), shipDate.getDate());
+    var diffDays = Math.floor((shipDay - today) / 86400000);
+    var dayNames = ['周日','周一','周二','周三','周四','周五','周六'];
+    if (diffDays <= 0) {
+      var etaDate = new Date(today.getTime() + totalDays * 86400000);
+      var tzETA = getTimezoneETA(etaDate, destTz);
+      if (tzETA.cls === 'bad') {
+        return { text:'⚠️ 今天发货' + dayNames[today.getDay()] + '到，但' + tzETA.dow + '才派送。建议等一天。', cls:'warn' };
+      }
+      return { text:'✅ 今天发货，预计' + tzETA.dow + '到达', cls:'ok' };
+    } else if (diffDays === 1) {
+      return { text:'明天(' + dayNames[shipDay.getDay()] + ')发货', cls:'ok' };
+    }
+    return { text:diffDays + '天后发货', cls:'ok' };
+  }
+
+  // ═══════════ COUNTDOWN ═══════════
   function getCountdownText(etaStr) {
     var eta = new Date(etaStr);
     var now = new Date();
     var diffMs = eta.getTime() - now.getTime();
     if (diffMs <= 0) return '';
     var diffDays = Math.ceil(diffMs / 86400000);
-    if (diffDays <= 0) return '<span class="xb-countdown">今天到达</span>';
     if (diffDays <= 3) return '<span class="xb-countdown">⏱ ' + diffDays + '天后到达</span>';
     return '';
   }
 
-  // ===================== ESTIMATE DDP =====================
+  // ═══════════ DDP ESTIMATION ═══════════
   function estimateDDP(destKey, declaredValue) {
     var countryCode = (destinations[destKey] || {}).countryCode || 'US';
     var rules = tariffRules[countryCode] || tariffRules.US;
     if (declaredValue <= rules.deMinimis) {
-      return { duty:0, vat:0, total:0, taxable:false, note:'低于免税起征点（' + (countryCode==='US'?'$'+rules.deMinimis:(countryCode==='GB'?'£'+rules.deMinimis:'€'+rules.deMinimis)）+'），无需缴税' };
+      return { duty:0, vat:0, total:0, taxable:false, note:'低于免税起征点，无需缴税' };
     }
-    // Use generic electronics rate for logistics context
-    var dutyRate = 0.05; // assume 5% as average
+    var dutyRate = 0.05;
     var duty = Math.round(declaredValue * dutyRate * 100) / 100;
     var vat = Math.round((declaredValue + duty) * rules.vatRate * 100) / 100;
     var total = Math.round((duty + vat) * 100) / 100;
-    return { duty:duty, vat:vat, total:total, taxable:true, note:'基于商品类别平均税率估算，实际以海关核定为准。VAT ' + (rules.vatRate*100) + '%' };
+    return { duty:duty, vat:vat, total:total, taxable:true, note:'基于平均税率估算，实际以海关核定为准。VAT ' + (rules.vatRate*100) + '%' };
   }
 
-  // ===================== INPUT EVENT: AUTO CALCULATE =====================
+  // ═══════════ AUTO CALC ═══════════
   function attachAutoCalc() {
-    var inputs = ['weight','length','width','height','destination','shipDate','declaredValue'];
-    inputs.forEach(function(id) {
+    ['weight','length','width','height','destination','shipDate','declaredValue'].forEach(function(id) {
       var el = $(id);
       if (el) {
         el.addEventListener('change', function() { calculate(); });
         if (el.type === 'number') {
           el.addEventListener('input', function() {
-            // debounced auto-calc for number inputs
             clearTimeout(el._timer);
             el._timer = setTimeout(function() { calculate(); }, 400);
           });
@@ -177,7 +406,7 @@
     });
   }
 
-  // ===================== LOGISTICS CALCULATION =====================
+  // ═══════════ LOGISTICS CALCULATION ═══════════
   function calculate() {
     var destKey = $('destination').value;
     var weight = parseFloat($('weight').value) || 1;
@@ -196,16 +425,29 @@
     var volWeight = (length * width * height) / 5000;
     var billWeight = Math.max(weight, volWeight);
     var ddpInfo = estimateDDP(destKey, declaredValue);
+    var destTz = (destinations[destKey] || {}).tz || 'UTC';
+
+    // Save last query
+    currentQuery = { origin: $('origin').value, destination: destKey, weight: weight, declaredValue: declaredValue, timestamp: Date.now() };
+    saveLastQuery(currentQuery);
 
     currentResults = carriers.map(function(c) {
       var shippingDays = c.shipping[destKey] || 5;
       var totalDays = c.processing + shippingDays + c.customs + c.delivery;
       var freight = Math.round(c.baseRate + billWeight * c.perKgRate);
       var ddpTotal = Math.round((freight + ddpInfo.total) * 100) / 100;
+
+      // Calc ETA and timezone ETA
+      var etaDate = new Date(shipDate);
+      etaDate.setDate(etaDate.getDate() + totalDays);
+      var etaStr = etaDate.getFullYear() + '-' + String(etaDate.getMonth()+1).padStart(2,'0') + '-' + String(etaDate.getDate()).padStart(2,'0');
+      var tzEta = getTimezoneETA(etaDate, destTz);
+
       return {
         carrier: c, totalDays: totalDays, cost: freight, shippingDays: shippingDays,
         billWeight: Math.round(billWeight * 100) / 100, shipDate: shipDate,
-        ddpInfo: ddpInfo, ddpTotal: ddpTotal, declaredValue: declaredValue
+        ddpInfo: ddpInfo, ddpTotal: ddpTotal, declaredValue: declaredValue,
+        etaStr: etaStr, tzEta: tzEta, destTz: destTz
       };
     });
 
@@ -245,23 +487,24 @@
 
     list.innerHTML = filtered.map(function(r) {
       var c = r.carrier;
-      var etaDate = new Date(r.shipDate);
-      etaDate.setDate(etaDate.getDate() + r.totalDays);
-      var etaStr = etaDate.getFullYear() + '-' + String(etaDate.getMonth()+1).padStart(2,'0') + '-' + String(etaDate.getDate()).padStart(2,'0');
-      var countdown = getCountdownText(etaStr);
-
+      var countdown = getCountdownText(r.etaStr);
       var badges = '';
       if (r.isFastest) badges += '<span class="xb-badge-best xb-badge-fast">最快</span> ';
       if (r.isCheapest) badges += '<span class="xb-badge-best xb-badge-cheap">最省</span> ';
       var daysColor = r.totalDays <= 5 ? 'color:#10b981;' : (r.totalDays <= 10 ? 'color:#f59e0b;' : 'color:#ef4444;');
 
-      // DDP info
       var ddpHtml = '';
       if (r.ddpInfo.taxable) {
-        ddpHtml = '<div class="xb-scheme-ddp">含税总价(DDP)：<strong>¥' + r.ddpTotal.toLocaleString() + '</strong>（关税 ¥' + r.ddpInfo.total + '）</div>';
+        ddpHtml = '<div class="xb-scheme-ddp">含税总价(DDP)：<strong> ¥' + r.ddpTotal.toLocaleString() + '</strong>（关税 ¥' + r.ddpInfo.total + '）</div>';
       } else {
-        ddpHtml = '<div class="xb-scheme-ddp">含税总价(DDP)：<strong>¥' + r.cost.toLocaleString() + '</strong>（免税）</div>';
+        ddpHtml = '<div class="xb-scheme-ddp">含税总价(DDP)：<strong> ¥' + r.cost.toLocaleString() + '</strong>（免税 ✅）</div>';
       }
+
+      // Timezone-aware ETA
+      var tzEtaHtml = '<div class="xb-tz-eta ' + r.tzEta.cls + '">' +
+        '<span class="xb-tz-eta-icon">' + r.tzEta.icon + '</span>' +
+        '<span class="xb-tz-eta-text"><strong>' + r.tzEta.dow + ' 当地时间 ' + r.tzEta.time + '</strong> · ' + r.tzEta.msg + '</span>' +
+        '</div>';
 
       return '<div class="xb-scheme ac-'+c.type+'" onclick="window._xBShowTracking(\''+c.id+'\')">' +
         '<div class="xb-scheme-top">' +
@@ -270,62 +513,52 @@
             '<span class="xb-type-tag '+c.type+'">'+ (typeLabels[c.type] || c.type) +'</span>' +
             badges +
           '</div>' +
-          '<div><div class="xb-scheme-price">&yen;' + r.cost.toLocaleString() + '</div>' + ddpHtml + '</div>' +
+          '<div><div class="xb-scheme-price">¥' + r.cost.toLocaleString() + '</div>' + ddpHtml + '</div>' +
         '</div>' +
         '<div class="xb-scheme-meta">' +
           '<span>总时效：<strong style="'+daysColor+'">'+r.totalDays+' 天</strong></span>' +
           '<span>运输 '+r.shippingDays+'天</span>' +
           '<span>可靠性 '+c.reliability+'%</span>' +
         '</div>' +
-        '<div class="xb-scheme-eta">预计送达：<strong>'+etaStr+'</strong> · 计费重 '+r.billWeight+' kg' + countdown + '</div>' +
+        '<div class="xb-scheme-eta">预计送达：<strong>'+r.etaStr+'</strong> · 计费重 '+r.billWeight+' kg' + countdown + '</div>' +
+        tzEtaHtml +
         '<div class="xb-scheme-tags">' + c.features.map(function(f) { return '<span class="xb-tag">'+f+'</span>'; }).join('') + '</div>' +
       '</div>';
     }).join('');
   }
 
-  // ===================== TARIFF CALCULATOR =====================
+  // ═══════════ TARIFF CALCULATOR ═══════════
   function calcTariff() {
     var countryCode = $('tariffDest').value;
     var category = $('tariffCategory').value;
     var declaredValue = parseFloat($('tariffValue').value) || 100;
     var freight = parseFloat($('tariffFreight').value) || 30;
     var qty = parseInt($('tariffQty').value) || 1;
-
     var rules = tariffRules[countryCode] || tariffRules.US;
     var dutyRate = (rules.dutyRates[category] || 0.05);
     var totalValue = declaredValue * qty;
-    var baseValue = totalValue + freight;
-
     var duty = 0, vat = 0;
-    if (totalValue <= rules.deMinimis) {
-      duty = 0; vat = 0;
-    } else {
+    if (totalValue <= rules.deMinimis) { duty = 0; vat = 0; }
+    else {
       duty = Math.round(totalValue * dutyRate * 100) / 100;
       vat = Math.round((totalValue + duty + freight) * rules.vatRate * 100) / 100;
     }
     var taxTotal = Math.round((duty + vat) * 100) / 100;
     var ddpTotal = Math.round((freight + taxTotal) * 100) / 100;
     var totalAll = Math.round((totalValue + freight + taxTotal) * 100) / 100;
-
-    var categoryNames = { electronics:'电子产品/配件', clothing:'服装/纺织品', toys:'玩具/家居', beauty:'美妆/个护', shoes:'鞋靴/箱包', jewelry:'珠宝/饰品', sports:'运动/户外', auto:'汽车配件' };
-    var countryNames = { US:'美国', GB:'英国', DE:'德国/欧盟', FR:'法国/欧盟', JP:'日本', AU:'澳大利亚', CA:'加拿大' };
+    var catNames = { electronics:'电子产品/配件', clothing:'服装/纺织品', toys:'玩具/家居', beauty:'美妆/个护', shoes:'鞋靴/箱包', jewelry:'珠宝/饰品', sports:'运动/户外', auto:'汽车配件' };
+    var ctyNames = { US:'美国', GB:'英国', DE:'德国/欧盟', FR:'法国/欧盟', JP:'日本', AU:'澳大利亚', CA:'加拿大' };
 
     var rowsHtml = '';
-    rowsHtml += '<div class="xb-tariff-row"><span>商品价值</span><span>$' + totalValue.toFixed(2) + ' (' + qty + '件 × $' + declaredValue + ')</span></div>';
+    rowsHtml += '<div class="xb-tariff-row"><span>商品价值</span><span>$' + totalValue.toFixed(2) + '</span></div>';
     rowsHtml += '<div class="xb-tariff-row"><span>国际运费</span><span>$' + freight.toFixed(2) + '</span></div>';
-    rowsHtml += '<div class="xb-tariff-row"><span>关税（税率 ' + (dutyRate*100).toFixed(1) + '%）</span><span>$' + duty.toFixed(2) + '</span></div>';
-    rowsHtml += '<div class="xb-tariff-row"><span>增值税 VAT（' + (rules.vatRate*100) + '%）</span><span>$' + vat.toFixed(2) + '</span></div>';
+    rowsHtml += '<div class="xb-tariff-row"><span>关税（' + (dutyRate*100).toFixed(1) + '%）</span><span>$' + duty.toFixed(2) + '</span></div>';
+    rowsHtml += '<div class="xb-tariff-row"><span>增值税VAT（' + (rules.vatRate*100) + '%）</span><span>$' + vat.toFixed(2) + '</span></div>';
     rowsHtml += '<div class="xb-tariff-row xb-tariff-total"><span>📦 DDP到门总费用</span><span><strong>$' + ddpTotal.toFixed(2) + '</strong></span></div>';
     rowsHtml += '<div class="xb-tariff-row xb-tariff-total"><span>🛒 含商品总成本</span><span><strong>$' + totalAll.toFixed(2) + '</strong></span></div>';
 
-    var note = '目的地：' + (countryNames[countryCode] || countryCode) +
-      ' · 商品类别：' + (categoryNames[category] || category) +
-      ' · 免税起征点：' + (countryCode==='US'?'$'+rules.deMinimis:(countryCode==='JP'?'¥'+rules.deMinimis:(countryCode==='AU'?'A$'+rules.deMinimis:(countryCode==='CA'?'C$'+rules.deMinimis:('€'+rules.deMinimis))))) +
-      ' · 以上为估算值，实际以目的国海关核定为准';
-
-    if (totalValue <= rules.deMinimis) {
-      note = '✅ 申报价值低于' + (countryCode==='US'?'$'+rules.deMinimis:(countryCode==='JP'?'¥'+rules.deMinimis:('€'+rules.deMinimis))) + '免税起征点，无需缴纳关税和VAT！' + note;
-    }
+    var note = '目的地：' + (ctyNames[countryCode]||countryCode) + ' · 商品类别：' + (catNames[category]||category);
+    if (totalValue <= rules.deMinimis) note = '✅ 低于免税起征点，无需缴关税和VAT！' + note;
 
     $('tariffRows').innerHTML = rowsHtml;
     $('tariffNote').textContent = note;
@@ -333,20 +566,18 @@
     $('tariffResult').scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
-  // ===================== TRACKING LOGIC =====================
+  // ═══════════ TRACKING ═══════════
   function showTracking(trackingNumber, result, panelPrefix) {
     var prefix = panelPrefix || '';
-    var detailEl = document.getElementById(prefix + 'trackingDetail');
-    var tabResult = document.getElementById(prefix + 'tabTrackingResult');
+    var detailEl = $('trackingDetail');
+    var tabResult = $('tabTrackingResult');
 
     if (panelPrefix === 'tab') {
       if (tabResult) tabResult.style.display = 'block';
-      var tnEl = $('tabTrackingTN');
-      if (tnEl) tnEl.textContent = trackingNumber;
+      var tnEl = $('tabTrackingTN'); if (tnEl) tnEl.textContent = trackingNumber;
     } else {
       if (detailEl) detailEl.style.display = 'block';
-      var tnEl2 = $('detailTrackingNumber');
-      if (tnEl2) tnEl2.textContent = trackingNumber;
+      $('detailTrackingNumber').textContent = trackingNumber;
     }
 
     var steps = ['pickup','transit','customs','delivered'];
@@ -356,18 +587,13 @@
 
     steps.forEach(function(step, i) {
       var dotId = panelPrefix === 'tab' ? null : document.getElementById('dot-' + step);
-      // For tab tracking, find dots in the tab panel
       if (panelPrefix === 'tab') {
-        var tabPanel = $('tab-tracking');
-        if (tabPanel) {
-          var dots = tabPanel.querySelectorAll('.xb-step-dot');
-          var dot = dots[i];
-          if (dot) {
-            dot.className = 'xb-step-dot';
-            if (i < completeIdx) { dot.className += ' done'; dot.innerHTML = '✓'; }
-            else if (i === completeIdx) { dot.className += ' on'; dot.innerHTML = icons[i]; }
-            else { dot.className += ' wait'; dot.innerHTML = i===3?'🏠':'⚓'; }
-          }
+        var dots = ($('tab-tracking') || {}).querySelectorAll ? ($('tab-tracking').querySelectorAll('.xb-step-dot')) : [];
+        if (dots[i]) {
+          dots[i].className = 'xb-step-dot';
+          if (i < completeIdx) { dots[i].className += ' done'; dots[i].innerHTML = '✓'; }
+          else if (i === completeIdx) { dots[i].className += ' on'; dots[i].innerHTML = icons[i]; }
+          else { dots[i].className += ' wait'; dots[i].innerHTML = i===3?'🏠':'⚓'; }
         }
       } else if (dotId) {
         dotId.className = 'xb-step-dot';
@@ -378,21 +604,19 @@
     });
 
     var badgeEl = panelPrefix === 'tab' ? $('tabTrackingStatus') : $('detailStatusBadge');
-    if (badgeEl) {
-      badgeEl.textContent = labels[completeIdx];
-      badgeEl.className = 'xb-track-status ' + (completeIdx >= 2 ? 'done' : 'transit');
-    }
+    if (badgeEl) { badgeEl.textContent = labels[completeIdx]; badgeEl.className = 'xb-track-status ' + (completeIdx>=2?'done':'transit'); }
 
     var now = new Date();
     var timeline = [
-      { time: fmtTime(new Date(now.getTime() - 72*3600000)), desc: '包裹已揽收，发往分拨中心', loc: '深圳' },
-      { time: fmtTime(new Date(now.getTime() - 48*3600000)), desc: '离开深圳分拨中心，发往目的地', loc: '深圳机场' },
-      { time: fmtTime(new Date(now.getTime() - 24*3600000)), desc: '已抵达目的地国家，等待清关', loc: '目的地' }
+      { time: fmtTime(new Date(now.getTime()-72*3600000)), desc: '包裹已揽收，发往分拨中心', loc: '深圳' },
+      { time: fmtTime(new Date(now.getTime()-48*3600000)), desc: '离开深圳分拨中心，发往目的地', loc: '深圳机场' },
+      { time: fmtTime(new Date(now.getTime()-24*3600000)), desc: '已抵达目的地国家，等待清关', loc: '目的地' }
     ];
-    if (completeIdx >= 2) {
-      timeline.push({ time: fmtTime(new Date(now.getTime() - 12*3600000)), desc: '清关完成，转交当地派送', loc: '派送站' });
-    }
-    timeline.push({ time: fmtTime(now), desc: completeIdx >= 3 ? '已签收' : '当前状态 — ' + labels[completeIdx], loc: '' });
+    if (completeIdx >= 2) timeline.push({ time: fmtTime(new Date(now.getTime()-12*3600000)), desc: '清关完成，转交当地派送', loc: '派送站' });
+    timeline.push({ time: fmtTime(now), desc: completeIdx>=3?'已签收':'当前状态 — '+labels[completeIdx], loc: '' });
+
+    // Add tracking to watchlist
+    saveTrackingNumber(trackingNumber, '');
 
     var tlEl = panelPrefix === 'tab' ? $('tabTrackingTL') : $('trackingTimeline');
     if (tlEl) {
@@ -416,101 +640,80 @@
     if (!tn) { toast('请输入运单号'); return; }
     showTracking(tn, null, '');
   }
-
   function tabTrack() {
     var tn = ($('tabTrackingNumber') || {}).value;
     if (!tn || !tn.trim()) { toast('请输入运单号'); return; }
     showTracking(tn.trim(), null, 'tab');
   }
-
   function fmtTime(d) {
-    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0') +
-           ' ' + String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+    return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
   }
 
-  // ===================== VOLUME WEIGHT =====================
+  // ═══════════ VOLUME WEIGHT ═══════════
   function calcVolumeWeight() {
-    var l = parseFloat($('volL').value) || 20;
-    var w = parseFloat($('volW').value) || 15;
-    var h = parseFloat($('volH').value) || 10;
-    var vol = l * w * h;
-    var volWt = vol / 5000;
+    var l = parseFloat($('volL').value) || 20, w = parseFloat($('volW').value) || 15, h = parseFloat($('volH').value) || 10;
+    var vol = l * w * h, volWt = vol / 5000;
     $('volResult').innerHTML = '体积：' + vol.toLocaleString() + ' cm³<br>体积重：<strong>' + volWt.toFixed(2) + ' kg</strong>';
     $('volResult').style.color = volWt > 2 ? '#dc2626' : '#065f46';
   }
 
-  // ===================== CURRENCY EXCHANGE =====================
+  // ═══════════ CURRENCY ═══════════
   function calcFX() {
-    var amount = parseFloat($('fxAmount').value) || 1;
-    var from = $('fxFrom').value;
-    var to = $('fxTo').value;
-    var result;
-    if (from === to) {
-      result = amount;
-    } else {
-      // Convert to CNY first, then to target
-      var inCNY = amount / fxRates[from];
-      result = Math.round(inCNY * fxRates[to] * 10000) / 10000;
-    }
+    var amount = parseFloat($('fxAmount').value) || 1, from = $('fxFrom').value, to = $('fxTo').value, result;
+    if (from === to) result = amount;
+    else { var inCNY = amount / fxRates[from]; result = Math.round(inCNY * fxRates[to] * 10000) / 10000; }
     var symbols = { CNY:'¥', USD:'$', EUR:'€', GBP:'£', JPY:'¥', AUD:'A$', CAD:'C$' };
     $('fxResult').textContent = (symbols[to]||'') + result.toFixed(4) + ' ' + to;
   }
 
-  // ===================== HS CODE =====================
+  // ═══════════ HS CODES ═══════════
   function renderHSCodes(filter) {
-    var list = hsCodes;
-    if (filter) {
-      var q = filter.toLowerCase();
-      list = hsCodes.filter(function(h) { return h.name.toLowerCase().includes(q) || h.code.includes(q); });
-    }
-    var el = $('hsList');
-    el.innerHTML = list.map(function(h) {
+    var list = filter ? hsCodes.filter(function(h) { return h.name.toLowerCase().includes(filter.toLowerCase()) || h.code.includes(filter); }) : hsCodes;
+    $('hsList').innerHTML = list.map(function(h) {
       return '<div class="xb-hs-item"><span class="xb-hs-code">' + h.code + '</span><span class="xb-hs-name">' + h.name + '</span><span class="xb-hs-rate">' + h.rate + '</span></div>';
     }).join('');
   }
 
-  // ===================== PROHIBITED ITEMS =====================
+  // ═══════════ PROHIBITED ═══════════
   function showProhibited() {
-    var country = $('prohCountry').value;
-    var data = prohibitedDB[country] || prohibitedDB.US;
+    var data = prohibitedDB[$('prohCountry').value] || prohibitedDB.US;
     $('prohBanned').textContent = data.banned;
     $('prohRestricted').textContent = data.restricted;
     $('prohDeMinimis').innerHTML = data.deMinimis;
   }
 
-  // ===================== INIT =====================
+  // ═══════════ INIT ═══════════
   function init() {
-    // Set today's date
     var now = new Date();
-    var yyyy = now.getFullYear();
-    var mm = String(now.getMonth()+1).padStart(2,'0');
-    var dd = String(now.getDate()).padStart(2,'0');
+    var yyyy = now.getFullYear(), mm = String(now.getMonth()+1).padStart(2,'0'), dd = String(now.getDate()).padStart(2,'0');
     var sd = $('shipDate'); if (sd) sd.value = yyyy + '-' + mm + '-' + dd;
 
-    // Tabs
+    // Restore last query
+    var lastQ = loadLastQuery();
+    if (lastQ && lastQ.origin) {
+      $('origin').value = lastQ.origin;
+      $('destination').value = lastQ.destination;
+      if (lastQ.weight) $('weight').value = lastQ.weight;
+      if (lastQ.declaredValue) $('declaredValue').value = lastQ.declaredValue;
+    }
+
     initTabs();
 
     // Logistics
-    var calcBtn = $('calculateBtn');
-    if (calcBtn) calcBtn.addEventListener('click', calculate);
+    var calcBtn = $('calculateBtn'); if (calcBtn) calcBtn.addEventListener('click', calculate);
     var destSel = $('destination'); if (destSel) destSel.addEventListener('change', updateTimeDisplay);
     var qTrackBtn = $('quickTrackBtn'); if (qTrackBtn) qTrackBtn.addEventListener('click', quickTrack);
-    var qTrackInp = $('quickTrackingNumber');
-    if (qTrackInp) qTrackInp.addEventListener('keydown', function(e) { if (e.key === 'Enter') quickTrack(); });
+    var qTrackInp = $('quickTrackingNumber'); if (qTrackInp) qTrackInp.addEventListener('keydown', function(e) { if (e.key === 'Enter') quickTrack(); });
+    var saveBtn = $('saveRouteBtn'); if (saveBtn) saveBtn.addEventListener('click', saveCurrentRoute);
 
-    // Auto-calculate on input change
     attachAutoCalc();
-
-    // Initial auto-calc
     setTimeout(function() { calculate(); }, 300);
 
-    // Filter buttons
+    // Filters
     document.querySelectorAll('#tab-logistics .xb-fbtn').forEach(function(btn) {
       btn.addEventListener('click', function() {
         document.querySelectorAll('#tab-logistics .xb-fbtn').forEach(function(b) { b.classList.remove('on'); });
-        btn.classList.add('on');
-        currentFilter = btn.dataset.filter;
-        renderResults();
+        btn.classList.add('on'); currentFilter = btn.dataset.filter; renderResults();
       });
     });
 
@@ -519,42 +722,21 @@
 
     // Tracking tab
     var tabTrackBtn = $('tabTrackBtn'); if (tabTrackBtn) tabTrackBtn.addEventListener('click', tabTrack);
-    var tabTrackInp = $('tabTrackingNumber');
-    if (tabTrackInp) tabTrackInp.addEventListener('keydown', function(e) { if (e.key === 'Enter') tabTrack(); });
+    var tabTrackInp = $('tabTrackingNumber'); if (tabTrackInp) tabTrackInp.addEventListener('keydown', function(e) { if (e.key === 'Enter') tabTrack(); });
 
-    // Volume weight
-    ['volL','volW','volH'].forEach(function(id) {
-      var el = $(id); if (el) { el.addEventListener('input', calcVolumeWeight); el.addEventListener('change', calcVolumeWeight); }
-    });
-
-    // Currency
-    ['fxAmount','fxFrom','fxTo'].forEach(function(id) {
-      var el = $(id); if (el) el.addEventListener('change', calcFX);
-    });
+    // Sidebar tools
+    ['volL','volW','volH'].forEach(function(id) { var el = $(id); if (el) { el.addEventListener('input', calcVolumeWeight); el.addEventListener('change', calcVolumeWeight); } });
+    ['fxAmount','fxFrom','fxTo'].forEach(function(id) { var el = $(id); if (el) el.addEventListener('change', calcFX); });
     var fxAmt = $('fxAmount'); if (fxAmt) fxAmt.addEventListener('input', function() { clearTimeout(fxAmt._fxTimer); fxAmt._fxTimer = setTimeout(calcFX, 300); });
-
-    // HS code search
     var hsSearch = $('hsSearch'); if (hsSearch) hsSearch.addEventListener('input', function() { renderHSCodes(hsSearch.value); });
-
-    // Prohibited
     var prohCountry = $('prohCountry'); if (prohCountry) prohCountry.addEventListener('change', showProhibited);
 
     // Initial renders
-    updateTimeDisplay();
-    calcVolumeWeight();
-    calcFX();
-    renderHSCodes('');
-    showProhibited();
-
-    // Periodic updates
+    updateTimeDisplay(); calcVolumeWeight(); calcFX(); renderHSCodes(''); showProhibited();
+    renderDashboard();
     setInterval(updateTimeDisplay, 30000);
-    // Refresh countdown every 10 minutes
-    setInterval(function() { if (currentResults.length) renderResults(); }, 600000);
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', init); }
+  else { init(); }
 })();
