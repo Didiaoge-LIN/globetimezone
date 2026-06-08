@@ -469,6 +469,10 @@
     renderResults();
     $('logisticsResults').style.display = 'block';
     $('trackingDetail').style.display = 'none';
+    // HookSystem: 价值量化
+    if (typeof HookSystem !== 'undefined' && currentResults.length > 0) {
+      setTimeout(function() { HookSystem.showShippingValue(currentResults); }, 50);
+    }
     if (shouldScroll !== false) { $('logisticsResults').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
   }
 
@@ -618,6 +622,10 @@
 
     // Add tracking to watchlist
     saveTrackingNumber(trackingNumber, '');
+    // HookSystem: 追踪记录 + 异常提醒
+    if (typeof HookSystem !== 'undefined') {
+      HookSystem.showTrackingValue({ number: trackingNumber, status: labels[completeIdx] });
+    }
 
     var tlEl = panelPrefix === 'tab' ? $('tabTrackingTL') : $('trackingTimeline');
     if (tlEl) {
@@ -736,8 +744,410 @@
     updateTimeDisplay(); calcVolumeWeight(); calcFX(); renderHSCodes(''); showProhibited();
     renderDashboard();
     setInterval(updateTimeDisplay, 30000);
+
+    // HookSystem 初始化
+    if (typeof HookSystem !== 'undefined') { HookSystem.init(); }
   }
 
   if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', init); }
   else { init(); }
 })();
+
+// ═══════════════════════════════════════════════════════════
+// GlobeTimeZone 钩子系统 v1.0
+// 自动记忆 · 价值量化 · 智能推荐 · 通知中心 · 分享
+// ═══════════════════════════════════════════════════════════
+var HookSystem = {
+  history: { shipping: [], tracking: [] },
+  notifications: [],
+
+  // ═══════ 初始化 ═══════
+  init: function() {
+    this.loadHistory();
+    this.initNotifications();
+    this.initEventListeners();
+    this.checkDailyReminders();
+  },
+
+  // ═══════ 1. 自动记忆系统 ═══════
+  saveShippingRecord: function(data) {
+    var record = {
+      id: Date.now(),
+      origin: data.origin,
+      destination: data.destination,
+      weight: data.weight,
+      bestPrice: data.bestPrice,
+      bestChannel: data.bestChannel,
+      shippingTime: data.shippingTime,
+      timestamp: new Date().toISOString()
+    };
+    this.history.shipping.unshift(record);
+    if (this.history.shipping.length > 10) this.history.shipping = this.history.shipping.slice(0, 10);
+    this._persistShipping();
+    this.renderShippingHistory();
+  },
+
+  saveTrackingRecord: function(trackingNumber, status) {
+    // 去重
+    this.history.tracking = this.history.tracking.filter(function(r) { return r.number !== trackingNumber; });
+    this.history.tracking.unshift({
+      id: Date.now(), number: trackingNumber, status: status,
+      lastUpdate: new Date().toISOString()
+    });
+    if (this.history.tracking.length > 15) this.history.tracking = this.history.tracking.slice(0, 15);
+    this._persistTracking();
+    this.renderTrackingHistory();
+
+    // 异常状态通知
+    if (status === '清关中' || status === '派送失败') {
+      this.addNotification({
+        type: 'warning',
+        title: '包裹 ' + trackingNumber,
+        message: '当前状态：' + status + '，请注意跟进处理'
+      });
+    }
+  },
+
+  loadHistory: function() {
+    try {
+      var s = localStorage.getItem('gtz_hook_shipping');
+      if (s) { this.history.shipping = JSON.parse(s); this.renderShippingHistory(); }
+    } catch(e) {}
+    try {
+      var t = localStorage.getItem('gtz_hook_tracking');
+      if (t) { this.history.tracking = JSON.parse(t); this.renderTrackingHistory(); }
+    } catch(e) {}
+  },
+
+  _persistShipping: function() {
+    try { localStorage.setItem('gtz_hook_shipping', JSON.stringify(this.history.shipping)); } catch(e) {}
+  },
+  _persistTracking: function() {
+    try { localStorage.setItem('gtz_hook_tracking', JSON.stringify(this.history.tracking)); } catch(e) {}
+  },
+
+  // ═══════ 渲染历史 ═══════
+  renderShippingHistory: function() {
+    var c = document.getElementById('hkShippingHistory');
+    if (!c) return;
+    if (this.history.shipping.length === 0) {
+      c.innerHTML = '<div style="text-align:center;padding:16px 0;color:#94a3b8;font-size:0.8rem;">暂无查询记录</div>';
+      return;
+    }
+    c.innerHTML = this.history.shipping.slice(0, 5).map(function(r) {
+      return '<div class="hk-memory-card hk-fade-in" onclick="HookSystem.requeryShipping(' + r.id + ')">' +
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;">' +
+          '<div><p style="font-weight:600;font-size:0.85rem;">' + HookSystem._esc(r.origin) + ' → ' + HookSystem._esc(r.destination) + '</p>' +
+          '<p style="font-size:0.72rem;color:#94a3b8;margin-top:2px;">' + r.weight + 'kg · ' + (r.dimensions || '') + '</p></div>' +
+          '<div style="text-align:right;"><p style="font-weight:700;color:#2563eb;">¥ ' + r.bestPrice + '</p>' +
+          '<p style="font-size:0.7rem;color:#94a3b8;margin-top:2px;">' + HookSystem._esc(r.shippingTime) + '</p></div>' +
+        '</div>' +
+        '<div style="text-align:right;margin-top:8px;"><span style="color:#2563eb;font-size:0.75rem;font-weight:600;">再查一次 →</span></div>' +
+      '</div>';
+    }).join('');
+  },
+
+  renderTrackingHistory: function() {
+    var c = document.getElementById('hkTrackingHistory');
+    if (!c) return;
+    if (this.history.tracking.length === 0) {
+      c.innerHTML = '<div style="text-align:center;padding:16px 0;color:#94a3b8;font-size:0.8rem;">暂无追踪记录</div>';
+      return;
+    }
+    var statusMap = {
+      '已签收': ['#d1fae5','#065f46'],
+      '运输中': ['#dbeafe','#1d4ed8'],
+      '清关中': ['#fef3c7','#92400e'],
+      '派送失败': ['#fee2e2','#991b1b'],
+      '暂无信息': ['#f1f5f9','#64748b']
+    };
+    c.innerHTML = this.history.tracking.slice(0, 8).map(function(r) {
+      var s = statusMap[r.status] || ['#f1f5f9','#64748b'];
+      return '<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 10px;border-radius:8px;cursor:pointer;transition:.15s;font-size:0.8rem;" ' +
+        'onmouseenter="this.style.background=\'#f8fafc\'" onmouseleave="this.style.background=\'transparent\'" onclick="HookSystem.retrackPackage(\'' + HookSystem._esc(r.number) + '\')">' +
+        '<span style="font-family:monospace;font-weight:600;color:#2563eb;">' + HookSystem._esc(r.number) + '</span>' +
+        '<span style="padding:2px 8px;border-radius:999px;font-size:0.7rem;font-weight:600;background:' + s[0] + ';color:' + s[1] + ';">' + HookSystem._esc(r.status) + '</span>' +
+      '</div>';
+    }).join('');
+  },
+
+  // ═══════ 重新查询/追踪 ═══════
+  requeryShipping: function(id) {
+    var r = this.history.shipping.find(function(x) { return x.id === id; });
+    if (!r) return;
+    // 自动填充表单
+    var originEl = document.getElementById('origin');
+    var destEl = document.getElementById('destination');
+    var wtEl = document.getElementById('weight');
+    if (originEl) originEl.value = r.originKey || 'shenzhen';
+    if (destEl) destEl.value = r.destKey || 'us-west';
+    if (wtEl) wtEl.value = r.weight;
+    // 切换到物流计算 tab
+    var tabs = document.querySelectorAll('.xb-tab-btn');
+    tabs.forEach(function(b) { b.classList.remove('active'); });
+    var logTab = document.querySelector('.xb-tab-btn[data-tab="tab-logistics"]');
+    if (logTab) logTab.classList.add('active');
+    var panels = document.querySelectorAll('.xb-tab-panel');
+    panels.forEach(function(p) { p.classList.remove('active'); });
+    var panel = document.getElementById('tab-logistics');
+    if (panel) panel.classList.add('active');
+    // 触发查询
+    var btn = document.getElementById('calculateBtn');
+    if (btn) btn.click();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  },
+
+  retrackPackage: function(number) {
+    var el = document.getElementById('quickTrackingNumber');
+    if (el) el.value = number;
+    var btn = document.getElementById('quickTrackBtn');
+    if (btn) btn.click();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  },
+
+  // ═══════ 清空历史 ═══════
+  clearAllHistory: function() {
+    if (!confirm('确定要清空所有历史记录吗？此操作不可撤销。')) return;
+    localStorage.removeItem('gtz_hook_shipping');
+    localStorage.removeItem('gtz_hook_tracking');
+    this.history.shipping = [];
+    this.history.tracking = [];
+    this.renderShippingHistory();
+    this.renderTrackingHistory();
+  },
+
+  // ═══════ 2. 价值量化展示 ═══════
+  showShippingValue: function(results) {
+    if (!results || results.length < 2) return;
+    var costs = results.map(function(r) { return r.cost; });
+    var days = results.map(function(r) { return r.totalDays; });
+    var minCost = Math.min.apply(null, costs);
+    var maxCost = Math.max.apply(null, costs);
+    var minDays = Math.min.apply(null, days);
+    var maxDays = Math.max.apply(null, days);
+    var savedMoney = maxCost - minCost;
+    var savedDays = maxDays - minDays;
+    var avoidedLoss = Math.round(minCost * 0.15);
+    var bestChannel = results.find(function(r) { return r.cost === minCost; });
+
+    // 移除旧条
+    var old = document.getElementById('hkValueBar');
+    if (old) old.remove();
+
+    var bar = document.createElement('div');
+    bar.id = 'hkValueBar';
+    bar.className = 'hk-value-bar hk-fade-in';
+    bar.innerHTML =
+      '<div class="hk-value-grid">' +
+        '<div class="hk-value-item"><p class="hk-value-num" style="color:#059669;">¥ ' + savedMoney.toLocaleString() + '</p><p class="hk-value-label">已为你节省运费</p></div>' +
+        '<div class="hk-value-item"><p class="hk-value-num" style="color:#2563eb;">' + savedDays + ' 天</p><p class="hk-value-label">最快可提前到达</p></div>' +
+        '<div class="hk-value-item"><p class="hk-value-num" style="color:#ea580c;">¥ ' + avoidedLoss.toLocaleString() + '+</p><p class="hk-value-label">避免潜在延误损失</p></div>' +
+        '<div class="hk-value-item" style="display:flex;align-items:center;justify-content:center;">' +
+          '<button class="hk-share-btn" onclick="HookSystem.shareResult()">📤 分享给同行</button>' +
+        '</div>' +
+      '</div>';
+
+    var container = document.getElementById('logisticsResults');
+    if (container) container.insertBefore(bar, container.firstChild);
+
+    // 保存记录
+    var originEl = document.getElementById('origin');
+    var destEl = document.getElementById('destination');
+    var wtEl = document.getElementById('weight');
+    var originText = originEl ? (originEl.options[originEl.selectedIndex] || {}).text || '' : '';
+    var destText = destEl ? (destEl.options[destEl.selectedIndex] || {}).text || '' : '';
+    this.saveShippingRecord({
+      origin: originText, destKey: destEl ? destEl.value : '',
+      destination: destText, originKey: originEl ? originEl.value : '',
+      weight: wtEl ? wtEl.value : '1',
+      bestPrice: minCost,
+      bestChannel: bestChannel ? bestChannel.carrier.fullName : '',
+      shippingTime: bestChannel ? (bestChannel.totalDays + '天') : ''
+    });
+
+    // 智能推荐
+    this.showRecommendations('shipping');
+  },
+
+  showTrackingValue: function(data) {
+    this.saveTrackingRecord(data.number, data.status);
+  },
+
+  // ═══════ 3. 智能推荐系统 ═══════
+  showRecommendations: function(type) {
+    var old = document.getElementById('hkRecommendations');
+    if (old) old.remove();
+
+    var recs = {
+      shipping: [
+        { title: '计算关税与DDP', desc: '输入申报价值，一键计算进口关税和到门总价', icon: '💰', action: function() { var b = document.querySelector('.xb-tab-btn[data-tab="tab-tariff"]'); if (b) b.click(); } },
+        { title: '查看禁运品清单', desc: '发货前确认目的地禁运清单，避免扣关风险', icon: '🚫', action: function() { var b = document.querySelector('.xb-tab-btn[data-tab="tab-prohibited"]'); if (b) b.click(); } },
+        { title: '追踪包裹状态', desc: '输入运单号，实时查看包裹物流轨迹', icon: '🚚', action: function() { var b = document.querySelector('.xb-tab-btn[data-tab="tab-tracking"]'); if (b) b.click(); } }
+      ],
+      tracking: [
+        { title: '估算进口关税', desc: '提前计算关税和增值税，避免客户拒收', icon: '💰', action: function() { var b = document.querySelector('.xb-tab-btn[data-tab="tab-tariff"]'); if (b) b.click(); } },
+        { title: '查询物流方案', desc: '比较8大物流商的价格和时效', icon: '📦', action: function() { var b = document.querySelector('.xb-tab-btn[data-tab="tab-logistics"]'); if (b) b.click(); } },
+        { title: '体积重速算', desc: '快速计算包裹体积重，避免多花冤枉钱', icon: '📐', action: function() { var el = document.getElementById('volL'); if (el) { el.scrollIntoView({ behavior: 'smooth' }); el.focus(); } } }
+      ]
+    };
+
+    var items = recs[type] || recs.shipping;
+    var container = document.createElement('div');
+    container.id = 'hkRecommendations';
+    container.className = 'xb-card hk-fade-in';
+    container.innerHTML =
+      '<h4 style="font-weight:700;font-size:0.93rem;margin:0 0 14px;display:flex;align-items:center;gap:6px;">💡 为你推荐</h4>' +
+      '<div class="hk-rec-grid">' +
+        items.map(function(rec, i) {
+          return '<div class="hk-rec-card" id="hkRec' + i + '">' +
+            '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="font-size:1.2rem;">' + rec.icon + '</span><p style="font-weight:600;font-size:0.85rem;">' + rec.title + '</p></div>' +
+            '<p style="font-size:0.75rem;color:#94a3b8;">' + rec.desc + '</p></div>';
+        }).join('') +
+      '</div>';
+
+    var resultsC = document.getElementById('logisticsResults');
+    if (resultsC) {
+      resultsC.appendChild(container);
+      // Bind click events
+      items.forEach(function(rec, i) {
+        var el = document.getElementById('hkRec' + i);
+        if (el) el.addEventListener('click', rec.action);
+      });
+    }
+  },
+
+  // ═══════ 4. 通知系统 ═══════
+  initNotifications: function() {
+    var self = this;
+    var bell = document.getElementById('hkBell');
+    var dropdown = document.getElementById('hkDropdown');
+    if (!bell || !dropdown) return;
+
+    bell.addEventListener('click', function(e) {
+      e.stopPropagation();
+      dropdown.classList.toggle('show');
+      document.getElementById('hkBellDot').classList.remove('show');
+    });
+    document.addEventListener('click', function() { dropdown.classList.remove('show'); });
+    dropdown.addEventListener('click', function(e) { e.stopPropagation(); });
+  },
+
+  addNotification: function(notif) {
+    this.notifications.unshift({
+      type: notif.type || 'info',
+      title: notif.title,
+      message: notif.message,
+      id: Date.now(),
+      time: new Date().toLocaleString('zh-CN', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' })
+    });
+    if (this.notifications.length > 20) this.notifications = this.notifications.slice(0, 20);
+    this.renderNotifications();
+    var dot = document.getElementById('hkBellDot');
+    if (dot) dot.classList.add('show');
+  },
+
+  renderNotifications: function() {
+    var c = document.getElementById('hkNotifList');
+    if (!c) return;
+    if (this.notifications.length === 0) {
+      c.innerHTML = '<div class="hk-notif-empty">暂无新通知</div>';
+      return;
+    }
+    var iconColors = { info: '#3b82f6', success: '#10b981', warning: '#f59e0b', error: '#ef4444' };
+    c.innerHTML = this.notifications.slice(0, 10).map(function(n) {
+      var color = iconColors[n.type] || '#3b82f6';
+      return '<div class="hk-notif-item">' +
+        '<div style="display:flex;gap:10px;">' +
+        '<span style="color:' + color + ';font-size:0.85rem;flex-shrink:0;">🔔</span>' +
+        '<div><p style="font-weight:600;font-size:0.82rem;margin:0;">' + HookSystem._esc(n.title) + '</p>' +
+        '<p style="font-size:0.75rem;color:#64748b;margin:3px 0;">' + HookSystem._esc(n.message) + '</p>' +
+        '<p style="font-size:0.68rem;color:#94a3b8;margin:0;">' + n.time + '</p></div>' +
+        '</div></div>';
+    }).join('');
+  },
+
+  // ═══════ 每日提醒 ═══════
+  checkDailyReminders: function() {
+    var lastCheck = localStorage.getItem('gtz_hook_daily');
+    var today = new Date().toDateString();
+    if (lastCheck === today) return;
+
+    var now = new Date();
+    // 端午节提醒
+    var dragonBoat = new Date(2026, 5, 14); // June 14
+    var daysDB = Math.ceil((dragonBoat - now) / 86400000);
+    if (daysDB > 0 && daysDB <= 7) {
+      this.addNotification({
+        type: 'warning',
+        title: '端午节 🇨🇳',
+        message: '还有' + daysDB + '天，中国放假3天，物流可能延误1-2天。建议提前发货。'
+      });
+    }
+    // 美国独立日提醒
+    var july4 = new Date(2026, 6, 4);
+    var daysJ4 = Math.ceil((july4 - now) / 86400000);
+    if (daysJ4 > 0 && daysJ4 <= 14) {
+      this.addNotification({
+        type: 'info',
+        title: '美国独立日 🇺🇸',
+        message: '还有' + daysJ4 + '天（7月4日），物流时效可能延长2-3天。'
+      });
+    }
+    localStorage.setItem('gtz_hook_daily', today);
+  },
+
+  // ═══════ 5. 分享系统 ═══════
+  shareResult: function() {
+    var originEl = document.getElementById('origin');
+    var destEl = document.getElementById('destination');
+    var wtEl = document.getElementById('weight');
+    var oText = originEl ? originEl.options[originEl.selectedIndex].text : '';
+    var dText = destEl ? destEl.options[destEl.selectedIndex].text : '';
+    var weight = wtEl ? wtEl.value : '';
+
+    // 获取最低价
+    var prices = document.querySelectorAll('#logisticsList .xb-scheme-price');
+    var minPrice = '--';
+    if (prices.length > 0) {
+      var nums = [];
+      prices.forEach(function(p) { var m = p.textContent.match(/[\d,]+/); if (m) nums.push(parseInt(m[0].replace(/,/g,''))); });
+      if (nums.length) minPrice = Math.min.apply(null, nums);
+    }
+
+    var shareText = '📦 我用 GlobeTimeZone 查了' + oText + '发' + dText + '的运费，' + weight + 'kg货最低只要¥' + minPrice + '元！\n跨境物流比价、关税计算、包裹追踪一站搞定。\n👉 ' + window.location.origin + '/tools/cross-border/';
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(shareText).then(function() {
+        HookSystem._toast('分享链接已复制，快发给你的同行吧！📤');
+      }).catch(function() {
+        HookSystem._toast(shareText);
+      });
+    } else {
+      // Fallback
+      var ta = document.createElement('textarea');
+      ta.value = shareText; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+      HookSystem._toast('分享链接已复制！📤');
+    }
+  },
+
+  // ═══════ 事件监听 ═══════
+  initEventListeners: function() {
+    var self = this;
+    var clearBtn = document.getElementById('hkClearAllHistory');
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function() { self.clearAllHistory(); });
+    }
+  },
+
+  // ═══════ 辅助 ═══════
+  _esc: function(s) { if (!s) return ''; var d = document.createElement('div'); d.textContent = s; return d.innerHTML; },
+  _toast: function(msg) {
+    var t = document.createElement('div');
+    t.className = 'xb-toast'; t.textContent = msg; t.style.zIndex = '9999';
+    document.body.appendChild(t);
+    requestAnimationFrame(function() { t.classList.add('show'); });
+    setTimeout(function() { t.classList.remove('show'); setTimeout(function() { t.remove(); }, 300); }, 2500);
+  }
+};
