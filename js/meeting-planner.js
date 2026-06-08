@@ -1,6 +1,6 @@
 // meeting-planner.js — V9.2 会议规划模式
 (() => {
-  const STORAGE_KEY = 'gtz_meeting_cities';
+  const STORAGE_KEY = 'gtz_custom_cities'; // 与 custom-cities.js 共享数据
   const WORK_HOURS = { start: 9, end: 17 }; // 默认工作时间
 
   function load() {
