@@ -4,132 +4,277 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>全球时差查询 | GlobeTimeZone</title>
-  <meta name="description" content="全球时差计算器 — 对比任意两个城市的时间、时区，查看最佳通话时段。支持 IANA 时区数据库，实时精准。">
-  <meta name="keywords" content="时差查询,时区转换,全球时差,时间对比,时差计算器,city time difference">
+  <meta name="description" content="对比任意两个城市的当前时间、时差和工作时段 — 基于 IANA 时区数据库，实时精准。">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://globetimezone.com/time-difference/">
   <link rel="icon" type="image/png" href="/apple-touch-icon.png">
   <link rel="manifest" href="/manifest.json">
   <link rel="stylesheet" href="/styles/style.min.css">
+  <link rel="stylesheet" href="/styles/premium.css?v=1">
   <style>
+    :root {
+      --td-indigo: #4f46e5;
+      --td-indigo-light: #818cf8;
+      --td-amber: #f59e0b;
+      --td-green: #10b981;
+      --td-night: #1e1b4b;
+    }
+
     /* ===== Hero ===== */
     .td-hero {
-      background: linear-gradient(160deg, #0f172a 0%, #312e81 35%, #4f46e5 65%, #6366f1 100%);
-      color: #fff;
-      padding: 64px 24px 56px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
+      background: linear-gradient(165deg, #0f172a 0%, #1e1b4b 30%, #312e81 55%, #4f46e5 80%, #6366f1 100%);
+      color: #fff; padding: 72px 24px 48px; text-align: center;
     }
-    .td-hero::after {
+    .td-hero::before {
       content: ''; position: absolute; inset: 0;
       background:
-        radial-gradient(ellipse 60% 50% at 30% 70%, rgba(99,102,241,0.15) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 40% at 70% 20%, rgba(167,139,250,0.12) 0%, transparent 55%);
+        radial-gradient(ellipse 50% 40% at 20% 80%, rgba(129,140,248,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 20%, rgba(167,139,250,0.1) 0%, transparent 55%),
+        radial-gradient(ellipse 30% 30% at 50% 50%, rgba(99,102,241,0.08) 0%, transparent 70%);
       pointer-events: none;
     }
-    .td-hero-inner { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; }
-    .td-hero h1 { font-size: 2.25rem; font-weight: 800; margin: 0 0 10px; letter-spacing: -0.02em; }
-    .td-hero p  { color: rgba(255,255,255,0.78); font-size: 1.02rem; margin-bottom: 36px; }
+    .td-hero > * { position: relative; z-index: 1; }
 
-    /* City selector pair */
-    .td-selector {
-      max-width: 640px; margin: 0 auto; background: #fff; border-radius: 16px;
-      padding: 8px; display: flex; gap: 8px; align-items: center;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.22);
-    }
-    @media (max-width: 600px) { .td-selector { flex-direction: column; } }
-    .td-selector select {
-      flex: 1; padding: 14px 16px; border-radius: 10px; border: 1.5px solid #e2e8f0;
-      font-size: 0.95rem; font-family: inherit; color: #1e293b; outline: none;
-      cursor: pointer; appearance: none; background: #fff;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23595959' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat; background-position: right 14px center;
-    }
-    .td-selector select:focus { border-color: #4f46e5; box-shadow: 0 0 0 3px rgba(79,70,229,0.15); }
-    .td-vs { font-size: 0.85rem; color: #94a3b8; font-weight: 700; flex-shrink: 0; padding: 0 4px; }
-    .td-selector .td-swap-btn {
-      flex-shrink: 0; width: 42px; height: 42px; border-radius: 10px;
-      border: 1.5px solid #e2e8f0; background: #f8fafc; cursor: pointer;
-      font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
-      transition: all 0.2s;
-    }
-    .td-selector .td-swap-btn:hover { border-color: #4f46e5; background: #eef2ff; }
-
-    .td-hero-badges { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
     .td-hero-badge {
-      display: flex; align-items: center; gap: 6px;
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+      padding: 5px 16px; border-radius: 100px; font-size: 0.82rem; letter-spacing: 0.01em;
+      margin-bottom: 20px; backdrop-filter: blur(8px);
+    }
+    .td-hero-badge .dot { width: 7px; height: 7px; border-radius: 50%; background: #a5b4fc; animation: tdPulse 2s ease-in-out infinite; }
+    @keyframes tdPulse { 0%,100%{opacity:0.4;transform:scale(0.8)} 50%{opacity:1;transform:scale(1.2)} }
+
+    .td-hero h1 { font-size: 2.5rem; font-weight: 800; margin: 0 0 12px; letter-spacing: -0.03em; }
+    .td-hero h1 span { background: linear-gradient(135deg, #a5b4fc, #c4b5fd, #e9d5ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .td-hero p { color: rgba(255,255,255,0.7); font-size: 1.02rem; margin-bottom: 36px; max-width: 520px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+
+    /* --- Selector Card (glassmorphism) --- */
+    .td-selector-wrap {
+      max-width: 680px; margin: 0 auto;
+      background: rgba(255,255,255,0.08); backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 20px; padding: 20px 24px;
+      display: flex; gap: 12px; align-items: center;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+    }
+    @media (max-width: 640px) { .td-selector-wrap { flex-direction: column; } }
+
+    .td-select-group { flex: 1; position: relative; }
+    .td-select-group label {
+      display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.5); margin-bottom: 6px; font-weight: 600;
+    }
+    .td-select-group select {
+      width: 100%; padding: 13px 16px; border-radius: 12px;
+      border: 1.5px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.06);
+      color: #fff; font-size: 0.95rem; font-family: inherit; cursor: pointer; outline: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23a5b4fc' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 14px center;
+      transition: all 0.25s;
+    }
+    .td-select-group select:hover { border-color: rgba(255,255,255,0.3); }
+    .td-select-group select:focus { border-color: #818cf8; box-shadow: 0 0 0 3px rgba(129,140,248,0.2); background: rgba(255,255,255,0.1); }
+    .td-select-group select option { color: #0f172a; background: #fff; }
+
+    .td-vs-circle {
+      flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%;
       background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
-      padding: 7px 16px; border-radius: 100px; font-size: 0.8rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 800; letter-spacing: 0.05em;
+      color: rgba(255,255,255,0.7);
     }
-    .td-hero-badge .td-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #a5b4fc; flex-shrink: 0; }
 
-    /* ===== Content ===== */
-    .td-main { max-width: 1120px; margin: 0 auto; padding: 32px 24px; }
-
-    /* Time display cards */
-    .td-time-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-    @media (max-width: 700px) { .td-time-grid { grid-template-columns: 1fr; } }
-    .td-time-card {
-      background: var(--card); border-radius: 14px; border: 1px solid var(--border);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04); padding: 28px 24px;
-      text-align: center; transition: all 0.2s;
+    .td-swap-btn {
+      flex-shrink: 0; width: 42px; height: 42px; border-radius: 12px;
+      border: 1.5px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.8); cursor: pointer; font-size: 1.2rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.25s;
     }
-    .td-time-card .td-city-label { font-size: 0.82rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
-    .td-time-card .td-city-name { font-size: 1.15rem; font-weight: 700; margin-bottom: 4px; }
-    .td-time-card .td-city-tz { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 16px; }
-    .td-time-card .td-clock {
-      font-size: 2.8rem; font-weight: 800; color: var(--text);
-      font-variant-numeric: tabular-nums; letter-spacing: 0.02em; line-height: 1.1;
-    }
-    .td-time-card .td-clock-sec { font-size: 1rem; color: var(--text-muted); font-weight: 600; }
-    .td-time-card .td-date-str { font-size: 0.85rem; color: var(--text-muted); margin-top: 8px; }
+    .td-swap-btn:hover { border-color: #818cf8; background: rgba(129,140,248,0.15); transform: rotate(180deg); box-shadow: 0 0 20px rgba(129,140,248,0.2); }
 
-    /* Difference banner */
-    .td-diff-banner {
+    /* ===== Main Content ===== */
+    .td-main { max-width: 900px; margin: 0 auto; padding: 40px 24px 48px; }
+
+    /* --- Dual Clock Cards --- */
+    .td-clock-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 0; align-items: stretch; margin-bottom: 32px; }
+    @media (max-width: 700px) { .td-clock-grid { grid-template-columns: 1fr; gap: 12px; } }
+
+    .td-clock-card {
+      background: var(--card, #fff); border: 1px solid var(--border, #e2e8f0);
+      border-radius: 18px; padding: 32px 24px 24px; text-align: center;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      transition: all 0.3s;
+      position: relative; overflow: hidden;
+    }
+
+    /* Status accent bar at top */
+    .td-clock-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      transition: background 0.5s;
+    }
+    .td-clock-card.working::before { background: linear-gradient(90deg, #10b981, #34d399); }
+    .td-clock-card.off::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+    .td-clock-card.night::before { background: linear-gradient(90deg, #6366f1, #818cf8); }
+
+    .td-cc-country { font-size: 0.78rem; color: var(--text-muted, #64748b); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+    .td-cc-name { font-size: 1.25rem; font-weight: 700; margin-bottom: 2px; color: var(--text, #0f172a); }
+    .td-cc-tz { font-size: 0.75rem; color: var(--text-muted, #94a3b8); margin-bottom: 20px; font-family: 'SF Mono', 'Fira Code', monospace; }
+
+    .td-cc-time {
+      font-size: 3.5rem; font-weight: 800; color: var(--text, #0f172a);
+      font-variant-numeric: tabular-nums; line-height: 1; margin-bottom: 6px;
+      letter-spacing: 0.02em;
+    }
+    .td-cc-sec { font-size: 1rem; color: var(--text-muted, #94a3b8); font-weight: 600; vertical-align: super; }
+    .td-cc-date { font-size: 0.85rem; color: var(--text-muted, #94a3b8); margin-bottom: 16px; }
+
+    .td-cc-status {
+      display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px;
+      border-radius: 100px; font-size: 0.78rem; font-weight: 600;
+      transition: all 0.5s;
+    }
+    .td-cc-status.working { background: #ecfdf5; color: #059669; }
+    .td-cc-status.off { background: #fffbeb; color: #d97706; }
+    .td-cc-status.night { background: #eef2ff; color: #4f46e5; }
+    .td-cc-status .status-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .td-cc-status.working .status-dot { background: #10b981; animation: tdPulse 2s ease-in-out infinite; }
+    .td-cc-status.off .status-dot { background: #f59e0b; }
+    .td-cc-status.night .status-dot { background: #6366f1; }
+
+    /* Connector between clocks */
+    .td-clock-connector {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 0 12px; gap: 8px;
+    }
+    @media (max-width: 700px) { .td-clock-connector { flex-direction: row; padding: 12px 0; } }
+
+    .td-diff-pill {
       background: linear-gradient(135deg, #eef2ff, #e0e7ff);
-      border-radius: 14px; border: 1px solid #c7d2fe;
-      padding: 18px 24px; text-align: center; margin-bottom: 28px;
+      border: 1px solid #c7d2fe; border-radius: 14px;
+      padding: 14px 18px; text-align: center; min-width: 100px;
     }
-    .td-diff-banner .td-diff-val { font-size: 1.4rem; font-weight: 800; color: #3730a3; }
-    .td-diff-banner .td-diff-sub { font-size: 0.85rem; color: #6366f1; font-weight: 500; }
+    .td-diff-pill .td-diff-num { font-size: 1.8rem; font-weight: 800; color: #3730a3; line-height: 1; }
+    .td-diff-pill .td-diff-unit { font-size: 0.75rem; color: #6366f1; font-weight: 600; margin-top: 2px; }
+    .td-diff-pill .td-diff-desc { font-size: 0.72rem; color: #818cf8; margin-top: 4px; }
 
-    /* Working hour bars */
+    .td-diff-arrow { font-size: 1.5rem; color: #a5b4fc; animation: tdBounce 2s ease-in-out infinite; }
+    @keyframes tdBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+
+    /* ===== Work Hours ===== */
     .td-hours-card {
-      background: var(--card); border-radius: 14px; border: 1px solid var(--border);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04); padding: 24px; margin-bottom: 20px;
+      background: var(--card, #fff); border: 1px solid var(--border, #e2e8f0);
+      border-radius: 18px; padding: 28px 24px; margin-bottom: 24px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     }
     .td-hours-card h2 {
-      font-size: 1.05rem; font-weight: 700; margin: 0 0 18px;
+      font-size: 1.05rem; font-weight: 700; margin: 0 0 6px;
       display: flex; align-items: center; gap: 8px;
     }
-    .td-hour-bar { position: relative; height: 48px; background: var(--bg); border-radius: 8px; margin-bottom: 14px; overflow: hidden; }
-    .td-hour-bar .td-bar-label { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 0.78rem; font-weight: 600; color: var(--text-muted); z-index: 1; }
-    .td-hour-bar .td-bar-fill {
-      position: absolute; top: 0; bottom: 0; border-radius: 8px;
-      opacity: 0.18; transition: all 0.3s;
+    .td-hours-card .td-hc-sub {
+      font-size: 0.8rem; color: var(--text-muted, #94a3b8); margin-bottom: 22px;
     }
-    .td-hour-bar .td-bar-work {
-      position: absolute; top: 0; bottom: 0; border-radius: 8px;
-      transition: all 0.3s;
-    }
-    .td-bar-legends { display: flex; gap: 20px; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 20px; }
-    .td-bar-legend { display: flex; align-items: center; gap: 6px; }
-    .td-bar-legend-dot { width: 10px; height: 10px; border-radius: 3px; }
 
-    /* Quick links */
-    .td-quick-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 12px; margin-bottom: 20px; }
+    .td-timeline { position: relative; margin-bottom: 16px; }
+    .td-timeline-labels {
+      display: flex; justify-content: space-between;
+      font-size: 0.7rem; color: var(--text-muted, #94a3b8); font-weight: 600; margin-bottom: 6px; padding: 0 4px;
+    }
+
+    .td-tl-row { position: relative; height: 44px; background: var(--bg, #f8fafc); border-radius: 10px; margin-bottom: 8px; overflow: hidden; }
+    .td-tl-row-label {
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      font-size: 0.75rem; font-weight: 700; color: var(--text-muted, #94a3b8); z-index: 2;
+      text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+    }
+    .td-tl-block {
+      position: absolute; top: 4px; bottom: 4px; border-radius: 6px; opacity: 0.22; z-index: 1;
+    }
+    .td-tl-work {
+      position: absolute; top: 0; bottom: 0; border-radius: 8px; z-index: 2;
+    }
+
+    .td-tl-now {
+      position: absolute; top: 0; bottom: 0; width: 2px; background: var(--td-indigo);
+      z-index: 3; border-radius: 1px;
+    }
+    .td-tl-now::after {
+      content: ''; position: absolute; top: -4px; left: -5px;
+      width: 12px; height: 12px; background: var(--td-indigo);
+      border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 8px rgba(79,70,229,0.4);
+    }
+
+    .td-tl-overlap-row { position: relative; height: 36px; background: #ecfdf5; border-radius: 10px; overflow: hidden; margin-top: 4px; }
+    .td-tl-overlap-label {
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      font-size: 0.72rem; font-weight: 700; color: #059669; z-index: 2;
+    }
+    .td-tl-overlap-fill {
+      position: absolute; top: 0; bottom: 0; background: #10b981; opacity: 0.15; z-index: 1; border-radius: 8px;
+    }
+    .td-tl-overlap-work {
+      position: absolute; top: 4px; bottom: 4px; background: #10b981; opacity: 0.35; z-index: 2; border-radius: 6px;
+    }
+
+    .td-legends { display: flex; gap: 20px; font-size: 0.76rem; color: var(--text-muted, #94a3b8); margin-bottom: 12px; flex-wrap: wrap; }
+    .td-legend { display: flex; align-items: center; gap: 6px; }
+    .td-legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+
+    /* ===== Overlap Summary ===== */
+    .td-overlap-summary {
+      background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+      border: 1px solid #a7f3d0; border-radius: 14px; padding: 18px 24px;
+      display: flex; align-items: center; gap: 14px; margin-top: 18px;
+    }
+    .td-overlap-summary .icon-wrap {
+      width: 44px; height: 44px; border-radius: 12px; background: #10b981;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      font-size: 1.3rem; color: #fff;
+    }
+    .td-overlap-summary.no-overlap .icon-wrap { background: #ef4444; }
+    .td-overlap-summary .summary-text { font-size: 0.92rem; line-height: 1.5; }
+    .td-overlap-summary .summary-text strong { color: #065f46; }
+    .td-overlap-summary.no-overlap .summary-text strong { color: #991b1b; }
+
+    /* ===== City Times Table ===== */
+    .td-city-times {
+      display: grid; gap: 8px; margin-top: 14px;
+    }
+    .td-ct-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 14px; border-radius: 10px; font-size: 0.88rem;
+      background: var(--bg, #f8fafc);
+    }
+    .td-ct-city { font-weight: 700; min-width: 60px; }
+    .td-ct-time { color: var(--td-indigo); font-weight: 700; margin-left: auto; }
+    .td-ct-badge {
+      font-size: 0.7rem; padding: 2px 8px; border-radius: 4px; font-weight: 600;
+    }
+    .td-ct-badge.good { background: #ecfdf5; color: #059669; }
+    .td-ct-badge.bad { background: #fef2f2; color: #dc2626; }
+    .td-ct-badge.ok { background: #fffbeb; color: #d97706; }
+
+    /* ===== Quick Links ===== */
+    .td-quick-section { margin-bottom: 24px; }
+    .td-quick-section h2 {
+      font-size: 1.05rem; font-weight: 700; margin: 0 0 16px; display: flex; align-items: center; gap: 8px;
+    }
+    .td-quick-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
     .td-quick-link {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 18px; background: var(--card); border: 1px solid var(--border);
-      border-radius: 12px; text-decoration: none; color: var(--text);
-      transition: all 0.2s; font-size: 0.92rem;
+      padding: 14px 18px; background: var(--card, #fff); border: 1px solid var(--border, #e2e8f0);
+      border-radius: 12px; text-decoration: none; color: var(--text, #0f172a);
+      transition: all 0.2s; font-size: 0.9rem; font-weight: 500;
     }
-    .td-quick-link:hover { border-color: var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-decoration: none; }
-    .td-quick-link .td-q-arrow { color: var(--primary); font-size: 0.8rem; }
-
-    .td-card { background: var(--card); border-radius: 14px; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.04); padding: 24px; margin-bottom: 20px; }
-    .td-card h2 { font-size: 1.05rem; font-weight: 700; margin: 0 0 18px; display: flex; align-items: center; gap: 8px; }
+    .td-quick-link:hover {
+      border-color: var(--td-indigo-light);
+      box-shadow: 0 4px 16px rgba(79,70,229,0.08);
+      transform: translateY(-1px); text-decoration: none;
+    }
+    .td-quick-link .td-q-arrow { color: var(--td-indigo, #4f46e5); font-size: 0.85rem; transition: transform 0.2s; }
+    .td-quick-link:hover .td-q-arrow { transform: translateX(3px); }
   </style>
 </head>
 <body>
@@ -142,7 +287,7 @@
     <nav aria-label="主导航">
       <a href="/">首页</a>
       <a href="/time-difference/" class="active">时差查询</a>
-      <a href="/meeting-scheduler.html">会议规划</a>
+      <a href="/meeting-planner/">会议规划</a>
       <a href="/tools/cross-border/">跨境工具</a>
       <a href="/pricing/">升级PRO</a>
     </nav>
@@ -151,175 +296,108 @@
 
 <main id="main-content">
 
-  <!-- Hero -->
+  <!-- HERO -->
   <section class="td-hero">
-    <div class="td-hero-inner">
-      <h1>全球时差 · 一查便知</h1>
-      <p>基于 IANA 时区数据库，实时对比任意两个城市的当前时间、时差和最佳通话时段</p>
-      <div class="td-selector">
-        <select id="cityA">
-          <optgroup label="亚洲">
-            <option value="Asia/Shanghai">北京 / 上海</option>
-            <option value="Asia/Tokyo">东京</option>
-            <option value="Asia/Seoul">首尔</option>
-            <option value="Asia/Singapore">新加坡</option>
-            <option value="Asia/Dubai">迪拜</option>
-            <option value="Asia/Kolkata">孟买</option>
-            <option value="Asia/Hong_Kong">香港</option>
-            <option value="Asia/Bangkok">曼谷</option>
-            <option value="Asia/Jakarta">雅加达</option>
-          </optgroup>
-          <optgroup label="欧洲">
-            <option value="Europe/London">伦敦</option>
-            <option value="Europe/Paris">巴黎</option>
-            <option value="Europe/Berlin">柏林</option>
-            <option value="Europe/Moscow">莫斯科</option>
-            <option value="Europe/Madrid">马德里</option>
-            <option value="Europe/Rome">罗马</option>
-            <option value="Europe/Amsterdam">阿姆斯特丹</option>
-          </optgroup>
-          <optgroup label="北美洲">
-            <option value="America/New_York">纽约</option>
-            <option value="America/Chicago">芝加哥</option>
-            <option value="America/Denver">丹佛</option>
-            <option value="America/Los_Angeles">洛杉矶</option>
-            <option value="America/Toronto">多伦多</option>
-            <option value="America/Vancouver">温哥华</option>
-            <option value="America/Mexico_City">墨西哥城</option>
-          </optgroup>
-          <optgroup label="南美洲">
-            <option value="America/Sao_Paulo">圣保罗</option>
-            <option value="America/Argentina/Buenos_Aires">布宜诺斯艾利斯</option>
-          </optgroup>
-          <optgroup label="大洋洲">
-            <option value="Australia/Sydney">悉尼</option>
-            <option value="Pacific/Auckland">奥克兰</option>
-          </optgroup>
-          <optgroup label="非洲">
-            <option value="Africa/Cairo">开罗</option>
-            <option value="Africa/Johannesburg">约翰内斯堡</option>
-            <option value="Africa/Lagos">拉各斯</option>
-          </optgroup>
-        </select>
-        <span class="td-vs">VS</span>
-        <button class="td-swap-btn" id="swapBtn" title="交换城市">&#8644;</button>
-        <select id="cityB">
-          <optgroup label="北美洲">
-            <option value="America/New_York" selected>纽约</option>
-            <option value="America/Chicago">芝加哥</option>
-            <option value="America/Denver">丹佛</option>
-            <option value="America/Los_Angeles">洛杉矶</option>
-            <option value="America/Toronto">多伦多</option>
-            <option value="America/Vancouver">温哥华</option>
-            <option value="America/Mexico_City">墨西哥城</option>
-          </optgroup>
-          <optgroup label="亚洲">
-            <option value="Asia/Shanghai">北京 / 上海</option>
-            <option value="Asia/Tokyo">东京</option>
-            <option value="Asia/Seoul">首尔</option>
-            <option value="Asia/Singapore">新加坡</option>
-            <option value="Asia/Dubai">迪拜</option>
-            <option value="Asia/Kolkata">孟买</option>
-            <option value="Asia/Hong_Kong">香港</option>
-            <option value="Asia/Bangkok">曼谷</option>
-            <option value="Asia/Jakarta">雅加达</option>
-          </optgroup>
-          <optgroup label="欧洲">
-            <option value="Europe/London">伦敦</option>
-            <option value="Europe/Paris">巴黎</option>
-            <option value="Europe/Berlin">柏林</option>
-            <option value="Europe/Moscow">莫斯科</option>
-            <option value="Europe/Madrid">马德里</option>
-            <option value="Europe/Rome">罗马</option>
-            <option value="Europe/Amsterdam">阿姆斯特丹</option>
-          </optgroup>
-          <optgroup label="南美洲">
-            <option value="America/Sao_Paulo">圣保罗</option>
-            <option value="America/Argentina/Buenos_Aires">布宜诺斯艾利斯</option>
-          </optgroup>
-          <optgroup label="大洋洲">
-            <option value="Australia/Sydney">悉尼</option>
-            <option value="Pacific/Auckland">奥克兰</option>
-          </optgroup>
-          <optgroup label="非洲">
-            <option value="Africa/Cairo">开罗</option>
-            <option value="Africa/Johannesburg">约翰内斯堡</option>
-            <option value="Africa/Lagos">拉各斯</option>
-          </optgroup>
-        </select>
+    <div class="td-hero-badge"><span class="dot"></span> 哪里有时差，一望便知</div>
+    <h1>城市对城市，<span>时间一目了然</span></h1>
+    <p>基于 IANA 时区数据库，实时对比两地当前时间、时差和最佳通话窗口。支持全球 30+ 主要城市。</p>
+
+    <div class="td-selector-wrap">
+      <div class="td-select-group">
+        <label>城市 1</label>
+        <select id="cityA"></select>
       </div>
-      <div class="td-hero-badges">
-        <span class="td-hero-badge"><span class="td-badge-dot"></span> IANA 时区数据</span>
-        <span class="td-hero-badge"><span class="td-badge-dot"></span> 夏令时自动识别</span>
-        <span class="td-hero-badge"><span class="td-badge-dot"></span> 工作时段重叠分析</span>
-        <span class="td-hero-badge"><span class="td-badge-dot"></span> 完全免费</span>
+      <div class="td-vs-circle">VS</div>
+      <div class="td-select-group">
+        <label>城市 2</label>
+        <select id="cityB"></select>
       </div>
+      <button class="td-swap-btn" id="swapBtn" title="交换城市" aria-label="交换两个城市">&#8644;</button>
     </div>
   </section>
 
+  <!-- DUAL CLOCKS -->
   <div class="td-main">
-
-    <!-- Time display -->
-    <div class="td-time-grid">
-      <div class="td-time-card" id="cardA">
-        <div class="td-city-label">城市 A</div>
-        <div class="td-city-name" id="nameA">北京 / 上海</div>
-        <div class="td-city-tz" id="tzA">Asia/Shanghai · GMT+8</div>
-        <div class="td-clock" id="clockA">--:--<span class="td-clock-sec" id="secA"></span></div>
-        <div class="td-date-str" id="dateA">--</div>
+    <div class="td-clock-grid" id="clockGrid">
+      <div class="td-clock-card working" id="cardA">
+        <div class="td-cc-country" id="countryA">中国</div>
+        <div class="td-cc-name" id="nameA">北京 / 上海</div>
+        <div class="td-cc-tz" id="tzA">Asia/Shanghai</div>
+        <div class="td-cc-time" id="clockA">--:--<span class="td-cc-sec" id="secA"></span></div>
+        <div class="td-cc-date" id="dateA">---</div>
+        <div class="td-cc-status working" id="statusA"><span class="status-dot"></span><span id="statusTextA">工作时间</span></div>
       </div>
-      <div class="td-time-card" id="cardB">
-        <div class="td-city-label">城市 B</div>
-        <div class="td-city-name" id="nameB">纽约</div>
-        <div class="td-city-tz" id="tzB">America/New_York · GMT-5</div>
-        <div class="td-clock" id="clockB">--:--<span class="td-clock-sec" id="secB"></span></div>
-        <div class="td-date-str" id="dateB">--</div>
+
+      <div class="td-clock-connector">
+        <div class="td-diff-pill" id="diffPill">
+          <div class="td-diff-num" id="diffNum">--</div>
+          <div class="td-diff-unit" id="diffUnit">小时</div>
+          <div class="td-diff-desc" id="diffDesc">时差</div>
+        </div>
+        <div class="td-diff-arrow" id="diffArrow">&#8595;</div>
+      </div>
+
+      <div class="td-clock-card off" id="cardB">
+        <div class="td-cc-country" id="countryB">美国</div>
+        <div class="td-cc-name" id="nameB">纽约</div>
+        <div class="td-cc-tz" id="tzB">America/New_York</div>
+        <div class="td-cc-time" id="clockB">--:--<span class="td-cc-sec" id="secB"></span></div>
+        <div class="td-cc-date" id="dateB">---</div>
+        <div class="td-cc-status off" id="statusB"><span class="status-dot"></span><span id="statusTextB">非工作时间</span></div>
       </div>
     </div>
 
-    <!-- Difference -->
-    <div class="td-diff-banner">
-      <span style="font-size:0.85rem;color:#6366f1;">时差</span>
-      <div class="td-diff-val" id="diffVal">--</div>
-      <div class="td-diff-sub" id="diffSub"></div>
-    </div>
-
-    <!-- Working hours -->
+    <!-- WORK HOURS OVERLAP -->
     <div class="td-hours-card">
-      <h2>&#128338; 工作时段重叠分析（9:00 – 18:00 当地时间）</h2>
-      <div class="td-bar-legends">
-        <div class="td-bar-legend"><div class="td-bar-legend-dot" style="background:#6366f1;"></div> 城市 A</div>
-        <div class="td-bar-legend"><div class="td-bar-legend-dot" style="background:#f59e0b;"></div> 城市 B</div>
-        <div class="td-bar-legend" style="margin-left:auto;"><div class="td-bar-legend-dot" style="background:#10b981;"></div> 重叠时段</div>
+      <h2>&#9200; 工作时段重叠分析</h2>
+      <div class="td-hc-sub">工作时段定义为当地时间 9:00 – 18:00，显示在 24 小时 UTC 时间轴上</div>
+
+      <div class="td-legends">
+        <div class="td-legend"><div class="td-legend-dot" style="background:#6366f1"></div><span id="legendA">城市 1 工作时段</span></div>
+        <div class="td-legend"><div class="td-legend-dot" style="background:#f59e0b"></div><span id="legendB">城市 2 工作时段</span></div>
+        <div class="td-legend"><div class="td-legend-dot" style="background:#10b981"></div>重叠窗口</div>
+        <div class="td-legend" style="margin-left:auto"><div class="td-legend-dot" style="background:#4f46e5"></div>当前 UTC 时刻</div>
       </div>
-      <div class="td-hour-bar">
-        <div id="barA" class="td-bar-work" style="background:#6366f1;"></div>
-        <div id="barB" class="td-bar-work" style="background:#f59e0b;"></div>
-        <div id="barOverlap" class="td-bar-fill" style="background:#10b981;"></div>
+
+      <div class="td-timeline">
+        <div class="td-timeline-labels" id="tlLabels"></div>
+
+        <!-- City A bar -->
+        <div class="td-tl-row" id="rowA">
+          <div class="td-tl-row-label" id="labelA">城市 1</div>
+          <div class="td-tl-block" id="blockA" style="background:#6366f1"></div>
+          <div class="td-tl-work" id="workA" style="background:#6366f1"></div>
+        </div>
+
+        <!-- City B bar -->
+        <div class="td-tl-row" id="rowB">
+          <div class="td-tl-row-label" id="labelB">城市 2</div>
+          <div class="td-tl-block" id="blockB" style="background:#f59e0b"></div>
+          <div class="td-tl-work" id="workB" style="background:#f59e0b"></div>
+        </div>
+
+        <!-- Overlap row -->
+        <div class="td-tl-overlap-row" id="overlapRow">
+          <div class="td-tl-overlap-label">&#10003; 重叠时段</div>
+          <div class="td-tl-overlap-fill" id="overlapFill"></div>
+          <div class="td-tl-overlap-work" id="overlapWork"></div>
+        </div>
       </div>
-      <div id="overlapText" style="font-size:0.88rem;color:var(--text-muted);text-align:center;"></div>
+
+      <div class="td-overlap-summary" id="overlapSummary">
+        <div class="icon-wrap">&#10003;</div>
+        <div class="summary-text" id="overlapText"></div>
+      </div>
+
+      <div class="td-city-times" id="cityTimes"></div>
     </div>
 
-    <!-- Quick links -->
-    <div class="td-card">
-      <h2>&#128204; 热门时差查询</h2>
-      <div class="td-quick-grid">
-        <a href="/time-difference/new-york-to-london" class="td-quick-link">纽约 ↔ 伦敦 <span class="td-q-arrow">&#8594;</span></a>
-        <a href="/time-difference/tokyo-to-new-york" class="td-quick-link">东京 ↔ 纽约 <span class="td-q-arrow">&#8594;</span></a>
-        <a href="/time-difference/singapore-to-london" class="td-quick-link">新加坡 ↔ 伦敦 <span class="td-q-arrow">&#8594;</span></a>
-        <a href="/time-difference/sydney-to-london" class="td-quick-link">悉尼 ↔ 伦敦 <span class="td-q-arrow">&#8594;</span></a>
-        <a href="/time-difference/la-to-beijing" class="td-quick-link">洛杉矶 ↔ 北京 <span class="td-q-arrow">&#8594;</span></a>
-        <a href="/time-difference/paris-to-new-york" class="td-quick-link">巴黎 ↔ 纽约 <span class="td-q-arrow">&#8594;</span></a>
-        <a href="/time-difference/dubai-to-los-angeles" class="td-quick-link">迪拜 ↔ 洛杉矶 <span class="td-q-arrow">&#8594;</span></a>
-        <a href="/time-difference/toronto-to-shanghai" class="td-quick-link">多伦多 ↔ 上海 <span class="td-q-arrow">&#8594;</span></a>
-        <a href="/time-difference/mumbai-to-dubai" class="td-quick-link">孟买 ↔ 迪拜 <span class="td-q-arrow">&#8594;</span></a>
-        <a href="/time-difference/sydney-to-new-york" class="td-quick-link">悉尼 ↔ 纽约 <span class="td-q-arrow">&#8594;</span></a>
-        <a href="/time-difference/frankfurt-to-new-york" class="td-quick-link">法兰克福 ↔ 纽约 <span class="td-q-arrow">&#8594;</span></a>
-        <a href="/time-difference/seoul-to-london" class="td-quick-link">首尔 ↔ 伦敦 <span class="td-q-arrow">&#8594;</span></a>
-      </div>
+    <!-- QUICK LINKS -->
+    <div class="td-quick-section">
+      <h2>&#128279; 热门时差查询</h2>
+      <div class="td-quick-grid" id="quickGrid"></div>
     </div>
   </div>
-
 </main>
 
 <footer role="contentinfo">
@@ -333,8 +411,8 @@
         <h4 class="footer-heading">工具</h4>
         <ul class="footer-links">
           <li><a href="/">时区转换</a></li>
-          <li><a href="/world-clock.html">世界时钟</a></li>
-          <li><a href="/meeting-scheduler.html">会议规划</a></li>
+          <li><a href="/widget/world-clock.html">世界时钟</a></li>
+          <li><a href="/meeting-planner/">会议规划</a></li>
           <li><a href="/tools/cross-border/">跨境工具</a></li>
         </ul>
       </div>
@@ -350,14 +428,14 @@
       <div>
         <h4 class="footer-heading">热门时差</h4>
         <ul class="footer-links">
-          <li><a href="/time-difference/new-york-to-london">纽约-伦敦</a></li>
-          <li><a href="/time-difference/tokyo-to-new-york">东京-纽约</a></li>
-          <li><a href="/time-difference/la-to-beijing">洛杉矶-北京</a></li>
+          <li><a href="/time-difference/new-york-to-london">纽约 – 伦敦</a></li>
+          <li><a href="/time-difference/tokyo-to-new-york">东京 – 纽约</a></li>
+          <li><a href="/time-difference/la-to-beijing">洛杉矶 – 北京</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2026 GlobeTimeZone. 基于 IANA 时区数据库，数据仅供参考。</p>
+      <p>&copy; 2026 GlobeTimeZone. 基于 IANA 时区数据库。</p>
     </div>
   </div>
 </footer>
@@ -366,164 +444,380 @@
 (function() {
   'use strict';
 
-  // City display names and timezone abbreviations
-  var cityInfo = {
-    'Asia/Shanghai': { name:'北京 / 上海', abbr:'CST', offset:'+8', country:'中国' },
-    'Asia/Tokyo': { name:'东京', abbr:'JST', offset:'+9', country:'日本' },
-    'Asia/Seoul': { name:'首尔', abbr:'KST', offset:'+9', country:'韩国' },
-    'Asia/Singapore': { name:'新加坡', abbr:'SGT', offset:'+8', country:'新加坡' },
-    'Asia/Dubai': { name:'迪拜', abbr:'GST', offset:'+4', country:'阿联酋' },
-    'Asia/Kolkata': { name:'孟买', abbr:'IST', offset:'+5:30', country:'印度' },
-    'Asia/Hong_Kong': { name:'香港', abbr:'HKT', offset:'+8', country:'中国' },
-    'Asia/Bangkok': { name:'曼谷', abbr:'ICT', offset:'+7', country:'泰国' },
-    'Asia/Jakarta': { name:'雅加达', abbr:'WIB', offset:'+7', country:'印尼' },
-    'Europe/London': { name:'伦敦', abbr:'BST', offset:'+1', country:'英国' },
-    'Europe/Paris': { name:'巴黎', abbr:'CEST', offset:'+2', country:'法国' },
-    'Europe/Berlin': { name:'柏林', abbr:'CEST', offset:'+2', country:'德国' },
-    'Europe/Moscow': { name:'莫斯科', abbr:'MSK', offset:'+3', country:'俄罗斯' },
-    'Europe/Madrid': { name:'马德里', abbr:'CEST', offset:'+2', country:'西班牙' },
-    'Europe/Rome': { name:'罗马', abbr:'CEST', offset:'+2', country:'意大利' },
-    'Europe/Amsterdam': { name:'阿姆斯特丹', abbr:'CEST', offset:'+2', country:'荷兰' },
-    'America/New_York': { name:'纽约', abbr:'EDT', offset:'-4', country:'美国' },
-    'America/Chicago': { name:'芝加哥', abbr:'CDT', offset:'-5', country:'美国' },
-    'America/Denver': { name:'丹佛', abbr:'MDT', offset:'-6', country:'美国' },
-    'America/Los_Angeles': { name:'洛杉矶', abbr:'PDT', offset:'-7', country:'美国' },
-    'America/Toronto': { name:'多伦多', abbr:'EDT', offset:'-4', country:'加拿大' },
-    'America/Vancouver': { name:'温哥华', abbr:'PDT', offset:'-7', country:'加拿大' },
-    'America/Mexico_City': { name:'墨西哥城', abbr:'CST', offset:'-6', country:'墨西哥' },
-    'America/Sao_Paulo': { name:'圣保罗', abbr:'BRT', offset:'-3', country:'巴西' },
-    'America/Argentina/Buenos_Aires':{ name:'布宜诺斯艾利斯', abbr:'ART', offset:'-3', country:'阿根廷' },
-    'Australia/Sydney': { name:'悉尼', abbr:'AEST', offset:'+10', country:'澳大利亚' },
-    'Pacific/Auckland': { name:'奥克兰', abbr:'NZST', offset:'+12', country:'新西兰' },
-    'Africa/Cairo': { name:'开罗', abbr:'EEST', offset:'+3', country:'埃及' },
-    'Africa/Johannesburg': { name:'约翰内斯堡', abbr:'SAST', offset:'+2', country:'南非' },
-    'Africa/Lagos': { name:'拉各斯', abbr:'WAT', offset:'+1', country:'尼日利亚' }
-  };
+  const $ = id => document.getElementById(id);
 
-  var el = function(id) { return document.getElementById(id); };
+  // ========== City Data ==========
+  const CITY_GROUPS = [
+    { group: '亚洲', cities: [
+      ['Asia/Shanghai','北京 / 上海','CST','+8','中国'],
+      ['Asia/Tokyo','东京','JST','+9','日本'],
+      ['Asia/Seoul','首尔','KST','+9','韩国'],
+      ['Asia/Singapore','新加坡','SGT','+8','新加坡'],
+      ['Asia/Dubai','迪拜','GST','+4','阿联酋'],
+      ['Asia/Kolkata','孟买','IST','+5:30','印度'],
+      ['Asia/Hong_Kong','香港','HKT','+8','中国'],
+      ['Asia/Bangkok','曼谷','ICT','+7','泰国'],
+      ['Asia/Jakarta','雅加达','WIB','+7','印尼'],
+    ]},
+    { group: '欧洲', cities: [
+      ['Europe/London','伦敦','BST','+1','英国'],
+      ['Europe/Paris','巴黎','CEST','+2','法国'],
+      ['Europe/Berlin','柏林','CEST','+2','德国'],
+      ['Europe/Moscow','莫斯科','MSK','+3','俄罗斯'],
+      ['Europe/Madrid','马德里','CEST','+2','西班牙'],
+      ['Europe/Rome','罗马','CEST','+2','意大利'],
+      ['Europe/Amsterdam','阿姆斯特丹','CEST','+2','荷兰'],
+    ]},
+    { group: '北美洲', cities: [
+      ['America/New_York','纽约','EDT','-4','美国'],
+      ['America/Chicago','芝加哥','CDT','-5','美国'],
+      ['America/Denver','丹佛','MDT','-6','美国'],
+      ['America/Los_Angeles','洛杉矶','PDT','-7','美国'],
+      ['America/Toronto','多伦多','EDT','-4','加拿大'],
+      ['America/Vancouver','温哥华','PDT','-7','加拿大'],
+      ['America/Mexico_City','墨西哥城','CST','-6','墨西哥'],
+    ]},
+    { group: '南美洲', cities: [
+      ['America/Sao_Paulo','圣保罗','BRT','-3','巴西'],
+      ['America/Argentina/Buenos_Aires','布宜诺斯艾利斯','ART','-3','阿根廷'],
+    ]},
+    { group: '大洋洲', cities: [
+      ['Australia/Sydney','悉尼','AEST','+10','澳大利亚'],
+      ['Pacific/Auckland','奥克兰','NZST','+12','新西兰'],
+    ]},
+    { group: '非洲', cities: [
+      ['Africa/Cairo','开罗','EEST','+3','埃及'],
+      ['Africa/Johannesburg','约翰内斯堡','SAST','+2','南非'],
+      ['Africa/Lagos','拉各斯','WAT','+1','尼日利亚'],
+    ]},
+  ];
 
-  function updateAll() {
-    var tzA = el('cityA').value;
-    var tzB = el('cityB').value;
-    var now = new Date();
+  // Build lookup
+  const cityMap = {};
+  CITY_GROUPS.forEach(g => g.cities.forEach(c => {
+    cityMap[c[0]] = { name: c[1], abbr: c[2], offset: c[3], country: c[4] };
+  }));
 
-    // Get info
-    var infoA = cityInfo[tzA] || { name: tzA, abbr: tzA.split('/').pop(), offset:'?' };
-    var infoB = cityInfo[tzB] || { name: tzB, abbr: tzB.split('/').pop(), offset:'?' };
+  // Populate selects
+  function buildSelect(el, defaultVal) {
+    CITY_GROUPS.forEach(g => {
+      const optg = document.createElement('optgroup');
+      optg.label = g.group;
+      g.cities.forEach(c => {
+        const o = document.createElement('option');
+        o.value = c[0];
+        o.textContent = c[0] === 'Asia/Shanghai' ? '北京 / 上海' : c[1];
+        if (c[0] === defaultVal) o.selected = true;
+        optg.appendChild(o);
+      });
+      el.appendChild(optg);
+    });
+  }
 
-    // Format times
-    var fmt = function(tz) {
-      try {
-        return {
-          time: new Intl.DateTimeFormat('zh-CN', { timeZone: tz, hour:'2-digit', minute:'2-digit', hour12:false }).format(now),
-          sec: new Intl.DateTimeFormat('zh-CN', { timeZone: tz, second:'2-digit', hour12:false }).format(now).slice(-2),
-          date: new Intl.DateTimeFormat('zh-CN', { timeZone: tz, year:'numeric', month:'short', day:'numeric', weekday:'short' }).format(now),
-          offset: -now.toLocaleString('en-US', { timeZone: tz, hour:'numeric', hour12:false }).match(/\d+/)[0] * 60
-        };
-      } catch(e) {
-        return { time:'--:--', sec:'--', date:'--' };
-      }
-    };
+  buildSelect($('cityA'), 'Asia/Shanghai');
+  buildSelect($('cityB'), 'America/New_York');
 
-    var a = fmt(tzA);
-    var b = fmt(tzB);
+  // ========== Time Helpers ==========
+  function getTimezoneOffset(tz) {
+    try {
+      const now = new Date();
+      const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: tz, hour: 'numeric', hour12: false, timeZoneName: 'shortOffset'
+      }).formatToParts(now);
+      const namePart = parts.find(p => p.type === 'timeZoneName');
+      if (!namePart) return 0;
+      const m = namePart.value.match(/GMT([+-]\d{1,2})/);
+      if (!m) return 0;
+      const sign = m[1][0] === '-' ? -1 : 1;
+      const val = parseInt(m[1].substring(1), 10);
+      return sign * val;
+    } catch(e) { return 0; }
+  }
 
-    // City A
-    el('nameA').textContent = infoA.name;
-    el('tzA').textContent = tzA + ' · GMT' + infoA.offset;
-    el('clockA').innerHTML = a.time + '<span class="td-clock-sec">:' + a.sec + '</span>';
-    el('dateA').textContent = a.date;
-
-    // City B
-    el('nameB').textContent = infoB.name;
-    el('tzB').textContent = tzB + ' · GMT' + infoB.offset;
-    el('clockB').innerHTML = b.time + '<span class="td-clock-sec">:' + b.sec + '</span>';
-    el('dateB').textContent = b.date;
-
-    // Difference
-    var diffHours = Math.floor(Math.abs(b - a) / 3600000);
-    var diffMins = Math.floor((Math.abs(b - a) % 3600000) / 60000);
-    var diffStr;
-    if (diffMins > 0) {
-      diffStr = diffHours + ' 小时 ' + diffMins + ' 分钟';
-    } else {
-      diffStr = diffHours + ' 小时';
-    }
-    var sign = a <= b ? '早' : '晚';
-    el('diffVal').textContent = diffStr;
-    el('diffSub').textContent = infoA.name + ' 比 ' + infoB.name + ' ' + sign + ' ' + diffStr;
-
-    // Working hours overlap visualization
-    // Working hours: 9:00 - 18:00 local time for each city
-    // Convert to a 24-hour UTC-based timeline
-    
-    // Get current time's UTC offset minutes for each city
-    var utcNow = now.getTime();
-    var getOffset = function(tz) {
-      try {
-        var parts = new Intl.DateTimeFormat('en-US', { timeZone: tz, hour:'numeric', hour12:false, timeZoneName:'shortOffset' }).formatToParts(now);
-        var offsetStr = parts.find(function(p) { return p.type === 'timeZoneName'; }).value;
-        var match = offsetStr.match(/GMT([+-]\d+)/);
-        if (match) {
-          var sign = match[1][0];
-          var val = parseInt(match[1].substring(1));
-          return sign === '-' ? -val : val;
-        }
-      } catch(e) {}
-      return 0;
-    };
-
-    var offA = getOffset(tzA);
-    var offB = getOffset(tzB);
-
-    // Working hours in UTC (absolute hour numbers 0-24 range)
-    var aStartUTC = (9 - offA + 24) % 24;
-    var aEndUTC = (18 - offA + 24) % 24;
-    var bStartUTC = (9 - offB + 24) % 24;
-    var bEndUTC = (18 - offB + 24) % 24;
-
-    // Render on 0-24 scale (percentage)
-    function toPercent(h) { return (h / 24 * 100).toFixed(1) + '%'; }
-    function toWidth(start, end) {
-      if (end >= start) return ((end - start) / 24 * 100).toFixed(1) + '%';
-      return ((24 - start + end) / 24 * 100).toFixed(1) + '%';
-    }
-
-    el('barA').style.left = toPercent(aStartUTC);
-    el('barA').style.width = toWidth(aStartUTC, aEndUTC);
-
-    el('barB').style.left = toPercent(bStartUTC);
-    el('barB').style.width = toWidth(bStartUTC, bEndUTC);
-
-    // Overlap
-    var overlapStart = Math.max(aStartUTC, bStartUTC);
-    var overlapEnd = Math.min(aEndUTC, bEndUTC);
-    var hasOverlap = overlapEnd > overlapStart;
-    
-    if (hasOverlap) {
-      el('barOverlap').style.display = 'block';
-      el('barOverlap').style.left = toPercent(overlapStart);
-      el('barOverlap').style.width = toWidth(overlapStart, overlapEnd);
-      var overlapHrs = overlapEnd - overlapStart;
-      el('overlapText').innerHTML = '<span style="color:#10b981;font-weight:600;">&#10003; 重叠 ' + overlapHrs + ' 小时</span> · 双方都在工作时间的最佳通话窗口';
-    } else {
-      el('barOverlap').style.display = 'none';
-      el('overlapText').innerHTML = '<span style="color:#ef4444;font-weight:600;">&#10007; 无重叠</span> · 工作时间完全错开，需其中一方在非工作时间配合';
+  function formatCityTime(tz) {
+    const now = new Date();
+    try {
+      return {
+        time: new Intl.DateTimeFormat('zh-CN', { timeZone: tz, hour:'2-digit', minute:'2-digit', hour12:false }).format(now),
+        sec: new Intl.DateTimeFormat('en-US', { timeZone: tz, second:'2-digit', hour12:false }).format(now).slice(-2),
+        date: new Intl.DateTimeFormat('zh-CN', { timeZone: tz, year:'numeric', month:'short', day:'numeric', weekday:'short' }).format(now),
+        hour: parseInt(new Intl.DateTimeFormat('en-US', { timeZone: tz, hour:'numeric', hour12:false }).format(now), 10),
+        dayOfWeek: new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday:'short' }).format(now),
+      };
+    } catch(e) {
+      return { time:'--:--', sec:'--', date:'---', hour: 0 };
     }
   }
 
-  // Swap button
-  el('swapBtn').addEventListener('click', function() {
-    var a = el('cityA').value;
-    var b = el('cityB').value;
-    el('cityA').value = b;
-    el('cityB').value = a;
+  // ========== Quick Links ==========
+  const QUICK_PAIRS = [
+    ['Asia/Shanghai','America/New_York'],
+    ['Asia/Tokyo','America/New_York'],
+    ['America/Los_Angeles','Asia/Shanghai'],
+    ['Europe/London','Asia/Singapore'],
+    ['Australia/Sydney','Europe/London'],
+    ['Asia/Dubai','America/Los_Angeles'],
+    ['Europe/Paris','America/New_York'],
+    ['America/Toronto','Asia/Shanghai'],
+    ['Asia/Kolkata','Asia/Dubai'],
+    ['Australia/Sydney','America/New_York'],
+    ['Asia/Seoul','Europe/London'],
+    ['Europe/Berlin','America/New_York'],
+  ];
+
+  function buildQuickLinks() {
+    const grid = $('quickGrid');
+    QUICK_PAIRS.forEach(([t1, t2]) => {
+      const a = document.createElement('a');
+      a.className = 'td-quick-link';
+      const n1 = (cityMap[t1] || {}).name || t1;
+      const n2 = (cityMap[t2] || {}).name || t2;
+      a.href = `#`;
+      a.innerHTML = `${n1} ↔ ${n2} <span class="td-q-arrow">→</span>`;
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        $('cityA').value = t1;
+        $('cityB').value = t2;
+        updateAll();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      grid.appendChild(a);
+    });
+  }
+
+  // ========== Main Update ==========
+  function updateAll() {
+    const tzA = $('cityA').value;
+    const tzB = $('cityB').value;
+    const now = new Date();
+
+    const infoA = cityMap[tzA] || { name: tzA, abbr: tzA.split('/').pop(), country: '' };
+    const infoB = cityMap[tzB] || { name: tzB, abbr: tzB.split('/').pop(), country: '' };
+
+    const a = formatCityTime(tzA);
+    const b = formatCityTime(tzB);
+
+    // --- Card A ---
+    $('countryA').textContent = infoA.country;
+    $('nameA').textContent = infoA.name;
+    $('tzA').textContent = tzA + ' · ' + infoA.abbr + ' (GMT' + infoA.offset + ')';
+    $('clockA').innerHTML = a.time + '<span class="td-cc-sec">:' + a.sec + '</span>';
+    $('dateA').textContent = a.date;
+
+    // --- Card B ---
+    $('countryB').textContent = infoB.country;
+    $('nameB').textContent = infoB.name;
+    $('tzB').textContent = tzB + ' · ' + infoB.abbr + ' (GMT' + infoB.offset + ')';
+    $('clockB').innerHTML = b.time + '<span class="td-cc-sec">:' + b.sec + '</span>';
+    $('dateB').textContent = b.date;
+
+    // --- Work status ---
+    function getStatus(hour, day) {
+      const isWeekend = day === 'Sat' || day === 'Sun';
+      if (isWeekend) return ['night', '周末 · 休息中'];
+      if (hour >= 9 && hour < 18) return ['working', '工作时间'];
+      if (hour >= 18 && hour < 22) return ['off', '下班时间'];
+      return ['night', '深夜休息'];
+    }
+
+    const [stA, stTextA] = getStatus(a.hour, a.dayOfWeek);
+    const [stB, stTextB] = getStatus(b.hour, b.dayOfWeek);
+
+    ['A','B'].forEach(side => {
+      const card = $('card' + side);
+      const status = side === 'A' ? stA : stB;
+      const text = side === 'A' ? stTextA : stTextB;
+      card.className = 'td-clock-card ' + status;
+      const statusEl = $('status' + side);
+      statusEl.className = 'td-cc-status ' + status;
+      $('statusText' + side).textContent = text;
+    });
+
+    // --- Difference ---
+    const offA = getTimezoneOffset(tzA);
+    const offB = getTimezoneOffset(tzB);
+    const rawDiff = offA - offB; // positive = A ahead of B (= B behind A)
+    const absDiff = Math.abs(rawDiff);
+    const diffHours = Math.floor(absDiff);
+    const diffMins = Math.round((absDiff - diffHours) * 60);
+
+    let diffStr, diffUnit;
+    if (diffMins > 0) {
+      diffStr = diffHours;
+      diffUnit = '时' + diffMins + '分';
+    } else {
+      diffStr = diffHours;
+      diffUnit = '小时';
+    }
+
+    $('diffNum').textContent = diffStr;
+    $('diffUnit').textContent = diffUnit;
+
+    if (rawDiff > 0) {
+      $('diffDesc').textContent = infoA.name + '领先';
+      $('diffArrow').textContent = '\u2190';
+      $('diffArrow').style.transform = '';
+    } else if (rawDiff < 0) {
+      $('diffDesc').textContent = infoB.name + '领先';
+      $('diffArrow').textContent = '\u2192';
+      $('diffArrow').style.transform = '';
+    } else {
+      $('diffDesc').textContent = '同时区';
+      $('diffArrow').textContent = '\u2194';
+    }
+
+    // --- Work Hours Visualization ---
+    // Working hours 9-18 local → UTC
+    // UTC hour = (localHour - offset) % 24
+    const A_WORK_START = 9, A_WORK_END = 18;
+    const B_WORK_START = 9, B_WORK_END = 18;
+
+    function localToUTC(localHour, offsetHours) {
+      return ((localHour - offsetHours) % 24 + 24) % 24;
+    }
+
+    const aStart = localToUTC(A_WORK_START, offA);
+    const aEnd = localToUTC(A_WORK_END, offA);
+    const bStart = localToUTC(B_WORK_START, offB);
+    const bEnd = localToUTC(B_WORK_END, offB);
+
+    // UTC now
+    const utcNow = now.getUTCHours() + now.getUTCMinutes() / 60;
+
+    // Render timeline labels
+    const tlLabels = [];
+    for (let i = 0; i <= 24; i += 3) tlLabels.push('<span>' + i + ':00</span>');
+    $('tlLabels').innerHTML = tlLabels.join('');
+
+    function toPercent(h) { return (h / 24 * 100).toFixed(1) + '%'; }
+    function toWidth(s, e) {
+      if (e > s) return ((e - s) / 24 * 100).toFixed(1) + '%';
+      return ((24 - s + e) / 24 * 100).toFixed(1) + '%';
+    }
+
+    // City A blocks
+    function setBar(workEl, blockEl, start, end) {
+      if (end > start) {
+        workEl.style.left = toPercent(start);
+        workEl.style.width = toWidth(start, end);
+        blockEl.style.left = '0';
+        blockEl.style.width = '0';
+      } else {
+        // Wraps around midnight: two segments
+        workEl.style.left = toPercent(start);
+        workEl.style.width = toWidth(start, 24);
+        blockEl.style.left = '0';
+        blockEl.style.width = toPercent(end);
+        blockEl.style.display = 'block';
+      }
+    }
+
+    function setBarWrap(workEl, blockEl, start, end) {
+      blockEl.style.display = 'block';
+      if (end > start) {
+        workEl.style.left = toPercent(start);
+        workEl.style.width = toWidth(start, end);
+        blockEl.style.left = '0';
+        blockEl.style.width = '0';
+        blockEl.style.display = 'none';
+      } else {
+        workEl.style.left = toPercent(start);
+        workEl.style.width = toWidth(start, 24);
+        blockEl.style.left = '0';
+        blockEl.style.width = toPercent(end);
+      }
+    }
+
+    setBarWrap($('workA'), $('blockA'), aStart, aEnd);
+    setBarWrap($('workB'), $('blockB'), bStart, bEnd);
+
+    $('labelA').textContent = infoA.name;
+    $('labelB').textContent = infoB.name;
+    $('legendA').textContent = infoA.name + ' 工作时段';
+    $('legendB').textContent = infoB.name + ' 工作时段';
+
+    // Overlap
+    function intervalsOverlap(s1, e1, s2, e2) {
+      // Normalize: unwrap both intervals to 0-48 range
+      if (e1 <= s1) e1 += 24;
+      if (e2 <= s2) e2 += 24;
+      // Check direct overlap
+      const os = Math.max(s1, s2);
+      const oe = Math.min(e1, e2);
+      if (oe > os) return [(os % 24), (oe % 24)];
+      // Check with interval 1 shifted by +24
+      const os2 = Math.max(s1 + 24, s2);
+      const oe2 = Math.min(e1 + 24, e2);
+      if (oe2 > os2) return [(os2 % 24), (oe2 % 24)];
+      return null;
+    }
+
+    const overlap = intervalsOverlap(aStart, aEnd, bStart, bEnd);
+
+    // Update city times table
+    function formatTimeForUTC(utcH, tz) {
+      const localH = ((utcH + getTimezoneOffset(tz)) % 24 + 24) % 24;
+      const h = Math.floor(localH);
+      const m = Math.round((localH - h) * 60);
+      const period = h >= 12 ? '下午' : '上午';
+      const h12 = h % 12 === 0 ? 12 : h % 12;
+      return period + h12 + ':' + String(m).padStart(2, '0');
+    }
+
+    if (overlap) {
+      const [os, oe] = overlap;
+      const overlapHrs = oe > os ? (oe - os) : (24 - os + oe);
+      setBarWrap($('overlapWork'), $('overlapFill'), os, oe);
+      $('overlapRow').style.display = 'block';
+      $('overlapSummary').className = 'td-overlap-summary';
+      $('overlapSummary').querySelector('.icon-wrap').textContent = '\u2713';
+      $('overlapText').innerHTML = '<strong>' + Math.round(overlapHrs) + ' 小时重叠窗口</strong><br>双方都在工作时间的通话黄金时段。建议安排在 UTC ' + 
+        Math.floor(os).toString().padStart(2, '0') + ':00 – ' + Math.floor(oe).toString().padStart(2, '0') + ':00 之间';
+
+      // City times during overlap
+      const midUTCH = (os + oe) / 2;
+      $('cityTimes').innerHTML = [
+        '<div class="td-ct-item"><span class="td-ct-city">' + infoA.name + '</span>最佳通话时间 <span class="td-ct-time">' + formatTimeForUTC(midUTCH, tzA) + '</span><span class="td-ct-badge good">推荐</span></div>',
+        '<div class="td-ct-item"><span class="td-ct-city">' + infoB.name + '</span>最佳通话时间 <span class="td-ct-time">' + formatTimeForUTC(midUTCH, tzB) + '</span><span class="td-ct-badge good">推荐</span></div>',
+      ].join('');
+    } else {
+      $('overlapWork').style.width = '0';
+      $('overlapFill').style.width = '0';
+      $('overlapSummary').className = 'td-overlap-summary no-overlap';
+      $('overlapSummary').querySelector('.icon-wrap').textContent = '\u2717';
+      $('overlapText').innerHTML = '<strong>无工作时间重叠</strong><br>两城的工作时间完全错开，需要其中一方在非工作时间配合。建议使用会议规划器找到折中方案。';
+
+      // Show each city's working hours in local time
+      $('cityTimes').innerHTML = [
+        '<div class="td-ct-item"><span class="td-ct-city">' + infoA.name + '</span>工作时间 <span class="td-ct-time">09:00–18:00 本地</span><span class="td-ct-badge ok">仅限本地</span></div>',
+        '<div class="td-ct-item"><span class="td-ct-city">' + infoB.name + '</span>工作时间 <span class="td-ct-time">09:00–18:00 本地</span><span class="td-ct-badge ok">仅限本地</span></div>',
+      ].join('');
+    }
+
+    // UTC now indicator
+    document.querySelectorAll('.td-tl-now').forEach(el => el.remove());
+    const rows = [$('rowA'), $('rowB'), $('overlapRow')];
+    rows.forEach(row => {
+      const nowLine = document.createElement('div');
+      nowLine.className = 'td-tl-now';
+      nowLine.style.left = toPercent(utcNow);
+      row.appendChild(nowLine);
+    });
+  }
+
+  // ========== Events ==========
+  $('swapBtn').addEventListener('click', () => {
+    const a = $('cityA').value;
+    const b = $('cityB').value;
+    $('cityA').value = b;
+    $('cityB').value = a;
     updateAll();
   });
 
-  el('cityA').addEventListener('change', updateAll);
-  el('cityB').addEventListener('change', updateAll);
+  $('cityA').addEventListener('change', updateAll);
+  $('cityB').addEventListener('change', updateAll);
 
+  buildQuickLinks();
   updateAll();
   setInterval(updateAll, 1000);
 })();
