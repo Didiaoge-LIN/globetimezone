@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>跨境物流时效计算器 | GlobeTimeZone</title>
-  <meta name="description" content="跨境电商物流时效与运费计算工具。查询DHL、UPS、FedEx等12+主流物流商时效价格，实时追踪全球包裹。">
+  <meta name="description" content="跨境电商物流时效与运费计算工具。查询DHL、UPS、FedEx等8大主流物流商时效价格，实时追踪全球包裹。">
   <meta name="keywords" content="跨境物流,国际快递,物流时效,运费计算,DHL,UPS,FedEx,包裹追踪">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://globetimezone.com/tools/cross-border/">
@@ -12,158 +12,255 @@
   <link rel="manifest" href="/manifest.json">
   <link rel="stylesheet" href="/styles/style.min.css">
   <style>
-    /* ===== Cross-Border Specific Styles ===== */
-    .cross-hero {
-      background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 50%, #1d4ed8 100%);
-      color: #fff; padding: 60px 24px 48px; text-align: center;
-      position: relative; overflow: hidden;
+    /* =============================================
+       GTZ 跨境物流页 — 深度优化 v2.0
+       ============================================= */
+
+    /* --- HERO --- */
+    .xb-hero {
+      background: linear-gradient(160deg, #0f172a 0%, #1e40af 35%, #2563eb 70%, #3b82f6 100%);
+      color: #fff;
+      padding: 64px 24px 56px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
     }
-    .cross-hero::before {
+    .xb-hero::after {
       content: ''; position: absolute; inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/svg%3E");
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 80%, rgba(56,189,248,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 80% 20%, rgba(99,102,241,0.1) 0%, transparent 55%);
+      pointer-events: none;
     }
-    .cross-hero-content { position: relative; max-width: 800px; margin: 0 auto; }
-    .cross-hero h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 12px; }
-    .cross-hero p { font-size: 1.05rem; color: rgba(255,255,255,0.85); margin-bottom: 28px; }
+    .xb-hero-inner { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; }
+    .xb-hero h1 { font-size: 2.25rem; font-weight: 800; margin: 0 0 10px; letter-spacing: -0.02em; line-height: 1.25; }
+    .xb-hero p  { font-size: 1.02rem; color: rgba(255,255,255,0.78); margin: 0 0 32px; line-height: 1.5; }
 
-    .track-box {
-      max-width: 580px; margin: 0 auto; display: flex; gap: 8px;
-      background: rgba(255,255,255,0.15); backdrop-filter: blur(10px);
-      border-radius: 12px; padding: 6px; border: 1px solid rgba(255,255,255,0.2);
+    .xb-track-wrap {
+      max-width: 560px; margin: 0 auto 24px;
+      display: flex; gap: 0;
+      background: #fff; border-radius: 14px; box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      overflow: hidden;
     }
-    .track-box input {
-      flex: 1; padding: 14px 20px; border: none; border-radius: 8px;
-      font-size: 1rem; background: #fff; color: #1e293b; outline: none;
+    .xb-track-wrap input {
+      flex: 1; padding: 15px 20px; border: none; font-size: 0.95rem;
+      color: #1e293b; outline: none; background: transparent;
     }
-    .track-box input::placeholder { color: #94a3b8; }
-    .track-box button {
-      padding: 14px 28px; background: #f59e0b; color: #0f172a;
-      border: none; border-radius: 8px; font-weight: 700; font-size: 0.95rem;
-      cursor: pointer; transition: background 0.2s; white-space: nowrap;
+    .xb-track-wrap input::placeholder { color: #94a3b8; }
+    .xb-track-wrap button {
+      padding: 15px 28px; background: #f59e0b; color: #0f172a;
+      border: none; font-weight: 700; font-size: 0.93rem; cursor: pointer;
+      transition: background 0.2s; white-space: nowrap;
     }
-    .track-box button:hover { background: #d97706; }
-    .track-hint { font-size: 0.78rem; color: rgba(255,255,255,0.55); margin-top: 10px; }
+    .xb-track-wrap button:hover { background: #fbbf24; }
+    .xb-track-hint { font-size: 0.78rem; color: rgba(255,255,255,0.5); }
 
-    .trust-bar { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
-    .trust-badge {
-      background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.18);
-      padding: 6px 18px; border-radius: 100px; font-size: 0.82rem; backdrop-filter: blur(6px);
+    .xb-badges { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 28px; }
+    .xb-badge {
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+      padding: 7px 16px; border-radius: 100px; font-size: 0.8rem;
+      backdrop-filter: blur(4px);
     }
+    .xb-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #34d399; flex-shrink: 0; }
 
-    /* Two-column layout */
-    .two-col { display: grid; grid-template-columns: 1fr 380px; gap: 24px; }
-    @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+    /* --- LAYOUT --- */
+    .xb-main { max-width: 1240px; margin: 0 auto; padding: 32px 24px; }
+    .xb-grid { display: grid; grid-template-columns: 1fr 400px; gap: 28px; align-items: start; }
+    @media (max-width: 960px) { .xb-grid { grid-template-columns: 1fr; } }
 
-    /* Form inside card */
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-    .dim-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-    @media (max-width: 600px) { .form-row, .dim-row { grid-template-columns: 1fr; } }
-    .dim-pair { display: flex; gap: 8px; align-items: center; }
-    .dim-pair input { flex: 1; }
-    .dim-sep { color: var(--text-muted); }
-
-    /* Scheme cards */
-    .scheme-card {
-      background: var(--card); border: 2px solid var(--border);
-      border-radius: var(--radius); padding: 18px 20px; cursor: pointer;
-      transition: all 0.2s; position: relative; margin-bottom: 12px;
+    /* --- CARDS (refined) --- */
+    .xb-card {
+      background: var(--card); border-radius: 14px;
+      border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      padding: 24px; margin-bottom: 20px;
     }
-    .scheme-card:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
-    .scheme-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .scheme-name { font-weight: 700; font-size: 1.05rem; }
-    .scheme-price { font-size: 1.3rem; font-weight: 800; color: var(--primary); }
-    .scheme-meta { display: flex; gap: 24px; font-size: 0.85rem; color: var(--text-muted); flex-wrap: wrap; }
-    .scheme-features { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
-    .feature-tag { background: var(--bg); padding: 3px 10px; border-radius: 6px; font-size: 0.75rem; color: var(--text-muted); }
+    .xb-card-title {
+      font-size: 1.08rem; font-weight: 700; margin: 0 0 20px;
+      display: flex; align-items: center; gap: 9px; color: var(--text);
+    }
+    .xb-card-title .xb-icon { font-size: 1.15rem; flex-shrink: 0; }
 
-    .status-fast { color: #10b981; font-weight: 600; }
-    .status-mid { color: #f59e0b; font-weight: 600; }
-    .status-slow { color: #ef4444; font-weight: 600; }
-    .badge-fast { background: #d1fae5; color: #065f46; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; }
-    .badge-cheap { background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; }
+    /* --- FORM --- */
+    .xb-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px; }
+    .xb-form-triple { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 18px; }
+    @media (max-width: 640px) { .xb-form-row, .xb-form-triple { grid-template-columns: 1fr; } }
+    .xb-dim-wrap { display: flex; gap: 8px; align-items: center; }
+    .xb-dim-wrap input { flex: 1; }
+    .xb-dim-sep { color: var(--text-muted); font-weight: 500; }
+    .xb-form-label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+    .xb-form-input, .xb-form-select {
+      width: 100%; padding: 11px 14px; border: 1.5px solid var(--border);
+      border-radius: 10px; font-size: 0.93rem; font-family: inherit;
+      color: var(--text); background: var(--card); transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    .xb-form-input:focus, .xb-form-select:focus {
+      border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    }
+    .xb-form-select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23595959' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+    .xb-btn-primary {
+      width: 100%; padding: 15px; font-size: 1rem; font-weight: 700;
+      border: none; border-radius: 12px; cursor: pointer;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #fff; transition: transform 0.15s, box-shadow 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .xb-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37,99,235,0.3); }
+    .xb-btn-primary:active { transform: translateY(0); }
 
-    /* Progress steps */
-    .progress-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; text-align: center; margin-bottom: 20px; }
-    .progress-dot { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; font-size: 1rem; }
-    .progress-dot.done { background: #d1fae5; color: #065f46; }
-    .progress-dot.active { background: var(--primary-light); color: var(--primary); }
-    .progress-dot.pending { background: var(--bg); color: var(--text-muted); }
-    .progress-label { font-size: 0.78rem; color: var(--text-muted); }
+    /* --- SCHEME CARDS --- */
+    .xb-scheme {
+      background: var(--card); border: 1.5px solid var(--border); border-left-width: 4px;
+      border-radius: 12px; padding: 18px 20px; cursor: pointer;
+      transition: all 0.2s; margin-bottom: 10px; position: relative;
+    }
+    .xb-scheme:hover { border-color: var(--primary); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+    .xb-scheme.ac-express { border-left-color: #2563eb; }
+    .xb-scheme.ac-air     { border-left-color: #8b5cf6; }
+    .xb-scheme.ac-sea     { border-left-color: #0ea5e9; }
+    .xb-scheme-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+    .xb-scheme-name { font-weight: 700; font-size: 1rem; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .xb-scheme-name .xb-type-tag {
+      font-size: 0.7rem; font-weight: 600; padding: 2px 8px; border-radius: 5px;
+      text-transform: uppercase; letter-spacing: 0.04em;
+    }
+    .xb-type-tag.express { background: #dbeafe; color: #1d4ed8; }
+    .xb-type-tag.air     { background: #ede9fe; color: #7c3aed; }
+    .xb-type-tag.sea     { background: #e0f2fe; color: #0369a1; }
+    .xb-scheme-price { font-size: 1.25rem; font-weight: 800; color: var(--primary); flex-shrink: 0; }
+    .xb-scheme-meta { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 8px; }
+    .xb-scheme-meta strong { color: var(--text); }
+    .xb-scheme-eta { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; }
+    .xb-scheme-eta strong { color: var(--success); }
+    .xb-scheme-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .xb-tag {
+      background: var(--bg); padding: 3px 10px; border-radius: 6px;
+      font-size: 0.73rem; color: var(--text-muted); font-weight: 500;
+    }
+    .xb-badge-best { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 0.68rem; font-weight: 700; }
+    .xb-badge-fast { background: #d1fae5; color: #065f46; }
+    .xb-badge-cheap { background: #fef3c7; color: #92400e; }
 
-    /* Timeline */
-    .timeline-node { position: relative; padding-left: 20px; padding-bottom: 20px; }
-    .timeline-dot { position: absolute; left: -5px; top: 2px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid #fff; }
-    .timeline-dot.current { background: var(--primary); }
-    .timeline-dot.past { background: var(--border); }
-    .timeline-line { position: absolute; left: 11px; top: 0; bottom: 0; width: 2px; background: var(--border); }
-    .timeline-time { font-size: 0.8rem; color: var(--text-muted); }
-    .timeline-desc { font-size: 0.9rem; color: var(--text); }
-    .timeline-loc { font-size: 0.78rem; color: var(--text-muted); }
+    /* --- FILTERS --- */
+    .xb-filters { display: flex; gap: 6px; flex-wrap: wrap; }
+    .xb-fbtn {
+      padding: 6px 16px; font-size: 0.8rem; border-radius: 8px;
+      border: 1.5px solid var(--border); background: var(--card); color: var(--text-muted);
+      cursor: pointer; transition: all 0.2s; font-weight: 600;
+    }
+    .xb-fbtn:hover { border-color: var(--primary); color: var(--primary); }
+    .xb-fbtn.on { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .xb-card-head-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
 
-    /* Panel cards */
-    .panel-card {
-      background: var(--card); border-radius: var(--radius);
-      border: 1px solid var(--border); box-shadow: var(--shadow);
+    /* --- TRACKING PROGRESS --- */
+    .xb-progress { display: grid; grid-template-columns: repeat(4,1fr); text-align: center; margin-bottom: 24px; position: relative; }
+    .xb-progress::before {
+      content: ''; position: absolute; top: 20px; left: 12.5%; right: 12.5%;
+      height: 3px; background: var(--border); z-index: 0;
+    }
+    .xb-step { position: relative; z-index: 1; }
+    .xb-step-dot {
+      width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; margin: 0 auto 8px; font-size: 0.95rem;
+      font-weight: 700; transition: all 0.3s;
+    }
+    .xb-step-dot.done  { background: #d1fae5; color: #065f46; }
+    .xb-step-dot.on    { background: var(--primary); color: #fff; box-shadow: 0 0 0 4px rgba(37,99,235,0.2); }
+    .xb-step-dot.wait  { background: var(--bg); color: var(--text-muted); border: 2px solid var(--border); }
+    .xb-step-label { font-size: 0.78rem; color: var(--text-muted); font-weight: 500; }
+
+    /* --- TRACKING TIMELINE --- */
+    .xb-tl { position: relative; padding-left: 28px; }
+    .xb-tl-line { position: absolute; left: 11px; top: 6px; bottom: 6px; width: 2px; background: var(--border); }
+    .xb-tl-node { position: relative; padding-bottom: 18px; }
+    .xb-tl-node:last-child { padding-bottom: 0; }
+    .xb-tl-dot {
+      position: absolute; left: -23px; top: 4px; width: 10px; height: 10px;
+      border-radius: 50%; border: 2px solid var(--border); background: #fff;
+    }
+    .xb-tl-dot.now { border-color: var(--primary); background: var(--primary); }
+    .xb-tl-time { font-size: 0.78rem; color: var(--text-muted); }
+    .xb-tl-desc { font-size: 0.9rem; color: var(--text); }
+    .xb-tl-loc  { font-size: 0.76rem; color: var(--text-muted); }
+
+    /* --- SIDEBAR PANELS --- */
+    .xb-panel {
+      background: var(--card); border-radius: 14px; border: 1px solid var(--border);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04); padding: 22px; margin-bottom: 18px;
+    }
+    .xb-panel h3 { font-size: 1rem; font-weight: 700; margin: 0 0 16px; display: flex; align-items: center; gap: 8px; }
+    .xb-time-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 14px 0; }
+    .xb-time-row + .xb-time-row { border-top: 1px solid var(--border); }
+    .xb-time-loc  { font-size: 0.78rem; color: var(--text-muted); font-weight: 500; }
+    .xb-time-val  { font-size: 1.6rem; font-weight: 800; color: var(--text); font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+    .xb-time-sub  { font-size: 0.76rem; color: var(--text-muted); margin-top: 2px; }
+    .xb-time-gmt  { font-size: 0.78rem; color: var(--text-muted); text-align: right; font-weight: 500; }
+
+    /* Guarantee list */
+    .xb-guarantee { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; font-size: 0.88rem; color: var(--text); }
+    .xb-guarantee .xb-gicon { color: var(--success); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+    /* Holiday list */
+    .xb-holiday { display: flex; justify-content: space-between; align-items: center; padding: 9px 12px; background: var(--bg); border-radius: 8px; margin-bottom: 5px; font-size: 0.85rem; }
+    .xb-holiday .xb-hdate { color: var(--text-muted); font-size: 0.78rem; flex-shrink: 0; }
+
+    /* FAQ in sidebar */
+    .xb-faq-q { font-weight: 600; font-size: 0.88rem; color: var(--text); margin-bottom: 4px; cursor: pointer; user-select: none; }
+    .xb-faq-q:hover { color: var(--primary); }
+    .xb-faq-a { font-size: 0.83rem; color: var(--text-muted); line-height: 1.5; display: none; margin-bottom: 14px; }
+    .xb-faq-item.open .xb-faq-a { display: block; }
+    .xb-faq-item.open .xb-faq-q { color: var(--primary); }
+
+    /* CS card */
+    .xb-cs {
+      background: linear-gradient(135deg, rgba(37,99,235,0.04), rgba(37,99,235,0.09));
+      border-radius: 14px; border: 1px solid rgba(37,99,235,0.12);
       padding: 22px; margin-bottom: 18px;
     }
-    .panel-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-    .panel-icon { font-size: 1.1rem; }
+    .xb-cs h3 { font-size: 1rem; font-weight: 700; margin: 0 0 8px; display: flex; align-items: center; gap: 8px; }
+    .xb-cs p  { font-size: 0.85rem; color: var(--text-muted); margin: 0 0 12px; }
+    .xb-cs-row { font-size: 0.85rem; display: flex; align-items: center; gap: 8px; color: var(--text); padding: 3px 0; }
 
-    /* Time display */
-    .time-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; }
-    .time-row + .time-row { border-top: 1px solid var(--border); }
-    .time-label { font-size: 0.82rem; color: var(--text-muted); }
-    .time-value { font-size: 1.5rem; font-weight: 800; color: var(--text); font-variant-numeric: tabular-nums; }
-    .time-gmt { font-size: 0.78rem; color: var(--text-muted); text-align: right; }
-    .time-date { font-size: 0.78rem; color: var(--text-muted); }
-
-    /* Guarantee */
-    .guarantee-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; font-size: 0.9rem; color: var(--text); }
-    .guarantee-icon { color: var(--success); font-weight: 700; flex-shrink: 0; }
-
-    /* Holiday */
-    .holiday-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: var(--bg); border-radius: 8px; margin-bottom: 6px; font-size: 0.88rem; }
-    .holiday-date { color: var(--text-muted); font-size: 0.8rem; }
-
-    /* Customer service card */
-    .cs-card {
-      background: linear-gradient(135deg, rgba(37,99,235,0.05), rgba(37,99,235,0.1));
-      border-radius: var(--radius); border: 1px solid rgba(37,99,235,0.15);
-      padding: 22px; margin-bottom: 18px;
+    /* Partner section */
+    .xb-partners { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px 8px; text-align: center; }
+    @media (max-width: 640px) { .xb-partners { grid-template-columns: repeat(2,1fr); } }
+    .xb-partner-item {
+      padding: 14px 10px; border: 1px solid var(--border); border-radius: 12px;
+      font-weight: 700; color: var(--text-muted); font-size: 0.9rem;
+      transition: all 0.2s; cursor: default;
     }
-    .cs-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-    .cs-desc { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 14px; }
-    .cs-info { display: flex; flex-direction: column; gap: 8px; }
-    .cs-item { font-size: 0.88rem; display: flex; align-items: center; gap: 8px; color: var(--text); }
-    .cs-item .cs-dot { color: var(--primary); flex-shrink: 0; }
+    .xb-partner-item:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
 
-    /* Partner grid */
-    .partner-grid {
-      display: flex; flex-wrap: wrap; justify-content: center;
-      gap: 24px 32px; opacity: 0.6; padding: 10px 0;
+    /* Empty state */
+    .xb-empty { text-align: center; padding: 32px 20px; color: var(--text-muted); }
+    .xb-empty-icon { font-size: 2rem; margin-bottom: 10px; opacity: 0.4; }
+
+    /* Success message (replaces alert) */
+    .xb-toast {
+      position: fixed; top: 80px; left: 50%; transform: translateX(-50%);
+      background: var(--text); color: #fff; padding: 12px 24px;
+      border-radius: 10px; font-size: 0.9rem; z-index: 9999;
+      opacity: 0; transition: opacity 0.3s; pointer-events: none;
     }
-    .partner-item { font-size: 1.15rem; font-weight: 700; color: var(--text-muted); }
+    .xb-toast.show { opacity: 1; }
 
-    /* Filter buttons */
-    .filter-bar { display: flex; gap: 6px; flex-wrap: wrap; }
-    .filter-btn {
-      padding: 4px 14px; font-size: 0.82rem; border-radius: 6px;
-      border: 1px solid var(--border); background: var(--bg); color: var(--text-muted);
-      cursor: pointer; transition: all 0.2s; font-weight: 500;
-    }
-    .filter-btn:hover { border-color: var(--primary); color: var(--primary); }
-    .filter-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-
-    /* Tracking badge */
-    .tracking-badge {
+    /* Tracking detail header */
+    .xb-track-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+    .xb-track-tn-label { font-size: 0.82rem; color: var(--text-muted); }
+    .xb-track-tn { font-weight: 700; font-size: 0.95rem; }
+    .xb-track-status {
       display: inline-block; padding: 4px 12px; border-radius: 100px;
-      font-size: 0.82rem; font-weight: 600;
+      font-size: 0.78rem; font-weight: 600;
     }
-    .tracking-badge.transit { background: var(--primary-light); color: var(--primary); }
-    .tracking-badge.done { background: #d1fae5; color: #065f46; }
+    .xb-track-status.transit { background: var(--primary-light); color: var(--primary); }
+    .xb-track-status.done    { background: #d1fae5; color: #065f46; }
 
-    /* Card header with filter */
-    .card-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; }
+    /* Section header */
+    .xb-section-label {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 6px;
+    }
   </style>
 </head>
 <body>
@@ -184,35 +281,41 @@
 </header>
 
 <main id="main-content">
-  <section class="cross-hero">
-    <div class="cross-hero-content">
-      <h1>跨境物流时效与运费计算器</h1>
-      <p>一键查询 DHL、UPS、FedEx 等 12+ 主流物流商的时效与价格，实时追踪全球包裹。基于 IANA 时区数据与 NTP 时间校准。</p>
-      <div class="track-box">
-        <input type="text" id="quickTrackingNumber" placeholder="输入运单号快速查询包裹状态">
+
+  <!-- ===== HERO ===== -->
+  <section class="xb-hero">
+    <div class="xb-hero-inner">
+      <h1>跨境物流 · 时效运费一查便知</h1>
+      <p>连接 DHL、UPS、FedEx 等 8 大主流物流商，基于真正货运数据模拟计算，实时追踪全球包裹状态。</p>
+      <div class="xb-track-wrap">
+        <input type="text" id="quickTrackingNumber" placeholder="输入任意运单号体验物流追踪">
         <button id="quickTrackBtn">查询物流</button>
       </div>
-      <p class="track-hint">支持 DHL、UPS、FedEx、TNT、EMS、Amazon Logistics 等全球 500+ 物流商</p>
-      <div class="trust-bar">
-        <span class="trust-badge">&#10003; 官方时区数据</span>
-        <span class="trust-badge">&#10003; 实时节假日追踪</span>
-        <span class="trust-badge">&#10003; NTP 时间校准</span>
-        <span class="trust-badge">&#10003; 完全免费使用</span>
+      <p class="xb-track-hint">示例：DHL-12345678 / UPS-87654321 &mdash; 支持全球 500+ 物流商</p>
+      <div class="xb-badges">
+        <span class="xb-badge"><span class="xb-badge-dot"></span> 官方时区数据校准</span>
+        <span class="xb-badge"><span class="xb-badge-dot"></span> 节假日自动预警</span>
+        <span class="xb-badge"><span class="xb-badge-dot"></span> 体积重自动换算</span>
+        <span class="xb-badge"><span class="xb-badge-dot"></span> 完全免费使用</span>
       </div>
     </div>
   </section>
 
-  <div class="two-col" style="max-width:1200px;margin:0 auto;padding:30px 24px;">
+  <!-- ===== MAIN GRID ===== -->
+  <div class="xb-main">
+    <div class="xb-grid">
 
-    <!-- ===== LEFT COLUMN: Calculator + Results ===== -->
+    <!-- ===== LEFT COLUMN ===== -->
     <div>
-      <div class="card">
-        <h2 class="card-title">时效与运费计算</h2>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="origin">发货地</label>
-            <select id="origin" class="form-select">
+      <!-- Calculator Form -->
+      <div class="xb-card">
+        <h2 class="xb-card-title"><span class="xb-icon">&#128230;</span> 时效与运费计算</h2>
+
+        <div class="xb-form-row">
+          <div>
+            <label class="xb-form-label" for="origin">发货地</label>
+            <select id="origin" class="xb-form-select">
               <option value="shenzhen">中国 · 深圳</option>
               <option value="guangzhou">中国 · 广州</option>
               <option value="yiwu">中国 · 义乌</option>
@@ -221,11 +324,11 @@
               <option value="qingdao">中国 · 青岛</option>
             </select>
           </div>
-          <div class="form-group">
-            <label class="form-label" for="destination">目的地</label>
-            <select id="destination" class="form-select">
-              <option value="us-east">美国 · 东部(纽约)</option>
-              <option value="us-west">美国 · 西部(洛杉矶)</option>
+          <div>
+            <label class="xb-form-label" for="destination">目的地</label>
+            <select id="destination" class="xb-form-select">
+              <option value="us-east">美国 · 东部（纽约）</option>
+              <option value="us-west">美国 · 西部（洛杉矶）</option>
               <option value="uk">英国 · 伦敦</option>
               <option value="de">德国 · 柏林</option>
               <option value="fr">法国 · 巴黎</option>
@@ -236,152 +339,180 @@
           </div>
         </div>
 
-        <div class="dim-row">
-          <div class="form-group">
-            <label class="form-label" for="weight">包裹重量 (kg)</label>
-            <input type="number" id="weight" value="1" min="0.1" step="0.1" class="form-input">
+        <div class="xb-form-triple">
+          <div>
+            <label class="xb-form-label" for="weight">包裹重量（kg）</label>
+            <input type="number" id="weight" value="1" min="0.1" step="0.1" class="xb-form-input">
           </div>
-          <div class="form-group">
-            <label class="form-label" for="length">长 (cm)</label>
-            <input type="number" id="length" value="20" min="1" class="form-input">
+          <div>
+            <label class="xb-form-label" for="length">长（cm）</label>
+            <input type="number" id="length" value="20" min="1" class="xb-form-input">
           </div>
-          <div class="form-group">
-            <label class="form-label">宽 × 高 (cm)</label>
-            <div class="dim-pair">
-              <input type="number" id="width" value="15" min="1" class="form-input">
-              <span class="dim-sep">×</span>
-              <input type="number" id="height" value="10" min="1" class="form-input">
+          <div>
+            <label class="xb-form-label">宽 × 高（cm）</label>
+            <div class="xb-dim-wrap">
+              <input type="number" id="width" value="15" min="1" class="xb-form-input">
+              <span class="xb-dim-sep">×</span>
+              <input type="number" id="height" value="10" min="1" class="xb-form-input">
             </div>
           </div>
         </div>
 
-        <div class="form-group" style="margin-bottom:20px;">
-          <label class="form-label" for="shipDate">发货日期</label>
-          <input type="date" id="shipDate" class="form-input">
+        <div style="margin-bottom: 20px;">
+          <label class="xb-form-label" for="shipDate">发货日期</label>
+          <input type="date" id="shipDate" class="xb-form-input">
         </div>
 
-        <button id="calculateBtn" class="btn btn-primary" style="width:100%;padding:16px;font-size:1.05rem;">查询物流方案</button>
+        <button id="calculateBtn" class="xb-btn-primary">&#128269; 查询物流方案</button>
       </div>
 
+      <!-- Results Area -->
       <div id="logisticsResults" style="display:none;">
-        <div class="card">
-          <div class="card-header-row">
-            <h2 class="card-title" style="margin:0;">可用物流方案</h2>
-            <div class="filter-bar">
-              <button class="filter-btn active" data-filter="all">全部</button>
-              <button class="filter-btn" data-filter="express">国际快递</button>
-              <button class="filter-btn" data-filter="fast">最快</button>
-              <button class="filter-btn" data-filter="cheap">最便宜</button>
+
+        <!-- Scheme List -->
+        <div class="xb-card">
+          <div class="xb-card-head-row">
+            <h2 class="xb-card-title" style="margin:0;">可用物流方案</h2>
+            <div class="xb-filters">
+              <button class="xb-fbtn on" data-filter="all">全部</button>
+              <button class="xb-fbtn" data-filter="express">国际快递</button>
+              <button class="xb-fbtn" data-filter="air">空运专线</button>
+              <button class="xb-fbtn" data-filter="sea">海运</button>
+              <button class="xb-fbtn" data-filter="fast">最快</button>
+              <button class="xb-fbtn" data-filter="cheap">最省</button>
             </div>
           </div>
           <div id="logisticsList"></div>
         </div>
 
-        <div class="card" id="trackingDetail" style="display:none;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);">
+        <!-- Tracking Detail -->
+        <div class="xb-card" id="trackingDetail" style="display:none;">
+          <h2 class="xb-card-title"><span class="xb-icon">&#128666;</span> 物流追踪详情</h2>
+
+          <div class="xb-track-header">
             <div>
-              <span style="font-size:0.85rem;color:var(--text-muted);">运单号：</span>
-              <span id="detailTrackingNumber" style="font-weight:700;"></span>
+              <span class="xb-track-tn-label">运单号：</span>
+              <span id="detailTrackingNumber" class="xb-track-tn"></span>
             </div>
-            <span id="detailStatusBadge" class="tracking-badge transit">运输中</span>
+            <span id="detailStatusBadge" class="xb-track-status transit">运输中</span>
           </div>
 
-          <div class="progress-steps">
-            <div><div class="progress-dot done" id="dot-pickup">&#10003;</div><p class="progress-label">已揽收</p></div>
-            <div><div class="progress-dot active" id="dot-transit">&#9992;</div><p class="progress-label">运输中</p></div>
-            <div><div class="progress-dot pending" id="dot-customs">&#9873;</div><p class="progress-label">清关中</p></div>
-            <div><div class="progress-dot pending" id="dot-delivered">&#8962;</div><p class="progress-label">已签收</p></div>
+          <!-- Progress -->
+          <div class="xb-progress">
+            <div class="xb-step">
+              <div class="xb-step-dot done" id="dot-pickup">&#10003;</div>
+              <div class="xb-step-label">已揽收</div>
+            </div>
+            <div class="xb-step">
+              <div class="xb-step-dot on" id="dot-transit">&#9992;</div>
+              <div class="xb-step-label">运输中</div>
+            </div>
+            <div class="xb-step">
+              <div class="xb-step-dot wait" id="dot-customs">&#9873;</div>
+              <div class="xb-step-label">清关中</div>
+            </div>
+            <div class="xb-step">
+              <div class="xb-step-dot wait" id="dot-delivered">&#127968;</div>
+              <div class="xb-step-label">已签收</div>
+            </div>
           </div>
 
-          <div id="trackingTimeline" style="position:relative;padding-left:24px;">
-            <div class="timeline-line"></div>
+          <!-- Timeline -->
+          <div class="xb-tl" id="trackingTimeline">
+            <div class="xb-tl-line"></div>
           </div>
         </div>
       </div>
 
-      <div class="card" style="margin-top:24px;">
-        <h2 class="card-title">合作物流商</h2>
-        <div class="partner-grid">
-          <span class="partner-item">DHL</span>
-          <span class="partner-item">UPS</span>
-          <span class="partner-item">FedEx</span>
-          <span class="partner-item">TNT</span>
-          <span class="partner-item">EMS</span>
-          <span class="partner-item">Amazon Logistics</span>
-          <span class="partner-item">USPS</span>
-          <span class="partner-item">Royal Mail</span>
+      <!-- Partner Carriers -->
+      <div class="xb-card">
+        <h2 class="xb-card-title"><span class="xb-icon">&#129309;</span> 合作物流商</h2>
+        <div class="xb-partners">
+          <div class="xb-partner-item">DHL</div>
+          <div class="xb-partner-item">UPS</div>
+          <div class="xb-partner-item">FedEx</div>
+          <div class="xb-partner-item">TNT</div>
+          <div class="xb-partner-item">EMS</div>
+          <div class="xb-partner-item">Amazon FBA</div>
+          <div class="xb-partner-item">空运专线</div>
+          <div class="xb-partner-item">海运快船</div>
         </div>
       </div>
     </div>
 
-    <!-- ===== RIGHT COLUMN: Sidebar ===== -->
+    <!-- ===== RIGHT COLUMN ===== -->
     <aside>
-      <div class="panel-card">
-        <h3><span class="panel-icon">&#9200;</span> 实时时间对比</h3>
-        <div class="time-row">
+
+      <!-- Real-time Clock -->
+      <div class="xb-panel">
+        <h3><span>&#9200;</span> 实时时间对比</h3>
+        <div class="xb-time-row">
           <div>
-            <div class="time-label">发货地 (中国)</div>
-            <div id="originTime" class="time-value">--:--</div>
-            <div id="originDate" class="time-date">--</div>
+            <div class="xb-time-loc">发货地 · 中国</div>
+            <div id="originTime" class="xb-time-val">--:--</div>
+            <div id="originDate" class="xb-time-sub">--</div>
           </div>
-          <div class="time-gmt">GMT+8</div>
+          <div class="xb-time-gmt">GMT+8</div>
         </div>
-        <div class="time-row">
+        <div class="xb-time-row">
           <div>
-            <div id="destinationName" class="time-label">目的地</div>
-            <div id="destinationTime" class="time-value">--:--</div>
-            <div id="destinationDate" class="time-date">--</div>
+            <div id="destinationName" class="xb-time-loc">目的地</div>
+            <div id="destinationTime" class="xb-time-val">--:--</div>
+            <div id="destinationDate" class="xb-time-sub">--</div>
           </div>
-          <div id="destinationTz" class="time-gmt">--</div>
+          <div id="destinationTz" class="xb-time-gmt">--</div>
         </div>
       </div>
 
-      <div class="panel-card">
-        <h3><span class="panel-icon">&#9993;</span> 服务保障</h3>
-        <div class="guarantee-item"><span class="guarantee-icon">&#10003;</span> 官方授权渠道，时效稳定可靠</div>
-        <div class="guarantee-item"><span class="guarantee-icon">&#10003;</span> 全程物流追踪，实时更新状态</div>
-        <div class="guarantee-item"><span class="guarantee-icon">&#10003;</span> 专业清关团队，降低查验风险</div>
-        <div class="guarantee-item"><span class="guarantee-icon">&#10003;</span> 丢件破损全额赔付，安心无忧</div>
+      <!-- Guarantees -->
+      <div class="xb-panel">
+        <h3><span>&#9993;</span> 服务保障</h3>
+        <div class="xb-guarantee"><span class="xb-gicon">&#10003;</span> 官方授权渠道，时效稳定可靠</div>
+        <div class="xb-guarantee"><span class="xb-gicon">&#10003;</span> 全程物流追踪，实时更新状态</div>
+        <div class="xb-guarantee"><span class="xb-gicon">&#10003;</span> 专业清关团队，降低查验风险</div>
+        <div class="xb-guarantee"><span class="xb-gicon">&#10003;</span> 丢件破损全额赔付，安心无忧</div>
       </div>
 
-      <div class="panel-card">
-        <h3><span class="panel-icon">&#128197;</span> 近期影响时效的节假日</h3>
+      <!-- Holidays -->
+      <div class="xb-panel">
+        <h3><span>&#128197;</span> 近期影响时效的节假日</h3>
         <div id="holidaysList">
-          <div class="holiday-item"><span>端午节 (中国)</span><span class="holiday-date">2026-06-14</span></div>
-          <div class="holiday-item"><span>独立日 (美国)</span><span class="holiday-date">2026-07-04</span></div>
-          <div class="holiday-item"><span>海之日 (日本)</span><span class="holiday-date">2026-07-20</span></div>
-          <div class="holiday-item"><span>圣诞节 (全球)</span><span class="holiday-date">2026-12-25</span></div>
+          <div class="xb-holiday"><span>端午节 · 中国</span><span class="xb-hdate">2026-06-14</span></div>
+          <div class="xb-holiday"><span>独立日 · 美国</span><span class="xb-hdate">2026-07-04</span></div>
+          <div class="xb-holiday"><span>海之日 · 日本</span><span class="xb-hdate">2026-07-20</span></div>
+          <div class="xb-holiday"><span>圣诞节 · 全球</span><span class="xb-hdate">2026-12-25</span></div>
         </div>
       </div>
 
-      <div class="panel-card">
-        <h3><span class="panel-icon">&#10067;</span> 常见问题</h3>
-        <div class="faq-list">
-          <details class="faq-item">
-            <summary class="faq-question">为什么实际时效会有差异？</summary>
-            <div class="faq-answer"><p>实际时效可能受节假日、清关速度、天气、航班延误等因素影响。计算结果为理论最快时效，仅供参考。</p></div>
-          </details>
-          <details class="faq-item">
-            <summary class="faq-question">如何计算体积重量？</summary>
-            <div class="faq-answer"><p>体积重量(kg) = 长(cm) × 宽(cm) × 高(cm) ÷ 5000。最终计费重量取实际重量和体积重量中的较大值。</p></div>
-          </details>
-          <details class="faq-item">
-            <summary class="faq-question">哪些物品不能国际邮寄？</summary>
-            <div class="faq-answer"><p>易燃易爆品、液体粉末、电池、仿牌商品、食品、药品等属于国际快递禁运品。具体请以各物流商规定为准。</p></div>
-          </details>
+      <!-- FAQ -->
+      <div class="xb-panel">
+        <h3><span>&#10067;</span> 常见问题</h3>
+        <div class="xb-faq-item">
+          <div class="xb-faq-q" onclick="this.parentElement.classList.toggle('open')">&#9654; 为什么实际时效会有差异？</div>
+          <div class="xb-faq-a">实际时效可能受节假日、清关速度、天气、航班延误等因素影响。计算结果为理论最快时效，仅供参考。</div>
+        </div>
+        <div class="xb-faq-item">
+          <div class="xb-faq-q" onclick="this.parentElement.classList.toggle('open')">&#9654; 如何计算体积重量？</div>
+          <div class="xb-faq-a">体积重量（kg）= 长（cm）× 宽（cm）× 高（cm）÷ 5000。最终计费重量取实际重量和体积重量中的较大值。</div>
+        </div>
+        <div class="xb-faq-item">
+          <div class="xb-faq-q" onclick="this.parentElement.classList.toggle('open')">&#9654; 哪些物品不能国际邮寄？</div>
+          <div class="xb-faq-a">易燃易爆品、液体粉末、电池、仿牌商品、食品、药品等属于国际快递禁运品。具体请以各物流商规定为准。</div>
         </div>
       </div>
 
-      <div class="cs-card">
-        <h3><span class="panel-icon">&#128222;</span> 专业客服支持</h3>
-        <p class="cs-desc">如有任何物流问题，我们的专业团队随时为您提供帮助。</p>
-        <div class="cs-info">
-          <div class="cs-item"><span class="cs-dot">&#9200;</span> 周一至周五 9:00-18:00（北京时间）</div>
-          <div class="cs-item"><span class="cs-dot">&#9993;</span> support@globetimezone.com</div>
-        </div>
+      <!-- Customer Service -->
+      <div class="xb-cs">
+        <h3><span>&#128222;</span> 专业客服支持</h3>
+        <p>如有任何物流问题，我们的专业团队随时为您提供帮助。</p>
+        <div class="xb-cs-row"><span style="flex-shrink:0;">&#9200;</span> 周一至周五 9:00-18:00（北京时间）</div>
+        <div class="xb-cs-row"><span style="flex-shrink:0;">&#9993;</span> support@globetimezone.com</div>
       </div>
     </aside>
-  </div>
+
+    </div><!-- /.xb-grid -->
+  </div><!-- /.xb-main -->
+
 </main>
 
 <footer role="contentinfo">
