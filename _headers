@@ -1,6 +1,6 @@
 # ============================================================
 # GlobeTimeZone - Cloudflare Pages Headers Configuration
-# 安全加固手册 v2.0 | 2026-05-25
+# 安全加固手册 v2.1 | 2026-06-08 — 修复 HTML 页面缓存（/* → 全局匹配干净 URL）
 # ============================================================
 
 # === 全局安全头（所有页面） ===
@@ -13,16 +13,13 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com https://www.gstatic.com https://*.firebaseio.com https://*.googleapis.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: https:; connect-src 'self' https://*.firebaseio.com https://*.googleapis.com https://www.google-analytics.com https://www.gstatic.com https://*.sentry.io https://*.cloudflareinsights.com; frame-src https://*.firebaseapp.com; font-src 'self' https://cdn.jsdelivr.net; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests; report-uri /csp-report;
+  Cache-Control: public, max-age=14400, stale-while-revalidate=86400
+  Vary: Accept-Encoding
 
 # === 可嵌入微件（允许被第三方 iframe 嵌入） ===
 /widget/*
   X-Frame-Options: ALLOW
   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; frame-ancestors *; base-uri 'self'; form-action 'self';
-
-# === HTML 页面：1小时缓存，允许重新验证 ===
-/*.html
-  Cache-Control: public, max-age=3600, must-revalidate
-  Vary: Accept-Encoding, Accept-Language
 
 # === CSS 文件：1年缓存 ===
 # NOTE: immutable removed to prevent permanent caching of error responses
