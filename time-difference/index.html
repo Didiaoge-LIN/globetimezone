@@ -817,8 +817,8 @@
       $('overlapRow').style.display = 'block';
       $('overlapSummary').className = 'td-overlap-summary';
       $('overlapSummary').querySelector('.icon-wrap').textContent = '\u2713';
-      $('overlapText').innerHTML = '<strong>' + fmt(t('timedifference.overlap.hasOverlap','{hours} 小时重叠窗口'), {hours: Math.round(overlapHrs)}) + '</strong><br>' + t('timedifference.overlap.hasOverlapDesc','双方都在工作时间的通话黄金时段。建议安排在 UTC ') + ' + 
-        Math.floor(os).toString().padStart(2, '0') + ':00 – ' + Math.floor(oe).toString().padStart(2, '0') + ':00 之间';
+      $('overlapText').innerHTML = '<strong>' + fmt(t('timedifference.overlap.hasOverlap','{hours} 小时重叠窗口'), {hours: Math.round(overlapHrs)}) + '</strong><br>' + t('timedifference.overlap.hasOverlapDesc','双方都在工作时间的通话黄金时段。建议安排在 UTC ') +
+        Math.floor(os).toString().padStart(2, '0') + ':00 – ' + Math.floor(oe).toString().padStart(2, '0') + ':00 ' + t('timedifference.overlap.between','之间');
 
       // City times during overlap
       const midUTCH = (os + oe) / 2;
