@@ -394,6 +394,25 @@
     .hk-notif-item { padding: 12px 16px; border-bottom: 1px solid #f1f5f9; cursor: pointer; transition: .15s; }
     .hk-notif-item:hover { background: #f8fafc; }
     .hk-notif-empty { padding: 24px; text-align: center; color: #94a3b8; font-size: 0.85rem; }
+
+    /* 推荐按钮高亮脉冲动画 */
+    @keyframes hkPulse {
+      0%, 100% { box-shadow: 0 6px 20px rgba(37,99,235,0.3); }
+      50% { box-shadow: 0 6px 30px rgba(37,99,235,0.6), 0 0 0 6px rgba(37,99,235,0.15); }
+    }
+
+    /* 侧边栏历史区域增强 */
+    .hk-history-section { margin-bottom: 14px; }
+    .hk-history-section:last-child { margin-bottom: 0; }
+    .hk-history-header {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.77rem; font-weight: 600; color: #475569; margin-bottom: 8px;
+    }
+    .hk-history-header-icon { font-size: 0.85rem; }
+    .hk-history-count {
+      margin-left: auto; font-size: 0.68rem; color: #94a3b8;
+      background: #f1f5f9; padding: 1px 7px; border-radius: 10px; font-weight: 500;
+    }
   </style>
 </head>
 <body>
@@ -427,7 +446,7 @@
   <!-- ═══════ HERO ═══════ -->
   <section class="xb-hero">
     <div class="xb-hero-inner">
-      <div class="xb-hero-badge">🧰 跨境工具箱 v5.0</div>
+      <div class="xb-hero-badge">🧰 跨境工具箱 v6.0</div>
       <h1>跨境难题，<span>一站搞定</span></h1>
       <p>物流比价 · 关税预估 · 汇率换算 · HS编码 · 禁运查询 — 你的专属跨境工具箱</p>
       <div class="xb-quick-track">
@@ -719,20 +738,32 @@
 
       <!-- 我的最近使用（自动记忆系统） -->
       <div class="xb-widget">
-        <h4 style="display:flex;align-items:center;justify-content:space-between;">
+        <h4 style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
           <span style="display:flex;align-items:center;gap:6px;">🧠 我的最近使用</span>
-          <button id="hkClearAllHistory" style="font-size:0.72rem;color:#94a3b8;border:none;background:none;cursor:pointer;transition:.2s;" onmouseenter="this.style.color='#ef4444'" onmouseleave="this.style.color='#94a3b8'">清空历史</button>
+          <button id="hkClearAllHistory" style="font-size:0.72rem;color:#94a3b8;border:none;background:none;cursor:pointer;padding:2px 6px;border-radius:5px;transition:.2s;" onmouseenter="this.style.color='#ef4444';this.style.background='#fef2f2'" onmouseleave="this.style.color='#94a3b8';this.style.background='none'">清空</button>
         </h4>
-        <div style="margin-bottom:12px;">
-          <p style="font-size:0.78rem;font-weight:600;color:#64748b;margin:0 0 6px;">📦 最近物流查询</p>
-          <div id="hkShippingHistory" class="hk-memory-list" style="max-height:240px;overflow-y:auto;">
-            <div style="text-align:center;padding:16px 0;color:#94a3b8;font-size:0.8rem;">暂无查询记录</div>
+
+        <div class="hk-history-section">
+          <div class="hk-history-header">
+            <span class="hk-history-header-icon">📦</span>
+            最近物流查询
+            <span class="hk-history-count" id="hkShippingCount">0</span>
+          </div>
+          <div id="hkShippingHistory" class="hk-memory-list" style="max-height:260px;overflow-y:auto;">
+            <div style="text-align:center;padding:16px 0;color:#94a3b8;font-size:0.8rem;">暂无查询记录<br><span style="font-size:0.72rem;display:block;margin-top:4px;">查询物流后自动保存</span></div>
           </div>
         </div>
-        <div>
-          <p style="font-size:0.78rem;font-weight:600;color:#64748b;margin:0 0 6px;">📮 最近追踪包裹</p>
-          <div id="hkTrackingHistory" class="hk-memory-list" style="max-height:200px;overflow-y:auto;">
-            <div style="text-align:center;padding:16px 0;color:#94a3b8;font-size:0.8rem;">暂无追踪记录</div>
+
+        <div style="border-top:1px solid #f1f5f9;margin:14px 0;"></div>
+
+        <div class="hk-history-section">
+          <div class="hk-history-header">
+            <span class="hk-history-header-icon">📮</span>
+            最近追踪包裹
+            <span class="hk-history-count" id="hkTrackingCount">0</span>
+          </div>
+          <div id="hkTrackingHistory" class="hk-memory-list" style="max-height:220px;overflow-y:auto;">
+            <div style="text-align:center;padding:16px 0;color:#94a3b8;font-size:0.8rem;">暂无追踪记录<br><span style="font-size:0.72rem;display:block;margin-top:4px;">追踪包裹后自动保存</span></div>
           </div>
         </div>
       </div>
@@ -832,7 +863,7 @@
 </footer>
 
 <script src="/scripts/cross-border.js?v=5"></script>
-<script src="/scripts/cross-border-hooks.js?v=1"></script>
+<script src="/scripts/cross-border-hooks.js?v=2"></script>
 <script src="/baidu-analytics.js" defer></script>
 </body>
 </html>
