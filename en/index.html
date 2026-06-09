@@ -7,7 +7,7 @@
   <meta name="description" content="Instantly know whether to reach out or schedule a meeting. Real-time global rhythm at your fingertips.">
 
   <!-- Browser language auto-detection (sync, redirect before render) -->
-  <script src="/js/auto-lang.js?v=2"></script>
+  <script src="/js/auto-lang.js?v=3"></script>
 
   <!-- Hreflang multi-language SEO -->
   <link rel="alternate" hreflang="en" href="https://globetimezone.com/en/" />
@@ -60,15 +60,15 @@
         <div id="lang-drop"
           style="display:none;position:absolute;right:0;top:100%;margin-top:6px;background:var(--bg,#fff);border:1px solid var(--border);border-radius:8px;min-width:148px;box-shadow:0 6px 20px rgba(0,0,0,0.12);z-index:1000;"
           onclick="event.stopPropagation()">
-          <a href="/en/" onclick="localStorage.setItem('gtz_lang','en')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;border-radius:4px 4px 0 0;">🇺🇸 English</a>
-          <a href="/zh/" onclick="localStorage.setItem('gtz_lang','zh')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇨🇳 中文</a>
-          <a href="/de/" onclick="localStorage.setItem('gtz_lang','de')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇩🇪 Deutsch</a>
-          <a href="/fr/" onclick="localStorage.setItem('gtz_lang','fr')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇫🇷 Français</a>
-          <a href="/es/" onclick="localStorage.setItem('gtz_lang','es')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇪🇸 Español</a>
-          <a href="/ja/" onclick="localStorage.setItem('gtz_lang','ja')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇯🇵 日本語</a>
-          <a href="/ko/" onclick="localStorage.setItem('gtz_lang','ko')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇰🇷 한국어</a>
-          <a href="/pt/" onclick="localStorage.setItem('gtz_lang','pt')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇧🇷 Português</a>
-          <a href="/ar/" onclick="localStorage.setItem('gtz_lang','ar')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;border-radius:0 0 4px 4px;">🇸🇦 العربية</a>
+          <a href="/en/" onclick="localStorage.setItem('gtz_lang_manual','en')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;border-radius:4px 4px 0 0;">🇺🇸 English</a>
+          <a href="/zh/" onclick="localStorage.setItem('gtz_lang_manual','zh')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇨🇳 中文</a>
+          <a href="/de/" onclick="localStorage.setItem('gtz_lang_manual','de')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇩🇪 Deutsch</a>
+          <a href="/fr/" onclick="localStorage.setItem('gtz_lang_manual','fr')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇫🇷 Français</a>
+          <a href="/es/" onclick="localStorage.setItem('gtz_lang_manual','es')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇪🇸 Español</a>
+          <a href="/ja/" onclick="localStorage.setItem('gtz_lang_manual','ja')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇯🇵 日本語</a>
+          <a href="/ko/" onclick="localStorage.setItem('gtz_lang_manual','ko')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇰🇷 한국어</a>
+          <a href="/pt/" onclick="localStorage.setItem('gtz_lang_manual','pt')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇧🇷 Português</a>
+          <a href="/ar/" onclick="localStorage.setItem('gtz_lang_manual','ar')" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;border-radius:0 0 4px 4px;">🇸🇦 العربية</a>
         </div>
       </div>
     </nav>
