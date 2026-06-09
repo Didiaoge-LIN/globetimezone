@@ -1,11 +1,12 @@
 /**
- * i18n.js v1.0 — 纯前端国际化引擎
+ * i18n.js v2.0 — 纯前端国际化引擎
  * 
  * 工作原理：
  * 1. 从 URL 路径检测当前语言（/en/ → en，/zh/ → zh，/ → 默认 zh）
  * 2. 加载对应的 /locales/{lang}.json 语言包
  * 3. 遍历所有 [data-i18n] 元素，替换文本内容
  * 4. 遍历所有 [data-i18n-attr] 元素，替换属性值（placeholder、aria-label 等）
+ * 5. 自动给所有内部链接加语言前缀（/en/about/ 等）
  *
  * HTML 用法：
  *   <span data-i18n="nav.timezones">时差查询</span>
@@ -64,12 +65,6 @@
   var TRANSLATIONS = {};
 
   function applyTranslations() {
-    // 0. 隐藏 body 防止 FOUT（首次渲染后再显示）
-    var bodyHidden = document.body.style.opacity === '0';
-    if (!bodyHidden) {
-      document.body.style.opacity = '0';
-    }
-
     // 1. HTML 内容替换：[data-i18n-html]（保留 <br> 等标签）
     var htmlNodes = document.querySelectorAll('[data-i18n-html]');
     for (var i = 0; i < htmlNodes.length; i++) {
@@ -170,6 +165,38 @@
     }
   }
 
+  // ─── 核心功能：给所有内部链接加语言前缀 ──────────────
+  // 用户在 /en/ 页面点 "Time Zones" → 跳到 /en/time-difference/
+  // 而不是 /time-difference/（丢失语言上下文）
+  var LANG_PREFIX_RE = /^\/(en|zh|de|fr|es|ja|ko|pt|ar)\//;
+  function updateInternalLinks() {
+    var path = window.location.pathname;
+
+    // 只在语言目录内生效（/en/、/zh/ 等）
+    // 根路径 / 不加前缀（根路径本身就是中文版）
+    if (!LANG_PREFIX_RE.test(path)) return;
+
+    var prefix = '/' + LANG;
+
+    var links = document.querySelectorAll('a[href^="/"]');
+    for (var i = 0; i < links.length; i++) {
+      var link = links[i];
+      var href = (link.getAttribute('href') || '').trim();
+
+      // 跳过：已经有语言前缀
+      if (LANG_PREFIX_RE.test(href)) continue;
+
+      // 跳过：语言切换器链接（它们有自己的更新逻辑）
+      if (link.hasAttribute('data-lang')) continue;
+
+      // 跳过：锚点、mailto、tel、javascript
+      if (/^(\/#|mailto:|tel:|javascript:)/.test(href)) continue;
+
+      // 加上语言前缀
+      link.setAttribute('href', prefix + href);
+    }
+  }
+
   // ─── 加载语言包 ──────────────────────────────────────
   function loadTranslations() {
     var xhr = new XMLHttpRequest();
@@ -181,6 +208,7 @@
             TRANSLATIONS = JSON.parse(xhr.responseText);
             applyTranslations();
             updateLangSwitcherLinks();
+            updateInternalLinks();
           } catch (e) {
             console.error('[i18n] Failed to parse locale JSON:', e);
           }
