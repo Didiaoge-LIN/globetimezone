@@ -300,22 +300,43 @@
       .blog-cta input { max-width: 100%; }
     }
   </style>
+  <script src="/js/i18n.js?v=3" defer></script>
 </head>
 <body>
 
   <!-- ═══════ Nav ═══════ -->
   <header id="site-header">
-    <nav aria-label="主导航" style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;max-width:1200px;margin:0 auto;padding:0.75rem 1.5rem;">
-      <a href="/" style="font-weight:800;font-size:1.05rem;text-decoration:none;color:var(--text);display:flex;align-items:center;gap:0.4rem;">
-        <span style="font-size:1.3rem;">🌍</span>GlobeTimeZone
-      </a>
-      <a href="/time-difference/" style="text-decoration:none;color:var(--text);">时差查询</a>
-      <a href="/meeting-planner/" style="text-decoration:none;color:var(--text);">会议规划</a>
-      <a href="/tools/cross-border/" style="text-decoration:none;color:var(--text);">跨境工具</a>
-      <a href="/blog/" style="text-decoration:none;color:var(--accent);font-weight:600;">教程</a>
-      <a href="/pricing/" class="pro-link">升级 PRO</a>
-    </nav>
-  </header>
+  <nav aria-label="主导航" data-i18n-attr="aria-label:nav.ariaLabel" style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;max-width:1200px;margin:0 auto;padding:0.75rem 1.5rem;">
+    <a href="/" style="font-weight:800;font-size:1.05rem;text-decoration:none;color:var(--text);display:flex;align-items:center;gap:0.4rem;">
+      <span style="font-size:1.3rem;">🌍</span>GlobeTimeZone
+    </a>
+    <a href="/time-difference/" style="text-decoration:none;color:var(--text);" data-i18n="nav.timezones">时差查询</a>
+    <a href="/meeting-planner/" style="text-decoration:none;color:var(--text);" data-i18n="nav.meeting">会议规划</a>
+    <a href="/tools/cross-border/" style="text-decoration:none;color:var(--text);" data-i18n="nav.crossborder">跨境工具</a>
+    <a href="/blog/" style="text-decoration:none;color:var(--text);" data-i18n="nav.guides">教程</a>
+    <a href="/pricing/" class="pro-link" data-i18n="nav.upgrade">升级 PRO</a>
+    <div style="margin-left:auto;position:relative;" class="lang-picker">
+      <button id="lang-btn" aria-label="切换语言" data-i18n-attr="aria-label:nav.langButtonAriaLabel" aria-expanded="false"
+        style="background:none;border:1px solid var(--border);border-radius:6px;padding:0.3rem 0.6rem;font-size:0.78rem;cursor:pointer;color:var(--text-secondary);display:flex;align-items:center;gap:0.25rem;white-space:nowrap;"
+        onclick="var d=document.getElementById('lang-drop');var s=d.classList.contains('show');d.classList.toggle('show');this.setAttribute('aria-expanded',s?'false':'true')">
+        <span data-i18n="nav.langButton">🌐 中文 ▾</span>
+      </button>
+      <div id="lang-drop"
+        style="display:none;position:absolute;right:0;top:100%;margin-top:6px;background:var(--bg,#fff);border:1px solid var(--border);border-radius:8px;min-width:148px;box-shadow:0 6px 20px rgba(0,0,0,0.12);z-index:1000;"
+        onclick="event.stopPropagation()">
+        <a href="/zh/" data-lang="zh" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;border-radius:4px 4px 0 0;">🇨🇳 中文</a>
+        <a href="/en/" data-lang="en" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇺🇸 English</a>
+        <a href="/de/" data-lang="de" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇩🇪 Deutsch</a>
+        <a href="/fr/" data-lang="fr" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇫🇷 Français</a>
+        <a href="/es/" data-lang="es" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇪🇸 Español</a>
+        <a href="/ja/" data-lang="ja" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇯🇵 日本語</a>
+        <a href="/ko/" data-lang="ko" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇰🇷 한국어</a>
+        <a href="/pt/" data-lang="pt" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇧🇷 Português</a>
+        <a href="/ar/" data-lang="ar" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;border-radius:0 0 4px 4px;">🇸🇦 العربية</a>
+      </div>
+    </div>
+  </nav>
+</header>
 
   <main id="main-content">
 
