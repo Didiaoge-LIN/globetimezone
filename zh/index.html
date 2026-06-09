@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
 
   <!-- 浏览器语言自动检测 -->
-  <script src="/js/auto-lang.js?v=2"></script>
+  <script src="/js/auto-lang.js?v=3"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>世界时区换算器 | 多城市同时对比 | 免费无广告 | GlobeTimeZone</title>
   <meta name="description" content="免费在线世界时区换算器。支持多城市同时对比，自动处理夏令时。跨境电商、外贸会议、远程团队必备工具。无需注册，直接使用。" />
@@ -90,47 +90,47 @@
         <div class="lang-dropdown">
           <button class="lang-btn active" id="current-lang">🌐 中文</button>
           <div class="lang-menu">
-            <a href="/" class="lang-option" data-lang="en">
+            <a href="/" class="lang-option" data-lang="en" onclick="localStorage.setItem('gtz_lang_manual','en')">
               <span class="lang-flag">🇺🇸</span>
               <span class="lang-name">English</span>
               <span class="lang-native">English</span>
             </a>
-            <a href="/zh/" class="lang-option active" data-lang="zh">
+            <a href="/zh/" class="lang-option active" data-lang="zh" onclick="localStorage.setItem('gtz_lang_manual','zh')">
               <span class="lang-flag">🇨🇳</span>
               <span class="lang-name">Chinese</span>
               <span class="lang-native">中文</span>
             </a>
-            <a href="/es/" class="lang-option" data-lang="es">
+            <a href="/es/" class="lang-option" data-lang="es" onclick="localStorage.setItem('gtz_lang_manual','es')">
               <span class="lang-flag">🇪🇸</span>
               <span class="lang-name">Spanish</span>
               <span class="lang-native">Español</span>
             </a>
-            <a href="/fr/" class="lang-option" data-lang="fr">
+            <a href="/fr/" class="lang-option" data-lang="fr" onclick="localStorage.setItem('gtz_lang_manual','fr')">
               <span class="lang-flag">🇫🇷</span>
               <span class="lang-name">French</span>
               <span class="lang-native">Français</span>
             </a>
-            <a href="/de/" class="lang-option" data-lang="de">
+            <a href="/de/" class="lang-option" data-lang="de" onclick="localStorage.setItem('gtz_lang_manual','de')">
               <span class="lang-flag">🇩🇪</span>
               <span class="lang-name">German</span>
               <span class="lang-native">Deutsch</span>
             </a>
-            <a href="/ja/" class="lang-option" data-lang="ja">
+            <a href="/ja/" class="lang-option" data-lang="ja" onclick="localStorage.setItem('gtz_lang_manual','ja')">
               <span class="lang-flag">🇯🇵</span>
               <span class="lang-name">Japanese</span>
               <span class="lang-native">日本語</span>
             </a>
-            <a href="/pt/" class="lang-option" data-lang="pt">
+            <a href="/pt/" class="lang-option" data-lang="pt" onclick="localStorage.setItem('gtz_lang_manual','pt')">
               <span class="lang-flag">🇧🇷</span>
               <span class="lang-name">Portuguese</span>
               <span class="lang-native">Português</span>
             </a>
-            <a href="/ko/" class="lang-option" data-lang="ko">
+            <a href="/ko/" class="lang-option" data-lang="ko" onclick="localStorage.setItem('gtz_lang_manual','ko')">
               <span class="lang-flag">🇰🇷</span>
               <span class="lang-name">Korean</span>
               <span class="lang-native">한국어</span>
             </a>
-            <a href="/ar/" class="lang-option" data-lang="ar">
+            <a href="/ar/" class="lang-option" data-lang="ar" onclick="localStorage.setItem('gtz_lang_manual','ar')">
               <span class="lang-flag">🇸🇦</span>
               <span class="lang-name">Arabic</span>
               <span class="lang-native">العربية</span>
