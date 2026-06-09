@@ -69,3 +69,16 @@
 - **凭据状态**: ⚠️ 仍未配置。累计积压 Post #1~#4
 - **下次排期**: 2026-06-09 周二 → Post #5「墨西哥亡灵节踩坑」(tool-demo)
 - **🔴 关键提醒**: 凭据问题已持续14天（5/31起），4篇帖子积压。明天(周二)有排期内容，如凭据仍未配置将继续 FAIL
+
+## 2026-06-09 (第9次执行)
+- **状态**: 帖子已生成，因缺少凭据未发布到平台
+- **日期**: 2026-06-09 周二
+- **当日排期**: Post #5「墨西哥亡灵节踩坑」(tool-demo)
+- **Twitter 帖子**: 131字符，含 #GlobalBusiness #CrossBorder #Fail 标签
+- **LinkedIn 帖子**: 162字符，场景叙事式长文
+- **发布结果**: 双平台均 FAIL — missing_credentials
+  - Twitter: 缺少 TWITTER_API_KEY / TWITTER_API_SECRET / TWITTER_ACCESS_TOKEN / TWITTER_ACCESS_SECRET
+  - LinkedIn: 缺少 LINKEDIN_ACCESS_TOKEN
+- **凭据状态**: ⚠️ 仍未配置。累计积压 Post #1~#5（5篇帖子）
+- **下次排期**: 2026-06-11 周四 → Post #6「加几个城市试试」(interactive)
+- **🔴 关键提醒**: 凭据问题已持续15天（5/31起），5篇帖子积压未发
