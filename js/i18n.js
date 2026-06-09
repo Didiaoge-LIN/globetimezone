@@ -124,6 +124,22 @@
   var TRANSLATIONS = {};
   var LOCALE_URL = '/locales/' + LANG + '.json';
 
+  // ─── 从 URL 路径生成页面 slug（匹配 Python 脚本的 key 前缀）─────
+  function detectPageSlug() {
+    var path = window.location.pathname;
+    // 去掉语言前缀
+    var pagePath = path.replace(/^\/(en|zh|de|fr|es|ja|ko|pt|ar)/, '');
+    // 去掉 .html
+    pagePath = pagePath.replace(/\.html$/, '');
+    // /index → 空
+    pagePath = pagePath.replace(/\/index$/, '');
+    // 去掉首尾 /
+    pagePath = pagePath.replace(/^\/+|\/+$/g, '');
+    // 转换为 slug: time-in/new-york → timein.newyork
+    var slug = pagePath.replace(/\//g, '.').replace(/-/g, '');
+    return slug || 'home';
+  }
+
   function applyTranslations() {
     // 1. HTML 内容：[data-i18n-html]（保留 <br> 等）
     var htmlEls = document.querySelectorAll('[data-i18n-html]');
@@ -134,9 +150,11 @@
       }
     }
 
-    // 2. 纯文本：[data-i18n]
+    // 2. 纯文本：[data-i18n]（排除同时有 data-i18n-html 的元素）
     var textEls = document.querySelectorAll('[data-i18n]');
     for (var j = 0; j < textEls.length; j++) {
+      // 跳过已用 data-i18n-html 处理的元素
+      if (textEls[j].hasAttribute('data-i18n-html')) continue;
       var tKey = textEls[j].getAttribute('data-i18n');
       if (TRANSLATIONS[tKey] !== undefined) {
         textEls[j].textContent = TRANSLATIONS[tKey];
@@ -160,15 +178,23 @@
       }
     }
 
-    // 4. <title>
-    if (TRANSLATIONS['meta.title']) {
+    // 4. <title> — 优先用页面级 key，回退到 meta.title
+    var pageTitleKey = detectPageSlug() + '.meta.title';
+    if (TRANSLATIONS[pageTitleKey]) {
+      document.title = TRANSLATIONS[pageTitleKey];
+    } else if (TRANSLATIONS['meta.title']) {
       document.title = TRANSLATIONS['meta.title'];
     }
 
-    // 5. <meta name="description">
-    var metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc && TRANSLATIONS['meta.description']) {
-      metaDesc.setAttribute('content', TRANSLATIONS['meta.description']);
+    // 5. <meta name="description"> — 优先用页面级 key
+    var metaDescEl = document.querySelector('meta[name="description"]');
+    if (metaDescEl) {
+      var pageDescKey = detectPageSlug() + '.meta.desc';
+      if (TRANSLATIONS[pageDescKey]) {
+        metaDescEl.setAttribute('content', TRANSLATIONS[pageDescKey]);
+      } else if (TRANSLATIONS['meta.description']) {
+        metaDescEl.setAttribute('content', TRANSLATIONS['meta.description']);
+      }
     }
 
     // 6. 更新语言切换器按钮文字
