@@ -1,199 +1,196 @@
 /**
- * i18n.js v2.0 — 纯前端国际化引擎
+ * i18n.js v3.0 — 纯前端国际化引擎
  * 
- * 工作原理：
+ * 核心逻辑：
  * 1. 从 URL 路径检测当前语言（/en/ → en，/zh/ → zh，/ → 默认 zh）
- * 2. 加载对应的 /locales/{lang}.json 语言包
- * 3. 遍历所有 [data-i18n] 元素，替换文本内容
- * 4. 遍历所有 [data-i18n-attr] 元素，替换属性值（placeholder、aria-label 等）
- * 5. 自动给所有内部链接加语言前缀（/en/about/ 等）
- *
+ * 2. 【同步】立即给所有内部链接加语言前缀（不等 JSON 加载）
+ * 3. 【异步】加载 /locales/{lang}.json 并翻译 data-i18n 元素
+ * 
  * HTML 用法：
  *   <span data-i18n="nav.timezones">时差查询</span>
- *   <input data-i18n-attr="placeholder:form.email" placeholder="请输入邮箱">
- *   <meta data-i18n-attr="content:meta.description" name="description" content="...">
+ *   <h1 data-i18n-html="hero.title">标题含<br>换行</h1>
+ *   <input data-i18n-attr="placeholder:form.email">
  */
 
 (function () {
   'use strict';
 
+  // ─── 配置 ──────────────────────────────────────────────
+  var SUPPORTED = ['en', 'zh', 'de', 'fr', 'es', 'ja', 'ko', 'pt', 'ar'];
+  var LANG_PREFIX_RE = /^\/(en|zh|de|fr|es|ja|ko|pt|ar)\//;
+
   // ─── 从 URL 检测当前语言 ───────────────────────────────
   function detectLanguage() {
     var path = window.location.pathname;
-
-    // /en/xxx → en
     var match = path.match(/^\/([a-z]{2})\//);
-    if (match) {
-      var lang = match[1];
-      var supported = ['en', 'zh', 'de', 'fr', 'es', 'ja', 'ko', 'pt', 'ar'];
-      if (supported.indexOf(lang) !== -1) {
-        return lang;
-      }
+    if (match && SUPPORTED.indexOf(match[1]) !== -1) {
+      return match[1];
     }
 
-    // 根路径：检查 localStorage 手动选择
+    // 根路径或非语言目录页面：查 localStorage
     var manual = localStorage.getItem('gtz_lang_manual');
-    if (manual) return manual;
-
-    // 根路径：浏览器语言检测（仅首次）
-    if (!sessionStorage.getItem('gtz_i18n_checked')) {
-      sessionStorage.setItem('gtz_i18n_checked', '1');
-      var browserLang = (navigator.language || 'zh').toLowerCase();
-      var langPrefix = browserLang.split('-')[0];
-      var supportedMap = {
-        'en': 'en', 'zh': 'zh', 'de': 'de', 'fr': 'fr',
-        'es': 'es', 'ja': 'ja', 'ko': 'ko', 'pt': 'pt', 'ar': 'ar'
-      };
-      if (supportedMap[langPrefix]) {
-        // 写入手动选择，避免反复跳转
-        localStorage.setItem('gtz_lang_manual', supportedMap[langPrefix]);
-        return supportedMap[langPrefix];
-      }
-    }
+    if (manual && SUPPORTED.indexOf(manual) !== -1) return manual;
 
     return 'zh'; // 默认中文
   }
 
-  // ─── 当前语言 ─────────────────────────────────────────
   var LANG = detectLanguage();
-  var LOCALE_URL = '/locales/' + LANG + '.json';
 
-  // 设置 <html lang>
+  // 设置 <html lang>（同步，立刻生效）
   document.documentElement.lang = LANG;
 
-  // ─── 加载语言包并渲染 ────────────────────────────────
-  var TRANSLATIONS = {};
+  // ─── 【同步】内部链接加语言前缀 ────────────────────────
+  // 这是最关键的功能：用户在 /en/ 页面点链接，
+  // 必须自动加上 /en/ 前缀，否则会丢失语言上下文
+  function prefixInternalLinks() {
+    // 根路径不加前缀（本身就是中文版）
+    if (!LANG_PREFIX_RE.test(window.location.pathname)) return;
 
-  function applyTranslations() {
-    // 1. HTML 内容替换：[data-i18n-html]（保留 <br> 等标签）
-    var htmlNodes = document.querySelectorAll('[data-i18n-html]');
-    for (var i = 0; i < htmlNodes.length; i++) {
-      var el = htmlNodes[i];
-      var key = el.getAttribute('data-i18n-html');
-      if (TRANSLATIONS[key] !== undefined) {
-        el.innerHTML = TRANSLATIONS[key];
-      }
+    var prefix = '/' + LANG;
+    var links = document.querySelectorAll('a[href^="/"]');
+    for (var i = 0; i < links.length; i++) {
+      var link = links[i];
+      var href = (link.getAttribute('href') || '').trim();
+
+      // 跳过：已有语言前缀
+      if (LANG_PREFIX_RE.test(href)) continue;
+
+      // 跳过：语言切换器（data-lang 属性）
+      if (link.hasAttribute('data-lang')) continue;
+
+      // 跳过：锚点、mailto、tel、javascript
+      if (/^(\/#|mailto:|tel:|javascript:)/.test(href)) continue;
+
+      // 加前缀
+      link.setAttribute('href', prefix + href);
     }
-
-    // 2. 纯文本替换：[data-i18n]
-    var textNodes = document.querySelectorAll('[data-i18n]');
-    for (var j = 0; j < textNodes.length; j++) {
-      var el2 = textNodes[j];
-      var key2 = el2.getAttribute('data-i18n');
-      if (TRANSLATIONS[key2] !== undefined) {
-        el2.textContent = TRANSLATIONS[key2];
-      }
-    }
-
-    // 2. 属性替换：[data-i18n-attr="attr1:key1;attr2:key2"]
-    //    例如：data-i18n-attr="placeholder:form.email;aria-label:form.emailDesc"
-    var attrNodes = document.querySelectorAll('[data-i18n-attr]');
-    for (var j = 0; j < attrNodes.length; j++) {
-      var el2 = attrNodes[j];
-      var spec = el2.getAttribute('data-i18n-attr');
-      var pairs = spec.split(';');
-      for (var k = 0; k < pairs.length; k++) {
-        var parts = pairs[k].split(':');
-        if (parts.length === 2) {
-          var attr = parts[0].trim();
-          var tKey = parts[1].trim();
-          if (TRANSLATIONS[tKey] !== undefined) {
-            el2.setAttribute(attr, TRANSLATIONS[tKey]);
-          }
-        }
-      }
-    }
-
-    // 3. 特殊：<title>
-    if (TRANSLATIONS['meta.title']) {
-      document.title = TRANSLATIONS['meta.title'];
-    }
-
-    // 4. 特殊：<meta name="description">
-    var metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc && TRANSLATIONS['meta.description']) {
-      metaDesc.setAttribute('content', TRANSLATIONS['meta.description']);
-    }
-
-    // 5. 更新语言切换器当前语言显示
-    updateLangSwitcherLabel();
   }
 
-  function updateLangSwitcherLabel() {
-    var btn = document.getElementById('lang-btn');
-    if (!btn) return;
-    var labels = {
-      'zh': '🌐 中文 ▾',
-      'en': '🌐 English ▾',
-      'de': '🌐 Deutsch ▾',
-      'fr': '🌐 Français ▾',
-      'es': '🌐 Español ▾',
-      'ja': '🌐 日本語 ▾',
-      'ko': '🌐 한국어 ▾',
-      'pt': '🌐 Português ▾',
-      'ar': '🌐 العربية ▾'
-    };
-    btn.innerHTML = (labels[LANG] || '🌐 English ▾') + ' <span style="font-size:0.7em;">▾</span>';
-  }
-
-  // ─── 动态更新语言切换器的链接 ────────────────────────
+  // ─── 【同步】语言切换器链接更新 ────────────────────────
   function updateLangSwitcherLinks() {
-    // 当前页面路径（不含语言前缀）
     var path = window.location.pathname;
+    // 去掉语言前缀得到真实页面路径
     var pagePath = path.replace(/^\/[a-z]{2}\//, '/');
+    if (pagePath === '/index.html') pagePath = '/';
 
-    // 如果是根路径（语言目录下的 index.html）
-    if (pagePath === '/' || pagePath === '/index.html') {
-      pagePath = '/';
-    }
-
-    var langMap = {
-      'en': '/en', 'zh': '/zh', 'de': '/de', 'fr': '/fr',
-      'es': '/es', 'ja': '/ja', 'ko': '/ko', 'pt': '/pt', 'ar': '/ar'
-    };
+    var langMap = { 'en':'/en','zh':'/zh','de':'/de','fr':'/fr',
+      'es':'/es','ja':'/ja','ko':'/ko','pt':'/pt','ar':'/ar' };
 
     var links = document.querySelectorAll('#lang-drop a[data-lang]');
     for (var i = 0; i < links.length; i++) {
       var link = links[i];
       var targetLang = link.getAttribute('data-lang');
       var prefix = langMap[targetLang] || '/' + targetLang;
-      if (pagePath === '/') {
-        link.href = prefix + '/';
+      link.href = (pagePath === '/') ? prefix + '/' : prefix + pagePath;
+    }
+  }
+
+  // ─── 【同步】立即执行链接前缀（不等 DOM 加载完）───────
+  // 用 MutationObserver 持续监听，确保动态添加的链接也被处理
+  function setupLinkPrefixer() {
+    // 立即执行一次
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function () {
+        prefixInternalLinks();
+        updateLangSwitcherLinks();
+      });
+    } else {
+      prefixInternalLinks();
+      updateLangSwitcherLinks();
+    }
+
+    // 监听 DOM 变化（处理动态渲染的内容）
+    if (typeof MutationObserver !== 'undefined') {
+      var observer = new MutationObserver(function () {
+        prefixInternalLinks();
+        updateLangSwitcherLinks();
+      });
+      var observe = function () {
+        observer.observe(document.body || document.documentElement, {
+          childList: true, subtree: true
+        });
+      };
+      if (document.body) {
+        observe();
       } else {
-        link.href = prefix + pagePath;
+        document.addEventListener('DOMContentLoaded', observe);
       }
     }
   }
 
-  // ─── 核心功能：给所有内部链接加语言前缀 ──────────────
-  // 用户在 /en/ 页面点 "Time Zones" → 跳到 /en/time-difference/
-  // 而不是 /time-difference/（丢失语言上下文）
-  var LANG_PREFIX_RE = /^\/(en|zh|de|fr|es|ja|ko|pt|ar)\//;
-  function updateInternalLinks() {
-    var path = window.location.pathname;
+  setupLinkPrefixer();
 
-    // 只在语言目录内生效（/en/、/zh/ 等）
-    // 根路径 / 不加前缀（根路径本身就是中文版）
-    if (!LANG_PREFIX_RE.test(path)) return;
+  // ─── 【异步】加载语言包并翻译 ────────────────────────
+  var TRANSLATIONS = {};
+  var LOCALE_URL = '/locales/' + LANG + '.json';
 
-    var prefix = '/' + LANG;
+  function applyTranslations() {
+    // 1. HTML 内容：[data-i18n-html]（保留 <br> 等）
+    var htmlEls = document.querySelectorAll('[data-i18n-html]');
+    for (var i = 0; i < htmlEls.length; i++) {
+      var key = htmlEls[i].getAttribute('data-i18n-html');
+      if (TRANSLATIONS[key] !== undefined) {
+        htmlEls[i].innerHTML = TRANSLATIONS[key];
+      }
+    }
 
-    var links = document.querySelectorAll('a[href^="/"]');
-    for (var i = 0; i < links.length; i++) {
-      var link = links[i];
-      var href = (link.getAttribute('href') || '').trim();
+    // 2. 纯文本：[data-i18n]
+    var textEls = document.querySelectorAll('[data-i18n]');
+    for (var j = 0; j < textEls.length; j++) {
+      var tKey = textEls[j].getAttribute('data-i18n');
+      if (TRANSLATIONS[tKey] !== undefined) {
+        textEls[j].textContent = TRANSLATIONS[tKey];
+      }
+    }
 
-      // 跳过：已经有语言前缀
-      if (LANG_PREFIX_RE.test(href)) continue;
+    // 3. 属性：[data-i18n-attr="attr:key;attr:key"]
+    var attrEls = document.querySelectorAll('[data-i18n-attr]');
+    for (var k = 0; k < attrEls.length; k++) {
+      var spec = attrEls[k].getAttribute('data-i18n-attr');
+      var pairs = spec.split(';');
+      for (var m = 0; m < pairs.length; m++) {
+        var parts = pairs[m].split(':');
+        if (parts.length === 2) {
+          var attr = parts[0].trim();
+          var aKey = parts[1].trim();
+          if (TRANSLATIONS[aKey] !== undefined) {
+            attrEls[k].setAttribute(attr, TRANSLATIONS[aKey]);
+          }
+        }
+      }
+    }
 
-      // 跳过：语言切换器链接（它们有自己的更新逻辑）
-      if (link.hasAttribute('data-lang')) continue;
+    // 4. <title>
+    if (TRANSLATIONS['meta.title']) {
+      document.title = TRANSLATIONS['meta.title'];
+    }
 
-      // 跳过：锚点、mailto、tel、javascript
-      if (/^(\/#|mailto:|tel:|javascript:)/.test(href)) continue;
+    // 5. <meta name="description">
+    var metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc && TRANSLATIONS['meta.description']) {
+      metaDesc.setAttribute('content', TRANSLATIONS['meta.description']);
+    }
 
-      // 加上语言前缀
-      link.setAttribute('href', prefix + href);
+    // 6. 更新语言切换器按钮文字
+    updateLangSwitcherButton();
+
+    // 7. 再次确保链接前缀（翻译可能改变了 DOM）
+    prefixInternalLinks();
+  }
+
+  function updateLangSwitcherButton() {
+    var btn = document.getElementById('lang-btn');
+    if (!btn) return;
+    var labels = {
+      'zh': '🌐 中文 ▾', 'en': '🌐 English ▾', 'de': '🌐 Deutsch ▾',
+      'fr': '🌐 Français ▾', 'es': '🌐 Español ▾', 'ja': '🌐 日本語 ▾',
+      'ko': '🌐 한국어 ▾', 'pt': '🌐 Português ▾', 'ar': '🌐 العربية ▾'
+    };
+    var span = btn.querySelector('span[data-i18n]');
+    if (span) {
+      span.textContent = labels[LANG] || '🌐 English ▾';
+    } else {
+      btn.innerHTML = (labels[LANG] || '🌐 English ▾');
     }
   }
 
@@ -201,27 +198,24 @@
   function loadTranslations() {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', LOCALE_URL + '?v=' + (window.GTZ_VERSION || '1'), true);
+    xhr.timeout = 5000;
     xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          try {
-            TRANSLATIONS = JSON.parse(xhr.responseText);
-            applyTranslations();
-            updateLangSwitcherLinks();
-            updateInternalLinks();
-          } catch (e) {
-            console.error('[i18n] Failed to parse locale JSON:', e);
-          }
-        } else {
-          console.warn('[i18n] Failed to load locale:', LOCALE_URL);
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        try {
+          TRANSLATIONS = JSON.parse(xhr.responseText);
+          applyTranslations();
+        } catch (e) {
+          console.error('[i18n] JSON parse error:', e);
         }
       }
+    };
+    xhr.ontimeout = function () {
+      console.warn('[i18n] Locale load timeout:', LOCALE_URL);
     };
     xhr.send();
   }
 
-  // ─── 启动 ────────────────────────────────────────────
-  // 如果 DOM 已就绪，立即执行；否则等 DOMContentLoaded
+  // 启动翻译加载
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', loadTranslations);
   } else {
