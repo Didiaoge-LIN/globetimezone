@@ -4,14 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>全球时差查询 | GlobeTimeZone</title>
-  <meta data-i18n-attr="content:meta.description" name="description" content="对比任意两个城市的当前时间、时差和工作时段 — 基于 IANA 时区数据库，实时精准。">
+  <meta name="description" content="对比任意两个城市的当前时间、时差和工作时段 — 基于 IANA 时区数据库，实时精准。">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://globetimezone.com/time-difference/">
   <link rel="icon" type="image/png" href="/apple-touch-icon.png">
   <link rel="manifest" href="/manifest.json">
   <link rel="stylesheet" href="/styles/style.min.css">
   <link rel="stylesheet" href="/styles/premium.css?v=1">
-  <script src="/js/i18n.js?v=3" defer></script>
   <style>
     :root {
       --td-indigo: #4f46e5;
@@ -282,58 +281,38 @@
 
 <a class="skip-link" href="#main-content">跳到主内容</a>
 
-<header id="site-header">
-  <nav aria-label="主导航" data-i18n-attr="aria-label:nav.ariaLabel" style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;max-width:1200px;margin:0 auto;padding:0.75rem 1.5rem;">
-    <a href="/" style="font-weight:800;font-size:1.05rem;text-decoration:none;color:var(--text);display:flex;align-items:center;gap:0.4rem;">
-      <span style="font-size:1.3rem;">🌍</span>GlobeTimeZone
-    </a>
-    <a href="/time-difference/" style="text-decoration:none;color:var(--text);" data-i18n="nav.timezones">时差查询</a>
-    <a href="/meeting-planner/" style="text-decoration:none;color:var(--text);" data-i18n="nav.meeting">会议规划</a>
-    <a href="/tools/cross-border/" style="text-decoration:none;color:var(--text);" data-i18n="nav.crossborder">跨境工具</a>
-    <a href="/blog/" style="text-decoration:none;color:var(--text);" data-i18n="nav.guides">教程</a>
-    <a href="/pricing/" class="pro-link" data-i18n="nav.upgrade">升级 PRO</a>
-    <div style="margin-left:auto;position:relative;" class="lang-picker">
-      <button id="lang-btn" aria-label="切换语言" data-i18n-attr="aria-label:nav.langButtonAriaLabel" aria-expanded="false"
-        style="background:none;border:1px solid var(--border);border-radius:6px;padding:0.3rem 0.6rem;font-size:0.78rem;cursor:pointer;color:var(--text-secondary);display:flex;align-items:center;gap:0.25rem;white-space:nowrap;"
-        onclick="var d=document.getElementById('lang-drop');var s=d.classList.contains('show');d.classList.toggle('show');this.setAttribute('aria-expanded',s?'false':'true')">
-        <span data-i18n="nav.langButton">🌐 中文 ▾</span>
-      </button>
-      <div id="lang-drop"
-        style="display:none;position:absolute;right:0;top:100%;margin-top:6px;background:var(--bg,#fff);border:1px solid var(--border);border-radius:8px;min-width:148px;box-shadow:0 6px 20px rgba(0,0,0,0.12);z-index:1000;"
-        onclick="event.stopPropagation()">
-        <a href="/zh/" data-lang="zh" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;border-radius:4px 4px 0 0;">🇨🇳 中文</a>
-        <a href="/en/" data-lang="en" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇺🇸 English</a>
-        <a href="/de/" data-lang="de" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇩🇪 Deutsch</a>
-        <a href="/fr/" data-lang="fr" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇫🇷 Français</a>
-        <a href="/es/" data-lang="es" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇪🇸 Español</a>
-        <a href="/ja/" data-lang="ja" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇯🇵 日本語</a>
-        <a href="/ko/" data-lang="ko" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇰🇷 한국어</a>
-        <a href="/pt/" data-lang="pt" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;">🇧🇷 Português</a>
-        <a href="/ar/" data-lang="ar" style="display:block;padding:0.45rem 0.85rem;text-decoration:none;color:var(--text);font-size:0.8rem;border-radius:0 0 4px 4px;">🇸🇦 العربية</a>
-      </div>
-    </div>
-  </nav>
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo">Globe<span>TimeZone</span></a>
+    <nav aria-label="主导航">
+      <a href="/">首页</a>
+      <a href="/time-difference/" class="active">时差查询</a>
+      <a href="/meeting-planner/">会议规划</a>
+      <a href="/tools/cross-border/">跨境工具</a>
+      <a href="/pricing/">升级PRO</a>
+    </nav>
+  </div>
 </header>
 
 <main id="main-content">
 
   <!-- HERO -->
   <section class="td-hero">
-    <div class="td-hero-badge" data-i18n="timedifference.badge"><span class="dot"></span> 哪里有时差，一望便知</div>
-    <h1 data-i18n-html="timedifference.h1">城市对城市，<span>时间一目了然</span></h1>
-    <p data-i18n="timedifference.subtitle">基于 IANA 时区数据库，实时对比两地当前时间、时差和最佳通话窗口。支持全球 30+ 主要城市。</p>
+    <div class="td-hero-badge"><span class="dot"></span> 哪里有时差，一望便知</div>
+    <h1>城市对城市，<span>时间一目了然</span></h1>
+    <p>基于 IANA 时区数据库，实时对比两地当前时间、时差和最佳通话窗口。支持全球 30+ 主要城市。</p>
 
     <div class="td-selector-wrap">
       <div class="td-select-group">
-        <label data-i18n="timedifference.city1Label">城市 1</label>
+        <label>城市 1</label>
         <select id="cityA"></select>
       </div>
       <div class="td-vs-circle">VS</div>
       <div class="td-select-group">
-        <label data-i18n="timedifference.city2Label">城市 2</label>
+        <label>城市 2</label>
         <select id="cityB"></select>
       </div>
-      <button class="td-swap-btn" id="swapBtn" data-i18n-attr="title:timedifference.swapTitle;aria-label:timedifference.swapAria" title="交换城市" aria-label="交换两个城市">&#8644;</button>
+      <button class="td-swap-btn" id="swapBtn" title="交换城市" aria-label="交换两个城市">&#8644;</button>
     </div>
   </section>
 
@@ -370,14 +349,14 @@
 
     <!-- WORK HOURS OVERLAP -->
     <div class="td-hours-card">
-      <h2 data-i18n="timedifference.hours.title">&#9200; 工作时段重叠分析</h2>
-      <div class="td-hc-sub" data-i18n="timedifference.hours.subtitle">工作时段定义为当地时间 9:00 – 18:00，显示在 24 小时 UTC 时间轴上</div>
+      <h2>&#9200; 工作时段重叠分析</h2>
+      <div class="td-hc-sub">工作时段定义为当地时间 9:00 – 18:00，显示在 24 小时 UTC 时间轴上</div>
 
       <div class="td-legends">
-        <div class="td-legend"><div class="td-legend-dot" style="background:#6366f1"></div><span id="legendA" data-i18n="timedifference.legend.city1">城市 1 工作时段</span></div>
-        <div class="td-legend"><div class="td-legend-dot" style="background:#f59e0b"></div><span id="legendB" data-i18n="timedifference.legend.city2">城市 2 工作时段</span></div>
-        <div class="td-legend"><div class="td-legend-dot" style="background:#10b981"></div><span data-i18n="timedifference.legend.overlap">重叠窗口</span></div>
-        <div class="td-legend" style="margin-left:auto"><div class="td-legend-dot" style="background:#4f46e5"></div><span data-i18n="timedifference.legend.utcNow">当前 UTC 时刻</span></div>
+        <div class="td-legend"><div class="td-legend-dot" style="background:#6366f1"></div><span id="legendA">城市 1 工作时段</span></div>
+        <div class="td-legend"><div class="td-legend-dot" style="background:#f59e0b"></div><span id="legendB">城市 2 工作时段</span></div>
+        <div class="td-legend"><div class="td-legend-dot" style="background:#10b981"></div>重叠窗口</div>
+        <div class="td-legend" style="margin-left:auto"><div class="td-legend-dot" style="background:#4f46e5"></div>当前 UTC 时刻</div>
       </div>
 
       <div class="td-timeline">
@@ -415,7 +394,7 @@
 
     <!-- QUICK LINKS -->
     <div class="td-quick-section">
-      <h2 data-i18n="timedifference.quickLinks.title">&#128279; 热门时差查询</h2>
+      <h2>&#128279; 热门时差查询</h2>
       <div class="td-quick-grid" id="quickGrid"></div>
     </div>
   </div>
@@ -426,28 +405,28 @@
     <div class="footer-grid">
       <div>
         <a href="/" class="footer-logo">GlobeTimeZone</a>
-        <p class="footer-desc" data-i18n="footer.description">全球时间决策工具。基于 IANA 时区数据库，提供精准的时差计算和会议规划。</p>
+        <p class="footer-desc">全球时间决策工具。基于 IANA 时区数据库，提供精准的时差计算和会议规划。</p>
       </div>
       <div>
-        <h4 class="footer-heading" data-i18n="footer.tools">工具</h4>
+        <h4 class="footer-heading">工具</h4>
         <ul class="footer-links">
-          <li><a href="/" data-i18n="footer.timezoneConvert">时区转换</a></li>
-          <li><a href="/widget/world-clock.html" data-i18n="footer.worldClock">世界时钟</a></li>
+          <li><a href="/">时区转换</a></li>
+          <li><a href="/widget/world-clock.html">世界时钟</a></li>
           <li><a href="/meeting-planner/">会议规划</a></li>
           <li><a href="/tools/cross-border/">跨境工具</a></li>
         </ul>
       </div>
       <div>
-        <h4 class="footer-heading" data-i18n="footer.about">关于</h4>
+        <h4 class="footer-heading">关于</h4>
         <ul class="footer-links">
-          <li><a href="/about.html" data-i18n="footer.aboutUs">关于我们</a></li>
-          <li><a href="/privacy.html" data-i18n="footer.privacy">隐私政策</a></li>
-          <li><a href="/terms.html" data-i18n="footer.terms">服务条款</a></li>
-          <li><a href="/contact.html" data-i18n="footer.contact">联系我们</a></li>
+          <li><a href="/about.html">关于我们</a></li>
+          <li><a href="/privacy.html">隐私政策</a></li>
+          <li><a href="/terms.html">服务条款</a></li>
+          <li><a href="/contact.html">联系我们</a></li>
         </ul>
       </div>
       <div>
-        <h4 class="footer-heading" data-i18n="timedifference.footer.popular">热门时差</h4>
+        <h4 class="footer-heading">热门时差</h4>
         <ul class="footer-links">
           <li><a href="/time-difference/new-york-to-london">纽约 – 伦敦</a></li>
           <li><a href="/time-difference/tokyo-to-new-york">东京 – 纽约</a></li>
@@ -467,34 +446,9 @@
 
   const $ = id => document.getElementById(id);
 
-  // ─── i18n for dynamic content ───
-  var GTZ_LANG = (function() {
-    var m = window.location.pathname.match(/^\/([a-z]{2})\//);
-    var supported = ['en','zh','de','fr','es','ja','ko','pt','ar'];
-    return (m && supported.indexOf(m[1]) !== -1) ? m[1] : 'zh';
-  })();
-  var GTZ_T = {};
-  function t(key, fallback) { return GTZ_T[key] !== undefined ? GTZ_T[key] : (fallback || key); }
-
-  // Load locale JSON for dynamic text translation
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', '/locales/' + GTZ_LANG + '.json?v=3', true);
-  xhr.timeout = 5000;
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      try { GTZ_T = JSON.parse(xhr.responseText); updateAll(); } catch(e) {}
-    }
-  };
-  xhr.send();
-
-  // Helper to format translated text with placeholders
-  function fmt(str, obj) {
-    return str.replace(/\{([^}]+)\}/g, function(_, k) { return obj[k] !== undefined ? obj[k] : '{'+k+'}'; });
-  }
-
   // ========== City Data ==========
   const CITY_GROUPS = [
-    { group: t('timedifference.group.asia','亚洲'), cities: [
+    { group: '亚洲', cities: [
       ['Asia/Shanghai','北京 / 上海','CST','+8','中国'],
       ['Asia/Tokyo','东京','JST','+9','日本'],
       ['Asia/Seoul','首尔','KST','+9','韩国'],
@@ -505,7 +459,7 @@
       ['Asia/Bangkok','曼谷','ICT','+7','泰国'],
       ['Asia/Jakarta','雅加达','WIB','+7','印尼'],
     ]},
-    { group: t('timedifference.group.europe','欧洲'), cities: [
+    { group: '欧洲', cities: [
       ['Europe/London','伦敦','BST','+1','英国'],
       ['Europe/Paris','巴黎','CEST','+2','法国'],
       ['Europe/Berlin','柏林','CEST','+2','德国'],
@@ -514,7 +468,7 @@
       ['Europe/Rome','罗马','CEST','+2','意大利'],
       ['Europe/Amsterdam','阿姆斯特丹','CEST','+2','荷兰'],
     ]},
-    { group: t('timedifference.group.northamerica','北美洲'), cities: [
+    { group: '北美洲', cities: [
       ['America/New_York','纽约','EDT','-4','美国'],
       ['America/Chicago','芝加哥','CDT','-5','美国'],
       ['America/Denver','丹佛','MDT','-6','美国'],
@@ -523,15 +477,15 @@
       ['America/Vancouver','温哥华','PDT','-7','加拿大'],
       ['America/Mexico_City','墨西哥城','CST','-6','墨西哥'],
     ]},
-    { group: t('timedifference.group.southamerica','南美洲'), cities: [
+    { group: '南美洲', cities: [
       ['America/Sao_Paulo','圣保罗','BRT','-3','巴西'],
       ['America/Argentina/Buenos_Aires','布宜诺斯艾利斯','ART','-3','阿根廷'],
     ]},
-    { group: t('timedifference.group.oceania','大洋洲'), cities: [
+    { group: '大洋洲', cities: [
       ['Australia/Sydney','悉尼','AEST','+10','澳大利亚'],
       ['Pacific/Auckland','奥克兰','NZST','+12','新西兰'],
     ]},
-    { group: t('timedifference.group.africa','非洲'), cities: [
+    { group: '非洲', cities: [
       ['Africa/Cairo','开罗','EEST','+3','埃及'],
       ['Africa/Johannesburg','约翰内斯堡','SAST','+2','南非'],
       ['Africa/Lagos','拉各斯','WAT','+1','尼日利亚'],
@@ -660,10 +614,10 @@
     // --- Work status ---
     function getStatus(hour, day) {
       const isWeekend = day === 'Sat' || day === 'Sun';
-      if (isWeekend) return ['night', t('timedifference.status.weekend','周末 · 休息中')];
-      if (hour >= 9 && hour < 18) return ['working', t('timedifference.status.working','工作时间')];
-      if (hour >= 18 && hour < 22) return ['off', t('timedifference.status.off','下班时间')];
-      return ['night', t('timedifference.status.night','深夜休息')];
+      if (isWeekend) return ['night', '周末 · 休息中'];
+      if (hour >= 9 && hour < 18) return ['working', '工作时间'];
+      if (hour >= 18 && hour < 22) return ['off', '下班时间'];
+      return ['night', '深夜休息'];
     }
 
     const [stA, stTextA] = getStatus(a.hour, a.dayOfWeek);
@@ -690,25 +644,25 @@
     let diffStr, diffUnit;
     if (diffMins > 0) {
       diffStr = diffHours;
-      diffUnit = t('timedifference.diff.unit.hourmin','时{min}分').replace('{min}', diffMins);
+      diffUnit = '时' + diffMins + '分';
     } else {
       diffStr = diffHours;
-      diffUnit = t('timedifference.diff.unit.hour','小时');
+      diffUnit = '小时';
     }
 
     $('diffNum').textContent = diffStr;
     $('diffUnit').textContent = diffUnit;
 
     if (rawDiff > 0) {
-      $('diffDesc').textContent = fmt(t('timedifference.diff.ahead','{city}领先'), {city: infoA.name});
+      $('diffDesc').textContent = infoA.name + '领先';
       $('diffArrow').textContent = '\u2190';
       $('diffArrow').style.transform = '';
     } else if (rawDiff < 0) {
-      $('diffDesc').textContent = fmt(t('timedifference.diff.ahead','{city}领先'), {city: infoB.name});
+      $('diffDesc').textContent = infoB.name + '领先';
       $('diffArrow').textContent = '\u2192';
       $('diffArrow').style.transform = '';
     } else {
-      $('diffDesc').textContent = t('timedifference.diff.same','同时区');
+      $('diffDesc').textContent = '同时区';
       $('diffArrow').textContent = '\u2194';
     }
 
@@ -779,8 +733,8 @@
 
     $('labelA').textContent = infoA.name;
     $('labelB').textContent = infoB.name;
-    $('legendA').textContent = infoA.name + ' ' + t('timedifference.legend.workHours','工作时段');
-    $('legendB').textContent = infoB.name + ' ' + t('timedifference.legend.workHours','工作时段');
+    $('legendA').textContent = infoA.name + ' 工作时段';
+    $('legendB').textContent = infoB.name + ' 工作时段';
 
     // Overlap
     function intervalsOverlap(s1, e1, s2, e2) {
@@ -805,7 +759,7 @@
       const localH = ((utcH + getTimezoneOffset(tz)) % 24 + 24) % 24;
       const h = Math.floor(localH);
       const m = Math.round((localH - h) * 60);
-      const period = h >= 12 ? t('timedifference.pm','下午') : t('timedifference.am','上午');
+      const period = h >= 12 ? '下午' : '上午';
       const h12 = h % 12 === 0 ? 12 : h % 12;
       return period + h12 + ':' + String(m).padStart(2, '0');
     }
@@ -817,26 +771,26 @@
       $('overlapRow').style.display = 'block';
       $('overlapSummary').className = 'td-overlap-summary';
       $('overlapSummary').querySelector('.icon-wrap').textContent = '\u2713';
-      $('overlapText').innerHTML = '<strong>' + fmt(t('timedifference.overlap.hasOverlap','{hours} 小时重叠窗口'), {hours: Math.round(overlapHrs)}) + '</strong><br>' + t('timedifference.overlap.hasOverlapDesc','双方都在工作时间的通话黄金时段。建议安排在 UTC ') + ' + 
+      $('overlapText').innerHTML = '<strong>' + Math.round(overlapHrs) + ' 小时重叠窗口</strong><br>双方都在工作时间的通话黄金时段。建议安排在 UTC ' + 
         Math.floor(os).toString().padStart(2, '0') + ':00 – ' + Math.floor(oe).toString().padStart(2, '0') + ':00 之间';
 
       // City times during overlap
       const midUTCH = (os + oe) / 2;
       $('cityTimes').innerHTML = [
-        '<div class="td-ct-item"><span class="td-ct-city">' + infoA.name + '</span>' + t('timedifference.bestTime','最佳通话时间') + ' <span class="td-ct-time">' + formatTimeForUTC(midUTCH, tzA) + '</span><span class="td-ct-badge good">' + t('timedifference.recommended','推荐') + '</span></div>',
-        '<div class="td-ct-item"><span class="td-ct-city">' + infoB.name + '</span>' + t('timedifference.bestTime','最佳通话时间') + ' <span class="td-ct-time">' + formatTimeForUTC(midUTCH, tzB) + '</span><span class="td-ct-badge good">' + t('timedifference.recommended','推荐') + '</span></div>',
+        '<div class="td-ct-item"><span class="td-ct-city">' + infoA.name + '</span>最佳通话时间 <span class="td-ct-time">' + formatTimeForUTC(midUTCH, tzA) + '</span><span class="td-ct-badge good">推荐</span></div>',
+        '<div class="td-ct-item"><span class="td-ct-city">' + infoB.name + '</span>最佳通话时间 <span class="td-ct-time">' + formatTimeForUTC(midUTCH, tzB) + '</span><span class="td-ct-badge good">推荐</span></div>',
       ].join('');
     } else {
       $('overlapWork').style.width = '0';
       $('overlapFill').style.width = '0';
       $('overlapSummary').className = 'td-overlap-summary no-overlap';
       $('overlapSummary').querySelector('.icon-wrap').textContent = '\u2717';
-      $('overlapText').innerHTML = '<strong>' + t('timedifference.overlap.noOverlap','无工作时间重叠') + '</strong><br>' + t('timedifference.overlap.noOverlapDesc','两城的工作时间完全错开，需要其中一方在非工作时间配合。建议使用会议规划器找到折中方案。');
+      $('overlapText').innerHTML = '<strong>无工作时间重叠</strong><br>两城的工作时间完全错开，需要其中一方在非工作时间配合。建议使用会议规划器找到折中方案。';
 
       // Show each city's working hours in local time
       $('cityTimes').innerHTML = [
-        '<div class="td-ct-item"><span class="td-ct-city">' + infoA.name + '</span>' + t('timedifference.workHours','工作时间') + ' <span class="td-ct-time">09:00–18:00 ' + t('timedifference.local','本地') + '</span><span class="td-ct-badge ok">' + t('timedifference.localOnly','仅限本地') + '</span></div>',
-        '<div class="td-ct-item"><span class="td-ct-city">' + infoB.name + '</span>' + t('timedifference.workHours','工作时间') + ' <span class="td-ct-time">09:00–18:00 ' + t('timedifference.local','本地') + '</span><span class="td-ct-badge ok">' + t('timedifference.localOnly','仅限本地') + '</span></div>',
+        '<div class="td-ct-item"><span class="td-ct-city">' + infoA.name + '</span>工作时间 <span class="td-ct-time">09:00–18:00 本地</span><span class="td-ct-badge ok">仅限本地</span></div>',
+        '<div class="td-ct-item"><span class="td-ct-city">' + infoB.name + '</span>工作时间 <span class="td-ct-time">09:00–18:00 本地</span><span class="td-ct-badge ok">仅限本地</span></div>',
       ].join('');
     }
 
