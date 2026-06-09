@@ -1,13 +1,7 @@
-// Baidu Tongji (百度统计) — reads HM ID from meta tag and loads tracker
+// Baidu Tongji (百度统计) — hardcoded HM ID for GlobeTimeZone
 (function() {
-  var meta = document.querySelector('meta[name="baidu-tongji-id"]');
-  if (!meta) return;
-  var hmId = meta.getAttribute('content');
-  if (!hmId) return;
-
-  // Ensure window._hmt exists
+  var hmId = 'cb6f0f9eec485c2521ce68dab67f5515';
   window._hmt = window._hmt || [];
-
   var hm = document.createElement('script');
   hm.async = true;
   hm.src = 'https://hm.baidu.com/hm.js?' + hmId;
