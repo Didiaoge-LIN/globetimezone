@@ -13,6 +13,8 @@
 var HookSystem = (function() {
   'use strict';
 
+  var T = window.GTZ_T || function(k, fb) { return fb || k; };
+
   var shippingHistory = [];
   var trackingHistory = [];
   var notifications = [];
@@ -87,7 +89,7 @@ var HookSystem = (function() {
     if (countEl) countEl.textContent = shippingHistory.length || 0;
 
     if (!shippingHistory.length) {
-      container.innerHTML = '<div style="text-align:center;padding:16px 0;color:#94a3b8;font-size:0.8rem;">暂无查询记录<br><span style="font-size:0.72rem;display:block;margin-top:4px;">查询物流后自动保存</span></div>';
+      container.innerHTML = '<div style="text-align:center;padding:16px 0;color:#94a3b8;font-size:0.8rem;">' + T('hk.empty_shipping','暂无查询记录') + '<br><span style="font-size:0.72rem;display:block;margin-top:4px;">' + T('hk.empty_shipping_hint','查询物流后自动保存') + '</span></div>';
       return;
     }
 
@@ -111,12 +113,12 @@ var HookSystem = (function() {
           '</div>' +
           '<div style="text-align:right;flex-shrink:0;margin-left:8px;">' +
             '<p style="font-weight:700;color:#2563eb;font-size:0.93rem;margin:0;">¥ ' + (r.bestCost || 0).toLocaleString() + '</p>' +
-            '<p style="font-size:0.7rem;color:#94a3b8;margin:2px 0 0;">' + esc(r.bestCarrier) + ' · ' + (r.totalDays || '--') + '天</p>' +
+            '<p style="font-size:0.7rem;color:#94a3b8;margin:2px 0 0;">' + esc(r.bestCarrier) + ' · ' + (r.totalDays || '--') + T('hk.days','天') + '</p>' +
           '</div>' +
         '</div>' +
         '<div style="display:flex;justify-content:flex-end;margin-top:8px;">' +
           '<span class="hk-requery-btn" data-requery="' + r.id + '" style="color:#2563eb;font-size:0.75rem;cursor:pointer;font-weight:600;padding:2px 8px;border-radius:5px;background:rgba(37,99,235,0.06);transition:.15s;" ' +
-            'onmouseenter="this.style.background=\'rgba(37,99,235,0.12)\'" onmouseleave="this.style.background=\'rgba(37,99,235,0.06)\'">↻ 再查一次</span>' +
+            'onmouseenter="this.style.background=\'rgba(37,99,235,0.12)\'" onmouseleave="this.style.background=\'rgba(37,99,235,0.06)\'">↻ ' + T('hk.requery','再查一次') + '</span>' +
         '</div>';
 
       div.querySelector('[data-requery]').addEventListener('click', function() { requeryShipping(r); });
@@ -133,7 +135,7 @@ var HookSystem = (function() {
     if (countEl) countEl.textContent = trackingHistory.length || 0;
 
     if (!trackingHistory.length) {
-      container.innerHTML = '<div style="text-align:center;padding:16px 0;color:#94a3b8;font-size:0.8rem;">暂无追踪记录<br><span style="font-size:0.72rem;display:block;margin-top:4px;">追踪包裹后自动保存</span></div>';
+      container.innerHTML = '<div style="text-align:center;padding:16px 0;color:#94a3b8;font-size:0.8rem;">' + T('hk.empty_tracking','暂无追踪记录') + '<br><span style="font-size:0.72rem;display:block;margin-top:4px;">' + T('hk.empty_tracking_hint','追踪包裹后自动保存') + '</span></div>';
       return;
     }
 
@@ -145,10 +147,19 @@ var HookSystem = (function() {
       '派送失败': { bg:'#fef2f2', color:'#991b1b' },
       '滞留异常': { bg:'#fef2f2', color:'#991b1b' }
     };
+    // also map translated status keys
+    var sMap2 = {};
+    sMap2[T('xb.track.delivered','已签收')] = { bg:'#d1fae5', color:'#065f46' };
+    sMap2[T('xb.track.transit','运输中')] = { bg:'#dbeafe', color:'#1d4ed8' };
+    sMap2[T('xb.track.customs','清关中')] = { bg:'#fef3c7', color:'#92400e' };
+    sMap2[T('xb.track.picked_up','已揽收')] = { bg:'#e0e7ff', color:'#3730a3' };
+    sMap2[T('hk.status.failed','派送失败')] = { bg:'#fef2f2', color:'#991b1b' };
+    sMap2[T('hk.status.stuck','滞留异常')] = { bg:'#fef2f2', color:'#991b1b' };
+    var fullStatusMap = Object.assign({}, statusMap, sMap2);
 
     container.innerHTML = '';
     trackingHistory.slice(0, 8).forEach(function(r) {
-      var s = statusMap[r.status] || statusMap[r.label] || { bg:'#f1f5f9', color:'#64748b' };
+      var s = fullStatusMap[r.status] || fullStatusMap[r.label] || { bg:'#f1f5f9', color:'#64748b' };
       var div = document.createElement('div');
       div.className = 'hk-fade-in';
       div.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:7px 10px;border-radius:8px;margin-bottom:4px;transition:.15s;cursor:pointer;';
@@ -215,7 +226,7 @@ var HookSystem = (function() {
   }
 
   function clearAllHistory() {
-    if (!confirm('确定要清空所有历史记录吗？')) return;
+    if (!confirm(T('hk.confirm_clear','确定要清空所有历史记录吗？'))) return;
     localStorage.removeItem('gtz_hk_shipping');
     localStorage.removeItem('gtz_hk_tracking');
     shippingHistory = [];
@@ -257,18 +268,18 @@ var HookSystem = (function() {
       '<div class="hk-value-grid">' +
         '<div class="hk-value-item">' +
           '<p class="hk-value-num" style="color:#10b981;">¥ ' + saved.toLocaleString() + '</p>' +
-          '<p class="hk-value-label">已为你节省运费</p>' +
+          '<p class="hk-value-label">' + T('hk.value.saved_freight','已为你节省运费') + '</p>' +
         '</div>' +
         '<div class="hk-value-item">' +
-          '<p class="hk-value-num" style="color:#2563eb;">' + savedDays + ' 天</p>' +
-          '<p class="hk-value-label">最快可提前到达</p>' +
+          '<p class="hk-value-num" style="color:#2563eb;">' + savedDays + ' ' + T('hk.days','天') + '</p>' +
+          '<p class="hk-value-label">' + T('hk.value.fastest_arrive','最快可提前到达') + '</p>' +
         '</div>' +
         '<div class="hk-value-item">' +
           '<p class="hk-value-num" style="color:#f59e0b;">¥ ' + avoidedLoss.toLocaleString() + '+</p>' +
-          '<p class="hk-value-label">避免潜在延误损失</p>' +
+          '<p class="hk-value-label">' + T('hk.value.avoided_loss','避免潜在延误损失') + '</p>' +
         '</div>' +
         '<div class="hk-value-item" style="display:flex;align-items:center;justify-content:center;">' +
-          '<button class="hk-share-btn" onclick="HookSystem.shareResult()">📤 分享给同行</button>' +
+          '<button class="hk-share-btn" onclick="HookSystem.shareResult()">📤 ' + T('hk.share_btn','分享给同行') + '</button>' +
         '</div>' +
       '</div>';
 
@@ -297,21 +308,27 @@ var HookSystem = (function() {
 
   function showTrackingValue(trackingData) {
     if (!trackingData || !trackingData.number) return;
-    var status = trackingData.status || '暂无信息';
+    var status = trackingData.status || T('hk.no_info','暂无信息');
     saveTrackingRecord(trackingData.number, status, trackingData.label || status);
 
     // 异常状态提醒
-    var abnormalStatuses = ['清关中', '派送失败', '滞留异常'];
+    var abnormalStatuses = [
+      '清关中', T('xb.track.customs','清关中'),
+      '派送失败', T('hk.status.failed','派送失败'),
+      '滞留异常', T('hk.status.stuck','滞留异常')
+    ];
     if (abnormalStatuses.indexOf(status) >= 0) {
-      var msgMap = {
-        '清关中':  '正在等待清关，建议联系物流商了解进度',
-        '派送失败': '派送失败，建议确认收件地址是否正确',
-        '滞留异常': '包裹异常滞留，建议立即联系物流商处理'
-      };
+      var msgMap = {};
+      msgMap['清关中']                           = T('hk.warn.customs','正在等待清关，建议联系物流商了解进度');
+      msgMap[T('xb.track.customs','清关中')]     = T('hk.warn.customs','正在等待清关，建议联系物流商了解进度');
+      msgMap['派送失败']                          = T('hk.warn.failed','派送失败，建议确认收件地址是否正确');
+      msgMap[T('hk.status.failed','派送失败')]   = T('hk.warn.failed','派送失败，建议确认收件地址是否正确');
+      msgMap['滞留异常']                          = T('hk.warn.stuck','包裹异常滞留，建议立即联系物流商处理');
+      msgMap[T('hk.status.stuck','滞留异常')]    = T('hk.warn.stuck','包裹异常滞留，建议立即联系物流商处理');
       addNotification({
         type: 'warning',
-        title: '⚠️ 包裹异常提醒',
-        message: '运单 ' + trackingData.number + ' · ' + status + ' — ' + (msgMap[status] || '点击查看处理建议')
+        title: T('hk.warn.title','⚠️ 包裹异常提醒'),
+        message: T('hk.warn.waybill','运单') + ' ' + trackingData.number + ' · ' + status + ' — ' + (msgMap[status] || T('hk.warn.click','点击查看处理建议'))
       });
     }
   }
@@ -325,8 +342,8 @@ var HookSystem = (function() {
     var recs = {
       shipping: [
         {
-          title: '计算真实利润',
-          desc: '输入售价和成本，一键计算净利润和ROI',
+          title: T('hk.rec.calc_profit','计算真实利润'),
+          desc: T('hk.rec.calc_profit_desc','输入售价和成本，一键计算净利润和ROI'),
           icon: '🧮',
           action: function() {
             var tariffTab = document.querySelector('.xb-tab-btn[data-tab="tab-tariff"]');
@@ -338,8 +355,8 @@ var HookSystem = (function() {
           }
         },
         {
-          title: '最佳发货时间',
-          desc: '查看今天发货的目的地到达时间和派送安排',
+          title: T('hk.rec.best_ship_day','最佳发货时间'),
+          desc: T('hk.rec.best_ship_day_desc','查看今天发货的目的地到达时间和派送安排'),
           icon: '📅',
           action: function() {
             // 读取当前查询的最优方案 ETA 信息
@@ -363,8 +380,8 @@ var HookSystem = (function() {
           }
         },
         {
-          title: '预估进口关税',
-          desc: '提前计算关税和DDP总价，避免意外成本',
+          title: T('hk.rec.tariff','预估进口关税'),
+          desc: T('hk.rec.tariff_desc','提前计算关税和DDP总价，避免意外成本'),
           icon: '💰',
           action: function() {
             var tariffTab = document.querySelector('.xb-tab-btn[data-tab="tab-tariff"]');
@@ -374,8 +391,8 @@ var HookSystem = (function() {
       ],
       tracking: [
         {
-          title: '查看物流方案',
-          desc: '对比不同物流商的价格和时效',
+          title: T('hk.rec.view_logistics','查看物流方案'),
+          desc: T('hk.rec.view_logistics_desc','对比不同物流商的价格和时效'),
           icon: '📦',
           action: function() {
             var logTab = document.querySelector('.xb-tab-btn[data-tab="tab-logistics"]');
@@ -383,8 +400,8 @@ var HookSystem = (function() {
           }
         },
         {
-          title: '清关延误查询',
-          desc: '了解各国清关要求，避免扣关',
+          title: T('hk.rec.customs_delay','清关延误查询'),
+          desc: T('hk.rec.customs_delay_desc','了解各国清关要求，避免扣关'),
           icon: '⚓',
           action: function() {
             var prohTab = document.querySelector('.xb-tab-btn[data-tab="tab-prohibited"]');
@@ -392,8 +409,8 @@ var HookSystem = (function() {
           }
         },
         {
-          title: '计算订单利润',
-          desc: '输入成本，计算这个订单的真实利润',
+          title: T('hk.rec.order_profit','计算订单利润'),
+          desc: T('hk.rec.order_profit_desc','输入成本，计算这个订单的真实利润'),
           icon: '🧮',
           action: function() {
             var tariffTab = document.querySelector('.xb-tab-btn[data-tab="tab-tariff"]');
@@ -411,7 +428,7 @@ var HookSystem = (function() {
 
     container.innerHTML =
       '<h4 style="font-weight:700;font-size:0.9rem;margin:0 0 14px;display:flex;align-items:center;gap:6px;">' +
-        '💡 为你推荐' +
+        '💡 ' + T('hk.recommend_title','为你推荐') +
       '</h4>' +
       '<div class="hk-rec-grid">' +
         items.map(function(rec, i) {
@@ -482,7 +499,7 @@ var HookSystem = (function() {
     if (!container) return;
 
     if (!notifications.length) {
-      container.innerHTML = '<div class="hk-notif-empty">暂无新通知</div>';
+      container.innerHTML = '<div class="hk-notif-empty">' + T('hk.no_notifications','暂无新通知') + '</div>';
       return;
     }
 
@@ -589,20 +606,19 @@ var HookSystem = (function() {
       if (daysArr.length) minDays = Math.min.apply(null, daysArr);
     }
 
-    var text = '📦 我用 GlobeTimeZone 查了' + origin + '发' + dest + '的运费\n' +
-      '· ' + weight + 'kg货最低只要 ¥' + minCost + '元\n' +
-      '· 最快 ' + minDays + ' 天到达\n' +
-      '· 支持8家物流商实时比价\n' +
-      '👉 免费查询：https://globetimezone.com/tools/cross-border/';
+    var text = T('hk.share.prefix','📦 我用 GlobeTimeZone 查了') + origin + T('hk.share.to','发') + dest + T('hk.share.freight','\n· ') + weight + T('hk.share.kg_low','kg货最低只要 ¥') + minCost + T('hk.share.yuan','元\n') +
+      T('hk.share.fastest','· 最快 ') + minDays + T('hk.share.days_arrive',' 天到达\n') +
+      T('hk.share.carriers','· 支持8家物流商实时比价\n') +
+      T('hk.share.link','👉 免费查询：https://globetimezone.com/tools/cross-border/');
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(function() {
-        showToastMsg('✅ 分享文案已复制，快发给你的同行吧！');
+        showToastMsg(T('hk.share.copied','✅ 分享文案已复制，快发给你的同行吧！'));
       }).catch(function() {
-        prompt('复制以下分享文案：', text);
+        prompt(T('hk.share.prompt','复制以下分享文案：'), text);
       });
     } else {
-      prompt('复制以下分享文案：', text);
+      prompt(T('hk.share.prompt','复制以下分享文案：'), text);
     }
   }
 

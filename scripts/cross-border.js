@@ -1,38 +1,38 @@
 /**
- * GlobeTimeZone - 跨境工具箱 v4.0.1
+ * GlobeTimeZone - 跨境工具箱 v4.1.0 (i18n)
  * Smart Dashboard + Timezone-aware ETA + Best Shipping Day
- * Fix: auto-scroll on init competes with tab navigation
- * 2026-06-08
+ * 2026-06-10: Full i18n — all Chinese UI text via GTZ_T()
  */
 (function() {
   'use strict';
   var $ = function(id) { return document.getElementById(id); };
+  var T = window.GTZ_T || function(k, fb) { return fb || k; };
 
   // ═══════════ DATA ═══════════
   var carriers = [
-    { id:'dhl', name:'DHL', fullName:'DHL 国际快递', type:'express', processing:1, shipping:{'us-east':3,'us-west':2,'uk':3,'de':3,'fr':3,'jp':2,'au':3,'ca':3}, customs:1, delivery:1, baseRate:120, perKgRate:45, reliability:98, features:['最快时效','全程追踪','优先清关'] },
-    { id:'ups', name:'UPS', fullName:'UPS 国际快递', type:'express', processing:1, shipping:{'us-east':4,'us-west':3,'uk':4,'de':4,'fr':4,'jp':3,'au':4,'ca':4}, customs:1, delivery:1, baseRate:110, perKgRate:42, reliability:97, features:['稳定可靠','北美优势','上门取件'] },
-    { id:'fedex', name:'FedEx', fullName:'FedEx 联邦快递', type:'express', processing:1, shipping:{'us-east':4,'us-west':3,'uk':4,'de':4,'fr':4,'jp':3,'au':4,'ca':4}, customs:1, delivery:1, baseRate:105, perKgRate:40, reliability:96, features:['全球覆盖','经济实惠','准时率高'] },
-    { id:'tnt', name:'TNT', fullName:'TNT 国际快递', type:'express', processing:2, shipping:{'us-east':5,'us-west':4,'uk':3,'de':3,'fr':3,'jp':4,'au':5,'ca':5}, customs:2, delivery:1, baseRate:95, perKgRate:38, reliability:95, features:['欧洲优势','清关能力强','价格适中'] },
-    { id:'ems', name:'EMS', fullName:'EMS 国际特快', type:'express', processing:2, shipping:{'us-east':7,'us-west':6,'uk':7,'de':7,'fr':7,'jp':4,'au':7,'ca':7}, customs:2, delivery:2, baseRate:80, perKgRate:30, reliability:90, features:['清关优势','不计体积重','邮政渠道'] },
-    { id:'amazon-fba', name:'亚马逊FBA', fullName:'亚马逊 FBA 专线', type:'air', processing:3, shipping:{'us-east':8,'us-west':6,'uk':7,'de':8,'fr':8,'jp':5,'au':9,'ca':8}, customs:3, delivery:2, baseRate:65, perKgRate:25, reliability:92, features:['FBA入仓','双清包税','价格优惠'] },
-    { id:'air-special', name:'空运专线', fullName:'空运专线', type:'air', processing:3, shipping:{'us-east':10,'us-west':8,'uk':9,'de':10,'fr':10,'jp':6,'au':11,'ca':10}, customs:3, delivery:3, baseRate:50, perKgRate:20, reliability:88, features:['性价比高','大货优势','双清包税'] },
-    { id:'sea-fast', name:'海运快船', fullName:'海运快船', type:'sea', processing:5, shipping:{'us-east':20,'us-west':14,'uk':25,'de':28,'fr':27,'jp':7,'au':18,'ca':18}, customs:5, delivery:5, baseRate:20, perKgRate:8, reliability:85, features:['超大货优势','成本最低','双清包税'] }
+    { id:'dhl', name:'DHL', fullName:T('xb.carrier.dhl','DHL 国际快递'), type:'express', processing:1, shipping:{'us-east':3,'us-west':2,'uk':3,'de':3,'fr':3,'jp':2,'au':3,'ca':3}, customs:1, delivery:1, baseRate:120, perKgRate:45, reliability:98, features:[T('xb.feat.fastest','最快时效'),T('xb.feat.tracking','全程追踪'),T('xb.feat.priority','优先清关')] },
+    { id:'ups', name:'UPS', fullName:T('xb.carrier.ups','UPS 国际快递'), type:'express', processing:1, shipping:{'us-east':4,'us-west':3,'uk':4,'de':4,'fr':4,'jp':3,'au':4,'ca':4}, customs:1, delivery:1, baseRate:110, perKgRate:42, reliability:97, features:[T('xb.feat.reliable','稳定可靠'),T('xb.feat.na','北美优势'),T('xb.feat.pickup','上门取件')] },
+    { id:'fedex', name:'FedEx', fullName:T('xb.carrier.fedex','FedEx 联邦快递'), type:'express', processing:1, shipping:{'us-east':4,'us-west':3,'uk':4,'de':4,'fr':4,'jp':3,'au':4,'ca':4}, customs:1, delivery:1, baseRate:105, perKgRate:40, reliability:96, features:[T('xb.feat.global','全球覆盖'),T('xb.feat.economical','经济实惠'),T('xb.feat.ontime','准时率高')] },
+    { id:'tnt', name:'TNT', fullName:T('xb.carrier.tnt','TNT 国际快递'), type:'express', processing:2, shipping:{'us-east':5,'us-west':4,'uk':3,'de':3,'fr':3,'jp':4,'au':5,'ca':5}, customs:2, delivery:1, baseRate:95, perKgRate:38, reliability:95, features:[T('xb.feat.europe','欧洲优势'),T('xb.feat.customs','清关能力强'),T('xb.feat.midprice','价格适中')] },
+    { id:'ems', name:'EMS', fullName:T('xb.carrier.ems','EMS 国际特快'), type:'express', processing:2, shipping:{'us-east':7,'us-west':6,'uk':7,'de':7,'fr':7,'jp':4,'au':7,'ca':7}, customs:2, delivery:2, baseRate:80, perKgRate:30, reliability:90, features:[T('xb.feat.customs','清关优势'),T('xb.feat.novol','不计体积重'),T('xb.feat.postal','邮政渠道')] },
+    { id:'amazon-fba', name:T('xb.carrier.fba.name','亚马逊FBA'), fullName:T('xb.carrier.fba','亚马逊 FBA 专线'), type:'air', processing:3, shipping:{'us-east':8,'us-west':6,'uk':7,'de':8,'fr':8,'jp':5,'au':9,'ca':8}, customs:3, delivery:2, baseRate:65, perKgRate:25, reliability:92, features:[T('xb.feat.fba','FBA入仓'),T('xb.feat.ddp','双清包税'),T('xb.feat.cheap','价格优惠')] },
+    { id:'air-special', name:T('xb.carrier.air.name','空运专线'), fullName:T('xb.carrier.air','空运专线'), type:'air', processing:3, shipping:{'us-east':10,'us-west':8,'uk':9,'de':10,'fr':10,'jp':6,'au':11,'ca':10}, customs:3, delivery:3, baseRate:50, perKgRate:20, reliability:88, features:[T('xb.feat.costeffective','性价比高'),T('xb.feat.bulk','大货优势'),T('xb.feat.ddp','双清包税')] },
+    { id:'sea-fast', name:T('xb.carrier.sea.name','海运快船'), fullName:T('xb.carrier.sea','海运快船'), type:'sea', processing:5, shipping:{'us-east':20,'us-west':14,'uk':25,'de':28,'fr':27,'jp':7,'au':18,'ca':18}, customs:5, delivery:5, baseRate:20, perKgRate:8, reliability:85, features:[T('xb.feat.oversize','超大货优势'),T('xb.feat.lowest','成本最低'),T('xb.feat.ddp','双清包税')] }
   ];
 
   var destinations = {
-    'us-east': { name:'美国东部·纽约', tz:'America/New_York', gmt:'GMT-5', countryCode:'US' },
-    'us-west': { name:'美国西部·洛杉矶', tz:'America/Los_Angeles', gmt:'GMT-8', countryCode:'US' },
-    'uk':      { name:'英国·伦敦', tz:'Europe/London', gmt:'GMT+0', countryCode:'GB' },
-    'de':      { name:'德国·柏林', tz:'Europe/Berlin', gmt:'GMT+1', countryCode:'DE' },
-    'fr':      { name:'法国·巴黎', tz:'Europe/Paris', gmt:'GMT+1', countryCode:'FR' },
-    'jp':      { name:'日本·东京', tz:'Asia/Tokyo', gmt:'GMT+9', countryCode:'JP' },
-    'au':      { name:'澳大利亚·悉尼', tz:'Australia/Sydney', gmt:'GMT+10', countryCode:'AU' },
-    'ca':      { name:'加拿大·多伦多', tz:'America/Toronto', gmt:'GMT-5', countryCode:'CA' }
+    'us-east': { name:T('xb.dest.useast','美国东部·纽约'), tz:'America/New_York', gmt:'GMT-5', countryCode:'US' },
+    'us-west': { name:T('xb.dest.uswest','美国西部·洛杉矶'), tz:'America/Los_Angeles', gmt:'GMT-8', countryCode:'US' },
+    'uk':      { name:T('xb.dest.uk','英国·伦敦'), tz:'Europe/London', gmt:'GMT+0', countryCode:'GB' },
+    'de':      { name:T('xb.dest.de','德国·柏林'), tz:'Europe/Berlin', gmt:'GMT+1', countryCode:'DE' },
+    'fr':      { name:T('xb.dest.fr','法国·巴黎'), tz:'Europe/Paris', gmt:'GMT+1', countryCode:'FR' },
+    'jp':      { name:T('xb.dest.jp','日本·东京'), tz:'Asia/Tokyo', gmt:'GMT+9', countryCode:'JP' },
+    'au':      { name:T('xb.dest.au','澳大利亚·悉尼'), tz:'Australia/Sydney', gmt:'GMT+10', countryCode:'AU' },
+    'ca':      { name:T('xb.dest.ca','加拿大·多伦多'), tz:'America/Toronto', gmt:'GMT-5', countryCode:'CA' }
   };
 
   var originNames = {
-    'shenzhen':'深圳','guangzhou':'广州','yiwu':'义乌','shanghai':'上海','ningbo':'宁波','qingdao':'青岛'
+    'shenzhen':T('xb.origin.shenzhen','深圳'),'guangzhou':T('xb.origin.guangzhou','广州'),'yiwu':T('xb.origin.yiwu','义乌'),'shanghai':T('xb.origin.shanghai','上海'),'ningbo':T('xb.origin.ningbo','宁波'),'qingdao':T('xb.origin.qingdao','青岛')
   };
 
   var tariffRules = {
@@ -48,24 +48,24 @@
   var fxRates = { CNY:1, USD:0.138, EUR:0.127, GBP:0.109, JPY:20.1, AUD:0.212, CAD:0.190 };
 
   var hsCodes = [
-    { code:'8471.30', name:'笔记本电脑', rate:'0%' },{ code:'8517.12', name:'智能手机', rate:'0%' },
-    { code:'8518.30', name:'耳机/耳塞', rate:'0%' },{ code:'9503.00', name:'玩具/模型', rate:'0-4.5%' },
-    { code:'6109.10', name:'T恤/上衣', rate:'12%' },{ code:'6204.62', name:'裤子/牛仔裤', rate:'12%' },
-    { code:'6403.99', name:'运动鞋', rate:'9-17%' },{ code:'4202.22', name:'手提包/箱包', rate:'8-17%' },
-    { code:'3304.99', name:'护肤品/面霜', rate:'5-6.5%' },{ code:'3304.20', name:'眼妆/睫毛膏', rate:'5%' },
-    { code:'7117.19', name:'时尚饰品', rate:'4-5.5%' },{ code:'9506.91', name:'健身器材', rate:'4%' },
-    { code:'9403.60', name:'家具/家居', rate:'0-5%' },{ code:'8525.80', name:'相机/摄像机', rate:'0%' },
-    { code:'8471.60', name:'键盘鼠标', rate:'0%' },{ code:'8544.42', name:'数据线/充电线', rate:'0%' },
-    { code:'8504.40', name:'充电器/电源适配器', rate:'0%' },{ code:'6110.20', name:'卫衣/帽衫', rate:'12%' }
+    { code:'8471.30', name:T('xb.hs.laptop','笔记本电脑'), rate:'0%' },{ code:'8517.12', name:T('xb.hs.phone','智能手机'), rate:'0%' },
+    { code:'8518.30', name:T('xb.hs.earphone','耳机/耳塞'), rate:'0%' },{ code:'9503.00', name:T('xb.hs.toy','玩具/模型'), rate:'0-4.5%' },
+    { code:'6109.10', name:T('xb.hs.tshirt','T恤/上衣'), rate:'12%' },{ code:'6204.62', name:T('xb.hs.pants','裤子/牛仔裤'), rate:'12%' },
+    { code:'6403.99', name:T('xb.hs.shoes','运动鞋'), rate:'9-17%' },{ code:'4202.22', name:T('xb.hs.bag','手提包/箱包'), rate:'8-17%' },
+    { code:'3304.99', name:T('xb.hs.skincare','护肤品/面霜'), rate:'5-6.5%' },{ code:'3304.20', name:T('xb.hs.makeup','眼妆/睫毛膏'), rate:'5%' },
+    { code:'7117.19', name:T('xb.hs.jewelry','时尚饰品'), rate:'4-5.5%' },{ code:'9506.91', name:T('xb.hs.fitness','健身器材'), rate:'4%' },
+    { code:'9403.60', name:T('xb.hs.furniture','家具/家居'), rate:'0-5%' },{ code:'8525.80', name:T('xb.hs.camera','相机/摄像机'), rate:'0%' },
+    { code:'8471.60', name:T('xb.hs.keyboard','键盘鼠标'), rate:'0%' },{ code:'8544.42', name:T('xb.hs.cable','数据线/充电线'), rate:'0%' },
+    { code:'8504.40', name:T('xb.hs.charger','充电器/电源适配器'), rate:'0%' },{ code:'6110.20', name:T('xb.hs.hoodie','卫衣/帽衫'), rate:'12%' }
   ];
 
   var prohibitedDB = {
-    US: { banned:'武器弹药、毒品、象牙制品、古巴雪茄、盗版商品、未批准药品、肉类乳制品', restricted:'含酒精饮料、烟草产品、处方药(FDA)、电子产品(FCC)、儿童产品(CPSC)', deMinimis:'<strong>$800</strong> 以下免税（Section 321）' },
-    GB: { banned:'武器、毒品、濒危动植物、未经UKCA认证无线设备、攻击性武器', restricted:'食品(卫生证书)、药品(MHRA)、含酒精饮料、烟草、动植物(检疫)', deMinimis:'<strong>£135</strong> 以下免征关税，但均需缴VAT(20%)' },
-    DE: { banned:'武器、毒品、纳粹物品、假冒商品、无CE标志电子产品、危险化学品', restricted:'食品(欧盟卫生证书)、药品(EMA)、动植物(检疫)、无线设备(CE/RED)、化妆品(CPNP)', deMinimis:'<strong>€0</strong> 起征 — 所有进口均需缴税。注意EPR合规。' },
-    JP: { banned:'武器、毒品、淫秽物品、假冒商品、侵权商品、含伪麻黄碱药品', restricted:'食品(检疫)、化妆品(药事法)、电子产品(PSE/TELEC)、动植物(严格检疫)', deMinimis:'<strong>¥10,000</strong> 以下免税' },
-    AU: { banned:'武器、毒品、石棉制品、未经批准转基因产品', restricted:'食品(严格检疫)、药品(TGA)、动植物制品(检疫)、无线设备(ACMA)', deMinimis:'<strong>A$1,000</strong> 以下免税' },
-    CA: { banned:'武器、毒品、淫秽物品、仇恨言论材料、未申报食品', restricted:'食品(CFIA)、药品(Health Canada)、无线设备(ISED)、动植物(检疫)', deMinimis:'<strong>C$20</strong> 起征（极低）' }
+    US: { banned:T('xb.proh.US.banned','武器弹药、毒品、象牙制品、古巴雪茄、盗版商品、未批准药品、肉类乳制品'), restricted:T('xb.proh.US.restricted','含酒精饮料、烟草产品、处方药(FDA)、电子产品(FCC)、儿童产品(CPSC)'), deMinimis:T('xb.proh.US.deminimis','<strong>$800</strong> 以下免税（Section 321）') },
+    GB: { banned:T('xb.proh.GB.banned','武器、毒品、濒危动植物、未经UKCA认证无线设备、攻击性武器'), restricted:T('xb.proh.GB.restricted','食品(卫生证书)、药品(MHRA)、含酒精饮料、烟草、动植物(检疫)'), deMinimis:T('xb.proh.GB.deminimis','<strong>£135</strong> 以下免征关税，但均需缴VAT(20%)') },
+    DE: { banned:T('xb.proh.DE.banned','武器、毒品、纳粹物品、假冒商品、无CE标志电子产品、危险化学品'), restricted:T('xb.proh.DE.restricted','食品(欧盟卫生证书)、药品(EMA)、动植物(检疫)、无线设备(CE/RED)、化妆品(CPNP)'), deMinimis:T('xb.proh.DE.deminimis','<strong>€0</strong> 起征 — 所有进口均需缴税。注意EPR合规。') },
+    JP: { banned:T('xb.proh.JP.banned','武器、毒品、淫秽物品、假冒商品、侵权商品、含伪麻黄碱药品'), restricted:T('xb.proh.JP.restricted','食品(检疫)、化妆品(药事法)、电子产品(PSE/TELEC)、动植物(严格检疫)'), deMinimis:T('xb.proh.JP.deminimis','<strong>¥10,000</strong> 以下免税') },
+    AU: { banned:T('xb.proh.AU.banned','武器、毒品、石棉制品、未经批准转基因产品'), restricted:T('xb.proh.AU.restricted','食品(严格检疫)、药品(TGA)、动植物制品(检疫)、无线设备(ACMA)'), deMinimis:T('xb.proh.AU.deminimis','<strong>A$1,000</strong> 以下免税') },
+    CA: { banned:T('xb.proh.CA.banned','武器、毒品、淫秽物品、仇恨言论材料、未申报食品'), restricted:T('xb.proh.CA.restricted','食品(CFIA)、药品(Health Canada)、无线设备(ISED)、动植物(检疫)'), deMinimis:T('xb.proh.CA.deminimis','<strong>C$20</strong> 起征（极低）') }
   };
 
   // ═══════════ STATE ═══════════
@@ -117,35 +117,35 @@
     var dr = $('dashRoutes');
     if (dr) {
       if (routes.length === 0) {
-        dr.innerHTML = '<div class="xb-dash-empty">查询物流后，点击"收藏此路线"即可快速复用</div>';
+        dr.innerHTML = '<div class="xb-dash-empty">' + T('xb.dash.empty_route','查询物流后，点击"收藏此路线"即可快速复用') + '</div>';
       } else {
         dr.innerHTML = routes.map(function(r, i) {
-          return '<span class="xb-dash-route-btn" onclick="window._xBLoadRoute(' + i + ')" title="点击一键填入">' +
+          return '<span class="xb-dash-route-btn" onclick="window._xBLoadRoute(' + i + ')" title="' + T('xb.dash.click_fill','点击一键填入') + '">' +
             (originNames[r.origin] || r.origin) + ' → ' + (destinations[r.destination] ? destinations[r.destination].name : r.destination) +
             (r.label ? ' (' + r.label + ')' : '') +
             '</span>';
         }).join('');
       }
-      if ($('dashRouteCount')) $('dashRouteCount').textContent = routes.length + '条路线';
+      if ($('dashRouteCount')) $('dashRouteCount').textContent = routes.length + T('xb.dash.routes','条路线');
     }
 
     // Tracking
     var dt = $('dashTracking');
     if (dt) {
       if (tracking.length === 0) {
-        dt.innerHTML = '<div class="xb-dash-empty">追踪包裹后，点击"添加到关注列表"保存</div>';
+        dt.innerHTML = '<div class="xb-dash-empty">' + T('xb.dash.empty_track','追踪包裹后，点击"添加到关注列表"保存') + '</div>';
       } else {
         dt.innerHTML = tracking.map(function(t, i) {
           return '<div class="xb-dash-track-item">' +
             '<div><div class="xb-dash-track-tn">' + escapeHtml(t.tn) + '</div>' +
-            '<div style="font-size:0.7rem;color:var(--xb-muted);">' + (t.label || '') + ' · 上次更新：' + (t.lastChecked || '--') + '</div></div>' +
+            '<div style="font-size:0.7rem;color:var(--xb-muted);">' + (t.label || '') + ' · ' + T('xb.dash.last_update','上次更新：') + (t.lastChecked || '--') + '</div></div>' +
             '<div class="xb-dash-track-actions">' +
             '<button onclick="window._xBRefreshTrack(' + i + ')">🔄</button>' +
             '<button class="del" onclick="window._xBRemoveTrack(' + i + ')">✕</button>' +
             '</div></div>';
         }).join('');
       }
-      if ($('dashTrackCount')) $('dashTrackCount').textContent = tracking.length + '个包裹';
+      if ($('dashTrackCount')) $('dashTrackCount').textContent = tracking.length + T('xb.dash.parcels','个包裹');
     }
 
     // Sidebar
@@ -158,7 +158,7 @@
     var el = $('sidebarRoutes');
     if (!el) return;
     if (routes.length === 0) {
-      el.innerHTML = '<span style="font-size:0.78rem;">暂无收藏路线</span>';
+      el.innerHTML = '<span style="font-size:0.78rem;">' + T('xb.sidebar.no_routes','暂无收藏路线') + '</span>';
     } else {
       el.innerHTML = routes.slice(0, 5).map(function(r, i) {
         return '<div style="padding:4px 0;font-size:0.78rem;cursor:pointer;display:flex;justify-content:space-between;" onclick="window._xBLoadRoute(' + i + ')">' +
@@ -174,7 +174,7 @@
     var el = $('sidebarTracking');
     if (!el) return;
     if (tracking.length === 0) {
-      el.innerHTML = '<span style="font-size:0.78rem;">暂无追踪包裹</span>';
+      el.innerHTML = '<span style="font-size:0.78rem;">' + T('xb.sidebar.no_tracks','暂无追踪包裹') + '</span>';
     } else {
       el.innerHTML = tracking.slice(0, 5).map(function(t, i) {
         return '<div style="padding:4px 0;font-size:0.78rem;display:flex;justify-content:space-between;">' +
@@ -205,18 +205,18 @@
     var dup = routes.findIndex(function(r) { return r.origin === origin && r.destination === destination; });
     if (dup >= 0) {
       routes[dup] = route;
-      toast('路线已更新！');
+      toast(T('xb.toast.route_updated','路线已更新！'));
     } else {
       if (routes.length >= 10) routes.shift();
       routes.push(route);
-      toast('路线已收藏！⭐');
+      toast(T('xb.toast.route_saved','路线已收藏！⭐'));
     }
 
     saveRoutes(routes);
     renderDashboard();
     // Update save button style
     var btn = $('saveRouteBtn');
-    if (btn) { btn.classList.add('saved'); btn.textContent = '✅ 已收藏，下次一键调用'; setTimeout(function() { btn.textContent = '📌 收藏此路线，下次一键调用'; btn.classList.remove('saved'); }, 2000); }
+    if (btn) { btn.classList.add('saved'); btn.textContent = T('xb.btn.saved','✅ 已收藏，下次一键调用'); setTimeout(function() { btn.textContent = T('xb.btn.save_route','📌 收藏此路线，下次一键调用'); btn.classList.remove('saved'); }, 2000); }
   }
 
   window._xBLoadRoute = function(index) {
@@ -261,7 +261,7 @@
     }
     saveTracking(list);
     renderDashboard();
-    toast('已添加到关注列表 📌');
+    toast(T('xb.toast.track_added','已添加到关注列表 📌'));
   }
 
   window._xBRefreshTrack = function(index) {
@@ -309,7 +309,7 @@
     if (ot) ot.textContent = cnTime;
     if (od) od.textContent = cnDate;
     var dn = $('destName'), dtm = $('destTime'), dd = $('destDate'), dtz = $('destTz');
-    if (dn) dn.textContent = '目的地 · ' + dest.name.split('·')[1].trim();
+    if (dn) dn.textContent = T('xb.dest_label','目的地') + ' · ' + dest.name.split('·')[1].trim();
     if (dtz) dtz.textContent = dest.gmt;
     try {
       var dTime = new Intl.DateTimeFormat('zh-CN', { timeZone: dest.tz, hour:'2-digit', minute:'2-digit', hour12:false }).format(now);
@@ -331,17 +331,18 @@
       var hour = parseInt(hourFmt.format(etaDate));
       var dayFmt = new Intl.DateTimeFormat('en-US', { timeZone: destTz, weekday:'short' });
       var dayName = dayFmt.format(etaDate);
-      // Chinese weekday
-      var cnWeek = { Mon:'周一', Tue:'周二', Wed:'周三', Thu:'周四', Fri:'周五', Sat:'周六', Sun:'周日' };
+      // Weekday map via GTZ_T
+      var cnWeek = { Mon:T('xb.weekday.mon','周一'), Tue:T('xb.weekday.tue','周二'), Wed:T('xb.weekday.wed','周三'), Thu:T('xb.weekday.thu','周四'), Fri:T('xb.weekday.fri','周五'), Sat:T('xb.weekday.sat','周六'), Sun:T('xb.weekday.sun','周日') };
       var dow = cnWeek[dayName] || dayName;
+      var sat = T('xb.weekday.sat','周六'), sun = T('xb.weekday.sun','周日');
 
-      var cls = 'ok', icon = '✅', msg = '派送员正在工作';
-      if (dow === '周六' || dow === '周日') { cls = 'bad'; icon = '⚠️'; msg = '周末到达，可能下周一才派送'; }
-      else if (hour < 8 || hour >= 18) { cls = 'warn'; icon = '⚠️'; msg = '非工作时间到达，可能次日派送'; }
+      var cls = 'ok', icon = '✅', msg = T('xb.eta.working','派送员正在工作');
+      if (dow === sat || dow === sun) { cls = 'bad'; icon = '⚠️'; msg = T('xb.eta.weekend','周末到达，可能下周一才派送'); }
+      else if (hour < 8 || hour >= 18) { cls = 'warn'; icon = '⚠️'; msg = T('xb.eta.offhours','非工作时间到达，可能次日派送'); }
 
       return { cls:cls, icon:icon, dow:dow, time:text, msg:msg };
     } catch(e) {
-      return { cls:'ok', icon:'✅', dow:'', time:'', msg:'预计准时到达' };
+      return { cls:'ok', icon:'✅', dow:'', time:'', msg:T('xb.eta.ontime','预计准时到达') };
     }
   }
 
@@ -352,18 +353,18 @@
     var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     var shipDay = new Date(shipDate.getFullYear(), shipDate.getMonth(), shipDate.getDate());
     var diffDays = Math.floor((shipDay - today) / 86400000);
-    var dayNames = ['周日','周一','周二','周三','周四','周五','周六'];
+    var dayNames = [T('xb.weekday.sun','周日'),T('xb.weekday.mon','周一'),T('xb.weekday.tue','周二'),T('xb.weekday.wed','周三'),T('xb.weekday.thu','周四'),T('xb.weekday.fri','周五'),T('xb.weekday.sat','周六')];
     if (diffDays <= 0) {
       var etaDate = new Date(today.getTime() + totalDays * 86400000);
       var tzETA = getTimezoneETA(etaDate, destTz);
       if (tzETA.cls === 'bad') {
-        return { text:'⚠️ 今天发货' + dayNames[today.getDay()] + '到，但' + tzETA.dow + '才派送。建议等一天。', cls:'warn' };
+        return { text:T('xb.ship.today_bad','⚠️ 今天发货') + dayNames[today.getDay()] + T('xb.ship.arrive_but','到，但') + tzETA.dow + T('xb.ship.delay_suggest','才派送。建议等一天。'), cls:'warn' };
       }
-      return { text:'✅ 今天发货，预计' + tzETA.dow + '到达', cls:'ok' };
+      return { text:T('xb.ship.today_ok','✅ 今天发货，预计') + tzETA.dow + T('xb.ship.arrive','到达'), cls:'ok' };
     } else if (diffDays === 1) {
-      return { text:'明天(' + dayNames[shipDay.getDay()] + ')发货', cls:'ok' };
+      return { text:T('xb.ship.tomorrow','明天(') + dayNames[shipDay.getDay()] + T('xb.ship.ship',')发货'), cls:'ok' };
     }
-    return { text:diffDays + '天后发货', cls:'ok' };
+    return { text:diffDays + T('xb.ship.days_later','天后发货'), cls:'ok' };
   }
 
   // ═══════════ COUNTDOWN ═══════════
@@ -373,7 +374,7 @@
     var diffMs = eta.getTime() - now.getTime();
     if (diffMs <= 0) return '';
     var diffDays = Math.ceil(diffMs / 86400000);
-    if (diffDays <= 3) return '<span class="xb-countdown">⏱ ' + diffDays + '天后到达</span>';
+    if (diffDays <= 3) return '<span class="xb-countdown">⏱ ' + diffDays + T('xb.countdown.arrive','天后到达') + '</span>';
     return '';
   }
 
@@ -382,13 +383,13 @@
     var countryCode = (destinations[destKey] || {}).countryCode || 'US';
     var rules = tariffRules[countryCode] || tariffRules.US;
     if (declaredValue <= rules.deMinimis) {
-      return { duty:0, vat:0, total:0, taxable:false, note:'低于免税起征点，无需缴税' };
+      return { duty:0, vat:0, total:0, taxable:false, note:T('xb.ddp.exempt','低于免税起征点，无需缴税') };
     }
     var dutyRate = 0.05;
     var duty = Math.round(declaredValue * dutyRate * 100) / 100;
     var vat = Math.round((declaredValue + duty) * rules.vatRate * 100) / 100;
     var total = Math.round((duty + vat) * 100) / 100;
-    return { duty:duty, vat:vat, total:total, taxable:true, note:'基于平均税率估算，实际以海关核定为准。VAT ' + (rules.vatRate*100) + '%' };
+    return { duty:duty, vat:vat, total:total, taxable:true, note:T('xb.ddp.estimate','基于平均税率估算，实际以海关核定为准。') + 'VAT ' + (rules.vatRate*100) + '%' };
   }
 
   // ═══════════ AUTO CALC ═══════════
@@ -469,7 +470,6 @@
     renderResults();
     $('logisticsResults').style.display = 'block';
     $('trackingDetail').style.display = 'none';
-    // HookSystem: 价值量化
     if (typeof HookSystem !== 'undefined' && currentResults.length > 0) {
       setTimeout(function() { HookSystem.showShippingValue(currentResults); }, 50);
     }
@@ -484,31 +484,31 @@
 
     var list = $('logisticsList');
     if (!filtered.length) {
-      list.innerHTML = '<div class="xb-empty"><div class="xb-empty-icon">📦</div><p>没有匹配的物流方案</p></div>';
+      list.innerHTML = '<div class="xb-empty"><div class="xb-empty-icon">📦</div><p>' + T('xb.result.empty','没有匹配的物流方案') + '</p></div>';
       return;
     }
 
-    var typeLabels = { express:'快递', air:'空运', sea:'海运' };
+    var typeLabels = { express:T('xb.type.express','快递'), air:T('xb.type.air','空运'), sea:T('xb.type.sea','海运') };
 
     list.innerHTML = filtered.map(function(r) {
       var c = r.carrier;
       var countdown = getCountdownText(r.etaStr);
       var badges = '';
-      if (r.isFastest) badges += '<span class="xb-badge-best xb-badge-fast">最快</span> ';
-      if (r.isCheapest) badges += '<span class="xb-badge-best xb-badge-cheap">最省</span> ';
+      if (r.isFastest) badges += '<span class="xb-badge-best xb-badge-fast">' + T('xb.badge.fastest','最快') + '</span> ';
+      if (r.isCheapest) badges += '<span class="xb-badge-best xb-badge-cheap">' + T('xb.badge.cheapest','最省') + '</span> ';
       var daysColor = r.totalDays <= 5 ? 'color:#10b981;' : (r.totalDays <= 10 ? 'color:#f59e0b;' : 'color:#ef4444;');
 
       var ddpHtml = '';
       if (r.ddpInfo.taxable) {
-        ddpHtml = '<div class="xb-scheme-ddp">含税总价(DDP)：<strong> ¥' + r.ddpTotal.toLocaleString() + '</strong>（关税 ¥' + r.ddpInfo.total + '）</div>';
+        ddpHtml = '<div class="xb-scheme-ddp">' + T('xb.result.ddp_total','含税总价(DDP)：') + '<strong> ¥' + r.ddpTotal.toLocaleString() + '</strong>（' + T('xb.result.duty','关税') + ' ¥' + r.ddpInfo.total + '）</div>';
       } else {
-        ddpHtml = '<div class="xb-scheme-ddp">含税总价(DDP)：<strong> ¥' + r.cost.toLocaleString() + '</strong>（免税 ✅）</div>';
+        ddpHtml = '<div class="xb-scheme-ddp">' + T('xb.result.ddp_total','含税总价(DDP)：') + '<strong> ¥' + r.cost.toLocaleString() + '</strong>（' + T('xb.result.tax_free','免税 ✅') + '）</div>';
       }
 
       // Timezone-aware ETA
       var tzEtaHtml = '<div class="xb-tz-eta ' + r.tzEta.cls + '">' +
         '<span class="xb-tz-eta-icon">' + r.tzEta.icon + '</span>' +
-        '<span class="xb-tz-eta-text"><strong>' + r.tzEta.dow + ' 当地时间 ' + r.tzEta.time + '</strong> · ' + r.tzEta.msg + '</span>' +
+        '<span class="xb-tz-eta-text"><strong>' + r.tzEta.dow + ' ' + T('xb.result.local_time','当地时间') + ' ' + r.tzEta.time + '</strong> · ' + r.tzEta.msg + '</span>' +
         '</div>';
 
       return '<div class="xb-scheme ac-'+c.type+'" onclick="window._xBShowTracking(\''+c.id+'\')">' +
@@ -521,11 +521,11 @@
           '<div><div class="xb-scheme-price">¥' + r.cost.toLocaleString() + '</div>' + ddpHtml + '</div>' +
         '</div>' +
         '<div class="xb-scheme-meta">' +
-          '<span>总时效：<strong style="'+daysColor+'">'+r.totalDays+' 天</strong></span>' +
-          '<span>运输 '+r.shippingDays+'天</span>' +
-          '<span>可靠性 '+c.reliability+'%</span>' +
+          '<span>' + T('xb.result.total_days','总时效：') + '<strong style="'+daysColor+'">'+r.totalDays+' ' + T('xb.result.days','天') + '</strong></span>' +
+          '<span>' + T('xb.result.transit','运输') + ' '+r.shippingDays+T('xb.result.days_unit','天') + '</span>' +
+          '<span>' + T('xb.result.reliability','可靠性') + ' '+c.reliability+'%</span>' +
         '</div>' +
-        '<div class="xb-scheme-eta">预计送达：<strong>'+r.etaStr+'</strong> · 计费重 '+r.billWeight+' kg' + countdown + '</div>' +
+        '<div class="xb-scheme-eta">' + T('xb.result.eta','预计送达：') + '<strong>'+r.etaStr+'</strong> · ' + T('xb.result.bill_weight','计费重') + ' '+r.billWeight+' kg' + countdown + '</div>' +
         tzEtaHtml +
         '<div class="xb-scheme-tags">' + c.features.map(function(f) { return '<span class="xb-tag">'+f+'</span>'; }).join('') + '</div>' +
       '</div>';
@@ -551,19 +551,19 @@
     var taxTotal = Math.round((duty + vat) * 100) / 100;
     var ddpTotal = Math.round((freight + taxTotal) * 100) / 100;
     var totalAll = Math.round((totalValue + freight + taxTotal) * 100) / 100;
-    var catNames = { electronics:'电子产品/配件', clothing:'服装/纺织品', toys:'玩具/家居', beauty:'美妆/个护', shoes:'鞋靴/箱包', jewelry:'珠宝/饰品', sports:'运动/户外', auto:'汽车配件' };
-    var ctyNames = { US:'美国', GB:'英国', DE:'德国/欧盟', FR:'法国/欧盟', JP:'日本', AU:'澳大利亚', CA:'加拿大' };
+    var catNames = { electronics:T('xb.cat.electronics','电子产品/配件'), clothing:T('xb.cat.clothing','服装/纺织品'), toys:T('xb.cat.toys','玩具/家居'), beauty:T('xb.cat.beauty','美妆/个护'), shoes:T('xb.cat.shoes','鞋靴/箱包'), jewelry:T('xb.cat.jewelry','珠宝/饰品'), sports:T('xb.cat.sports','运动/户外'), auto:T('xb.cat.auto','汽车配件') };
+    var ctyNames = { US:T('xb.cty.US','美国'), GB:T('xb.cty.GB','英国'), DE:T('xb.cty.DE','德国/欧盟'), FR:T('xb.cty.FR','法国/欧盟'), JP:T('xb.cty.JP','日本'), AU:T('xb.cty.AU','澳大利亚'), CA:T('xb.cty.CA','加拿大') };
 
     var rowsHtml = '';
-    rowsHtml += '<div class="xb-tariff-row"><span>商品价值</span><span>$' + totalValue.toFixed(2) + '</span></div>';
-    rowsHtml += '<div class="xb-tariff-row"><span>国际运费</span><span>$' + freight.toFixed(2) + '</span></div>';
-    rowsHtml += '<div class="xb-tariff-row"><span>关税（' + (dutyRate*100).toFixed(1) + '%）</span><span>$' + duty.toFixed(2) + '</span></div>';
-    rowsHtml += '<div class="xb-tariff-row"><span>增值税VAT（' + (rules.vatRate*100) + '%）</span><span>$' + vat.toFixed(2) + '</span></div>';
-    rowsHtml += '<div class="xb-tariff-row xb-tariff-total"><span>📦 DDP到门总费用</span><span><strong>$' + ddpTotal.toFixed(2) + '</strong></span></div>';
-    rowsHtml += '<div class="xb-tariff-row xb-tariff-total"><span>🛒 含商品总成本</span><span><strong>$' + totalAll.toFixed(2) + '</strong></span></div>';
+    rowsHtml += '<div class="xb-tariff-row"><span>' + T('xb.tariff.goods_value','商品价值') + '</span><span>$' + totalValue.toFixed(2) + '</span></div>';
+    rowsHtml += '<div class="xb-tariff-row"><span>' + T('xb.tariff.freight','国际运费') + '</span><span>$' + freight.toFixed(2) + '</span></div>';
+    rowsHtml += '<div class="xb-tariff-row"><span>' + T('xb.tariff.duty','关税') + '（' + (dutyRate*100).toFixed(1) + '%）</span><span>$' + duty.toFixed(2) + '</span></div>';
+    rowsHtml += '<div class="xb-tariff-row"><span>' + T('xb.tariff.vat','增值税VAT') + '（' + (rules.vatRate*100) + '%）</span><span>$' + vat.toFixed(2) + '</span></div>';
+    rowsHtml += '<div class="xb-tariff-row xb-tariff-total"><span>📦 ' + T('xb.tariff.ddp_total','DDP到门总费用') + '</span><span><strong>$' + ddpTotal.toFixed(2) + '</strong></span></div>';
+    rowsHtml += '<div class="xb-tariff-row xb-tariff-total"><span>🛒 ' + T('xb.tariff.total_cost','含商品总成本') + '</span><span><strong>$' + totalAll.toFixed(2) + '</strong></span></div>';
 
-    var note = '目的地：' + (ctyNames[countryCode]||countryCode) + ' · 商品类别：' + (catNames[category]||category);
-    if (totalValue <= rules.deMinimis) note = '✅ 低于免税起征点，无需缴关税和VAT！' + note;
+    var note = T('xb.tariff.dest','目的地：') + (ctyNames[countryCode]||countryCode) + ' · ' + T('xb.tariff.category','商品类别：') + (catNames[category]||category);
+    if (totalValue <= rules.deMinimis) note = T('xb.tariff.exempt','✅ 低于免税起征点，无需缴关税和VAT！') + note;
 
     $('tariffRows').innerHTML = rowsHtml;
     $('tariffNote').textContent = note;
@@ -586,7 +586,7 @@
     }
 
     var steps = ['pickup','transit','customs','delivered'];
-    var labels = ['已揽收','运输中','清关中','已签收'];
+    var labels = [T('xb.track.picked_up','已揽收'),T('xb.track.transit','运输中'),T('xb.track.customs','清关中'),T('xb.track.delivered','已签收')];
     var icons = ['✓','✈','⚓','🏠'];
     var completeIdx = Math.min(2, Math.floor(Math.random() * 2) + 1);
 
@@ -613,16 +613,15 @@
 
     var now = new Date();
     var timeline = [
-      { time: fmtTime(new Date(now.getTime()-72*3600000)), desc: '包裹已揽收，发往分拨中心', loc: '深圳' },
-      { time: fmtTime(new Date(now.getTime()-48*3600000)), desc: '离开深圳分拨中心，发往目的地', loc: '深圳机场' },
-      { time: fmtTime(new Date(now.getTime()-24*3600000)), desc: '已抵达目的地国家，等待清关', loc: '目的地' }
+      { time: fmtTime(new Date(now.getTime()-72*3600000)), desc: T('xb.tl.picked_up','包裹已揽收，发往分拨中心'), loc: T('xb.loc.shenzhen','深圳') },
+      { time: fmtTime(new Date(now.getTime()-48*3600000)), desc: T('xb.tl.left_sz','离开深圳分拨中心，发往目的地'), loc: T('xb.loc.sz_airport','深圳机场') },
+      { time: fmtTime(new Date(now.getTime()-24*3600000)), desc: T('xb.tl.arrived','已抵达目的地国家，等待清关'), loc: T('xb.loc.destination','目的地') }
     ];
-    if (completeIdx >= 2) timeline.push({ time: fmtTime(new Date(now.getTime()-12*3600000)), desc: '清关完成，转交当地派送', loc: '派送站' });
-    timeline.push({ time: fmtTime(now), desc: completeIdx>=3?'已签收':'当前状态 — '+labels[completeIdx], loc: '' });
+    if (completeIdx >= 2) timeline.push({ time: fmtTime(new Date(now.getTime()-12*3600000)), desc: T('xb.tl.cleared','清关完成，转交当地派送'), loc: T('xb.loc.delivery','派送站') });
+    timeline.push({ time: fmtTime(now), desc: completeIdx>=3?labels[3]:T('xb.tl.current','当前状态 — ')+labels[completeIdx], loc: '' });
 
     // Add tracking to watchlist
     saveTrackingNumber(trackingNumber, '');
-    // HookSystem: 追踪记录 + 异常提醒
     if (typeof HookSystem !== 'undefined') {
       HookSystem.showTrackingValue({ number: trackingNumber, status: labels[completeIdx] });
     }
@@ -646,12 +645,12 @@
 
   function quickTrack() {
     var tn = $('quickTrackingNumber').value.trim();
-    if (!tn) { toast('请输入运单号'); return; }
+    if (!tn) { toast(T('xb.toast.enter_tn','请输入运单号')); return; }
     showTracking(tn, null, '');
   }
   function tabTrack() {
     var tn = ($('tabTrackingNumber') || {}).value;
-    if (!tn || !tn.trim()) { toast('请输入运单号'); return; }
+    if (!tn || !tn.trim()) { toast(T('xb.toast.enter_tn','请输入运单号')); return; }
     showTracking(tn.trim(), null, 'tab');
   }
   function fmtTime(d) {
@@ -662,7 +661,7 @@
   function calcVolumeWeight() {
     var l = parseFloat($('volL').value) || 20, w = parseFloat($('volW').value) || 15, h = parseFloat($('volH').value) || 10;
     var vol = l * w * h, volWt = vol / 5000;
-    $('volResult').innerHTML = '体积：' + vol.toLocaleString() + ' cm³<br>体积重：<strong>' + volWt.toFixed(2) + ' kg</strong>';
+    $('volResult').innerHTML = T('xb.vol.volume','体积：') + vol.toLocaleString() + ' cm³<br>' + T('xb.vol.weight','体积重：') + '<strong>' + volWt.toFixed(2) + ' kg</strong>';
     $('volResult').style.color = volWt > 2 ? '#dc2626' : '#065f46';
   }
 
@@ -745,11 +744,9 @@
     renderDashboard();
     setInterval(updateTimeDisplay, 30000);
 
-    // HookSystem 初始化
     if (typeof HookSystem !== 'undefined') { HookSystem.init(); }
   }
 
   if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', init); }
   else { init(); }
 })();
-

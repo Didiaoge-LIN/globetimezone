@@ -241,6 +241,13 @@
     xhr.send();
   }
 
+  // ─── 暴露全局翻译函数（供外部 JS 文件使用）──────────
+  window.GTZ_LANG = LANG;
+  window.GTZ_T = function (key, fallback) {
+    if (TRANSLATIONS[key] !== undefined) return TRANSLATIONS[key];
+    return fallback !== undefined ? fallback : key;
+  };
+
   // 启动翻译加载
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', loadTranslations);
