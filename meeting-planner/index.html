@@ -227,8 +227,8 @@
       <span style="font-size:1.3rem;">🌍</span>GlobeTimeZone
     </a>
     <a href="/time-difference/" style="text-decoration:none;color:var(--text);" data-i18n="nav.timezones">时差查询</a>
-    <a href="/meeting-planner/" style="text-decoration:none;color:var(--text);" data-i18n="nav.meeting">会议规划</a>
-    <a href="/tools/cross-border/" style="text-decoration:none;color:var(--text);" data-i18n="nav.crossborder">跨境工具</a>
+    <a href="/meeting-planner/" style="text-decoration:none;color:var(--text);" data-i18n="nav.meeting" data-i18n="nav.meeting">会议规划</a>
+    <a href="/tools/cross-border/" style="text-decoration:none;color:var(--text);" data-i18n="nav.crossborder" data-i18n="nav.crossborder">跨境工具</a>
     <a href="/blog/" style="text-decoration:none;color:var(--text);" data-i18n="nav.guides">教程</a>
     <a href="/pricing/" class="pro-link" data-i18n="nav.upgrade">升级 PRO</a>
     <div style="margin-left:auto;position:relative;" class="lang-picker">
@@ -259,13 +259,13 @@
   <!-- Hero -->
   <section class="mp-hero">
     <div class="mp-hero-inner">
-      <h1>跨时区会议 · 一键找最佳时间</h1>
-      <p>添加团队成员所在城市，自动计算24小时时间轴，找出所有人都在工作时间的最佳会议窗口</p>
+      <h1 data-i18n="meetingplanner.h1">跨时区会议 · 一键找最佳时间</h1>
+      <p data-i18n="meetingplanner.subtitle">添加团队成员所在城市，自动计算24小时时间轴，找出所有人都在工作时间的最佳会议窗口</p>
       <div class="mp-hero-badges">
-        <button class="mp-hero-badge" id="badge-participants"><span class="mp-badge-dot"></span> 支持无限参与者</button>
-        <button class="mp-hero-badge" id="badge-timeline"><span class="mp-badge-dot"></span> 工作时间重叠分析</button>
-        <button class="mp-hero-badge" id="badge-export"><span class="mp-badge-dot"></span> 一键导出 .ics</button>
-        <button class="mp-hero-badge" id="badge-pricing"><span class="mp-badge-dot"></span> 完全免费</button>
+        <button class="mp-hero-badge" id="badge-participants" data-i18n="meetingplanner.badge.participants"><span class="mp-badge-dot"></span> 支持无限参与者</button>
+        <button class="mp-hero-badge" id="badge-timeline" data-i18n="meetingplanner.badge.timeline"><span class="mp-badge-dot"></span> 工作时间重叠分析</button>
+        <button class="mp-hero-badge" id="badge-export" data-i18n="meetingplanner.badge.export"><span class="mp-badge-dot"></span> 一键导出 .ics</button>
+        <button class="mp-hero-badge" id="badge-pricing" data-i18n="meetingplanner.badge.pricing"><span class="mp-badge-dot"></span> 完全免费</button>
       </div>
     </div>
   </section>
@@ -274,7 +274,7 @@
 
     <!-- Add Participants -->
     <div class="mp-card" id="mpAddCard">
-      <h2>&#128101; 添加参会者</h2>
+      <h2 data-i18n="meetingplanner.add_title">&#128101; 添加参会者</h2>
       <div class="mp-add-row">
         <select id="mpCitySelect" class="mp-city-select">
           <optgroup label="亚洲">
@@ -327,7 +327,7 @@
           <option value="9" selected>9:00</option>
           <option value="10">10:00</option>
         </select>
-        <span style="color:var(--text-muted);font-size:0.9rem;padding-bottom:12px;">至</span>
+        <span style="color:var(--text-muted);font-size:0.9rem;padding-bottom:12px;" data-i18n="meetingplanner.to">至</span>
         <select id="mpWorkEnd" class="mp-hour-select">
           <option value="16">16:00</option>
           <option value="17">17:00</option>
@@ -335,9 +335,9 @@
           <option value="19">19:00</option>
           <option value="20">20:00</option>
         </select>
-        <button class="mp-add-btn" id="mpAddBtn">+ 添加</button>
+        <button class="mp-add-btn" id="mpAddBtn" data-i18n="meetingplanner.add_btn">+ 添加</button>
       </div>
-      <div style="margin-top:10px;font-size:0.8rem;color:var(--text-muted);">快捷添加：</div>
+      <div style="margin-top:10px;font-size:0.8rem;color:var(--text-muted);" data-i18n="meetingplanner.quick_label">快捷添加：</div>
       <div class="mp-quick-chips" id="mpQuickChips">
         <button class="mp-chip" data-tz="Asia/Shanghai">北京</button>
         <button class="mp-chip" data-tz="Asia/Tokyo">东京</button>
@@ -353,24 +353,24 @@
 
     <!-- Duration -->
     <div class="mp-card">
-      <h2>&#9201; 会议时长</h2>
+      <h2 data-i18n="meetingplanner.duration_title">&#9201; 会议时长</h2>
       <div class="mp-duration-row" id="mpDurationRow">
-        <button class="mp-dur-btn on" data-dur="30">30 分钟</button>
-        <button class="mp-dur-btn" data-dur="60">1 小时</button>
-        <button class="mp-dur-btn" data-dur="90">1.5 小时</button>
-        <button class="mp-dur-btn" data-dur="120">2 小时</button>
+        <button class="mp-dur-btn on" data-dur="30" data-i18n="meetingplanner.dur.30">30 分钟</button>
+        <button class="mp-dur-btn" data-dur="60" data-i18n="meetingplanner.dur.60">1 小时</button>
+        <button class="mp-dur-btn" data-dur="90" data-i18n="meetingplanner.dur.90">1.5 小时</button>
+        <button class="mp-dur-btn" data-dur="120" data-i18n="meetingplanner.dur.120">2 小时</button>
       </div>
     </div>
 
     <!-- Participant Cards -->
     <div class="mp-card" id="mpParticipantsCard" style="display:none;">
-      <h2>&#127757; 参会者实时状态</h2>
+      <h2 data-i18n="meetingplanner.participants_title">&#127757; 参会者实时状态</h2>
       <div class="mp-participants-grid" id="mpParticipantGrid"></div>
     </div>
 
     <!-- 24h Timeline -->
     <div class="mp-card" id="mpTimelineCard" style="display:none;">
-      <h2>&#128197; 24小时时间轴（UTC基准）</h2>
+      <h2 data-i18n="meetingplanner.timeline_title">&#128197; 24小时时间轴（UTC基准）</h2>
       <div class="mp-timeline-wrap">
         <div class="mp-timeline">
           <div class="mp-timeline-header" id="mpTlHeader"></div>
@@ -388,7 +388,7 @@
 
     <!-- Best Meeting Times -->
     <div class="mp-card" id="mpBestCard" style="display:none;">
-      <h2>&#127942; 最佳会议时间推荐</h2>
+      <h2 data-i18n="meetingplanner.best_title">&#127942; 最佳会议时间推荐</h2>
       <div class="mp-best-grid" id="mpBestGrid"></div>
     </div>
 
@@ -396,19 +396,19 @@
     <div class="mp-card" id="mpEmptyState">
       <div style="text-align:center;padding:40px 20px;color:var(--text-muted);">
         <div style="font-size:3rem;margin-bottom:12px;">&#128101;</div>
-        <div style="font-size:1.1rem;font-weight:600;color:var(--text);margin-bottom:6px;">还没有参会者</div>
-        <div>从上方添加团队成员所在城市，我们将自动找出最佳会议时间</div>
+        <div style="font-size:1.1rem;font-weight:600;color:var(--text);margin-bottom:6px;" data-i18n="meetingplanner.empty.title">还没有参会者</div>
+        <div data-i18n="meetingplanner.empty.desc">从上方添加团队成员所在城市，我们将自动找出最佳会议时间</div>
       </div>
     </div>
 
     <!-- Export -->
     <div class="mp-card" id="mpExportCard" style="display:none;">
-      <h2>&#128229; 导出与分享</h2>
+      <h2 data-i18n="meetingplanner.export_title">&#128229; 导出与分享</h2>
       <div class="mp-actions">
-        <button class="mp-btn" id="mpCopyLink">&#128203; 复制会议链接</button>
-        <button class="mp-btn mp-btn-primary" id="mpDownloadIcs">&#128230; 下载 .ics 日历文件</button>
+        <button class="mp-btn" id="mpCopyLink" data-i18n="meetingplanner.copy_link">&#128203; 复制会议链接</button>
+        <button class="mp-btn mp-btn-primary" id="mpDownloadIcs" data-i18n="meetingplanner.download_ics">&#128230; 下载 .ics 日历文件</button>
       </div>
-      <p style="margin-top:10px;font-size:0.82rem;color:var(--text-muted);">.ics 文件支持导入 Apple 日历、Outlook、Google Calendar 等所有主流日历应用</p>
+      <p style="margin-top:10px;font-size:0.82rem;color:var(--text-muted);" data-i18n="meetingplanner.export_desc">.ics 文件支持导入 Apple 日历、Outlook、Google Calendar 等所有主流日历应用</p>
     </div>
 
   </div>
@@ -424,8 +424,8 @@
       <div>
         <h4 class="footer-heading">工具</h4>
         <ul class="footer-links">
-          <li><a href="/">时区转换</a></li>
-          <li><a href="/world-clock.html">世界时钟</a></li>
+          <li><a href="/" data-i18n="footer.tools.timezone">时区转换</a></li>
+          <li><a href="/world-clock.html" data-i18n="footer.tools.worldclock">世界时钟</a></li>
           <li><a href="/meeting-planner/">会议规划</a></li>
           <li><a href="/tools/cross-border/">跨境工具</a></li>
         </ul>
@@ -433,18 +433,18 @@
       <div>
         <h4 class="footer-heading">关于</h4>
         <ul class="footer-links">
-          <li><a href="/about.html">关于我们</a></li>
-          <li><a href="/privacy.html">隐私政策</a></li>
-          <li><a href="/terms.html">服务条款</a></li>
-          <li><a href="/contact.html">联系我们</a></li>
+          <li><a href="/about.html" data-i18n="footer.about">关于我们</a></li>
+          <li><a href="/privacy.html" data-i18n="footer.privacy">隐私政策</a></li>
+          <li><a href="/terms.html" data-i18n="footer.terms">服务条款</a></li>
+          <li><a href="/contact.html" data-i18n="footer.contact">联系我们</a></li>
         </ul>
       </div>
       <div>
         <h4 class="footer-heading">热门时差</h4>
         <ul class="footer-links">
-          <li><a href="/time-difference/new-york-to-london">纽约-伦敦</a></li>
-          <li><a href="/time-difference/tokyo-to-new-york">东京-纽约</a></li>
-          <li><a href="/time-difference/la-to-beijing">洛杉矶-北京</a></li>
+          <li><a href="/time-difference/new-york-to-london" data-i18n="footer.hottime.ny_london">纽约-伦敦</a></li>
+          <li><a href="/time-difference/tokyo-to-new-york" data-i18n="footer.hottime.tokyo_ny">东京-纽约</a></li>
+          <li><a href="/time-difference/la-to-beijing" data-i18n="footer.hottime.la_beijing">洛杉矶-北京</a></li>
         </ul>
       </div>
     </div>
@@ -459,6 +459,32 @@
 <script>
 (function() {
   'use strict';
+
+  // ─── i18n for dynamic content ───
+  var GTZ_LANG = (function() {
+    var m = window.location.pathname.match(/^\/([a-z]{2})\//);
+    var supported = ['en','zh','de','fr','es','ja','ko','pt','ar'];
+    return (m && supported.indexOf(m[1]) !== -1) ? m[1] : 'zh';
+  })();
+  var GTZ_T = {};
+  function t(key, fallback) { return GTZ_T[key] !== undefined ? GTZ_T[key] : (fallback || key); }
+
+  // Load locale JSON for dynamic text translation
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '/locales/' + GTZ_LANG + '.json?v=3', true);
+  xhr.timeout = 5000;
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      try { GTZ_T = JSON.parse(xhr.responseText); updateAll(); } catch(e) {}
+    }
+  };
+  xhr.send();
+
+  // Helper to format translated text with placeholders
+  function fmt(str, obj) {
+    return str.replace(/\{([^}]+)\}/g, function(_, k) { return obj[k] !== undefined ? obj[k] : '{'+k+'}'; });
+  }
+  // ───────────────────────────────────────
 
   var cityInfo = {
     'Asia/Shanghai': { name:'北京 / 上海', abbr:'CST', offset:'+8' },
@@ -528,7 +554,7 @@
     var info = cityInfo[tz];
     if (!info) return;
     if (participants.find(function(p) { return p.tz === tz; })) {
-      toast(info.name + ' 已添加');
+      toast(info.name + t('meetingplanner.toast.duplicate', ' 已添加'));
       return;
     }
     participants.push({
@@ -540,7 +566,7 @@
       workEnd: parseInt(wEnd)
     });
     updateAll();
-    toast('已添加 ' + info.name);
+    toast(t('meetingplanner.toast.added', '已添加 ') + info.name);
   }
 
   function removeParticipant(id) {
@@ -564,7 +590,7 @@
       var isWork = t.hour >= p.workStart && t.hour < p.workEnd;
       var isSleep = t.hour < 6;
       var statusClass = isWork ? 'work' : (isSleep ? 'sleep' : 'off');
-      var statusText = isWork ? '工作中' : (isSleep ? '深夜' : '休息中');
+      var statusText = isWork ? t('meetingplanner.status.work', '工作中') : (isSleep ? t('meetingplanner.status.sleep', '深夜') : t('meetingplanner.status.off', '休息中'));
       return '<div class="mp-pcard">' +
         '<div class="mp-pcard-header">' +
           '<div><div class="mp-pcard-city">' + p.name + '</div><div class="mp-pcard-tz">' + p.tz + ' · ' + p.abbr + '</div></div>' +
@@ -652,8 +678,8 @@
     if (validGroups.length === 0) {
       grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:24px;color:var(--text-muted);">' +
         '<div style="font-size:2rem;margin-bottom:8px;">&#128533;</div>' +
-        '<div style="font-weight:600;color:var(--text);margin-bottom:4px;">没有找到完全重叠的工作时间</div>' +
-        '<div>尝试缩短会议时长，或调整参与者的工作时间设置</div></div>';
+        '<div style="font-weight:600;color:var(--text);margin-bottom:4px;">' + t('meetingplanner.best_none', '没有找到完全重叠的工作时间') + '</div>' +
+        '<div>' + t('meetingplanner.best_hint', '尝试缩短会议时长，或调整参与者的工作时间设置') + '</div></div>';
       return;
     }
 
@@ -721,11 +747,11 @@
   el('mpCopyLink').addEventListener('click', function() {
     var params = participants.map(function(p) { return p.tz + ':' + p.workStart + '-' + p.workEnd; }).join(',');
     var url = location.origin + '/meeting-planner/?p=' + encodeURIComponent(params) + '&d=' + duration;
-    navigator.clipboard.writeText(url).then(function() { toast('会议链接已复制'); });
+    navigator.clipboard.writeText(url).then(function() { toast(t('meetingplanner.toast.link_copied', '会议链接已复制')); });
   });
 
   el('mpDownloadIcs').addEventListener('click', function() {
-    if (participants.length === 0) { toast('请先添加参会者'); return; }
+    if (participants.length === 0) { toast(t('meetingplanner.toast.no_participants', '请先添加参会者')); return; }
     var now = new Date();
     var dateStr = now.toISOString().split('T')[0].replace(/-/g,'');
     var dtStamp = now.toISOString().replace(/[-:]/g,'').split('.')[0] + 'Z';
@@ -736,7 +762,7 @@
       'CALSCALE:GREGORIAN','METHOD:PUBLISH','BEGIN:VEVENT',
       'UID:' + uid,'DTSTAMP:' + dtStamp,'DTSTART:' + dateStr + 'T090000Z',
       'DTEND:' + dateStr + 'T100000Z','SUMMARY:跨时区会议 (' + names + ')',
-      'DESCRIPTION:通过 GlobeTimeZone 会议规划器安排\\n参会者: ' + names + '\\n\\nhttps://globetimezone.com/meeting-planner/',
+      'DESCRIPTION:' + t('meetingplanner.ics_desc', '通过 GlobeTimeZone 会议规划器安排\n参会者: ') + names + '\\n\\nhttps://globetimezone.com/meeting-planner/',
       'LOCATION:线上会议','STATUS:CONFIRMED','END:VEVENT','END:VCALENDAR'
     ].join('\r\n');
     var blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
@@ -746,7 +772,7 @@
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    toast('.ics 文件已下载');
+    toast(t('meetingplanner.toast.ics_downloaded', '.ics 文件已下载'));
   });
 
   // Global remove function
