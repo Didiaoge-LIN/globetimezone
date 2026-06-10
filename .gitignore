@@ -36,3 +36,4 @@ temp/
 # Wrangler
 .wrangler/
 cache/
+locales_backup_20260611/

@@ -31,7 +31,7 @@
   <script defer src="/js/ba.min.js"></script>
   <!-- 浏览器语言自动检测（同步加载，渲染前跳转） -->
   <script src="/js/auto-lang.js?v=4"></script>
-  <script src="/js/i18n.js?v=3" defer></script>
+  <script src="/js/i18n.js?v=4" defer data-cfasync="false"></script>
 </head>
 <body>
 
@@ -105,6 +105,6 @@ function isDaylightSavingTime(tz){const jan=new Date(new Date().getFullYear(),0,
 function updateTime(){const now=new Date();document.getElementById('hero-time').textContent=new Intl.DateTimeFormat('en-US',{timeZone:CITY_TIMEZONE,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(now);document.getElementById('hero-date').textContent=new Intl.DateTimeFormat('en-US',{timeZone:CITY_TIMEZONE,weekday:'long',year:'numeric',month:'long',day:'numeric'}).format(now);const isDST=isDaylightSavingTime(CITY_TIMEZONE);document.getElementById('tz-name').textContent=isDST?'PDT':'PST';document.getElementById('utc-offset').textContent=isDST?'UTC-7':'UTC-8';document.getElementById('dst-status').textContent=isDST?'☀️ Observing PDT':'❄️ Standard PST';const syncEl=document.getElementById('sync-time');if(syncEl)syncEl.textContent='Last synced: '+new Intl.DateTimeFormat('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(now);[['compare-newyork','America/New_York'],['compare-london','Europe/London'],['compare-beijing','Asia/Shanghai'],['compare-tokyo','Asia/Tokyo']].forEach(([id,tz])=>{const el=document.getElementById(id);if(!el)return;el.querySelector('.tz-time').textContent=new Intl.DateTimeFormat('en-US',{timeZone:tz,hour:'2-digit',minute:'2-digit',hour12:false}).format(now);el.querySelector('.tz-date').textContent=new Intl.DateTimeFormat('en-US',{timeZone:tz,weekday:'short',month:'short',day:'numeric'}).format(now);el.querySelector('.tz-offset').textContent=getUtcOffset(tz);});}
 updateTime();setInterval(updateTime,1000);
 </script>
-  <script src="/baidu-analytics.js" defer></script>
+  <script src="/baidu-analytics.js" defer data-cfasync="false"></script>
 </body>
 </html>
