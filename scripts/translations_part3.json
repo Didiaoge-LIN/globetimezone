@@ -1,0 +1,218 @@
+{
+  "blog.card.1.tag": {
+    "de": "Anleitung",
+    "fr": "Guide",
+    "es": "Guía",
+    "ja": "ガイド",
+    "ko": "가이드",
+    "pt": "Guia",
+    "ar": "دليل"
+  },
+  "blog.card.5.tag": {
+    "de": "Anleitung",
+    "fr": "Guide",
+    "es": "Guía",
+    "ja": "ガイド",
+    "ko": "가이드",
+    "pt": "Guia",
+    "ar": "دليل"
+  },
+  "blog.cat.guide": {
+    "de": "🟣 Anleitungen",
+    "fr": "🟣 Guides",
+    "es": "🟣 Guías",
+    "ja": "🟣 ガイド",
+    "ko": "🟣 가이드",
+    "pt": "🟣 Guias",
+    "ar": "🟣 أدلة"
+  },
+  "crossborder.dash.route_count": {
+    "de": "0 Routen",
+    "fr": "0 routes",
+    "es": "0 rutas",
+    "ja": "0ルート",
+    "ko": "0 노선",
+    "pt": "0 rotas",
+    "ar": "0 طريق"
+  },
+  "crossborder.logistics.destination": {
+    "de": "Ziel",
+    "fr": "Destination",
+    "es": "Destino",
+    "ja": "目的地",
+    "ko": "목적지",
+    "pt": "Destino",
+    "ar": "الوجهة"
+  },
+  "footer.heading.contact": {
+    "de": "Kontakt",
+    "fr": "Contact",
+    "es": "Contacto",
+    "ja": "お問い合わせ",
+    "ko": "연락처",
+    "pt": "Contato",
+    "ar": "اتصل بنا"
+  },
+  "hk.days": {
+    "de": "Tg",
+    "fr": "j",
+    "es": "d",
+    "ja": "日",
+    "ko": "일",
+    "pt": "d",
+    "ar": "يوم"
+  },
+  "nav.guides": {
+    "de": "Anleitungen",
+    "fr": "Guides",
+    "es": "Guías",
+    "ja": "ガイド",
+    "ko": "가이드",
+    "pt": "Guias",
+    "ar": "أدلة"
+  },
+  "pricing.cmp.10.f": {
+    "de": "Support",
+    "fr": "Support",
+    "es": "Soporte",
+    "ja": "サポート",
+    "ko": "지원",
+    "pt": "Suporte",
+    "ar": "الدعم"
+  },
+  "pricing.cmp.10.free": {
+    "de": "Community",
+    "fr": "Communauté",
+    "es": "Comunidad",
+    "ja": "コミュニティ",
+    "ko": "커뮤니티",
+    "pt": "Comunidade",
+    "ar": "مجتمع"
+  },
+  "pricing.cmp.9.free": {
+    "de": "100/Min.",
+    "fr": "100/min",
+    "es": "100/min",
+    "ja": "100/分",
+    "ko": "100/분",
+    "pt": "100/min",
+    "ar": "100/دقيقة"
+  },
+  "pricing.cmp.9.pro": {
+    "de": "1000/Min.",
+    "fr": "1000/min",
+    "es": "1000/min",
+    "ja": "1000/分",
+    "ko": "1000/분",
+    "pt": "1000/min",
+    "ar": "1000/دقيقة"
+  },
+  "timedifference.group.asia": {
+    "de": "Asien",
+    "fr": "Asie",
+    "es": "Asia",
+    "ja": "アジア",
+    "ko": "아시아",
+    "pt": "Ásia",
+    "ar": "آسيا"
+  },
+  "timedifference.group.europe": {
+    "de": "Europa",
+    "fr": "Europe",
+    "es": "Europa",
+    "ja": "ヨーロッパ",
+    "ko": "유럽",
+    "pt": "Europa",
+    "ar": "أوروبا"
+  },
+  "timedifference.group.oceania": {
+    "de": "Ozeanien",
+    "fr": "Océanie",
+    "es": "Oceanía",
+    "ja": "オセアニア",
+    "ko": "오세아니아",
+    "pt": "Oceania",
+    "ar": "أوقيانوسيا"
+  },
+  "timedifference.local": {
+    "de": "lokal",
+    "fr": "local",
+    "es": "local",
+    "ja": "現地",
+    "ko": "현지",
+    "pt": "local",
+    "ar": "محلي"
+  },
+  "timedifference.quickLinks.title": {
+    "de": "🔗 Beliebte Zeitunterschiede",
+    "fr": "🔗 Différences horaires populaires",
+    "es": "🔗 Diferencias horarias populares",
+    "ja": "🔗 人気の時差",
+    "ko": "🔗 인기 시간 차이",
+    "pt": "🔗 Diferenças de fuso populares",
+    "ar": "🔗 فروق التوقيت الشائعة"
+  },
+  "xb.cty.AU": {
+    "de": "Australien",
+    "fr": "Australie",
+    "es": "Australia",
+    "ja": "オーストラリア",
+    "ko": "호주",
+    "pt": "Austrália",
+    "ar": "أستراليا"
+  },
+  "xb.cty.CA": {
+    "de": "Kanada",
+    "fr": "Canada",
+    "es": "Canadá",
+    "ja": "カナダ",
+    "ko": "캐나다",
+    "pt": "Canadá",
+    "ar": "كندا"
+  },
+  "xb.dest.ca": {
+    "de": "Kanada · Toronto",
+    "fr": "Canada · Toronto",
+    "es": "Canadá · Toronto",
+    "ja": "カナダ · トロント",
+    "ko": "캐나다 · 토론토",
+    "pt": "Canadá · Toronto",
+    "ar": "كندا · تورونتو"
+  },
+  "xb.dest.fr": {
+    "de": "Frankreich · Paris",
+    "fr": "France · Paris",
+    "es": "Francia · París",
+    "ja": "フランス · パリ",
+    "ko": "프랑스 · 파리",
+    "pt": "França · Paris",
+    "ar": "فرنسا · باريس"
+  },
+  "xb.dest_label": {
+    "de": "Ziel",
+    "fr": "Destination",
+    "es": "Destino",
+    "ja": "目的地",
+    "ko": "목적지",
+    "pt": "Destino",
+    "ar": "الوجهة"
+  },
+  "xb.loc.destination": {
+    "de": "Ziel",
+    "fr": "Destination",
+    "es": "Destino",
+    "ja": "目的地",
+    "ko": "목적지",
+    "pt": "Destino",
+    "ar": "الوجهة"
+  },
+  "xb.vol.volume": {
+    "de": "Volumen: ",
+    "fr": "Volume : ",
+    "es": "Volumen: ",
+    "ja": "体積: ",
+    "ko": "부피: ",
+    "pt": "Volume: ",
+    "ar": "الحجم: "
+  }
+}

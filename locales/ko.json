@@ -262,7 +262,7 @@
   "timedifference.overlap.hasOverlapDesc": "양쪽 모두 근무 중인 최적 통화 시간대. UTC ",
   "timedifference.overlap.noOverlap": "근무 시간 겹침 없음",
   "timedifference.overlap.noOverlapDesc": "두 도시의 근무 시간이 전혀 겹치지 않습니다. 한쪽이 근무 시간 외에 맞춰야 합니다. 회의 플래너로 타협점을 찾으세요.",
-  "timedifference.quickLinks.title": "🔗 Popular Time Differences",
+  "timedifference.quickLinks.title": "🔗 인기 시간 차이",
   "timedifference.bestTime": "최적 통화 시간",
   "timedifference.workHours": "근무 시간",
   "timedifference.recommended": "추천",
