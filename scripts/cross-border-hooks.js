@@ -1,7 +1,7 @@
 /**
  * GlobeTimeZone 钩子系统 — 跨境工具专用
  * 自动记忆 · 价值量化 · 智能推荐 · 通知中心 · 分享系统
- * v2.0 2026-06-09
+ * v2.1 2026-06-10 i18n: holidays/countdown/date-format via T()
  *
  * 升级内容：
  * - 丰富节假日提醒（春节/感恩节/圣诞/端午/独立日）
@@ -175,12 +175,21 @@ var HookSystem = (function() {
 
   function requeryShipping(record) {
     var originMap = {
+      // backward-compat Chinese keys (old localStorage)
       '深圳': 'shenzhen', '广州': 'guangzhou', '义乌': 'yiwu', '上海': 'shanghai', '宁波': 'ningbo', '青岛': 'qingdao'
     };
+    // also add T()-translated keys for new sessions in other languages
+    originMap[T('xb.origin.shenzhen','深圳')] = 'shenzhen';
+    originMap[T('xb.origin.guangzhou','广州')] = 'guangzhou';
+    originMap[T('xb.origin.yiwu','义乌')] = 'yiwu';
+    originMap[T('xb.origin.shanghai','上海')] = 'shanghai';
+    originMap[T('xb.origin.ningbo','宁波')] = 'ningbo';
+    originMap[T('xb.origin.qingdao','青岛')] = 'qingdao';
     var originKey = Object.keys(originMap).find(function(k) { return record.origin.indexOf(k) >= 0; }) || null;
     if ($('origin') && originKey) $('origin').value = originMap[originKey];
 
     var destMap = {
+      // backward-compat Chinese keys
       '美国东部': 'us-east', '纽约': 'us-east',
       '美国西部': 'us-west', '洛杉矶': 'us-west',
       '英国': 'uk', '伦敦': 'uk',
@@ -190,6 +199,15 @@ var HookSystem = (function() {
       '澳大利亚': 'au', '悉尼': 'au',
       '加拿大': 'ca', '多伦多': 'ca'
     };
+    // also add T()-translated keys
+    destMap[T('xb.dest.useast','美国东部·纽约')] = 'us-east';
+    destMap[T('xb.dest.uswest','美国西部·洛杉矶')] = 'us-west';
+    destMap[T('xb.dest.uk','英国·伦敦')] = 'uk';
+    destMap[T('xb.dest.de','德国·柏林')] = 'de';
+    destMap[T('xb.dest.fr','法国·巴黎')] = 'fr';
+    destMap[T('xb.dest.jp','日本·东京')] = 'jp';
+    destMap[T('xb.dest.au','澳大利亚·悉尼')] = 'au';
+    destMap[T('xb.dest.ca','加拿大·多伦多')] = 'ca';
     var destKey = Object.keys(destMap).find(function(k) { return record.destination.indexOf(k) >= 0; });
     if ($('destination') && destKey) $('destination').value = destMap[destKey];
     if ($('weight')) $('weight').value = record.weight;
@@ -480,11 +498,12 @@ var HookSystem = (function() {
   }
 
   function addNotification(notif) {
+    var lang = (window.GTZ_LANG || 'zh').replace(/-.*/, '');
     notifications.unshift({
       type: notif.type || 'info',
       title: notif.title || '',
       message: notif.message || '',
-      time: new Date().toLocaleString('zh-CN', { hour12: false })
+      time: new Date().toLocaleString(lang === 'zh' ? 'zh-CN' : lang === 'ja' ? 'ja-JP' : lang === 'ko' ? 'ko-KR' : lang === 'de' ? 'de-DE' : lang === 'fr' ? 'fr-FR' : lang === 'es' ? 'es-ES' : lang === 'pt' ? 'pt-BR' : lang === 'ar' ? 'ar-SA' : 'en-US', { hour12: false })
     });
 
     if (notifications.length > 20) notifications = notifications.slice(0, 20);
@@ -533,15 +552,15 @@ var HookSystem = (function() {
 
     var holidays = [
       // 美国独立日
-      { date: new Date(year, 6, 4),  name: '美国独立日',   warn: 25, msg: '物流时效将延长2-4天，建议提前发货', type: 'warning' },
+      { date: new Date(year, 6, 4),  name: T('hk.holiday.us_independence','美国独立日'),   warn: 25, msg: T('hk.holiday.us_independence_msg','物流时效将延长2-4天，建议提前发货'), type: 'warning' },
       // 感恩节 (11月第四个周四)
-      { date: getNthWeekdayOfMonth(year, 10, 4, 4), name: '美国感恩节', warn: 21, msg: '购物旺季，物流爆仓风险高，建议提前15天发货', type: 'warning' },
+      { date: getNthWeekdayOfMonth(year, 10, 4, 4), name: T('hk.holiday.us_thanksgiving','美国感恩节'), warn: 21, msg: T('hk.holiday.us_thanksgiving_msg','购物旺季，物流爆仓风险高，建议提前15天发货'), type: 'warning' },
       // 圣诞节
-      { date: new Date(year, 11, 25), name: '圣诞节',       warn: 30, msg: '旺季高峰，建议提前20-25天备货发货', type: 'warning' },
+      { date: new Date(year, 11, 25), name: T('hk.holiday.christmas','圣诞节'),       warn: 30, msg: T('hk.holiday.christmas_msg','旺季高峰，建议提前20-25天备货发货'), type: 'warning' },
       // 端午节 2026-06-14
-      { date: new Date(2026, 5, 14),  name: '端午节(中国)', warn: 7,  msg: '中国仓库将放假1-3天，影响国内揽收', type: 'info' },
+      { date: new Date(2026, 5, 14),  name: T('hk.holiday.dragon_boat','端午节(中国)'), warn: 7,  msg: T('hk.holiday.dragon_boat_msg','中国仓库将放假1-3天，影响国内揽收'), type: 'info' },
       // 春节 2027-01-29 (动态，这里给2027)
-      { date: new Date(2027, 0, 29),  name: '春节',         warn: 45, msg: '春节前后30天为物流高峰，建议提前备货', type: 'warning' }
+      { date: new Date(2027, 0, 29),  name: T('hk.holiday.spring_festival','春节'),         warn: 45, msg: T('hk.holiday.spring_festival_msg','春节前后30天为物流高峰，建议提前备货'), type: 'warning' }
     ];
 
     holidays.forEach(function(h) {
@@ -550,7 +569,7 @@ var HookSystem = (function() {
       if (daysUntil > 0 && daysUntil <= h.warn) {
         addNotification({
           type: h.type,
-          title: '📅 ' + h.name + '还有' + daysUntil + '天',
+          title: '📅 ' + h.name + T('hk.countdown.in_days','还有') + daysUntil + T('hk.countdown.days','天'),
           message: h.msg
         });
       }

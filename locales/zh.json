@@ -762,5 +762,17 @@
   "hk.share.carriers": "· 支持8家物流商实时比价\n",
   "hk.share.link": "👉 免费查询：https://globetimezone.com/tools/cross-border/",
   "hk.share.copied": "✅ 分享文案已复制，快发给你的同行吧！",
-  "hk.share.prompt": "复制以下分享文案："
+  "hk.share.prompt": "复制以下分享文案：",
+  "hk.holiday.us_independence": "美国独立日",
+  "hk.holiday.us_independence_msg": "物流时效将延长2-4天，建议提前发货",
+  "hk.holiday.us_thanksgiving": "美国感恩节",
+  "hk.holiday.us_thanksgiving_msg": "购物旺季，物流爆仓风险高，建议提前15天发货",
+  "hk.holiday.christmas": "圣诞节",
+  "hk.holiday.christmas_msg": "旺季高峰，建议提前20-25天备货发货",
+  "hk.holiday.dragon_boat": "端午节(中国)",
+  "hk.holiday.dragon_boat_msg": "中国仓库将放假1-3天，影响国内揽收",
+  "hk.holiday.spring_festival": "春节",
+  "hk.holiday.spring_festival_msg": "春节前后30天为物流高峰，建议提前备货",
+  "hk.countdown.in_days": "还有",
+  "hk.countdown.days": "天"
 }

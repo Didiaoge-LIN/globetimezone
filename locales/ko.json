@@ -762,5 +762,17 @@
   "hk.share.carriers": "· 8개 물류사 실시간 비교\n",
   "hk.share.link": "👉 무료 확인: https://globetimezone.com/tools/cross-border/",
   "hk.share.copied": "✅ 복사 완료! 동료들과 공유하세요!",
-  "hk.share.prompt": "다음 텍스트를 복사하세요:"
+  "hk.share.prompt": "다음 텍스트를 복사하세요:",
+  "hk.holiday.us_independence": "미국 독립기념일",
+  "hk.holiday.us_independence_msg": "배송이 2-4일 추가로 소요될 수 있습니다. 조기 출하를 권장합니다.",
+  "hk.holiday.us_thanksgiving": "미국 추수감사절",
+  "hk.holiday.us_thanksgiving_msg": "쇼핑 시즌 — 물류 지연 위험 높음. 15일 먼저 출하하세요.",
+  "hk.holiday.christmas": "크리스마스",
+  "hk.holiday.christmas_msg": "성수기 — 20-25일 전에 출하하세요.",
+  "hk.holiday.dragon_boat": "단오절 (중국)",
+  "hk.holiday.dragon_boat_msg": "중국 창고 1-3일 휴무. 국내 수거에 영향.",
+  "hk.holiday.spring_festival": "춘절",
+  "hk.holiday.spring_festival_msg": "춘절 전후 30일 물류 성수기. 조기 출하하세요.",
+  "hk.countdown.in_days": "까지 ",
+  "hk.countdown.days": "일"
 }

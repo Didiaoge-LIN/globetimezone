@@ -762,5 +762,17 @@
   "hk.share.carriers": "· مقارنة فورية بين 8 شركات شحن\n",
   "hk.share.link": "👉 تحقق مجاناً: https://globetimezone.com/tools/cross-border/",
   "hk.share.copied": "✅ تم النسخ! شاركه مع زملائك!",
-  "hk.share.prompt": "انسخ النص التالي:"
+  "hk.share.prompt": "انسخ النص التالي:",
+  "hk.holiday.us_independence": "يوم استقلال الولايات المتحدة",
+  "hk.holiday.us_independence_msg": "قد يستغرق الشحن 2-4 أيام إضافية. يُنصح بالشحن المبكر.",
+  "hk.holiday.us_thanksgiving": "عيد الشكر الأمريكي",
+  "hk.holiday.us_thanksgiving_msg": "موسم التسوق الذروة — خطر عالٍ لتأخير الشحن. اطلب الشحن قبل 15 يومًا.",
+  "hk.holiday.christmas": "عيد الميلاد",
+  "hk.holiday.christmas_msg": "موسم الذروة — اطلب الشحن قبل 20-25 يومًا.",
+  "hk.holiday.dragon_boat": "مهرجان القوارب التنين (الصين)",
+  "hk.holiday.dragon_boat_msg": "المستودعات الصينية مغلقة 1-3 أيام. التجميع المحلي متأثر.",
+  "hk.holiday.spring_festival": "رأس السنة الصينية",
+  "hk.holiday.spring_festival_msg": "30 يومًا من ذروة الشحن حول رأس السنة الصينية. اطلب الشحن مبكرًا.",
+  "hk.countdown.in_days": " بعد ",
+  "hk.countdown.days": " أيام"
 }

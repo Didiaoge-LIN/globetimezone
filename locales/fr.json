@@ -762,5 +762,17 @@
   "hk.share.carriers": "· Comparaison en temps réel de 8 transporteurs\n",
   "hk.share.link": "👉 Vérification gratuite : https://globetimezone.com/tools/cross-border/",
   "hk.share.copied": "✅ Copié ! Partagez avec vos pairs !",
-  "hk.share.prompt": "Copiez le texte suivant :"
+  "hk.share.prompt": "Copiez le texte suivant :",
+  "hk.holiday.us_independence": "Fête de l'Indépendance américaine",
+  "hk.holiday.us_independence_msg": "La livraison peut prendre 2-4 jours supplémentaires. Expédiez en avance.",
+  "hk.holiday.us_thanksgiving": "Thanksgiving américain",
+  "hk.holiday.us_thanksgiving_msg": "Saison de pointe — risque élevé de retards logistiques. Expédiez 15 jours en avance.",
+  "hk.holiday.christmas": "Noël",
+  "hk.holiday.christmas_msg": "Saison de pointe — expédiez 20-25 jours en avance.",
+  "hk.holiday.dragon_boat": "Fête des Bateaux-Dragons (Chine)",
+  "hk.holiday.dragon_boat_msg": "Entrepôts chinois fermés 1-3 jours. Ramassage intérieur affecté.",
+  "hk.holiday.spring_festival": "Nouvel An chinois",
+  "hk.holiday.spring_festival_msg": "30 jours de pointe logistique autour du Nouvel An chinois. Expédiez en avance.",
+  "hk.countdown.in_days": " dans ",
+  "hk.countdown.days": " jours"
 }
