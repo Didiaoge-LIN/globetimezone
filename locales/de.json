@@ -762,5 +762,17 @@
   "hk.share.carriers": "· Echtzeit-Vergleich von 8 Spediteuren\n",
   "hk.share.link": "👉 Kostenlos prüfen: https://globetimezone.com/tools/cross-border/",
   "hk.share.copied": "✅ Kopiert! Teile es mit deinen Kollegen!",
-  "hk.share.prompt": "Folgenden Text kopieren:"
+  "hk.share.prompt": "Folgenden Text kopieren:",
+  "hk.holiday.us_independence": "US-Unabhängigkeitstag",
+  "hk.holiday.us_independence_msg": "Versand kann 2-4 Tage länger dauern. Frühzeitiger Versand empfohlen.",
+  "hk.holiday.us_thanksgiving": "US-Thanksgiving",
+  "hk.holiday.us_thanksgiving_msg": "Hochsaison — hohes Risiko für Logistikverzögerungen. 15 Tage früher versenden.",
+  "hk.holiday.christmas": "Weihnachten",
+  "hk.holiday.christmas_msg": "Hochsaison — 20-25 Tage im Voraus versenden.",
+  "hk.holiday.dragon_boat": "Drachenbootfest (China)",
+  "hk.holiday.dragon_boat_msg": "Chinesische Lager 1-3 Tage geschlossen. Inlandsabholung betroffen.",
+  "hk.holiday.spring_festival": "Chinesisches Neujahr",
+  "hk.holiday.spring_festival_msg": "30 Tage Logistik-Hochsaison um das chinesische Neujahr. Frühzeitig versenden.",
+  "hk.countdown.in_days": " in ",
+  "hk.countdown.days": " Tage"
 }

@@ -762,5 +762,17 @@
   "hk.share.carriers": "· 8社のリアルタイム比較\n",
   "hk.share.link": "👉 無料で確認: https://globetimezone.com/tools/cross-border/",
   "hk.share.copied": "✅ コピー完了！仲間にシェアしましょう！",
-  "hk.share.prompt": "以下のテキストをコピーしてください："
+  "hk.share.prompt": "以下のテキストをコピーしてください：",
+  "hk.holiday.us_independence": "アメリカ独立記念日",
+  "hk.holiday.us_independence_msg": "配送に2〜4日追加される場合があります。早めの出荷をお勧めします。",
+  "hk.holiday.us_thanksgiving": "アメリカ感謝祭",
+  "hk.holiday.us_thanksgiving_msg": "買い物シーズン — 物流遅延のリスクが高い。15日前の出荷をお勧めします。",
+  "hk.holiday.christmas": "クリスマス",
+  "hk.holiday.christmas_msg": "ピークシーズン — 20〜25日前に出荷してください。",
+  "hk.holiday.dragon_boat": "端午の節句（中国）",
+  "hk.holiday.dragon_boat_msg": "中国の倉庫は1〜3日休業。国内集荷に影響があります。",
+  "hk.holiday.spring_festival": "旧正月",
+  "hk.holiday.spring_festival_msg": "旧正月前後30日間は物流ピーク。早めの出荷をお勧めします。",
+  "hk.countdown.in_days": "まであと",
+  "hk.countdown.days": "日"
 }
