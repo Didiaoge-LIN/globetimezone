@@ -16,15 +16,25 @@
  */
 
 const LANG_REGEX = /^\/(en|zh|de|fr|es|ja|ko|pt|ar)\/(.+)\.html$/;
+const CITY_REGEX = /^\/time\/([a-z0-9-]+)\/?$/;
 
 export async function onRequest(context) {
   const { request, next } = context;
   const url = new URL(request.url);
   const pathname = url.pathname;
 
-  // 仅处理带语言前缀的 .html 请求
-  const match = pathname.match(LANG_REGEX);
+  // 处理城市页面 /time/slug/ → 直接服务 /time/slug.html
+  const cityMatch = pathname.match(CITY_REGEX);
+  if (cityMatch) {
+    const slug = cityMatch[1];
+    // 重写URL到实际的.html文件，交给静态文件服务
+    url.pathname = `/time/${slug}.html`;
+    const modifiedRequest = new Request(url.toString(), request);
+    return fetch(modifiedRequest);
+  }
 
+  // 处理带语言前缀的 .html 请求
+  const match = pathname.match(LANG_REGEX);
   if (match) {
     const lang = match[1];
     const pathWithoutExt = match[2];
@@ -40,6 +50,6 @@ export async function onRequest(context) {
     return Response.redirect(url.toString(), 301);
   }
 
-  // 非 .html 或非语言前缀 → 交给 _redirects / 静态文件服务
+  // 其他请求 → 交给 _redirects / 静态文件服务
   return next();
 }
