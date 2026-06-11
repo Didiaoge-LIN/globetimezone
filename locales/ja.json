@@ -929,5 +929,8 @@
   "mp.legend.night": "深夜（0-6時）",
   "mp.legend.now": "現在",
   "mp.legend.best": "おすすめ",
-  "footer.heading.hottime": "人気の時差"
+  "footer.heading.hottime": "人気の時差",
+  "sidebar.ad.label": "広告",
+  "blog.cta.email_placeholder": "メールアドレスを入力…",
+  "blog.footer.copyright": "© 2026 GlobeTimeZone · タイムゾーンデータ：IANA"
 }

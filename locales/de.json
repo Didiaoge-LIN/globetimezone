@@ -929,5 +929,8 @@
   "mp.legend.night": "Nacht (0-6 Uhr)",
   "mp.legend.now": "Aktuell",
   "mp.legend.best": "Beste Zeit",
-  "footer.heading.hottime": "Beliebte Zeitunterschiede"
+  "footer.heading.hottime": "Beliebte Zeitunterschiede",
+  "sidebar.ad.label": "Werbung",
+  "blog.cta.email_placeholder": "E-Mail eingeben…",
+  "blog.footer.copyright": "© 2026 GlobeTimeZone · Zeitzonendaten via IANA"
 }

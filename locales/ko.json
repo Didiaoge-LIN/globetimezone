@@ -929,5 +929,8 @@
   "mp.legend.night": "심야 (0-6시)",
   "mp.legend.now": "현재",
   "mp.legend.best": "추천 시간대",
-  "footer.heading.hottime": "인기 시차"
+  "footer.heading.hottime": "인기 시차",
+  "sidebar.ad.label": "광고",
+  "blog.cta.email_placeholder": "이메일 입력…",
+  "blog.footer.copyright": "© 2026 GlobeTimeZone · 시간대 데이터 출처: IANA"
 }
