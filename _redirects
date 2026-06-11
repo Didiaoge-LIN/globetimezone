@@ -2,6 +2,9 @@
 # 所有语言路径重写到根目录文件（200 = rewrite，不跳转）
 # JS 根据 URL 路径加载对应语言包
 
+# 城市页面：/time/slug/ → /time/slug.html（美化URL）
+/time/* /time/:splat.html 200
+
 /en/*  /:splat  200
 /zh/*  /:splat  200
 /de/*  /:splat  200
