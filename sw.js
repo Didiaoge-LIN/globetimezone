@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v5';
+const CACHE_VERSION = 'v6';
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `dynamic-${CACHE_VERSION}`;
 
@@ -65,6 +65,22 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // i18n locale JSON: Network First — 确保翻译文件始终最新
+  // 先尝试网络，失败才回退缓存
+  if (request.url.includes('/locales/')) {
+    event.respondWith(
+      fetch(request)
+        .then((response) => {
+          const cloned = response.clone();
+          caches.open(DYNAMIC_CACHE).then((cache) => cache.put(request, cloned));
+          return response;
+        })
+        .catch(() => caches.match(request))
+    );
+    return;
+  }
+
+  // 其他静态资源: Cache First（JS/CSS/图片等带版本号，可长期缓存）
   event.respondWith(
     caches.match(request).then((cached) => cached || fetch(request))
   );
