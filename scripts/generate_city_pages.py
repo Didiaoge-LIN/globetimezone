@@ -18,7 +18,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_PATH = BASE_DIR / 'data' / 'top-200-cities.json'
 TEMPLATE_PATH = BASE_DIR / 'templates' / 'city.html'
-OUTPUT_DIR = BASE_DIR / 'time'
+OUTPUT_DIR = BASE_DIR / 'city'
 SITEMAP_PATH = BASE_DIR / 'sitemap.xml'
 SITE_URL = 'https://globetimezone.com'
 
@@ -171,7 +171,7 @@ def render_city_page(city, template):
     name = city['name']
     slug = city['slug']
     tz = city['timezone']
-    tz_name = city.get('timezoneName', '')
+    tz_name = city.get('timezoneName', '') or tz  # 后备用IANA标识
     offset = city['utcOffset']
     offset_str = get_utc_offset_str(offset)
     country = city['country']

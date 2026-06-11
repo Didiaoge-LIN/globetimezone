@@ -9,17 +9,43 @@
   <link rel="canonical" href="https://globetimezone.com/city/{{slug}}/">
   {{hreflang_tags}}
   <meta name="baidu-tongji-id" content="cb6f0f9eec485c2521ce68dab67f5515" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{name}}现在几点 - {{offset_str}}时区实时时间 | GlobeTimeZone">
+  <meta property="og:description" content="实时查看{{name}}当前时间、与全球8大城市时差对比、最佳商务联系时段、夏令时信息。">
+  <meta property="og:url" content="https://globetimezone.com/city/{{slug}}/">
+  <meta property="og:site_name" content="GlobeTimeZone">
+  <meta property="og:locale" content="zh_CN">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="{{name}}现在几点 - {{offset_str}}">
+  <meta name="twitter:description" content="实时查看{{name}}当前时间、时差对比、最佳联系时段。">
+
+  <link rel="icon" href="/favicon.ico">
   <link rel="preconnect" href="https://www.googletagmanager.com">
   <link rel="preconnect" href="https://pagead2.googlesyndication.com">
   <link rel="manifest" href="/manifest.json">
 
-  <!-- 结构化数据 -->
+  <!-- 面包屑结构化数据 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "首页", "item": "https://globetimezone.com/"},
+      {"@type": "ListItem", "position": 2, "name": "城市时间", "item": "https://globetimezone.com/cities/"},
+      {"@type": "ListItem", "position": 3, "name": "{{name}}时间", "item": "https://globetimezone.com/city/{{slug}}/"}
+    ]
+  }
+  </script>
+  <!-- Clock结构化数据 -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Clock",
     "name": "{{name}}当前时间",
-    "description": "实时显示{{name}}的准确时间",
+    "description": "实时显示{{name}}的准确时间（{{offset_str}}）",
     "timezone": "{{timezone}}",
     "url": "https://globetimezone.com/city/{{slug}}/"
   }
@@ -54,6 +80,12 @@
     .status-sleeping {background:#dbeafe;color:#1e40af;}
     .status-personal {background:#fef3c7;color:#92400e;}
     .status-deep-sleep {background:#ede9fe;color:#5b21b6;}
+
+    /* 面包屑 */
+    .breadcrumb {max-width:800px;margin:0 auto;padding:0.75rem 1rem;font-size:0.85rem;color:var(--text-secondary);}
+    .breadcrumb a {color:var(--text-secondary);text-decoration:none;}
+    .breadcrumb a:hover {color:var(--text);text-decoration:underline;}
+    .breadcrumb span {margin:0 0.4rem;}
 
     .time-diff-section {max-width:800px;margin:2rem auto;padding:0 1rem;}
     .time-diff-table {width:100%;border-collapse:collapse;}
@@ -101,6 +133,15 @@
       .contact-cards {grid-template-columns:1fr;}
       .city-grid-sm {grid-template-columns:repeat(2,1fr);}
     }
+
+    /* 深色模式 */
+    @media(prefers-color-scheme:dark){
+      :root{--bg:#0f172a;--bg-secondary:#1e293b;--text:#f1f5f9;--text-secondary:#94a3b8;--border:#334155;--border-subtle:#1e293b;}
+      .status-working{background:#064e3b;color:#6ee7b7;}
+      .status-sleeping{background:#1e3a5f;color:#93c5fd;}
+      .status-personal{background:#422006;color:#fcd34d;}
+      .status-deep-sleep{background:#2e1065;color:#c4b5fd;}
+    }
   </style>
 </head>
 <body>
@@ -121,9 +162,16 @@
   </header>
 
   <main id="main-content">
+    <!-- 面包屑导航 -->
+    <nav class="breadcrumb" aria-label="面包屑">
+      <a href="/">首页</a><span>›</span>
+      <a href="/cities/">城市时间</a><span>›</span>
+      <strong>{{name}}时间</strong>
+    </nav>
+
     <!-- 模块1：大时钟 -->
     <section class="city-hero">
-      <h1>{{name}}现在时间</h1>
+      <h1>{{name}}现在时间 <small style="font-size:0.45em;color:var(--text-secondary);font-weight:400;">{{offset_str}}</small></h1>
       <div class="city-clock" id="city-clock" data-timezone="{{timezone}}">--:--:--</div>
       <div class="city-date" id="city-date"></div>
       <div class="city-status status-working" id="city-status">{{name}} · {{country}}</div>
@@ -251,7 +299,7 @@
   <script src="/js/gtz-utils.js" defer data-cfasync="false"></script>
   <script src="/cookie-consent.js" defer data-cfasync="false"></script>
   <script src="/ads-loader.js" defer data-cfasync="false"></script>
-  <script>
+  <script data-cfasync="false">
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {
         navigator.serviceWorker.register('/sw.js?v=6').catch(function() {});
