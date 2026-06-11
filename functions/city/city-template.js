@@ -169,7 +169,7 @@ export function renderCityPage(slug, city, allCities) {
     .faq-item{border:1px solid var(--border);border-radius:10px;margin-bottom:0.75rem;overflow:hidden}
     .faq-question{padding:1rem 1.2rem;font-weight:600;cursor:pointer;user-select:none;display:flex;justify-content:space-between;align-items:center}
     .faq-question::after{content:'+';font-size:1.2rem;color:var(--text-secondary)}
-    details[open] .faq-question::after{content:'\2212'}
+    details[open] .faq-question::after{content:'\\2212'}
     .faq-answer{padding:0 1.2rem 1rem;color:var(--text-secondary);line-height:1.7}
     .related-section{max-width:800px;margin:2rem auto 0;padding:0 1rem 2rem}
     .city-grid-sm{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:0.75rem;margin-top:1rem}
