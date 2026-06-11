@@ -747,6 +747,124 @@
     if (typeof HookSystem !== 'undefined') { HookSystem.init(); }
   }
 
+
+  // ═══════════ I18N REFRESH (called when locale JSON loaded) ═══════════
+  function refreshI18n() {
+    if (!window.GTZ_T) return;
+    var _T = window.GTZ_T;
+
+    // Refresh carriers
+    carriers.forEach(function(c) {
+      var keyMap = {
+        'dhl': ['xb.carrier.dhl', 'DHL 国际快递'],
+        'ups': ['xb.carrier.ups', 'UPS 国际快递'],
+        'fedex': ['xb.carrier.fedex', 'FedEx 联邦快递'],
+        'tnt': ['xb.carrier.tnt', 'TNT 国际快递'],
+        'ems': ['xb.carrier.ems', 'EMS 国际特快'],
+        'amazon-fba': ['xb.carrier.fba', '亚马逊 FBA 专线'],
+        'air-special': ['xb.carrier.air', '空运专线'],
+        'sea-fast': ['xb.carrier.sea', '海运快船']
+      };
+      var km = keyMap[c.id];
+      if (km) c.fullName = _T(km[0], km[1]);
+
+      var featMap = {
+        'xb.feat.fastest': '最快时效', 'xb.feat.tracking': '全程追踪', 'xb.feat.priority': '优先清关',
+        'xb.feat.reliable': '稳定可靠', 'xb.feat.na': '北美优势', 'xb.feat.pickup': '上门取件',
+        'xb.feat.global': '全球覆盖', 'xb.feat.economical': '经济实惠', 'xb.feat.ontime': '准时率高',
+        'xb.feat.europe': '欧洲优势', 'xb.feat.customs': '清关能力强', 'xb.feat.midprice': '价格适中',
+        'xb.feat.novol': '不计体积重', 'xb.feat.postal': '邮政渠道',
+        'xb.feat.fba': 'FBA入仓', 'xb.feat.ddp': '双清包税', 'xb.feat.cheap': '价格优惠',
+        'xb.feat.costeffective': '性价比高', 'xb.feat.bulk': '大货优势',
+        'xb.feat.oversize': '超大货优势', 'xb.feat.lowest': '成本最低'
+      };
+      if (c.features) {
+        c.features = c.features.map(function(f) {
+          for (var k in featMap) { if (_T(k, featMap[k]) !== f && f.indexOf(featMap[k]) >= 0) return _T(k, featMap[k]); }
+          // fallback: try reverse lookup by current value
+          for (var k2 in featMap) { if (_T(k2, featMap[k2]) === f) return f; }
+          return f;
+        });
+      }
+      // Special names
+      if (c.id === 'amazon-fba') c.name = _T('xb.carrier.fba.name', '亚马逊FBA');
+      if (c.id === 'air-special') c.name = _T('xb.carrier.air.name', '空运专线');
+      if (c.id === 'sea-fast') c.name = _T('xb.carrier.sea.name', '海运快船');
+    });
+
+    // Refresh destinations
+    var destMap = {
+      'us-east': ['xb.dest.useast', '美国东部·纽约'],
+      'us-west': ['xb.dest.uswest', '美国西部·洛杉矶'],
+      'uk': ['xb.dest.uk', '英国·伦敦'],
+      'de': ['xb.dest.de', '德国·柏林'],
+      'fr': ['xb.dest.fr', '法国·巴黎'],
+      'jp': ['xb.dest.jp', '日本·东京'],
+      'au': ['xb.dest.au', '澳大利亚·悉尼'],
+      'ca': ['xb.dest.ca', '加拿大·多伦多']
+    };
+    for (var dk in destMap) {
+      if (destinations[dk]) destinations[dk].name = _T(destMap[dk][0], destMap[dk][1]);
+    }
+
+    // Refresh originNames
+    var originMap = {
+      'shenzhen': ['xb.origin.shenzhen', '深圳'],
+      'guangzhou': ['xb.origin.guangzhou', '广州'],
+      'yiwu': ['xb.origin.yiwu', '义乌'],
+      'shanghai': ['xb.origin.shanghai', '上海'],
+      'ningbo': ['xb.origin.ningbo', '宁波'],
+      'qingdao': ['xb.origin.qingdao', '青岛']
+    };
+    for (var ok in originMap) {
+      originNames[ok] = _T(originMap[ok][0], originMap[ok][1]);
+    }
+
+    // Refresh hsCodes
+    var hsMap = {
+      'xb.hs.laptop': '笔记本电脑', 'xb.hs.phone': '智能手机', 'xb.hs.earphone': '耳机/耳塞',
+      'xb.hs.toy': '玩具/模型', 'xb.hs.tshirt': 'T恤/上衣', 'xb.hs.pants': '裤子/牛仔裤',
+      'xb.hs.shoes': '运动鞋', 'xb.hs.bag': '手提包/箱包', 'xb.hs.skincare': '护肤品/面霜',
+      'xb.hs.makeup': '眼妆/睫毛膏', 'xb.hs.jewelry': '时尚饰品', 'xb.hs.fitness': '健身器材',
+      'xb.hs.furniture': '家具/家居', 'xb.hs.camera': '相机/摄像机', 'xb.hs.keyboard': '键盘鼠标',
+      'xb.hs.cable': '数据线/充电线', 'xb.hs.charger': '充电器/电源适配器', 'xb.hs.hoodie': '卫衣/帽衫'
+    };
+    hsCodes.forEach(function(h) {
+      for (var hk in hsMap) { if (_T(hk, hsMap[hk]) !== h.name && h.name.indexOf(hsMap[hk]) >= 0) { h.name = _T(hk, hsMap[hk]); break; } }
+    });
+
+    // Refresh prohibitedDB
+    var prohMap = {
+      'US': { banned: ['xb.proh.US.banned', '武器弹药、毒品、象牙制品、古巴雪茄、盗版商品、未批准药品、肉类乳制品'], restricted: ['xb.proh.US.restricted', '含酒精饮料、烟草产品、处方药(FDA)、电子产品(FCC)、儿童产品(CPSC)'], deMinimis: ['xb.proh.US.deminimis', '<strong>$800</strong> 以下免税（Section 321）'] },
+      'GB': { banned: ['xb.proh.GB.banned', '武器、毒品、濒危动植物、未经UKCA认证无线设备、攻击性武器'], restricted: ['xb.proh.GB.restricted', '食品(卫生证书)、药品(MHRA)、含酒精饮料、烟草、动植物(检疫)'], deMinimis: ['xb.proh.GB.deminimis', '<strong>£135</strong> 以下免征关税，但均需缴VAT(20%)'] },
+      'DE': { banned: ['xb.proh.DE.banned', '武器、毒品、纳粹物品、假冒商品、无CE标志电子产品、危险化学品'], restricted: ['xb.proh.DE.restricted', '食品(欧盟卫生证书)、药品(EMA)、动植物(检疫)、无线设备(CE/RED)、化妆品(CPNP)'], deMinimis: ['xb.proh.DE.deminimis', '<strong>€0</strong> 起征 — 所有进口均需缴税。注意EPR合规。'] },
+      'JP': { banned: ['xb.proh.JP.banned', '武器、毒品、淫秽物品、假冒商品、侵权商品、含伪麻黄碱药品'], restricted: ['xb.proh.JP.restricted', '食品(检疫)、化妆品(药事法)、电子产品(PSE/TELEC)、动植物(严格检疫)'], deMinimis: ['xb.proh.JP.deminimis', '<strong>¥10,000</strong> 以下免税'] },
+      'AU': { banned: ['xb.proh.AU.banned', '武器、毒品、石棉制品、未经批准转基因产品'], restricted: ['xb.proh.AU.restricted', '食品(严格检疫)、药品(TGA)、动植物制品(检疫)、无线设备(ACMA)'], deMinimis: ['xb.proh.AU.deminimis', '<strong>A$1,000</strong> 以下免税'] },
+      'CA': { banned: ['xb.proh.CA.banned', '武器、毒品、淫秽物品、仇恨言论材料、未申报食品'], restricted: ['xb.proh.CA.restricted', '食品(CFIA)、药品(Health Canada)、无线设备(ISED)、动植物(检疫)'], deMinimis: ['xb.proh.CA.deminimis', '<strong>C$20</strong> 起征（极低）'] }
+    };
+    for (var pk in prohMap) {
+      if (prohibitedDB[pk]) {
+        prohibitedDB[pk].banned = _T(prohMap[pk].banned[0], prohMap[pk].banned[1]);
+        prohibitedDB[pk].restricted = _T(prohMap[pk].restricted[0], prohMap[pk].restricted[1]);
+        prohibitedDB[pk].deMinimis = _T(prohMap[pk].deMinimis[0], prohMap[pk].deMinimis[1]);
+      }
+    }
+
+    // Re-render visible content
+    if (currentResults && currentResults.length) renderResults();
+    renderDashboard();
+    updateTimeDisplay();
+    showProhibited();
+    calcVolumeWeight();
+    calcFX();
+    renderHSCodes($('hsSearch') ? $('hsSearch').value : '');
+  }
+
+  // Listen for i18n JSON load completion
+  window.addEventListener('gtz-i18n-ready', function(e) {
+    refreshI18n();
+  });
+
   if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', init); }
   else { init(); }
 })();
