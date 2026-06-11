@@ -11,27 +11,16 @@
  *   2. _redirects
  *   3. 静态文件服务
  *
- * 因此：本中间件在 _redirects 生效之前就完成 301 重定向，
- * 浏览器重新请求 clean URL，再由 _redirects 正确 rewrite。
+ * 城市页面 /city/slug/ 由 CF Pages Clean URLs 自动映射到 /city/slug.html
+ * 无需在此处理，否则会导致死循环
  */
 
 const LANG_REGEX = /^\/(en|zh|de|fr|es|ja|ko|pt|ar)\/(.+)\.html$/;
-const CITY_REGEX = /^\/time\/([a-z0-9-]+)\/?$/;
 
 export async function onRequest(context) {
   const { request, next } = context;
   const url = new URL(request.url);
   const pathname = url.pathname;
-
-  // 处理城市页面 /city/slug/ → 直接服务 /city/slug.html
-  const cityMatch = pathname.match(CITY_REGEX);
-  if (cityMatch) {
-    const slug = cityMatch[1];
-    // 重写URL到实际的.html文件，交给静态文件服务
-    url.pathname = `/city/${slug}.html`;
-    const modifiedRequest = new Request(url.toString(), request);
-    return fetch(modifiedRequest);
-  }
 
   // 处理带语言前缀的 .html 请求
   const match = pathname.match(LANG_REGEX);
