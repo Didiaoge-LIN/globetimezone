@@ -185,7 +185,7 @@ convertISTtoEST();
 setInterval(()=>{const el=document.getElementById('sync-time');if(el)el.textContent='Updated: '+new Date().toLocaleTimeString('en-US',{hour12:false});},1000);
 </script>
 
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js')}</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js?v=6')}</script>
   <script src="/baidu-analytics.js" defer data-cfasync="false"></script>
 </body>
 </html>
