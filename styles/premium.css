@@ -333,6 +333,66 @@ footer a:hover {
   }
 }
 
+/* ============== 7段状态颜色（模块3） ============== */
+.city-status-card.status-sleep::before {
+  background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+}
+.city-status-card.status-morning::before {
+  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+}
+.city-status-card.status-lunch::before {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24);
+}
+
+/* 收藏按钮动画 */
+.fav-btn {
+  transition: transform 0.2s !important;
+}
+.fav-btn:hover {
+  transform: scale(1.25) !important;
+}
+.fav-btn:active {
+  transform: scale(0.9) !important;
+}
+
+/* 拖拽反馈 */
+.city-status-card[draggable="true"] {
+  cursor: grab;
+}
+.city-status-card.dragging {
+  opacity: 0.4 !important;
+  transform: scale(0.95) !important;
+}
+
+/* 换算器输入框 */
+.converter-input {
+  caret-color: var(--accent, #2563eb);
+}
+.converter-input:focus {
+  border-color: var(--accent, #2563eb) !important;
+  box-shadow: 0 0 0 3px var(--accent-glow, rgba(37,99,235,0.25)) !important;
+}
+
+/* UTC 顶部栏 */
+#gtz-utc-bar {
+  font-variant-numeric: tabular-nums;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: opacity 0.3s;
+}
+#gtz-utc-bar:hover {
+  color: #f3f4f6 !important;
+}
+
+/* 反馈按钮 */
+#gtz-feedback-btn {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+#gtz-feedback-btn:hover {
+  box-shadow: 0 6px 20px rgba(59,130,246,0.5) !important;
+}
+
 /* ============== 搜索下拉高级化 ============== */
 #city-search-dropdown {
   background: rgba(255, 255, 255, 0.95) !important;
