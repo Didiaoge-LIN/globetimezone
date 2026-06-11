@@ -61,15 +61,21 @@
     }
   }
 
+  // ═══════ i18n 工具 ═══════
+  function gtz_t(key, fallback) {
+    if (typeof window.GTZ_T === 'function') return window.GTZ_T(key, fallback);
+    return fallback !== undefined ? fallback : key;
+  }
+
   // ═══════ 7段状态配置 ═══════
   const DEFAULT_STATUS_CONFIG = [
-    { name: '深度睡眠', start: 0,  end: 6,  color: '#1e3a8a', emoji: '😴', cssClass: 'status-sleep' },
-    { name: '清晨勿扰', start: 6,  end: 9,  color: '#3b82f6', emoji: '🌅', cssClass: 'status-morning' },
-    { name: '黄金工作', start: 9,  end: 12, color: '#10b981', emoji: '💼', cssClass: 'status-working' },
-    { name: '午休低响', start: 12, end: 14, color: '#f59e0b', emoji: '🍜', cssClass: 'status-lunch' },
-    { name: '黄金工作', start: 14, end: 17, color: '#10b981', emoji: '💼', cssClass: 'status-working' },
-    { name: '即将下班', start: 17, end: 19, color: '#f97316', emoji: '🌇', cssClass: 'status-off' },
-    { name: '私人时间', start: 19, end: 24, color: '#8b5cf6', emoji: '🌙', cssClass: 'status-night' }
+    { i18nKey: 'custom.status.sleep',   name: '深度睡眠', start: 0,  end: 6,  color: '#1e3a8a', emoji: '😴', cssClass: 'status-sleep' },
+    { i18nKey: 'custom.status.morning', name: '清晨勿扰', start: 6,  end: 9,  color: '#3b82f6', emoji: '🌅', cssClass: 'status-morning' },
+    { i18nKey: 'custom.status.working', name: '黄金工作', start: 9,  end: 12, color: '#10b981', emoji: '💼', cssClass: 'status-working' },
+    { i18nKey: 'custom.status.lunch',   name: '午休低响', start: 12, end: 14, color: '#f59e0b', emoji: '🍜', cssClass: 'status-lunch' },
+    { i18nKey: 'custom.status.working', name: '黄金工作', start: 14, end: 17, color: '#10b981', emoji: '💼', cssClass: 'status-working' },
+    { i18nKey: 'custom.status.off',     name: '即将下班', start: 17, end: 19, color: '#f97316', emoji: '🌇', cssClass: 'status-off' },
+    { i18nKey: 'custom.status.night',   name: '私人时间', start: 19, end: 24, color: '#8b5cf6', emoji: '🌙', cssClass: 'status-night' }
   ];
 
   function getCustomStatus(tz) {
@@ -90,13 +96,14 @@
     const custom = getCustomStatus(tz);
     if (custom) {
       if (hour >= custom.workStart && hour < custom.workEnd)
-        return { name: '黄金工作', color: '#10b981', emoji: '💼', cssClass: 'status-working' };
+        return { name: gtz_t('custom.status.working','黄金工作'), color: '#10b981', emoji: '💼', cssClass: 'status-working' };
       if (hour >= 22 || hour < 6)
-        return { name: '深度睡眠', color: '#1e3a8a', emoji: '😴', cssClass: 'status-sleep' };
-      return { name: '非工作时段', color: '#94a3b8', emoji: '🟡', cssClass: 'status-off' };
+        return { name: gtz_t('custom.status.sleep','深度睡眠'), color: '#1e3a8a', emoji: '😴', cssClass: 'status-sleep' };
+      return { name: gtz_t('custom.status.offhours','非工作时段'), color: '#94a3b8', emoji: '🟡', cssClass: 'status-off' };
     }
     const cfg = DEFAULT_STATUS_CONFIG.find(s => hour >= s.start && hour < s.end);
-    return cfg || DEFAULT_STATUS_CONFIG[0];
+    const c = cfg || DEFAULT_STATUS_CONFIG[0];
+    return { ...c, name: gtz_t(c.i18nKey, c.name) };
   }
 
   // ═══════ 中文名映射 ═══════
@@ -178,9 +185,40 @@
   window.__gtz_tzToCN = tzToCN;
   window.__gtz_CN_NAMES = CN_NAMES;
 
+  // timezone → mp.city i18n key 映射（供 GTZ_T 翻译用）
+  const TZ_CITY_KEY = {
+    'Asia/Shanghai':'mp.city.shanghai','Asia/Tokyo':'mp.city.tokyo',
+    'Asia/Seoul':'mp.city.seoul','Asia/Singapore':'mp.city.singapore',
+    'Asia/Dubai':'mp.city.dubai','Asia/Kolkata':'mp.city.mumbai',
+    'Asia/Hong_Kong':'mp.city.hk','Asia/Bangkok':'mp.city.bangkok',
+    'Asia/Jakarta':'mp.city.jakarta','Asia/Taipei':'mp.city.taipei',
+    'Asia/Karachi':'mp.city.karachi','Asia/Dhaka':'mp.city.dhaka',
+    'Asia/Kathmandu':'mp.city.kathmandu','Asia/Riyadh':'mp.city.riyadh',
+    'Europe/London':'mp.city.london','Europe/Paris':'mp.city.paris',
+    'Europe/Berlin':'mp.city.berlin','Europe/Moscow':'mp.city.moscow',
+    'Europe/Madrid':'mp.city.madrid','Europe/Rome':'mp.city.rome',
+    'Europe/Amsterdam':'mp.city.amsterdam','Europe/Istanbul':'mp.city.istanbul',
+    'Europe/Vienna':'mp.city.vienna','Europe/Stockholm':'mp.city.stockholm',
+    'America/New_York':'mp.city.newyork','America/Chicago':'mp.city.chicago',
+    'America/Denver':'mp.city.denver','America/Los_Angeles':'mp.city.la',
+    'America/Toronto':'mp.city.toronto','America/Vancouver':'mp.city.vancouver',
+    'America/Mexico_City':'mp.city.mexico','America/Sao_Paulo':'mp.city.saopaulo',
+    'America/Argentina/Buenos_Aires':'mp.city.buenosaires',
+    'Australia/Sydney':'mp.city.sydney','Pacific/Auckland':'mp.city.auckland',
+    'Africa/Cairo':'mp.city.cairo','Africa/Johannesburg':'mp.city.johannesburg',
+    'Africa/Lagos':'mp.city.lagos',
+  };
+
   // ═══════ 工具函数 ═══════
   function tzLabelRaw(tz) { return tz.replace(/_/g, ' ').split('/').pop(); }
   function getCNName(tz) {
+    // 优先用 i18n 翻译（非中文语言时显示本地化城市名）
+    const i18nKey = TZ_CITY_KEY[tz];
+    if (i18nKey) {
+      const translated = gtz_t(i18nKey, null);
+      if (translated && translated !== i18nKey) return translated;
+    }
+    // 回退：中文名映射表
     if (tzToCN[tz] && tzToCN[tz].length) return tzToCN[tz][0];
     return tzLabelRaw(tz);
   }
@@ -1031,6 +1069,12 @@
     initBookmarkTip();
     // 延迟执行 IP 定位，不阻塞首屏
     setTimeout(initIPLocation, 500);
+
+    // 监听 i18n 翻译就绪事件，重渲染城市名和状态标签
+    window.addEventListener('gtz-i18n-ready', function() {
+      render(); // 重新渲染卡片（城市名 + 状态标签使用翻译）
+      updateStatusBadges(); // 立即更新状态标签
+    });
   }
 
   if (document.readyState === 'loading') {

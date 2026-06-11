@@ -451,9 +451,9 @@
       <div>
         <h4 class="footer-heading" data-i18n="timedifference.footer.popular">热门时差</h4>
         <ul class="footer-links">
-          <li><a href="/time-difference/new-york-to-london">纽约 – 伦敦</a></li>
-          <li><a href="/time-difference/tokyo-to-new-york">东京 – 纽约</a></li>
-          <li><a href="/time-difference/la-to-beijing">洛杉矶 – 北京</a></li>
+          <li><a href="/time-difference/new-york-to-london" data-i18n="timedifference.popular.nyLondon">纽约 – 伦敦</a></li>
+          <li><a href="/time-difference/tokyo-to-new-york" data-i18n="timedifference.popular.tokyoNy">东京 – 纽约</a></li>
+          <li><a href="/time-difference/la-to-beijing" data-i18n="timedifference.popular.laBeijing">洛杉矶 – 北京</a></li>
         </ul>
       </div>
     </div>
@@ -478,13 +478,69 @@
   var GTZ_T = {};
   function t(key, fallback) { return GTZ_T[key] !== undefined ? GTZ_T[key] : (fallback || key); }
 
+  // timezone → i18n key mapping (for post-XHR translation)
+  var TZ_KEY_MAP = {
+    'Asia/Shanghai':'mp.city.shanghai','Asia/Tokyo':'mp.city.tokyo',
+    'Asia/Seoul':'mp.city.seoul','Asia/Singapore':'mp.city.singapore',
+    'Asia/Dubai':'mp.city.dubai','Asia/Kolkata':'mp.city.mumbai',
+    'Asia/Hong_Kong':'mp.city.hk','Asia/Bangkok':'mp.city.bangkok',
+    'Asia/Jakarta':'mp.city.jakarta',
+    'Europe/London':'mp.city.london','Europe/Paris':'mp.city.paris',
+    'Europe/Berlin':'mp.city.berlin','Europe/Moscow':'mp.city.moscow',
+    'Europe/Madrid':'mp.city.madrid','Europe/Rome':'mp.city.rome',
+    'Europe/Amsterdam':'mp.city.amsterdam',
+    'America/New_York':'mp.city.newyork','America/Chicago':'mp.city.chicago',
+    'America/Denver':'mp.city.denver','America/Los_Angeles':'mp.city.la',
+    'America/Toronto':'mp.city.toronto','America/Vancouver':'mp.city.vancouver',
+    'America/Mexico_City':'mp.city.mexico',
+    'America/Sao_Paulo':'mp.city.saopaulo',
+    'America/Argentina/Buenos_Aires':'mp.city.buenosaires',
+    'Australia/Sydney':'mp.city.sydney','Pacific/Auckland':'mp.city.auckland',
+    'Africa/Cairo':'mp.city.cairo','Africa/Johannesburg':'mp.city.johannesburg',
+    'Africa/Lagos':'mp.city.lagos'
+  };
+
   // Load locale JSON for dynamic text translation
   var xhr = new XMLHttpRequest();
   xhr.open('GET', '/locales/' + GTZ_LANG + '.json?v=3', true);
   xhr.timeout = 5000;
   xhr.onreadystatechange = function() {
     if (xhr.readyState === 4 && xhr.status === 200) {
-      try { GTZ_T = JSON.parse(xhr.responseText); updateAll(); } catch(e) {}
+      try {
+        GTZ_T = JSON.parse(xhr.responseText);
+        // 用 TZ_KEY_MAP 直接从 GTZ_T 取翻译，更新 cityMap
+        Object.keys(TZ_KEY_MAP).forEach(function(tz) {
+          var key = TZ_KEY_MAP[tz];
+          if (cityMap[tz] && GTZ_T[key]) cityMap[tz].name = GTZ_T[key];
+        });
+        // 同步更新 CITY_GROUPS 里的城市名（供 optgroup 重建用）
+        CITY_GROUPS.forEach(function(g) {
+          g.group = t('timedifference.group.' + g._groupKey, g.group);
+          g.cities.forEach(function(c) {
+            var key = TZ_KEY_MAP[c[0]];
+            if (key && GTZ_T[key]) c[1] = GTZ_T[key];
+          });
+        });
+        // 更新下拉框选项文本
+        ['cityA','cityB'].forEach(function(id) {
+          var sel = $(id);
+          if (!sel) return;
+          for (var i = 0; i < sel.options.length; i++) {
+            var opt = sel.options[i];
+            if (cityMap[opt.value]) opt.textContent = cityMap[opt.value].name;
+          }
+          // 更新 optgroup labels
+          var ogs = sel.querySelectorAll('optgroup');
+          for (var j = 0; j < ogs.length && j < CITY_GROUPS.length; j++) {
+            ogs[j].label = CITY_GROUPS[j].group;
+          }
+        });
+        // 重新渲染 quickGrid
+        $('quickGrid').innerHTML = '';
+        buildQuickLinks();
+        // 更新卡片
+        updateAll();
+      } catch(e) {}
     }
   };
   xhr.send();
@@ -496,47 +552,47 @@
 
   // ========== City Data ==========
   const CITY_GROUPS = [
-    { group: t('timedifference.group.asia','亚洲'), cities: [
-      ['Asia/Shanghai','北京 / 上海','CST','+8','中国'],
-      ['Asia/Tokyo','东京','JST','+9','日本'],
-      ['Asia/Seoul','首尔','KST','+9','韩国'],
-      ['Asia/Singapore','新加坡','SGT','+8','新加坡'],
-      ['Asia/Dubai','迪拜','GST','+4','阿联酋'],
-      ['Asia/Kolkata','孟买','IST','+5:30','印度'],
-      ['Asia/Hong_Kong','香港','HKT','+8','中国'],
-      ['Asia/Bangkok','曼谷','ICT','+7','泰国'],
-      ['Asia/Jakarta','雅加达','WIB','+7','印尼'],
+    { _groupKey:'asia', group: t('timedifference.group.asia','亚洲'), cities: [
+      ['Asia/Shanghai',t('mp.city.shanghai','北京 / 上海'),'CST','+8','中国'],
+      ['Asia/Tokyo',t('mp.city.tokyo','东京'),'JST','+9','日本'],
+      ['Asia/Seoul',t('mp.city.seoul','首尔'),'KST','+9','韩国'],
+      ['Asia/Singapore',t('mp.city.singapore','新加坡'),'SGT','+8','新加坡'],
+      ['Asia/Dubai',t('mp.city.dubai','迪拜'),'GST','+4','阿联酋'],
+      ['Asia/Kolkata',t('mp.city.mumbai','孟买'),'IST','+5:30','印度'],
+      ['Asia/Hong_Kong',t('mp.city.hk','香港'),'HKT','+8','中国'],
+      ['Asia/Bangkok',t('mp.city.bangkok','曼谷'),'ICT','+7','泰国'],
+      ['Asia/Jakarta',t('mp.city.jakarta','雅加达'),'WIB','+7','印尼'],
     ]},
-    { group: t('timedifference.group.europe','欧洲'), cities: [
-      ['Europe/London','伦敦','BST','+1','英国'],
-      ['Europe/Paris','巴黎','CEST','+2','法国'],
-      ['Europe/Berlin','柏林','CEST','+2','德国'],
-      ['Europe/Moscow','莫斯科','MSK','+3','俄罗斯'],
-      ['Europe/Madrid','马德里','CEST','+2','西班牙'],
-      ['Europe/Rome','罗马','CEST','+2','意大利'],
-      ['Europe/Amsterdam','阿姆斯特丹','CEST','+2','荷兰'],
+    { _groupKey:'europe', group: t('timedifference.group.europe','欧洲'), cities: [
+      ['Europe/London',t('mp.city.london','伦敦'),'BST','+1','英国'],
+      ['Europe/Paris',t('mp.city.paris','巴黎'),'CEST','+2','法国'],
+      ['Europe/Berlin',t('mp.city.berlin','柏林'),'CEST','+2','德国'],
+      ['Europe/Moscow',t('mp.city.moscow','莫斯科'),'MSK','+3','俄罗斯'],
+      ['Europe/Madrid',t('mp.city.madrid','马德里'),'CEST','+2','西班牙'],
+      ['Europe/Rome',t('mp.city.rome','罗马'),'CEST','+2','意大利'],
+      ['Europe/Amsterdam',t('mp.city.amsterdam','阿姆斯特丹'),'CEST','+2','荷兰'],
     ]},
-    { group: t('timedifference.group.northamerica','北美洲'), cities: [
-      ['America/New_York','纽约','EDT','-4','美国'],
-      ['America/Chicago','芝加哥','CDT','-5','美国'],
-      ['America/Denver','丹佛','MDT','-6','美国'],
-      ['America/Los_Angeles','洛杉矶','PDT','-7','美国'],
-      ['America/Toronto','多伦多','EDT','-4','加拿大'],
-      ['America/Vancouver','温哥华','PDT','-7','加拿大'],
-      ['America/Mexico_City','墨西哥城','CST','-6','墨西哥'],
+    { _groupKey:'northamerica', group: t('timedifference.group.northamerica','北美洲'), cities: [
+      ['America/New_York',t('mp.city.newyork','纽约'),'EDT','-4','美国'],
+      ['America/Chicago',t('mp.city.chicago','芝加哥'),'CDT','-5','美国'],
+      ['America/Denver',t('mp.city.denver','丹佛'),'MDT','-6','美国'],
+      ['America/Los_Angeles',t('mp.city.la','洛杉矶'),'PDT','-7','美国'],
+      ['America/Toronto',t('mp.city.toronto','多伦多'),'EDT','-4','加拿大'],
+      ['America/Vancouver',t('mp.city.vancouver','温哥华'),'PDT','-7','加拿大'],
+      ['America/Mexico_City',t('mp.city.mexico','墨西哥城'),'CST','-6','墨西哥'],
     ]},
-    { group: t('timedifference.group.southamerica','南美洲'), cities: [
-      ['America/Sao_Paulo','圣保罗','BRT','-3','巴西'],
-      ['America/Argentina/Buenos_Aires','布宜诺斯艾利斯','ART','-3','阿根廷'],
+    { _groupKey:'southamerica', group: t('timedifference.group.southamerica','南美洲'), cities: [
+      ['America/Sao_Paulo',t('mp.city.saopaulo','圣保罗'),'BRT','-3','巴西'],
+      ['America/Argentina/Buenos_Aires',t('mp.city.buenosaires','布宜诺斯艾利斯'),'ART','-3','阿根廷'],
     ]},
-    { group: t('timedifference.group.oceania','大洋洲'), cities: [
-      ['Australia/Sydney','悉尼','AEST','+10','澳大利亚'],
-      ['Pacific/Auckland','奥克兰','NZST','+12','新西兰'],
+    { _groupKey:'oceania', group: t('timedifference.group.oceania','大洋洲'), cities: [
+      ['Australia/Sydney',t('mp.city.sydney','悉尼'),'AEST','+10','澳大利亚'],
+      ['Pacific/Auckland',t('mp.city.auckland','奥克兰'),'NZST','+12','新西兰'],
     ]},
-    { group: t('timedifference.group.africa','非洲'), cities: [
-      ['Africa/Cairo','开罗','EEST','+3','埃及'],
-      ['Africa/Johannesburg','约翰内斯堡','SAST','+2','南非'],
-      ['Africa/Lagos','拉各斯','WAT','+1','尼日利亚'],
+    { _groupKey:'africa', group: t('timedifference.group.africa','非洲'), cities: [
+      ['Africa/Cairo',t('mp.city.cairo','开罗'),'EEST','+3','埃及'],
+      ['Africa/Johannesburg',t('mp.city.johannesburg','约翰内斯堡'),'SAST','+2','南非'],
+      ['Africa/Lagos',t('mp.city.lagos','拉各斯'),'WAT','+1','尼日利亚'],
     ]},
   ];
 
@@ -554,7 +610,7 @@
       g.cities.forEach(c => {
         const o = document.createElement('option');
         o.value = c[0];
-        o.textContent = c[0] === 'Asia/Shanghai' ? '北京 / 上海' : c[1];
+        o.textContent = c[1];
         if (c[0] === defaultVal) o.selected = true;
         optg.appendChild(o);
       });
