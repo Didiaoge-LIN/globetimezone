@@ -276,6 +276,8 @@
     }
     .td-quick-link .td-q-arrow { color: var(--td-indigo, #4f46e5); font-size: 0.85rem; transition: transform 0.2s; }
     .td-quick-link:hover .td-q-arrow { transform: translateX(3px); }
+
+    .lang-picker #lang-drop.show { display: block !important; }
   </style>
 </head>
 <body>
@@ -869,5 +871,17 @@
 })();
 </script>
 <script src="/baidu-analytics.js" defer data-cfasync="false"></script>
+<script>
+
+    // 语言切换器：点击外部关闭下拉
+    document.addEventListener('click', function(e) {
+      var drop = document.getElementById('lang-drop');
+      var btn = document.getElementById('lang-btn');
+      if (drop && btn && !btn.contains(e.target) && !drop.contains(e.target)) {
+        drop.classList.remove('show');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+</script>
 </body>
 </html>

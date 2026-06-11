@@ -70,6 +70,8 @@
         font-size: 1.2rem;
       }
     }
+
+    .lang-picker #lang-drop.show { display: block !important; }
   </style>
   <script src="/js/i18n.js?v=4" defer data-cfasync="false"></script>
 </head>
@@ -217,5 +219,17 @@
     </div>
   </footer>
   <script src="/baidu-analytics.js" defer data-cfasync="false"></script>
+<script>
+
+    // 语言切换器：点击外部关闭下拉
+    document.addEventListener('click', function(e) {
+      var drop = document.getElementById('lang-drop');
+      var btn = document.getElementById('lang-btn');
+      if (drop && btn && !btn.contains(e.target) && !drop.contains(e.target)) {
+        drop.classList.remove('show');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+</script>
 </body>
 </html>

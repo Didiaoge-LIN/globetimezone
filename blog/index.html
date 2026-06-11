@@ -299,6 +299,8 @@
       .blog-cta form { flex-direction: column; align-items: center; }
       .blog-cta input { max-width: 100%; }
     }
+
+    .lang-picker #lang-drop.show { display: block !important; }
   </style>
   <script src="/js/i18n.js?v=4" defer data-cfasync="false"></script>
 </head>
@@ -359,9 +361,9 @@
     <div class="blog-featured">
       <a href="/us-china-time-difference.html" class="blog-featured-card">
         <div class="featured-content">
-          <div class="featured-badge">⭐ 最受欢迎</div>
-          <h2 class="featured-title">美国与中国时差：完全指南</h2>
-          <p class="featured-excerpt">美中时差不是简单的加减法。美国跨四个时区，加上夏令时的变化，你需要一个完整的参考手册——从 EST 到 PST，从标准时间到夏令时，一文讲透。</p>
+          <div class="featured-badge" data-i18n="blog.featured.badge">⭐ 最受欢迎</div>
+          <h2 class="featured-title" data-i18n="blog.featured.title">美国与中国时差：完全指南</h2>
+          <p class="featured-excerpt" data-i18n="blog.featured.excerpt">美中时差不是简单的加减法。美国跨四个时区，加上夏令时的变化，你需要一个完整的参考手册——从 EST 到 PST，从标准时间到夏令时，一文讲透。</p>
         </div>
         <div class="featured-visual">
           🇺🇸 ↔ 🇨🇳
@@ -509,5 +511,17 @@
     import { initSentry } from '/scripts/sentry-init.js';
     initSentry();
   </script>
+<script>
+
+    // 语言切换器：点击外部关闭下拉
+    document.addEventListener('click', function(e) {
+      var drop = document.getElementById('lang-drop');
+      var btn = document.getElementById('lang-btn');
+      if (drop && btn && !btn.contains(e.target) && !drop.contains(e.target)) {
+        drop.classList.remove('show');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+</script>
 </body>
 </html>

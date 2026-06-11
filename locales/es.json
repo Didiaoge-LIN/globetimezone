@@ -774,5 +774,8 @@
   "hk.holiday.spring_festival": "Año Nuevo Chino",
   "hk.holiday.spring_festival_msg": "30 días de pico logístico alrededor del Año Nuevo Chino. Envíe con anticipación.",
   "hk.countdown.in_days": " en ",
-  "hk.countdown.days": " días"
+  "hk.countdown.days": " días",
+  "blog.featured.badge": "⭐ Más popular",
+  "blog.featured.title": "Diferencia horaria EE.UU.–China: Guía completa",
+  "blog.featured.excerpt": "La diferencia horaria EE.UU.-China no es una simple resta. EE.UU. abarca cuatro zonas horarias, más los cambios de horario de verano. Necesita una referencia completa — de EST a PST, hora estándar a horario de verano, todo en un artículo."
 }
