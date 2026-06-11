@@ -413,6 +413,8 @@
       margin-left: auto; font-size: 0.68rem; color: #94a3b8;
       background: #f1f5f9; padding: 1px 7px; border-radius: 10px; font-weight: 500;
     }
+
+    .lang-picker #lang-drop.show { display: block !important; }
   </style>
   <script src="/js/i18n.js?v=4" defer data-cfasync="false"></script>
 </head>
@@ -877,5 +879,17 @@
 <script src="/scripts/cross-border.js?v=5"></script>
 <script src="/scripts/cross-border-hooks.js?v=2"></script>
 <script src="/baidu-analytics.js" defer data-cfasync="false"></script>
+<script>
+
+    // 语言切换器：点击外部关闭下拉
+    document.addEventListener('click', function(e) {
+      var drop = document.getElementById('lang-drop');
+      var btn = document.getElementById('lang-btn');
+      if (drop && btn && !btn.contains(e.target) && !drop.contains(e.target)) {
+        drop.classList.remove('show');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+</script>
 </body>
 </html>

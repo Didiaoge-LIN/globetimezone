@@ -774,5 +774,8 @@
   "hk.holiday.spring_festival": "春节",
   "hk.holiday.spring_festival_msg": "春节前后30天为物流高峰，建议提前备货",
   "hk.countdown.in_days": "还有",
-  "hk.countdown.days": "天"
+  "hk.countdown.days": "天",
+  "blog.featured.badge": "⭐ 最受欢迎",
+  "blog.featured.title": "美国与中国时差：完全指南",
+  "blog.featured.excerpt": "美中时差不是简单的加减法。美国跨四个时区，加上夏令时的变化，你需要一个完整的参考手册——从 EST 到 PST，从标准时间到夏令时，一文讲透。"
 }

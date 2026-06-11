@@ -774,5 +774,8 @@
   "hk.holiday.spring_festival": "旧正月",
   "hk.holiday.spring_festival_msg": "旧正月前後30日間は物流ピーク。早めの出荷をお勧めします。",
   "hk.countdown.in_days": "まであと",
-  "hk.countdown.days": "日"
+  "hk.countdown.days": "日",
+  "blog.featured.badge": "⭐ 人気No.1",
+  "blog.featured.title": "米中時差：完全ガイド",
+  "blog.featured.excerpt": "米中時差は単純な足し算引き算ではありません。米国は4つのタイムゾーンにまたがり、夏時間の変更も加わります。ESTからPSTまで、標準時から夏時間まで、すべてがこの1記事にまとまった完全なリファレンスが必要です。"
 }

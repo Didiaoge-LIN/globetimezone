@@ -774,5 +774,8 @@
   "hk.holiday.spring_festival": "춘절",
   "hk.holiday.spring_festival_msg": "춘절 전후 30일 물류 성수기. 조기 출하하세요.",
   "hk.countdown.in_days": "까지 ",
-  "hk.countdown.days": "일"
+  "hk.countdown.days": "일",
+  "blog.featured.badge": "⭐ 가장 인기있는",
+  "blog.featured.title": "미중 시차: 완벽 가이드",
+  "blog.featured.excerpt": "미중 시차는 단순한 덧셈뺄셈이 아닙니다. 미국은 4개의 시간대를 걸쳐 있고, 서머타임 변경까지 고려해야 합니다. EST부터 PST까지, 표준시부터 서머타임까지, 한 기사로 정리한 완벽한 참고서가 필요합니다."
 }

@@ -774,5 +774,8 @@
   "hk.holiday.spring_festival": "Chinese New Year",
   "hk.holiday.spring_festival_msg": "30-day logistics peak around CNY. Ship early.",
   "hk.countdown.in_days": " in ",
-  "hk.countdown.days": " days"
+  "hk.countdown.days": " days",
+  "blog.featured.badge": "⭐ Most Popular",
+  "blog.featured.title": "US–China Time Difference: Complete Guide",
+  "blog.featured.excerpt": "The US-China time gap isn't simple math. The US spans four time zones, plus DST shifts. You need a complete reference — from EST to PST, standard time to DST, all in one article."
 }
