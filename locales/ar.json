@@ -929,5 +929,8 @@
   "mp.legend.night": "منتصف الليل (0-6)",
   "mp.legend.now": "الآن",
   "mp.legend.best": "أفضل وقت",
-  "footer.heading.hottime": "فروق التوقيت الشائعة"
+  "footer.heading.hottime": "فروق التوقيت الشائعة",
+  "sidebar.ad.label": "إعلان",
+  "blog.cta.email_placeholder": "أدخل بريدك الإلكتروني…",
+  "blog.footer.copyright": "© 2026 GlobeTimeZone · بيانات المناطق الزمنية عبر IANA"
 }

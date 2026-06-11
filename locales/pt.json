@@ -929,5 +929,8 @@
   "mp.legend.night": "Madrugada (0-6h)",
   "mp.legend.now": "Agora",
   "mp.legend.best": "Melhor horário",
-  "footer.heading.hottime": "Diferenças populares"
+  "footer.heading.hottime": "Diferenças populares",
+  "sidebar.ad.label": "Publicidade",
+  "blog.cta.email_placeholder": "Digite seu e-mail…",
+  "blog.footer.copyright": "© 2026 GlobeTimeZone · Dados de fuso horário via IANA"
 }

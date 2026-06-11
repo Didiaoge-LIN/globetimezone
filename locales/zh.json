@@ -929,5 +929,8 @@
   "mp.legend.night": "深夜 (0-6点)",
   "mp.legend.now": "当前时刻",
   "mp.legend.best": "推荐时段",
-  "footer.heading.hottime": "热门时差"
+  "footer.heading.hottime": "热门时差",
+  "sidebar.ad.label": "广告",
+  "blog.cta.email_placeholder": "输入你的邮箱…",
+  "blog.footer.copyright": "© 2026 GlobeTimeZone · 时区数据来源 IANA"
 }

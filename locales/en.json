@@ -929,5 +929,8 @@
   "mp.legend.night": "Late night (0-6)",
   "mp.legend.now": "Current time",
   "mp.legend.best": "Best slot",
-  "footer.heading.hottime": "Popular time diffs"
+  "footer.heading.hottime": "Popular time diffs",
+  "sidebar.ad.label": "Advertisement",
+  "blog.cta.email_placeholder": "Enter your email…",
+  "blog.footer.copyright": "© 2026 GlobeTimeZone · Timezone data via IANA"
 }

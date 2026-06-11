@@ -929,5 +929,8 @@
   "mp.legend.night": "Nuit (0-6h)",
   "mp.legend.now": "Maintenant",
   "mp.legend.best": "Meilleur créneau",
-  "footer.heading.hottime": "Décalages populaires"
+  "footer.heading.hottime": "Décalages populaires",
+  "sidebar.ad.label": "Publicité",
+  "blog.cta.email_placeholder": "Entrez votre email…",
+  "blog.footer.copyright": "© 2026 GlobeTimeZone · Données de fuseau horaire via IANA"
 }
