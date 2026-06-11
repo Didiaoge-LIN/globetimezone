@@ -279,47 +279,47 @@
       <h2 data-i18n="meetingplanner.add_title">&#128101; 添加参会者</h2>
       <div class="mp-add-row">
         <select id="mpCitySelect" class="mp-city-select">
-          <optgroup label="亚洲">
-            <option value="Asia/Shanghai">北京 / 上海</option>
-            <option value="Asia/Tokyo">东京</option>
-            <option value="Asia/Seoul">首尔</option>
-            <option value="Asia/Singapore">新加坡</option>
-            <option value="Asia/Dubai">迪拜</option>
-            <option value="Asia/Kolkata">孟买</option>
-            <option value="Asia/Hong_Kong">香港</option>
-            <option value="Asia/Bangkok">曼谷</option>
-            <option value="Asia/Jakarta">雅加达</option>
+          <optgroup data-i18n-attr="label:mp.grp.asia" label="亚洲">
+            <option value="Asia/Shanghai" data-i18n="mp.city.shanghai">北京 / 上海</option>
+            <option value="Asia/Tokyo" data-i18n="mp.city.tokyo">东京</option>
+            <option value="Asia/Seoul" data-i18n="mp.city.seoul">首尔</option>
+            <option value="Asia/Singapore" data-i18n="mp.city.singapore">新加坡</option>
+            <option value="Asia/Dubai" data-i18n="mp.city.dubai">迪拜</option>
+            <option value="Asia/Kolkata" data-i18n="mp.city.mumbai">孟买</option>
+            <option value="Asia/Hong_Kong" data-i18n="mp.city.hk">香港</option>
+            <option value="Asia/Bangkok" data-i18n="mp.city.bangkok">曼谷</option>
+            <option value="Asia/Jakarta" data-i18n="mp.city.jakarta">雅加达</option>
           </optgroup>
-          <optgroup label="欧洲">
-            <option value="Europe/London">伦敦</option>
-            <option value="Europe/Paris">巴黎</option>
-            <option value="Europe/Berlin">柏林</option>
-            <option value="Europe/Moscow">莫斯科</option>
-            <option value="Europe/Madrid">马德里</option>
-            <option value="Europe/Rome">罗马</option>
-            <option value="Europe/Amsterdam">阿姆斯特丹</option>
+          <optgroup data-i18n-attr="label:mp.grp.europe" label="欧洲">
+            <option value="Europe/London" data-i18n="mp.city.london">伦敦</option>
+            <option value="Europe/Paris" data-i18n="mp.city.paris">巴黎</option>
+            <option value="Europe/Berlin" data-i18n="mp.city.berlin">柏林</option>
+            <option value="Europe/Moscow" data-i18n="mp.city.moscow">莫斯科</option>
+            <option value="Europe/Madrid" data-i18n="mp.city.madrid">马德里</option>
+            <option value="Europe/Rome" data-i18n="mp.city.rome">罗马</option>
+            <option value="Europe/Amsterdam" data-i18n="mp.city.amsterdam">阿姆斯特丹</option>
           </optgroup>
-          <optgroup label="北美洲">
-            <option value="America/New_York">纽约</option>
-            <option value="America/Chicago">芝加哥</option>
-            <option value="America/Denver">丹佛</option>
-            <option value="America/Los_Angeles">洛杉矶</option>
-            <option value="America/Toronto">多伦多</option>
-            <option value="America/Vancouver">温哥华</option>
-            <option value="America/Mexico_City">墨西哥城</option>
+          <optgroup data-i18n-attr="label:mp.grp.namerica" label="北美洲">
+            <option value="America/New_York" data-i18n="mp.city.newyork">纽约</option>
+            <option value="America/Chicago" data-i18n="mp.city.chicago">芝加哥</option>
+            <option value="America/Denver" data-i18n="mp.city.denver">丹佛</option>
+            <option value="America/Los_Angeles" data-i18n="mp.city.la">洛杉矶</option>
+            <option value="America/Toronto" data-i18n="mp.city.toronto">多伦多</option>
+            <option value="America/Vancouver" data-i18n="mp.city.vancouver">温哥华</option>
+            <option value="America/Mexico_City" data-i18n="mp.city.mexico">墨西哥城</option>
           </optgroup>
-          <optgroup label="南美洲">
-            <option value="America/Sao_Paulo">圣保罗</option>
-            <option value="America/Argentina/Buenos_Aires">布宜诺斯艾利斯</option>
+          <optgroup data-i18n-attr="label:mp.grp.samerica" label="南美洲">
+            <option value="America/Sao_Paulo" data-i18n="mp.city.saopaulo">圣保罗</option>
+            <option value="America/Argentina/Buenos_Aires" data-i18n="mp.city.buenosaires">布宜诺斯艾利斯</option>
           </optgroup>
-          <optgroup label="大洋洲">
-            <option value="Australia/Sydney">悉尼</option>
-            <option value="Pacific/Auckland">奥克兰</option>
+          <optgroup data-i18n-attr="label:mp.grp.oceania" label="大洋洲">
+            <option value="Australia/Sydney" data-i18n="mp.city.sydney">悉尼</option>
+            <option value="Pacific/Auckland" data-i18n="mp.city.auckland">奥克兰</option>
           </optgroup>
-          <optgroup label="非洲">
-            <option value="Africa/Cairo">开罗</option>
-            <option value="Africa/Johannesburg">约翰内斯堡</option>
-            <option value="Africa/Lagos">拉各斯</option>
+          <optgroup data-i18n-attr="label:mp.grp.africa" label="非洲">
+            <option value="Africa/Cairo" data-i18n="mp.city.cairo">开罗</option>
+            <option value="Africa/Johannesburg" data-i18n="mp.city.johannesburg">约翰内斯堡</option>
+            <option value="Africa/Lagos" data-i18n="mp.city.lagos">拉各斯</option>
           </optgroup>
         </select>
         <select id="mpWorkStart" class="mp-hour-select">
@@ -341,15 +341,15 @@
       </div>
       <div style="margin-top:10px;font-size:0.8rem;color:var(--text-muted);" data-i18n="meetingplanner.quick_label">快捷添加：</div>
       <div class="mp-quick-chips" id="mpQuickChips">
-        <button class="mp-chip" data-tz="Asia/Shanghai">北京</button>
-        <button class="mp-chip" data-tz="Asia/Tokyo">东京</button>
-        <button class="mp-chip" data-tz="Asia/Singapore">新加坡</button>
-        <button class="mp-chip" data-tz="Europe/London">伦敦</button>
-        <button class="mp-chip" data-tz="Europe/Paris">巴黎</button>
-        <button class="mp-chip" data-tz="America/New_York">纽约</button>
-        <button class="mp-chip" data-tz="America/Los_Angeles">洛杉矶</button>
-        <button class="mp-chip" data-tz="Australia/Sydney">悉尼</button>
-        <button class="mp-chip" data-tz="Asia/Dubai">迪拜</button>
+        <button class="mp-chip" data-tz="Asia/Shanghai" data-i18n="mp.city.beijing">北京</button>
+        <button class="mp-chip" data-tz="Asia/Tokyo" data-i18n="mp.city.tokyo">东京</button>
+        <button class="mp-chip" data-tz="Asia/Singapore" data-i18n="mp.city.singapore">新加坡</button>
+        <button class="mp-chip" data-tz="Europe/London" data-i18n="mp.city.london">伦敦</button>
+        <button class="mp-chip" data-tz="Europe/Paris" data-i18n="mp.city.paris">巴黎</button>
+        <button class="mp-chip" data-tz="America/New_York" data-i18n="mp.city.newyork">纽约</button>
+        <button class="mp-chip" data-tz="America/Los_Angeles" data-i18n="mp.city.la">洛杉矶</button>
+        <button class="mp-chip" data-tz="Australia/Sydney" data-i18n="mp.city.sydney">悉尼</button>
+        <button class="mp-chip" data-tz="Asia/Dubai" data-i18n="mp.city.dubai">迪拜</button>
       </div>
     </div>
 
@@ -380,11 +380,11 @@
         </div>
       </div>
       <div class="mp-timeline-legend">
-        <span><span class="mp-tl-dot" style="background:#10b981;"></span> 工作时间</span>
-        <span><span class="mp-tl-dot" style="background:#e2e8f0;"></span> 非工作时间</span>
-        <span><span class="mp-tl-dot" style="background:#cbd5e1;"></span> 深夜 (0-6点)</span>
-        <span><span class="mp-tl-dot" style="box-shadow:inset 0 0 0 2px #2563eb;background:#fff;"></span> 当前时刻</span>
-        <span><span class="mp-tl-dot" style="box-shadow:inset 0 0 0 2px #f59e0b;background:#fff;"></span> 推荐时段</span>
+        <span><span class="mp-tl-dot" style="background:#10b981;"></span> <span data-i18n="mp.legend.work">工作时间</span></span>
+        <span><span class="mp-tl-dot" style="background:#e2e8f0;"></span> <span data-i18n="mp.legend.offwork">非工作时间</span></span>
+        <span><span class="mp-tl-dot" style="background:#cbd5e1;"></span> <span data-i18n="mp.legend.night">深夜 (0-6点)</span></span>
+        <span><span class="mp-tl-dot" style="box-shadow:inset 0 0 0 2px #2563eb;background:#fff;"></span> <span data-i18n="mp.legend.now">当前时刻</span></span>
+        <span><span class="mp-tl-dot" style="box-shadow:inset 0 0 0 2px #f59e0b;background:#fff;"></span> <span data-i18n="mp.legend.best">推荐时段</span></span>
       </div>
     </div>
 
@@ -421,19 +421,19 @@
     <div class="footer-grid">
       <div>
         <a href="/" class="footer-logo">GlobeTimeZone</a>
-        <p class="footer-desc">全球时间决策工具。基于 IANA 时区数据库，提供精准的时差计算和会议规划。</p>
+        <p class="footer-desc" data-i18n="footer.desc">全球时间决策工具。基于 IANA 时区数据库，提供精准的时差计算和会议规划。</p>
       </div>
       <div>
-        <h4 class="footer-heading">工具</h4>
+        <h4 class="footer-heading" data-i18n="footer.heading.tools">工具</h4>
         <ul class="footer-links">
           <li><a href="/" data-i18n="footer.tools.timezone">时区转换</a></li>
           <li><a href="/world-clock.html" data-i18n="footer.tools.worldclock">世界时钟</a></li>
-          <li><a href="/meeting-planner/">会议规划</a></li>
-          <li><a href="/tools/cross-border/">跨境工具</a></li>
+          <li><a href="/meeting-planner/" data-i18n="footer.tool.meeting">会议规划</a></li>
+          <li><a href="/tools/cross-border/" data-i18n="footer.tool.cross">跨境工具</a></li>
         </ul>
       </div>
       <div>
-        <h4 class="footer-heading">关于</h4>
+        <h4 class="footer-heading" data-i18n="footer.heading.about">关于</h4>
         <ul class="footer-links">
           <li><a href="/about.html" data-i18n="footer.about">关于我们</a></li>
           <li><a href="/privacy.html" data-i18n="footer.privacy">隐私政策</a></li>
@@ -442,7 +442,7 @@
         </ul>
       </div>
       <div>
-        <h4 class="footer-heading">热门时差</h4>
+        <h4 class="footer-heading" data-i18n="footer.heading.hottime">热门时差</h4>
         <ul class="footer-links">
           <li><a href="/time-difference/new-york-to-london" data-i18n="footer.hottime.ny_london">纽约-伦敦</a></li>
           <li><a href="/time-difference/tokyo-to-new-york" data-i18n="footer.hottime.tokyo_ny">东京-纽约</a></li>
@@ -451,7 +451,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2026 GlobeTimeZone. 基于 IANA 时区数据库，数据仅供参考。</p>
+      <p data-i18n="footer.copyright">&copy; 2026 GlobeTimeZone. 基于 IANA 时区数据库，数据仅供参考。</p>
     </div>
   </div>
 </footer>
@@ -477,7 +477,7 @@
   xhr.timeout = 5000;
   xhr.onreadystatechange = function() {
     if (xhr.readyState === 4 && xhr.status === 200) {
-      try { GTZ_T = JSON.parse(xhr.responseText); updateAll(); } catch(e) {}
+      try { GTZ_T = JSON.parse(xhr.responseText); updateAll(); refreshCityNames(); } catch(e) {}
     }
   };
   xhr.send();
@@ -489,37 +489,67 @@
   // ───────────────────────────────────────
 
   var cityInfo = {
-    'Asia/Shanghai': { name:'北京 / 上海', abbr:'CST', offset:'+8' },
-    'Asia/Tokyo': { name:'东京', abbr:'JST', offset:'+9' },
-    'Asia/Seoul': { name:'首尔', abbr:'KST', offset:'+9' },
-    'Asia/Singapore': { name:'新加坡', abbr:'SGT', offset:'+8' },
-    'Asia/Dubai': { name:'迪拜', abbr:'GST', offset:'+4' },
-    'Asia/Kolkata': { name:'孟买', abbr:'IST', offset:'+5:30' },
-    'Asia/Hong_Kong': { name:'香港', abbr:'HKT', offset:'+8' },
-    'Asia/Bangkok': { name:'曼谷', abbr:'ICT', offset:'+7' },
-    'Asia/Jakarta': { name:'雅加达', abbr:'WIB', offset:'+7' },
-    'Europe/London': { name:'伦敦', abbr:'BST', offset:'+1' },
-    'Europe/Paris': { name:'巴黎', abbr:'CEST', offset:'+2' },
-    'Europe/Berlin': { name:'柏林', abbr:'CEST', offset:'+2' },
-    'Europe/Moscow': { name:'莫斯科', abbr:'MSK', offset:'+3' },
-    'Europe/Madrid': { name:'马德里', abbr:'CEST', offset:'+2' },
-    'Europe/Rome': { name:'罗马', abbr:'CEST', offset:'+2' },
-    'Europe/Amsterdam': { name:'阿姆斯特丹', abbr:'CEST', offset:'+2' },
-    'America/New_York': { name:'纽约', abbr:'EDT', offset:'-4' },
-    'America/Chicago': { name:'芝加哥', abbr:'CDT', offset:'-5' },
-    'America/Denver': { name:'丹佛', abbr:'MDT', offset:'-6' },
-    'America/Los_Angeles': { name:'洛杉矶', abbr:'PDT', offset:'-7' },
-    'America/Toronto': { name:'多伦多', abbr:'EDT', offset:'-4' },
-    'America/Vancouver': { name:'温哥华', abbr:'PDT', offset:'-7' },
-    'America/Mexico_City': { name:'墨西哥城', abbr:'CST', offset:'-6' },
-    'America/Sao_Paulo': { name:'圣保罗', abbr:'BRT', offset:'-3' },
-    'America/Argentina/Buenos_Aires':{ name:'布宜诺斯艾利斯', abbr:'ART', offset:'-3' },
-    'Australia/Sydney': { name:'悉尼', abbr:'AEST', offset:'+10' },
-    'Pacific/Auckland': { name:'奥克兰', abbr:'NZST', offset:'+12' },
-    'Africa/Cairo': { name:'开罗', abbr:'EEST', offset:'+3' },
-    'Africa/Johannesburg': { name:'约翰内斯堡', abbr:'SAST', offset:'+2' },
-    'Africa/Lagos': { name:'拉各斯', abbr:'WAT', offset:'+1' }
+    'Asia/Shanghai': { key:'mp.city.shanghai', name:'北京 / 上海', abbr:'CST', offset:'+8' },
+    'Asia/Tokyo': { key:'mp.city.tokyo', name:'东京', abbr:'JST', offset:'+9' },
+    'Asia/Seoul': { key:'mp.city.seoul', name:'首尔', abbr:'KST', offset:'+9' },
+    'Asia/Singapore': { key:'mp.city.singapore', name:'新加坡', abbr:'SGT', offset:'+8' },
+    'Asia/Dubai': { key:'mp.city.dubai', name:'迪拜', abbr:'GST', offset:'+4' },
+    'Asia/Kolkata': { key:'mp.city.mumbai', name:'孟买', abbr:'IST', offset:'+5:30' },
+    'Asia/Hong_Kong': { key:'mp.city.hk', name:'香港', abbr:'HKT', offset:'+8' },
+    'Asia/Bangkok': { key:'mp.city.bangkok', name:'曼谷', abbr:'ICT', offset:'+7' },
+    'Asia/Jakarta': { key:'mp.city.jakarta', name:'雅加达', abbr:'WIB', offset:'+7' },
+    'Europe/London': { key:'mp.city.london', name:'伦敦', abbr:'BST', offset:'+1' },
+    'Europe/Paris': { key:'mp.city.paris', name:'巴黎', abbr:'CEST', offset:'+2' },
+    'Europe/Berlin': { key:'mp.city.berlin', name:'柏林', abbr:'CEST', offset:'+2' },
+    'Europe/Moscow': { key:'mp.city.moscow', name:'莫斯科', abbr:'MSK', offset:'+3' },
+    'Europe/Madrid': { key:'mp.city.madrid', name:'马德里', abbr:'CEST', offset:'+2' },
+    'Europe/Rome': { key:'mp.city.rome', name:'罗马', abbr:'CEST', offset:'+2' },
+    'Europe/Amsterdam': { key:'mp.city.amsterdam', name:'阿姆斯特丹', abbr:'CEST', offset:'+2' },
+    'America/New_York': { key:'mp.city.newyork', name:'纽约', abbr:'EDT', offset:'-4' },
+    'America/Chicago': { key:'mp.city.chicago', name:'芝加哥', abbr:'CDT', offset:'-5' },
+    'America/Denver': { key:'mp.city.denver', name:'丹佛', abbr:'MDT', offset:'-6' },
+    'America/Los_Angeles': { key:'mp.city.la', name:'洛杉矶', abbr:'PDT', offset:'-7' },
+    'America/Toronto': { key:'mp.city.toronto', name:'多伦多', abbr:'EDT', offset:'-4' },
+    'America/Vancouver': { key:'mp.city.vancouver', name:'温哥华', abbr:'PDT', offset:'-7' },
+    'America/Mexico_City': { key:'mp.city.mexico', name:'墨西哥城', abbr:'CST', offset:'-6' },
+    'America/Sao_Paulo': { key:'mp.city.saopaulo', name:'圣保罗', abbr:'BRT', offset:'-3' },
+    'America/Argentina/Buenos_Aires':{ key:'mp.city.buenosaires', name:'布宜诺斯艾利斯', abbr:'ART', offset:'-3' },
+    'Australia/Sydney': { key:'mp.city.sydney', name:'悉尼', abbr:'AEST', offset:'+10' },
+    'Pacific/Auckland': { key:'mp.city.auckland', name:'奥克兰', abbr:'NZST', offset:'+12' },
+    'Africa/Cairo': { key:'mp.city.cairo', name:'开罗', abbr:'EEST', offset:'+3' },
+    'Africa/Johannesburg': { key:'mp.city.johannesburg', name:'约翰内斯堡', abbr:'SAST', offset:'+2' },
+    'Africa/Lagos': { key:'mp.city.lagos', name:'拉各斯', abbr:'WAT', offset:'+1' }
   };
+
+  function refreshCityNames() {
+    for (var tz in cityInfo) {
+      var c = cityInfo[tz];
+      if (c.key && GTZ_T[c.key]) c.name = GTZ_T[c.key];
+    }
+    // Refresh dropdown option text
+    var opts = document.querySelectorAll('#mpCitySelect option[data-i18n]');
+    for (var i = 0; i < opts.length; i++) {
+      var k = opts[i].getAttribute('data-i18n');
+      if (GTZ_T[k]) opts[i].textContent = GTZ_T[k];
+    }
+    // Refresh optgroup labels
+    var grps = document.querySelectorAll('#mpCitySelect optgroup[data-i18n-attr]');
+    for (var j = 0; j < grps.length; j++) {
+      var attr = grps[j].getAttribute('data-i18n-attr'); // label:mp.grp.xxx
+      var key = attr.split(':')[1];
+      if (GTZ_T[key]) grps[j].label = GTZ_T[key];
+    }
+    // Refresh quick chips
+    var chips = document.querySelectorAll('.mp-chip[data-i18n]');
+    for (var m = 0; m < chips.length; m++) {
+      var ck = chips[m].getAttribute('data-i18n');
+      if (GTZ_T[ck]) chips[m].textContent = GTZ_T[ck];
+    }
+    // Re-render participant cards with updated names
+    if (participants.length > 0) { updateParticipantCards(); updateTimeline(); updateBestTimes(); }
+  }
+
+  window.addEventListener('gtz-i18n-ready', function() { refreshCityNames(); });
 
   var participants = [];
   var duration = 30;
