@@ -64,8 +64,8 @@
       border-color: #f59e0b; border-width: 2px;
       box-shadow: 0 4px 24px rgba(245,158,11,0.12), 0 1px 3px rgba(0,0,0,0.06);
     }
-    .pr-plan.pro::before {
-      content: '最受欢迎'; position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    .pr-plan-badge {
+      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
       background: linear-gradient(135deg, #f59e0b, #d97706);
       color: #fff; padding: 5px 16px; border-radius: 100px;
       font-size: 0.75rem; font-weight: 700; letter-spacing: 0.02em;
@@ -252,10 +252,10 @@
       <h1 data-i18n="pricing.hero.h1">一杯咖啡的钱，换全年高效协作</h1>
       <p data-i18n="pricing.hero.subtitle">去广告、无限会议规划、团队时钟、智能提醒——把你的全球时间管理升级到专业级</p>
       <div class="pr-hero-stats">
-        <div class="pr-hero-stat"><div class="pr-stat-num">0</div><div class="pr-stat-label" data-i18n="pricing.hero.stat1">广告骚扰</div></div>
-        <div class="pr-hero-stat"><div class="pr-stat-num">无限</div><div class="pr-stat-label" data-i18n="pricing.hero.stat2">会议参与者</div></div>
-        <div class="pr-hero-stat"><div class="pr-stat-num">无限</div><div class="pr-stat-label" data-i18n="pricing.hero.stat3">时区提醒</div></div>
-        <div class="pr-hero-stat"><div class="pr-stat-num">全天候</div><div class="pr-stat-label" data-i18n="pricing.hero.stat4">优先支持</div></div>
+        <div class="pr-hero-stat"><div class="pr-stat-num" data-i18n="pricing.hero.stat1num">0</div><div class="pr-stat-label" data-i18n="pricing.hero.stat1">广告骚扰</div></div>
+        <div class="pr-hero-stat"><div class="pr-stat-num" data-i18n="pricing.hero.stat2num">无限</div><div class="pr-stat-label" data-i18n="pricing.hero.stat2">会议参与者</div></div>
+        <div class="pr-hero-stat"><div class="pr-stat-num" data-i18n="pricing.hero.stat3num">无限</div><div class="pr-stat-label" data-i18n="pricing.hero.stat3">时区提醒</div></div>
+        <div class="pr-hero-stat"><div class="pr-stat-num" data-i18n="pricing.hero.stat4num">全天候</div><div class="pr-stat-label" data-i18n="pricing.hero.stat4">优先支持</div></div>
       </div>
     </div>
   </section>
@@ -272,37 +272,38 @@
         </div>
         <span class="pr-cta" data-i18n="pricing.plan.current">当前方案</span>
         <ul class="pr-plan-features">
-          <li><span class="pr-check">✓</span> 全球时区转换</li>
-          <li><span class="pr-check">✓</span> 双城市时差查询</li>
-          <li><span class="pr-check">✓</span> 世界时钟挂件</li>
-          <li><span class="pr-check">✓</span> 跨境物流工具</li>
-          <li><span class="pr-cross">✗</span> <span class="feature-name">含广告</span></li>
-          <li><span class="pr-cross">✗</span> <span class="feature-name">时区提醒</span><span class="feature-limit">3个</span></li>
-          <li><span class="pr-cross">✗</span> <span class="feature-name">会议规划</span><span class="feature-limit">3个城市</span></li>
-          <li><span class="pr-cross">✗</span> 团队时钟</li>
-          <li><span class="pr-cross">✗</span> 数据导出</li>
+          <li><span class="pr-check">✓</span> <span data-i18n="pricing.feat.0">全球时区转换</span></li>
+          <li><span class="pr-check">✓</span> <span data-i18n="pricing.feat.1">双城市时差查询</span></li>
+          <li><span class="pr-check">✓</span> <span data-i18n="pricing.feat.2">世界时钟挂件</span></li>
+          <li><span class="pr-check">✓</span> <span data-i18n="pricing.feat.3">跨境物流工具</span></li>
+          <li><span class="pr-cross">✗</span> <span class="feature-name" data-i18n="pricing.feat.4">含广告</span></li>
+          <li><span class="pr-cross">✗</span> <span class="feature-name" data-i18n="pricing.feat.5">时区提醒</span><span class="feature-limit" data-i18n="pricing.feat.5lim">3个</span></li>
+          <li><span class="pr-cross">✗</span> <span class="feature-name" data-i18n="pricing.feat.6">会议规划</span><span class="feature-limit" data-i18n="pricing.feat.6lim">3个城市</span></li>
+          <li><span class="pr-cross">✗</span> <span data-i18n="pricing.feat.7">团队时钟</span></li>
+          <li><span class="pr-cross">✗</span> <span data-i18n="pricing.feat.8">数据导出</span></li>
         </ul>
       </div>
 
       <!-- PRO -->
       <div class="pr-plan pro">
+        <div class="pr-plan-badge" data-i18n="pricing.plan.badge">最受欢迎</div>
         <div class="pr-plan-header">
           <div class="pr-plan-name" data-i18n="pricing.plan.pro">PRO</div>
-          <div class="pr-price">$3.99<span class="pr-price-cycle">/月</span></div>
-          <div class="pr-save-tag">年付仅 $39.99（省$7.89）</div>
+          <div class="pr-price">$3.99<span class="pr-price-cycle" data-i18n="pricing.plan.pro_cycle">/月</span></div>
+          <div class="pr-save-tag" data-i18n="pricing.plan.pro_save">年付仅 $39.99（省$7.89）</div>
         </div>
-        <a class="pr-cta" href="https://buy.stripe.com/【待配置】" target="_blank" rel="noopener">立即升级 PRO &#8594;</a>
+        <a class="pr-cta" href="https://buy.stripe.com/【待配置】" target="_blank" rel="noopener" data-i18n="pricing.plan.pro_cta">立即升级 PRO →</a>
         <ul class="pr-plan-features">
-          <li><span class="pr-check">✓</span> 免费版全部功能</li>
-          <li><span class="pr-check">✓</span> <span class="feature-name">零广告体验</span><span class="pr-tag-new">爽</span></li>
-          <li><span class="pr-check">✓</span> <span class="feature-name">时区提醒</span><span class="feature-limit">无限</span></li>
-          <li><span class="pr-check">✓</span> <span class="feature-name">会议规划</span><span class="feature-limit">无限参与者</span></li>
-          <li><span class="pr-check">✓</span> 团队时钟<span class="pr-tag-new">NEW</span></li>
-          <li><span class="pr-check">✓</span> 自定义城市列表</li>
-          <li><span class="pr-check">✓</span> 数据导出（.ics/CSV）</li>
-          <li><span class="pr-check">✓</span> 暗色主题</li>
-          <li><span class="pr-check">✓</span> API 访问（更高频率）</li>
-          <li><span class="pr-check">✓</span> 优先客服支持</li>
+          <li><span class="pr-check">✓</span> <span data-i18n="pricing.profeat.0">免费版全部功能</span></li>
+          <li><span class="pr-check">✓</span> <span class="feature-name" data-i18n="pricing.profeat.1">零广告体验</span><span class="pr-tag-new" data-i18n="pricing.profeat.1tag">爽</span></li>
+          <li><span class="pr-check">✓</span> <span class="feature-name" data-i18n="pricing.profeat.2">时区提醒</span><span class="feature-limit" data-i18n="pricing.profeat.2lim">无限</span></li>
+          <li><span class="pr-check">✓</span> <span class="feature-name" data-i18n="pricing.profeat.3">会议规划</span><span class="feature-limit" data-i18n="pricing.profeat.3lim">无限参与者</span></li>
+          <li><span class="pr-check">✓</span> <span data-i18n="pricing.profeat.4">团队时钟</span><span class="pr-tag-new" data-i18n="pricing.profeat.4tag">NEW</span></li>
+          <li><span class="pr-check">✓</span> <span data-i18n="pricing.profeat.5">自定义城市列表</span></li>
+          <li><span class="pr-check">✓</span> <span data-i18n="pricing.profeat.6">数据导出（.ics/CSV）</span></li>
+          <li><span class="pr-check">✓</span> <span data-i18n="pricing.profeat.7">暗色主题</span></li>
+          <li><span class="pr-check">✓</span> <span data-i18n="pricing.profeat.8">API 访问（更高频率）</span></li>
+          <li><span class="pr-check">✓</span> <span data-i18n="pricing.profeat.9">优先客服支持</span></li>
         </ul>
       </div>
     </div>
@@ -310,7 +311,7 @@
     <!-- Feature Comparison -->
     <div class="pr-section">
       <h2 data-i18n="pricing.compare.title">功能对比</h2>
-      <p class="pr-section-sub">一目了然，PRO 多了什么</p>
+      <p class="pr-section-sub" data-i18n="pricing.compare.sub">一目了然，PRO 多了什么</p>
       <div class="pr-compare">
         <div class="pr-compare-row head">
           <span data-i18n="pricing.cmp.col_feature">功能</span><span data-i18n="pricing.cmp.col_free">免费版</span><span class="pr-col-pro" data-i18n="pricing.cmp.col_pro">PRO</span>
@@ -380,7 +381,7 @@
     <div class="pr-cta-bar">
       <h2 data-i18n="pricing.cta.title">每月 $3.99，还不如一杯咖啡贵</h2>
       <p data-i18n="pricing.cta.desc">30天内不满意全额退款。零风险，随时取消。</p>
-      <a class="pr-cta-btn" href="https://buy.stripe.com/【待配置】" target="_blank" rel="noopener">立即升级 PRO &#8594;</a>
+      <a class="pr-cta-btn" href="https://buy.stripe.com/【待配置】" target="_blank" rel="noopener" data-i18n="pricing.cta.btn">立即升级 PRO →</a>
       <div class="pr-trust-row">
         <span data-i18n="pricing.trust.0">&#128274; 安全支付</span>
         <span data-i18n="pricing.trust.1">&#9851; 30天退款保证</span>
@@ -427,19 +428,19 @@
       <div>
         <h4 class="footer-heading" data-i18n="footer.heading.tools">工具</h4>
         <ul class="footer-links">
-          <li><a href="/">时区转换</a></li>
-          <li><a href="/time-difference/">时差查询</a></li>
-          <li><a href="/meeting-planner/">会议规划</a></li>
-          <li><a href="/tools/cross-border/">跨境工具</a></li>
+          <li><a href="/" data-i18n="footer.tool.tz">时区转换</a></li>
+          <li><a href="/time-difference/" data-i18n="footer.tool.diff">时差查询</a></li>
+          <li><a href="/meeting-planner/" data-i18n="footer.tool.meeting">会议规划</a></li>
+          <li><a href="/tools/cross-border/" data-i18n="footer.tool.cross">跨境工具</a></li>
         </ul>
       </div>
       <div>
         <h4 class="footer-heading" data-i18n="footer.heading.about">关于</h4>
         <ul class="footer-links">
-          <li><a href="/about.html">关于我们</a></li>
-          <li><a href="/privacy.html">隐私政策</a></li>
-          <li><a href="/terms.html">服务条款</a></li>
-          <li><a href="/pricing/">升级 PRO</a></li>
+          <li><a href="/about.html" data-i18n="footer.about">关于我们</a></li>
+          <li><a href="/privacy.html" data-i18n="footer.privacy">隐私政策</a></li>
+          <li><a href="/terms.html" data-i18n="footer.terms">服务条款</a></li>
+          <li><a href="/pricing/" data-i18n="nav.upgrade">升级 PRO</a></li>
         </ul>
       </div>
       <div>
