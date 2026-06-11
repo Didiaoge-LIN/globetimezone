@@ -85,6 +85,25 @@
 
     /* Quick add chips */
     .mp-quick-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+
+    /* Module 8: Multiday overlap */
+    .mp-multiday-list { display: flex; flex-direction: column; gap: 10px; }
+    .mp-multiday-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 12px 16px; border-radius: 10px; border: 1px solid var(--border);
+      background: var(--card); transition: all 0.15s;
+    }
+    .mp-multiday-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .mp-multiday-date { font-weight: 700; font-size: 0.92rem; min-width: 130px; color: var(--text); }
+    .mp-multiday-slots { display: flex; flex-wrap: wrap; gap: 8px; }
+    .mp-multiday-slot {
+      padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;
+      background: #ecfdf5; color: #065f46; border: 1px solid #6ee7b7;
+    }
+
+    /* Module 8: Dragging */
+    .mp-pcard { cursor: grab; }
+    .mp-pcard.dragging { opacity: 0.5; cursor: grabbing; }
     .mp-chip {
       padding: 7px 14px; border-radius: 100px; border: 1.5px solid var(--border);
       background: #fff; font-size: 0.85rem; cursor: pointer; transition: all 0.15s;
@@ -411,6 +430,26 @@
         <button class="mp-btn mp-btn-primary" id="mpDownloadIcs" data-i18n="meetingplanner.download_ics">&#128230; 下载 .ics 日历文件</button>
       </div>
       <p style="margin-top:10px;font-size:0.82rem;color:var(--text-muted);" data-i18n="meetingplanner.export_desc">.ics 文件支持导入 Apple 日历、Outlook、Google Calendar 等所有主流日历应用</p>
+      <div class="mp-actions" style="margin-top:12px;">
+        <button class="mp-btn" id="mpCopyText" data-i18n="meetingplanner.copy_text">&#128203; 复制纯文本时间</button>
+        <button class="mp-btn" id="mpImportFavorites" data-i18n="meetingplanner.import_favorites">&#11088; 导入收藏城市</button>
+      </div>
+    </div>
+
+    <!-- Multi-day overlap (Module 8 Phase 1) -->
+    <div class="mp-card" id="mpMultiDayCard" style="display:none;">
+      <h2 data-i18n="meetingplanner.multiday_title">&#128198; 未来7天工作日重叠</h2>
+      <div id="mpMultiDayGrid"></div>
+    </div>
+
+    <!-- Meeting Templates (Module 8 Phase 3 - PRO) -->
+    <div class="mp-card" id="mpTemplateCard" style="display:none;">
+      <h2 data-i18n="meetingplanner.template_title">&#128203; 会议模板</h2>
+      <div class="mp-actions" style="margin-bottom:12px;">
+        <button class="mp-btn mp-btn-primary" id="mpSaveTemplate" data-i18n="meetingplanner.save_template">&#128190; 保存为模板</button>
+        <button class="mp-btn" id="mpExportCsv" data-i18n="meetingplanner.export_csv">&#128229; 导出CSV</button>
+      </div>
+      <div id="mpTemplateList" style="margin-top:8px;"></div>
     </div>
 
   </div>
@@ -623,7 +662,7 @@
       var isSleep = t.hour < 6;
       var statusClass = isWork ? 'work' : (isSleep ? 'sleep' : 'off');
       var statusText = isWork ? t('meetingplanner.status.work', '工作中') : (isSleep ? t('meetingplanner.status.sleep', '深夜') : t('meetingplanner.status.off', '休息中'));
-      return '<div class="mp-pcard">' +
+      return '<div class="mp-pcard" draggable="true">' +
         '<div class="mp-pcard-header">' +
           '<div><div class="mp-pcard-city">' + p.name + '</div><div class="mp-pcard-tz">' + p.tz + ' · ' + p.abbr + '</div></div>' +
           '<button class="mp-remove" onclick="mpRemove(' + p.id + ')" title="移除">&times;</button>' +
@@ -740,16 +779,389 @@
     el('mpBestCard').style.display = hasParticipants ? 'block' : 'none';
     el('mpExportCard').style.display = hasParticipants ? 'block' : 'none';
     el('mpEmptyState').style.display = hasParticipants ? 'none' : 'block';
+    el('mpMultiDayCard').style.display = hasParticipants ? 'block' : 'none';
+
+    // PRO features
+    var isPro = checkProUser();
+    el('mpTemplateCard').style.display = (hasParticipants && isPro) ? 'block' : 'none';
 
     updateParticipantCards();
     updateTimeline();
     updateBestTimes();
+    updateMultiDayOverlap();
+    if (isPro) updateTemplateList();
 
     // Update chip active states
     document.querySelectorAll('.mp-chip').forEach(function(chip) {
       var tz = chip.dataset.tz;
       chip.classList.toggle('on', participants.some(function(p) { return p.tz === tz; }));
     });
+  }
+
+  // ══════════════════════════════════════════════════════════
+  // Module 8 Phase 1: Free tier limit + Favorites import
+  // ══════════════════════════════════════════════════════════
+
+  var MAX_FREE_CITIES = 5;
+
+  function checkProUser() {
+    try { return JSON.parse(localStorage.getItem('globetimezone_pro')) === true; } catch { return false; }
+  }
+
+  // Override addParticipant to enforce free tier limit
+  var _origAddParticipant = addParticipant;
+  addParticipant = function(tz, wStart, wEnd) {
+    if (participants.length >= MAX_FREE_CITIES && !checkProUser()) {
+      toast(t('meetingplanner.toast.free_limit', '免费版最多添加' + MAX_FREE_CITIES + '个城市，PRO版无限制'));
+      return;
+    }
+    _origAddParticipant(tz, wStart, wEnd);
+  };
+
+  // Import favorites from globetimezone_favorites
+  function importFavorites() {
+    var favs;
+    try { favs = JSON.parse(localStorage.getItem('globetimezone_favorites')) || []; } catch { favs = []; }
+    if (!favs.length) {
+      toast(t('meetingplanner.toast.no_favorites', '暂无收藏城市'));
+      return;
+    }
+    var added = 0;
+    favs.forEach(function(fav) {
+      if (fav && fav.timezone && !participants.find(function(p) { return p.tz === fav.timezone; })) {
+        if (participants.length >= MAX_FREE_CITIES && !checkProUser()) return;
+        if (cityInfo[fav.timezone]) {
+          participants.push({
+            id: Date.now() + Math.random(),
+            tz: fav.timezone,
+            name: cityInfo[fav.timezone].name,
+            abbr: cityInfo[fav.timezone].abbr,
+            workStart: 9,
+            workEnd: 17
+          });
+          added++;
+        }
+      }
+    });
+    updateAll();
+    toast(t('meetingplanner.toast.favorites_imported', '已导入') + ' ' + added + ' ' + t('meetingplanner.toast.cities', '个城市'));
+  }
+
+  // ══════════════════════════════════════════════════════════
+  // Module 8 Phase 1: Multi-day overlap calculation
+  // ══════════════════════════════════════════════════════════
+
+  function updateMultiDayOverlap() {
+    var grid = el('mpMultiDayGrid');
+    if (participants.length < 2) {
+      grid.innerHTML = '<p style="color:var(--text-muted);text-align:center;padding:16px;">' +
+        t('meetingplanner.multiday_need2', '添加至少2个参会者查看多日重叠') + '</p>';
+      return;
+    }
+
+    var html = '<div class="mp-multiday-list">';
+    var today = new Date();
+    var foundAny = false;
+
+    for (var d = 0; d < 7; d++) {
+      var date = new Date(today);
+      date.setDate(today.getDate() + d);
+      var dayOfWeek = date.getDay();
+      if (dayOfWeek === 0 || dayOfWeek === 6) continue; // skip weekends
+
+      var dateStr = date.toLocaleDateString('zh-CN', { month: 'short', day: 'numeric', weekday: 'short' });
+
+      // Calculate overlap for this day (using same UTC-based logic)
+      var slots = [];
+      for (var h = 0; h < 24; h++) {
+        var allWork = true;
+        for (var i = 0; i < participants.length; i++) {
+          var p = participants[i];
+          var off = getOffsetHours(p.tz);
+          var localH = Math.floor((h + off + 24) % 24);
+          if (localH < p.workStart || localH >= p.workEnd) { allWork = false; break; }
+        }
+        if (allWork) slots.push(h);
+      }
+
+      if (slots.length > 0) {
+        foundAny = true;
+        // Group consecutive slots
+        var groups = [];
+        var start = null;
+        for (var j = 0; j < slots.length; j++) {
+          if (start === null) start = slots[j];
+          if (j === slots.length - 1 || slots[j + 1] !== slots[j] + 1) {
+            groups.push({ start: start, end: slots[j] });
+            start = null;
+          }
+        }
+
+        html += '<div class="mp-multiday-item">';
+        html += '<div class="mp-multiday-date">' + dateStr + '</div>';
+        html += '<div class="mp-multiday-slots">';
+        groups.forEach(function(g) {
+          var s = String(g.start).padStart(2, '0') + ':00';
+          var e = String(g.end + 1).padStart(2, '0') + ':00';
+          var hrs = g.end - g.start + 1;
+          html += '<span class="mp-multiday-slot">UTC ' + s + '-' + e + ' (' + hrs + 'h)</span>';
+        });
+        html += '</div></div>';
+      }
+    }
+
+    if (!foundAny) {
+      html += '<p style="color:var(--text-muted);text-align:center;padding:16px;">' +
+        t('meetingplanner.multiday_none', '未来7个工作日内无共同工作时段') + '</p>';
+    }
+
+    html += '</div>';
+    grid.innerHTML = html;
+  }
+
+  // ══════════════════════════════════════════════════════════
+  // Module 8 Phase 1: Copy plain text meeting time
+  // ══════════════════════════════════════════════════════════
+
+  function generatePlainText() {
+    if (participants.length < 2) return '';
+    var text = t('meetingplanner.text_header', '【推荐会议时段（各地当地时间·工作日）】') + '\n';
+
+    // Current day overlap
+    var slots = [];
+    for (var h = 0; h < 24; h++) {
+      var allWork = true;
+      for (var i = 0; i < participants.length; i++) {
+        var p = participants[i];
+        var off = getOffsetHours(p.tz);
+        var localH = Math.floor((h + off + 24) % 24);
+        if (localH < p.workStart || localH >= p.workEnd) { allWork = false; break; }
+      }
+      if (allWork) slots.push(h);
+    }
+
+    if (slots.length === 0) return t('meetingplanner.text_no_overlap', '未来7天内无共同工作时段');
+
+    // Group consecutive
+    var groups = [];
+    var start = null;
+    for (var j = 0; j < slots.length; j++) {
+      if (start === null) start = slots[j];
+      if (j === slots.length - 1 || slots[j + 1] !== slots[j] + 1) {
+        groups.push({ start: start, end: slots[j] });
+        start = null;
+      }
+    }
+
+    groups.forEach(function(g) {
+      var s = String(g.start).padStart(2, '0') + ':00';
+      var e = String(g.end + 1).padStart(2, '0') + ':00';
+      text += '\nUTC ' + s + ' - ' + e + '\n';
+      participants.forEach(function(p) {
+        var off = getOffsetHours(p.tz);
+        var localStart = Math.floor((g.start + off + 24) % 24);
+        var localEnd = Math.floor((g.end + off + 24) % 24);
+        text += '  ' + p.name + ': ' + String(localStart).padStart(2, '0') + ':00-' + String(localEnd + 1).padStart(2, '0') + ':00\n';
+      });
+    });
+
+    return text;
+  }
+
+  // ══════════════════════════════════════════════════════════
+  // Module 8 Phase 2: Drag-to-reorder participants
+  // ══════════════════════════════════════════════════════════
+
+  function initDragSort() {
+    var grid = el('mpParticipantGrid');
+    if (!grid) return;
+    grid.style.cursor = 'grab';
+    grid.addEventListener('dragstart', function(e) {
+      var card = e.target.closest('.mp-pcard');
+      if (!card) return;
+      card.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    grid.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      var afterEl = getDragAfterElement(grid, e.clientY);
+      var dragging = grid.querySelector('.dragging');
+      if (!dragging) return;
+      if (afterEl == null) {
+        grid.appendChild(dragging);
+      } else {
+        grid.insertBefore(dragging, afterEl);
+      }
+    });
+    grid.addEventListener('dragend', function(e) {
+      var dragging = grid.querySelector('.dragging');
+      if (dragging) dragging.classList.remove('dragging');
+      // Rebuild participants array from DOM order
+      var newOrder = [];
+      grid.querySelectorAll('.mp-pcard').forEach(function(card) {
+        var removeBtn = card.querySelector('.mp-remove');
+        if (removeBtn) {
+          var onclickStr = removeBtn.getAttribute('onclick');
+          var match = onclickStr && onclickStr.match(/mpRemove\(([\d.]+)\)/);
+          if (match) {
+            var id = parseFloat(match[1]);
+            var p = participants.find(function(pp) { return pp.id === id; });
+            if (p) newOrder.push(p);
+          }
+        }
+      });
+      if (newOrder.length === participants.length) {
+        participants = newOrder;
+        updateTimeline();
+        updateBestTimes();
+        updateMultiDayOverlap();
+      }
+    });
+  }
+
+  function getDragAfterElement(container, y) {
+    var elements = Array.from(container.querySelectorAll('.mp-pcard:not(.dragging)'));
+    return elements.reduce(function(closest, child) {
+      var box = child.getBoundingClientRect();
+      var offset = y - box.top - box.height / 2;
+      if (offset < 0 && offset > closest.offset) {
+        return { offset: offset, element: child };
+      }
+      return closest;
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+  }
+
+  // ══════════════════════════════════════════════════════════
+  // Module 8 Phase 3: PRO - Meeting Templates + CSV Export
+  // ══════════════════════════════════════════════════════════
+
+  var TEMPLATE_KEY = 'globetimezone_meeting_templates';
+
+  function getTemplates() {
+    try { return JSON.parse(localStorage.getItem(TEMPLATE_KEY)) || []; } catch { return []; }
+  }
+
+  function saveTemplate() {
+    if (participants.length === 0) { toast(t('meetingplanner.toast.no_participants', '请先添加参会者')); return; }
+    var name = prompt(t('meetingplanner.prompt_template_name', '请输入模板名称'));
+    if (!name) return;
+    var templates = getTemplates();
+    templates.push({
+      id: Date.now(),
+      name: name,
+      cities: participants.map(function(p) { return { tz: p.tz, workStart: p.workStart, workEnd: p.workEnd }; }),
+      duration: duration,
+      createdAt: Date.now()
+    });
+    localStorage.setItem(TEMPLATE_KEY, JSON.stringify(templates));
+    toast(t('meetingplanner.toast.template_saved', '模板已保存'));
+    updateTemplateList();
+  }
+
+  function loadTemplate(id) {
+    var templates = getTemplates();
+    var tpl = templates.find(function(t) { return t.id === id; });
+    if (!tpl) return;
+    participants = [];
+    tpl.cities.forEach(function(c) {
+      if (cityInfo[c.tz]) {
+        participants.push({
+          id: Date.now() + Math.random(),
+          tz: c.tz,
+          name: cityInfo[c.tz].name,
+          abbr: cityInfo[c.tz].abbr,
+          workStart: c.workStart,
+          workEnd: c.workEnd
+        });
+      }
+    });
+    if (tpl.duration) setDuration(tpl.duration);
+    updateAll();
+    toast(t('meetingplanner.toast.template_loaded', '模板已加载'));
+  }
+
+  function deleteTemplate(id) {
+    var templates = getTemplates().filter(function(t) { return t.id !== id; });
+    localStorage.setItem(TEMPLATE_KEY, JSON.stringify(templates));
+    toast(t('meetingplanner.toast.template_deleted', '模板已删除'));
+    updateTemplateList();
+  }
+
+  function updateTemplateList() {
+    var list = el('mpTemplateList');
+    var templates = getTemplates();
+    if (!templates.length) {
+      list.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem;">' +
+        t('meetingplanner.no_templates', '暂无保存的模板') + '</p>';
+      return;
+    }
+    list.innerHTML = templates.map(function(tpl) {
+      var date = new Date(tpl.createdAt).toLocaleDateString('zh-CN');
+      return '<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">' +
+        '<div style="flex:1;"><strong>' + tpl.name + '</strong> <span style="color:var(--text-muted);font-size:0.8rem;">(' + tpl.cities.length + ' ' + t('meetingplanner.cities', '城市') + ', ' + date + ')</span></div>' +
+        '<button class="mp-btn" style="padding:4px 12px;font-size:0.8rem;" onclick="mpLoadTemplate(' + tpl.id + ')">' + t('meetingplanner.load', '加载') + '</button>' +
+        '<button class="mp-btn" style="padding:4px 12px;font-size:0.8rem;color:#dc2626;" onclick="mpDeleteTemplate(' + tpl.id + ')">' + t('meetingplanner.delete', '删除') + '</button>' +
+      '</div>';
+    }).join('');
+  }
+
+  function exportCsv() {
+    if (participants.length < 2) { toast(t('meetingplanner.toast.need2', '至少需要2个参会者')); return; }
+    var csv = '\uFEFF'; // BOM for Excel UTF-8
+    csv += t('meetingplanner.csv_date', '日期') + ',' + t('meetingplanner.csv_time', '时段') + ',' +
+      participants.map(function(p) { return p.name; }).join(',') + '\n';
+
+    // 7 days of overlap
+    var today = new Date();
+    for (var d = 0; d < 7; d++) {
+      var date = new Date(today);
+      date.setDate(today.getDate() + d);
+      if (date.getDay() === 0 || date.getDay() === 6) continue;
+      var dateStr = date.toLocaleDateString('zh-CN');
+
+      var slots = [];
+      for (var h = 0; h < 24; h++) {
+        var allWork = true;
+        for (var i = 0; i < participants.length; i++) {
+          var p = participants[i];
+          var off = getOffsetHours(p.tz);
+          var localH = Math.floor((h + off + 24) % 24);
+          if (localH < p.workStart || localH >= p.workEnd) { allWork = false; break; }
+        }
+        if (allWork) slots.push(h);
+      }
+
+      // Group consecutive
+      var groups = [];
+      var start = null;
+      for (var j = 0; j < slots.length; j++) {
+        if (start === null) start = slots[j];
+        if (j === slots.length - 1 || slots[j + 1] !== slots[j] + 1) {
+          groups.push({ start: start, end: slots[j] });
+          start = null;
+        }
+      }
+
+      groups.forEach(function(g) {
+        var timeStr = 'UTC ' + String(g.start).padStart(2, '0') + ':00-' + String(g.end + 1).padStart(2, '0') + ':00';
+        var row = [dateStr, timeStr];
+        participants.forEach(function(p) {
+          var off = getOffsetHours(p.tz);
+          var localStart = Math.floor((g.start + off + 24) % 24);
+          row.push(String(localStart).padStart(2, '0') + ':00');
+        });
+        csv += row.join(',') + '\n';
+      });
+    }
+
+    var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'meeting-schedule.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    toast(t('meetingplanner.toast.csv_exported', 'CSV 已导出'));
   }
 
   // Events
@@ -781,6 +1193,24 @@
     var url = location.origin + '/meeting-planner/?p=' + encodeURIComponent(params) + '&d=' + duration;
     navigator.clipboard.writeText(url).then(function() { toast(t('meetingplanner.toast.link_copied', '会议链接已复制')); });
   });
+
+  // Module 8: Copy plain text
+  el('mpCopyText').addEventListener('click', function() {
+    var text = generatePlainText();
+    if (!text) { toast(t('meetingplanner.toast.no_overlap', '无重叠时段')); return; }
+    navigator.clipboard.writeText(text).then(function() { toast(t('meetingplanner.toast.text_copied', '纯文本已复制')); });
+  });
+
+  // Module 8: Import favorites
+  el('mpImportFavorites').addEventListener('click', function() { importFavorites(); });
+
+  // Module 8 Phase 3: Template & CSV
+  el('mpSaveTemplate').addEventListener('click', function() { saveTemplate(); });
+  el('mpExportCsv').addEventListener('click', function() { exportCsv(); });
+
+  // Global template functions
+  window.mpLoadTemplate = function(id) { loadTemplate(id); };
+  window.mpDeleteTemplate = function(id) { deleteTemplate(id); };
 
   el('mpDownloadIcs').addEventListener('click', function() {
     if (participants.length === 0) { toast(t('meetingplanner.toast.no_participants', '请先添加参会者')); return; }
@@ -830,6 +1260,7 @@
 
   parseUrl();
   updateAll();
+  initDragSort(); // Module 8 Phase 2: drag sort
   setInterval(function() {
     updateParticipantCards();
     updateTimeline();
