@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>跨境工具箱 — 物流·关税·汇率·HS编码 | GlobeTimeZone</title>
+  <title data-i18n="crossborder.title">跨境工具箱 — 物流·关税·汇率·HS编码 | GlobeTimeZone</title>
   <meta name="description" content="跨境电商一站式工具箱：物流时效运费计算、关税预估、体积重换算、实时汇率、HS编码速查、禁运品查询、包裹追踪。8大物流商实时比价。">
   <meta name="keywords" content="跨境工具箱,物流时效,关税计算,DDP报价,HS编码,体积重,汇率换算,禁运品">
   <meta name="robots" content="index, follow">
@@ -465,7 +465,7 @@
       <p data-i18n="crossborder.hero.subtitle">物流比价 · 关税预估 · 汇率换算 · HS编码 · 禁运查询 — 你的专属跨境工具箱</p>
       <div class="xb-quick-track">
         <input type="text" id="quickTrackingNumber" placeholder="" data-i18n-attr="placeholder:crossborder.hero.track_placeholder">
-        <button id="quickTrackBtn" data-i18n="crossborder.hero.track_btn" data-i18n="crossborder.pkg_tracking.search_btn">查询物流</button>
+        <button id="quickTrackBtn" data-i18n="crossborder.hero.track_btn">查询物流</button>
       </div>
       <p style="font-size:0.76rem;color:rgba(255,255,255,0.45);margin-top:10px;" data-i18n="crossborder.hero.example">示例：DHL-12345678 · UPS-87654321 — 支持全球500+物流商</p>
       <div class="xb-hero-stats">
@@ -520,25 +520,25 @@
             <div>
               <label class="xb-form-label" for="origin" data-i18n="crossborder.logistics.origin">发货地</label>
               <select id="origin" class="xb-form-select">
-                <option value="shenzhen">中国 · 深圳</option>
-                <option value="guangzhou">中国 · 广州</option>
-                <option value="yiwu">中国 · 义乌</option>
-                <option value="shanghai">中国 · 上海</option>
-                <option value="ningbo">中国 · 宁波</option>
-                <option value="qingdao">中国 · 青岛</option>
+                <option value="shenzhen" data-i18n="crossborder.origin.shenzhen_full">中国 · 深圳</option>
+                <option value="guangzhou" data-i18n="crossborder.origin.guangzhou_full">中国 · 广州</option>
+                <option value="yiwu" data-i18n="crossborder.origin.yiwu_full">中国 · 义乌</option>
+                <option value="shanghai" data-i18n="crossborder.origin.shanghai_full">中国 · 上海</option>
+                <option value="ningbo" data-i18n="crossborder.origin.ningbo_full">中国 · 宁波</option>
+                <option value="qingdao" data-i18n="crossborder.origin.qingdao_full">中国 · 青岛</option>
               </select>
             </div>
             <div>
               <label class="xb-form-label" for="destination" data-i18n="crossborder.logistics.destination">目的地</label>
               <select id="destination" class="xb-form-select">
-                <option value="us-east">美国 · 东部（纽约）</option>
-                <option value="us-west">美国 · 西部（洛杉矶）</option>
-                <option value="uk">英国 · 伦敦</option>
-                <option value="de">德国 · 柏林</option>
-                <option value="fr">法国 · 巴黎</option>
-                <option value="jp">日本 · 东京</option>
-                <option value="au">澳大利亚 · 悉尼</option>
-                <option value="ca">加拿大 · 多伦多</option>
+                <option value="us-east" data-i18n="crossborder.dest.useast_full">美国 · 东部（纽约）</option>
+                <option value="us-west" data-i18n="crossborder.dest.uswest_full">美国 · 西部（洛杉矶）</option>
+                <option value="uk" data-i18n="crossborder.dest.uk_full">英国 · 伦敦</option>
+                <option value="de" data-i18n="crossborder.dest.de_full">德国 · 柏林</option>
+                <option value="fr" data-i18n="crossborder.dest.fr_full">法国 · 巴黎</option>
+                <option value="jp" data-i18n="crossborder.dest.jp_full">日本 · 东京</option>
+                <option value="au" data-i18n="crossborder.dest.au_full">澳大利亚 · 悉尼</option>
+                <option value="ca" data-i18n="crossborder.dest.ca_full">加拿大 · 多伦多</option>
               </select>
             </div>
           </div>
@@ -593,12 +593,12 @@
           <div class="xb-card" id="trackingDetail" style="display:none;">
             <h2 class="xb-card-title" data-i18n="crossborder.tracking.detail_title">🚚 物流追踪详情</h2>
             <div class="xb-track-header">
-              <div><span style="font-size:0.8rem;color:var(--xb-muted);">运单号：</span><span id="detailTrackingNumber" style="font-weight:700;font-size:0.93rem;"></span></div>
+              <div><span style="font-size:0.8rem;color:var(--xb-muted);" data-i18n="crossborder.tracking.tn_label">运单号：</span><span id="detailTrackingNumber" style="font-weight:700;font-size:0.93rem;"></span></div>
               <span id="detailStatusBadge" class="xb-track-status transit" data-i18n="crossborder.tracking.in_transit">运输中</span>
             </div>
             <div class="xb-progress">
               <div class="xb-step"><div class="xb-step-dot done" id="dot-pickup">✓</div><div class="xb-step-label" data-i18n="crossborder.tracking.picked_up">已揽收</div></div>
-              <div class="xb-step"><div class="xb-step-dot on" id="dot-transit">✈</div><div class="xb-step-label">运输中</div></div>
+              <div class="xb-step"><div class="xb-step-dot on" id="dot-transit">✈</div><div class="xb-step-label" data-i18n="crossborder.tracking.in_transit">运输中</div></div>
               <div class="xb-step"><div class="xb-step-dot wait" id="dot-customs">⚓</div><div class="xb-step-label" data-i18n="crossborder.tracking.customs">清关中</div></div>
               <div class="xb-step"><div class="xb-step-dot wait" id="dot-delivered">🏠</div><div class="xb-step-label" data-i18n="crossborder.tracking.delivered">已签收</div></div>
             </div>
@@ -611,45 +611,45 @@
       <div class="xb-tab-panel" id="tab-tariff">
         <div class="xb-card">
           <h2 class="xb-card-title" data-i18n="crossborder.tariff.title">💰 进口关税 & DDP 总价预估</h2>
-          <p style="font-size:0.85rem;color:var(--xb-muted);margin:0 0 18px;">输入商品信息和目的地，快速估算进口关税、增值税和DDP到门总价。</p>
+          <p style="font-size:0.85rem;color:var(--xb-muted);margin:0 0 18px;" data-i18n="crossborder.tariff.desc">输入商品信息和目的地，快速估算进口关税、增值税和DDP到门总价。</p>
           <div class="xb-form-row">
             <div>
-              <label class="xb-form-label" for="tariffDest">目的地国家</label>
+              <label class="xb-form-label" for="tariffDest" data-i18n="crossborder.tariff.dest_label">目的地国家</label>
               <select id="tariffDest" class="xb-form-select">
-                <option value="US">美国</option>
-                <option value="GB">英国</option>
-                <option value="DE">德国 / 欧盟</option>
-                <option value="FR">法国 / 欧盟</option>
-                <option value="JP">日本</option>
-                <option value="AU">澳大利亚</option>
-                <option value="CA">加拿大</option>
+                <option value="US" data-i18n="crossborder.country.US">美国</option>
+                <option value="GB" data-i18n="crossborder.country.GB">英国</option>
+                <option value="DE" data-i18n="crossborder.country.DE">德国 / 欧盟</option>
+                <option value="FR" data-i18n="crossborder.country.FR">法国 / 欧盟</option>
+                <option value="JP" data-i18n="crossborder.country.JP">日本</option>
+                <option value="AU" data-i18n="crossborder.country.AU">澳大利亚</option>
+                <option value="CA" data-i18n="crossborder.country.CA">加拿大</option>
               </select>
             </div>
             <div>
-              <label class="xb-form-label" for="tariffCategory">商品类别</label>
+              <label class="xb-form-label" for="tariffCategory" data-i18n="crossborder.tariff.category_label">商品类别</label>
               <select id="tariffCategory" class="xb-form-select">
-                <option value="electronics">电子产品 / 配件</option>
-                <option value="clothing">服装 / 纺织品</option>
-                <option value="toys">玩具 / 家居</option>
-                <option value="beauty">美妆 / 个护</option>
-                <option value="shoes">鞋靴 / 箱包</option>
-                <option value="jewelry">珠宝 / 饰品</option>
-                <option value="sports">运动 / 户外</option>
-                <option value="auto">汽车配件</option>
+                <option value="electronics" data-i18n="crossborder.category.electronics">电子产品 / 配件</option>
+                <option value="clothing" data-i18n="crossborder.category.clothing">服装 / 纺织品</option>
+                <option value="toys" data-i18n="crossborder.category.toys">玩具 / 家居</option>
+                <option value="beauty" data-i18n="crossborder.category.beauty">美妆 / 个护</option>
+                <option value="shoes" data-i18n="crossborder.category.shoes">鞋靴 / 箱包</option>
+                <option value="jewelry" data-i18n="crossborder.category.jewelry">珠宝 / 饰品</option>
+                <option value="sports" data-i18n="crossborder.category.sports">运动 / 户外</option>
+                <option value="auto" data-i18n="crossborder.category.auto">汽车配件</option>
               </select>
             </div>
           </div>
           <div class="xb-form-triple">
             <div>
-              <label class="xb-form-label" for="tariffValue">申报价值（USD）</label>
+              <label class="xb-form-label" for="tariffValue" data-i18n="crossborder.tariff.value_label">申报价值（USD）</label>
               <input type="number" id="tariffValue" value="100" min="1" step="1" class="xb-form-input">
             </div>
             <div>
-              <label class="xb-form-label" for="tariffFreight">预估运费（USD）</label>
+              <label class="xb-form-label" for="tariffFreight" data-i18n="crossborder.tariff.freight_label">预估运费（USD）</label>
               <input type="number" id="tariffFreight" value="30" min="0" step="1" class="xb-form-input" placeholder="含保险">
             </div>
             <div>
-              <label class="xb-form-label" for="tariffQty">数量</label>
+              <label class="xb-form-label" for="tariffQty" data-i18n="crossborder.tariff.qty_label">数量</label>
               <input type="number" id="tariffQty" value="1" min="1" step="1" class="xb-form-input">
             </div>
           </div>
@@ -666,21 +666,21 @@
       <div class="xb-tab-panel" id="tab-tracking">
         <div class="xb-card">
           <h2 class="xb-card-title" data-i18n="crossborder.pkg_tracking.title">🚚 全球包裹追踪</h2>
-          <p style="font-size:0.85rem;color:var(--xb-muted);margin:0 0 16px;">输入物流单号，实时追踪包裹位置和预计送达时间。</p>
+          <p style="font-size:0.85rem;color:var(--xb-muted);margin:0 0 16px;" data-i18n="crossborder.pkg_tracking.desc">输入物流单号，实时追踪包裹位置和预计送达时间。</p>
           <div style="display:flex;gap:10px;margin-bottom:16px;">
             <input type="text" id="tabTrackingNumber" placeholder="输入运单号…" class="xb-form-input" style="flex:1;">
-            <button id="tabTrackBtn" class="xb-btn-primary" style="width:auto;white-space:nowrap;padding:10px 24px;">查询物流</button>
+            <button id="tabTrackBtn" class="xb-btn-primary" style="width:auto;white-space:nowrap;padding:10px 24px;" data-i18n="crossborder.pkg_tracking.search_btn">查询物流</button>
           </div>
           <div id="tabTrackingResult" style="display:none;">
             <div class="xb-track-header">
-              <div><span style="font-size:0.8rem;color:var(--xb-muted);">运单号：</span><span id="tabTrackingTN" style="font-weight:700;font-size:0.93rem;"></span></div>
-              <span id="tabTrackingStatus" class="xb-track-status transit">运输中</span>
+              <div><span style="font-size:0.8rem;color:var(--xb-muted);" data-i18n="crossborder.pkg_tracking.tn_label">运单号：</span><span id="tabTrackingTN" style="font-weight:700;font-size:0.93rem;"></span></div>
+              <span id="tabTrackingStatus" class="xb-track-status transit" data-i18n="crossborder.tracking.in_transit">运输中</span>
             </div>
             <div class="xb-progress">
-              <div class="xb-step"><div class="xb-step-dot done">✓</div><div class="xb-step-label">已揽收</div></div>
-              <div class="xb-step"><div class="xb-step-dot on">✈</div><div class="xb-step-label">运输中</div></div>
-              <div class="xb-step"><div class="xb-step-dot wait">⚓</div><div class="xb-step-label">清关中</div></div>
-              <div class="xb-step"><div class="xb-step-dot wait">🏠</div><div class="xb-step-label">已签收</div></div>
+              <div class="xb-step"><div class="xb-step-dot done">✓</div><div class="xb-step-label" data-i18n="crossborder.tracking.picked_up">已揽收</div></div>
+              <div class="xb-step"><div class="xb-step-dot on">✈</div><div class="xb-step-label" data-i18n="crossborder.tracking.in_transit">运输中</div></div>
+              <div class="xb-step"><div class="xb-step-dot wait">⚓</div><div class="xb-step-label" data-i18n="crossborder.tracking.customs">清关中</div></div>
+              <div class="xb-step"><div class="xb-step-dot wait">🏠</div><div class="xb-step-label" data-i18n="crossborder.tracking.delivered">已签收</div></div>
             </div>
             <div class="xb-tl" id="tabTrackingTL"><div class="xb-tl-line"></div></div>
           </div>
@@ -691,9 +691,9 @@
       <div class="xb-tab-panel" id="tab-prohibited">
         <div class="xb-card">
           <h2 class="xb-card-title" data-i18n="crossborder.prohibited.title">🚫 各国禁运品 & 限制品查询</h2>
-          <p style="font-size:0.85rem;color:var(--xb-muted);margin:0 0 16px;">不同国家对进口物品有不同的限制。发货前务必确认目的地国家的禁运清单，避免扣关销毁。</p>
+          <p style="font-size:0.85rem;color:var(--xb-muted);margin:0 0 16px;" data-i18n="crossborder.prohibited.desc">不同国家对进口物品有不同的限制。发货前务必确认目的地国家的禁运清单，避免扣关销毁。</p>
           <div style="margin-bottom:16px;">
-            <label class="xb-form-label" for="prohCountry">选择目的地国家</label>
+            <label class="xb-form-label" for="prohCountry" data-i18n="crossborder.prohibited.country_label">选择目的地国家</label>
             <select id="prohCountry" class="xb-form-select" style="max-width:320px;">
               <option value="US">🇺🇸 美国</option>
               <option value="GB">🇬🇧 英国</option>
@@ -721,7 +721,7 @@
           <div class="xb-partner-item">DHL</div><div class="xb-partner-item">UPS</div>
           <div class="xb-partner-item">FedEx</div><div class="xb-partner-item">TNT</div>
           <div class="xb-partner-item">EMS</div><div class="xb-partner-item">Amazon FBA</div>
-          <div class="xb-partner-item">空运专线</div><div class="xb-partner-item">海运快船</div>
+          <div class="xb-partner-item" data-i18n="crossborder.partner.air">空运专线</div><div class="xb-partner-item" data-i18n="crossborder.partner.sea">海运快船</div>
         </div>
       </div>
 
@@ -754,17 +754,17 @@
       <div class="xb-widget">
         <h4 style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
           <span style="display:flex;align-items:center;gap:6px;" data-i18n="crossborder.sidebar.recent">🧠 我的最近使用</span>
-          <button id="hkClearAllHistory" style="font-size:0.72rem;color:#94a3b8;border:none;background:none;cursor:pointer;padding:2px 6px;border-radius:5px;transition:.2s;" onmouseenter="this.style.color='#ef4444';this.style.background='#fef2f2'" onmouseleave="this.style.color='#94a3b8';this.style.background='none'">清空</button>
+          <button id="hkClearAllHistory" style="font-size:0.72rem;color:#94a3b8;border:none;background:none;cursor:pointer;padding:2px 6px;border-radius:5px;transition:.2s;" onmouseenter="this.style.color='#ef4444';this.style.background='#fef2f2'" onmouseleave="this.style.color='#94a3b8';this.style.background='none'" data-i18n="crossborder.sidebar.clear">清空</button>
         </h4>
 
         <div class="hk-history-section">
           <div class="hk-history-header">
             <span class="hk-history-header-icon">📦</span>
-            最近物流查询
+            <span data-i18n="crossborder.sidebar.shipping_history">最近物流查询</span>
             <span class="hk-history-count" id="hkShippingCount">0</span>
           </div>
           <div id="hkShippingHistory" class="hk-memory-list" style="max-height:260px;overflow-y:auto;">
-            <div style="text-align:center;padding:16px 0;color:#94a3b8;font-size:0.8rem;">暂无查询记录<br><span style="font-size:0.72rem;display:block;margin-top:4px;">查询物流后自动保存</span></div>
+            <div style="text-align:center;padding:16px 0;color:#94a3b8;font-size:0.8rem;" data-i18n="crossborder.sidebar.empty_shipping">暂无查询记录</div><div style="text-align:center;color:#94a3b8;font-size:0.72rem;margin-top:4px;" data-i18n="crossborder.sidebar.empty_shipping_hint">查询物流后自动保存</div>
           </div>
         </div>
 
@@ -773,11 +773,11 @@
         <div class="hk-history-section">
           <div class="hk-history-header">
             <span class="hk-history-header-icon">📮</span>
-            最近追踪包裹
+            <span data-i18n="crossborder.sidebar.tracking_history">最近追踪包裹</span>
             <span class="hk-history-count" id="hkTrackingCount">0</span>
           </div>
           <div id="hkTrackingHistory" class="hk-memory-list" style="max-height:220px;overflow-y:auto;">
-            <div style="text-align:center;padding:16px 0;color:#94a3b8;font-size:0.8rem;">暂无追踪记录<br><span style="font-size:0.72rem;display:block;margin-top:4px;">追踪包裹后自动保存</span></div>
+            <div style="text-align:center;padding:16px 0;color:#94a3b8;font-size:0.8rem;" data-i18n="crossborder.sidebar.empty_tracking">暂无追踪记录</div><div style="text-align:center;color:#94a3b8;font-size:0.72rem;margin-top:4px;" data-i18n="crossborder.sidebar.empty_tracking_hint">追踪包裹后自动保存</div>
           </div>
         </div>
       </div>
@@ -785,37 +785,37 @@
       <!-- 包裹追踪关注列表 -->
       <div class="xb-widget xb-widget-compact">
         <h4 data-i18n="crossborder.sidebar.tracking_list">📮 包裹关注列表</h4>
-        <div id="sidebarTracking" style="font-size:0.8rem;color:var(--xb-muted);">暂无追踪包裹</div>
+        <div id="sidebarTracking" style="font-size:0.8rem;color:var(--xb-muted);" data-i18n="crossborder.sidebar.no_tracking">暂无追踪包裹</div>
       </div>
 
       <!-- 实时时间对比 -->
       <div class="xb-widget">
         <h4 data-i18n="crossborder.sidebar.time_compare">⏰ 实时时间对比</h4>
         <div class="xb-time-row">
-          <div><div class="xb-time-loc">发货地 · 中国</div><div id="originTime" class="xb-time-val">--:--</div><div id="originDate" class="xb-time-sub">--</div></div>
+          <div><div class="xb-time-loc" data-i18n="crossborder.sidebar.origin_label">发货地 · 中国</div><div id="originTime" class="xb-time-val">--:--</div><div id="originDate" class="xb-time-sub">--</div></div>
           <div class="xb-time-gmt">GMT+8</div>
         </div>
         <div class="xb-time-row">
-          <div><div id="destName" class="xb-time-loc">目的地</div><div id="destTime" class="xb-time-val">--:--</div><div id="destDate" class="xb-time-sub">--</div></div>
+          <div><div id="destName" class="xb-time-loc" data-i18n="crossborder.sidebar.dest_label">目的地</div><div id="destTime" class="xb-time-val">--:--</div><div id="destDate" class="xb-time-sub">--</div></div>
           <div id="destTz" class="xb-time-gmt">--</div>
         </div>
       </div>
 
       <!-- 体积重速算器 -->
       <div class="xb-widget xb-widget-compact">
-        <h4>📐 体积重速算器</h4>
-        <p style="font-size:0.75rem;color:var(--xb-muted);margin:0 0 10px;">公式：长×宽×高 ÷ 5000</p>
+        <h4 data-i18n="crossborder.sidebar.vol_weight">📐 体积重速算器</h4>
+        <p style="font-size:0.75rem;color:var(--xb-muted);margin:0 0 10px;" data-i18n="crossborder.sidebar.vol_formula">公式：长×宽×高 ÷ 5000</p>
         <div class="xb-vol-inputs">
           <input type="number" id="volL" value="20" min="1" placeholder="长cm">
           <input type="number" id="volW" value="15" min="1" placeholder="宽cm">
           <input type="number" id="volH" value="10" min="1" placeholder="高cm">
         </div>
-        <div class="xb-vol-result" id="volResult">体积重：0.60 kg</div>
+        <div class="xb-vol-result" id="volResult" data-i18n="crossborder.sidebar.vol_result">体积重：0.60 kg</div>
       </div>
 
       <!-- 汇率换算 -->
       <div class="xb-widget xb-widget-compact">
-        <h4>💱 实时汇率换算</h4>
+        <h4 data-i18n="crossborder.sidebar.fx">💱 实时汇率换算</h4>
         <div style="display:flex;gap:8px;margin-bottom:10px;">
           <input type="number" id="fxAmount" value="1" min="0.01" step="0.01" class="xb-form-input" style="flex:1;text-align:center;">
           <select id="fxFrom" class="xb-form-select" style="width:100px;">
@@ -833,32 +833,32 @@
           </select>
         </div>
         <div id="fxResult" style="text-align:center;font-weight:700;font-size:1.1rem;padding:8px;background:#eff6ff;border-radius:8px;">$0.14 USD</div>
-        <div style="font-size:0.7rem;color:var(--xb-muted);text-align:center;margin-top:6px;">参考汇率 · 每日更新</div>
+        <div style="font-size:0.7rem;color:var(--xb-muted);text-align:center;margin-top:6px;" data-i18n="crossborder.sidebar.fx_hint">参考汇率 · 每日更新</div>
       </div>
 
       <!-- HS编码速查 -->
       <div class="xb-widget xb-widget-compact">
-        <h4>📋 HS编码速查</h4>
-        <input type="text" id="hsSearch" class="xb-form-input" placeholder="搜索商品名…" style="font-size:0.82rem;padding:8px 12px;">
+        <h4 data-i18n="crossborder.sidebar.hs">📋 HS编码速查</h4>
+        <input type="text" id="hsSearch" class="xb-form-input" placeholder="搜索商品名…" style="font-size:0.82rem;padding:8px 12px;" data-i18n-attr="placeholder:crossborder.sidebar.hs_placeholder">
         <div class="xb-hs-list" id="hsList"></div>
       </div>
 
       <!-- 近期节假日 -->
       <div class="xb-widget xb-widget-compact">
-        <h4>📅 近期影响时效的节假日</h4>
+        <h4 data-i18n="crossborder.sidebar.holidays">📅 近期影响时效的节假日</h4>
         <div id="holidaysList" style="font-size:0.82rem;">
-          <div style="display:flex;justify-content:space-between;padding:6px 8px;background:#f8fafc;border-radius:6px;margin-bottom:4px;"><span>端午节 · 中国</span><span style="color:var(--xb-muted);font-size:0.76rem;">2026-06-14</span></div>
-          <div style="display:flex;justify-content:space-between;padding:6px 8px;background:#f8fafc;border-radius:6px;margin-bottom:4px;"><span>独立日 · 美国</span><span style="color:var(--xb-muted);font-size:0.76rem;">2026-07-04</span></div>
-          <div style="display:flex;justify-content:space-between;padding:6px 8px;background:#f8fafc;border-radius:6px;margin-bottom:4px;"><span>海之日 · 日本</span><span style="color:var(--xb-muted);font-size:0.76rem;">2026-07-20</span></div>
-          <div style="display:flex;justify-content:space-between;padding:6px 8px;background:#f8fafc;border-radius:6px;"><span>圣诞节 · 全球</span><span style="color:var(--xb-muted);font-size:0.76rem;">2026-12-25</span></div>
+          <div style="display:flex;justify-content:space-between;padding:6px 8px;background:#f8fafc;border-radius:6px;margin-bottom:4px;"><span data-i18n="crossborder.holiday.dragon_boat">端午节 · 中国</span><span style="color:var(--xb-muted);font-size:0.76rem;">2026-06-14</span></div>
+          <div style="display:flex;justify-content:space-between;padding:6px 8px;background:#f8fafc;border-radius:6px;margin-bottom:4px;"><span data-i18n="crossborder.holiday.us_independence">独立日 · 美国</span><span style="color:var(--xb-muted);font-size:0.76rem;">2026-07-04</span></div>
+          <div style="display:flex;justify-content:space-between;padding:6px 8px;background:#f8fafc;border-radius:6px;margin-bottom:4px;"><span data-i18n="crossborder.holiday.marine_day">海之日 · 日本</span><span style="color:var(--xb-muted);font-size:0.76rem;">2026-07-20</span></div>
+          <div style="display:flex;justify-content:space-between;padding:6px 8px;background:#f8fafc;border-radius:6px;"><span data-i18n="crossborder.holiday.christmas">圣诞节 · 全球</span><span style="color:var(--xb-muted);font-size:0.76rem;">2026-12-25</span></div>
         </div>
       </div>
 
       <!-- 客服 -->
       <div class="xb-widget" style="background:linear-gradient(135deg,rgba(37,99,235,0.03),rgba(37,99,235,0.07));border-color:rgba(37,99,235,0.12);">
-        <h4>📞 专业客服支持</h4>
-        <p style="font-size:0.83rem;color:var(--xb-muted);margin:0 0 10px;">如有任何物流或关税问题，专业团队随时协助。</p>
-        <div style="font-size:0.83rem;color:var(--xb-text);">⏰ 周一至周五 9:00-18:00</div>
+        <h4 data-i18n="crossborder.sidebar.cs_title">📞 专业客服支持</h4>
+        <p style="font-size:0.83rem;color:var(--xb-muted);margin:0 0 10px;" data-i18n="crossborder.sidebar.cs_desc">如有任何物流或关税问题，专业团队随时协助。</p>
+        <div style="font-size:0.83rem;color:var(--xb-text);" data-i18n="crossborder.sidebar.cs_hours">⏰ 周一至周五 9:00-18:00</div>
         <div style="font-size:0.83rem;color:var(--xb-text);">✉️ support@globetimezone.com</div>
       </div>
     </aside>
@@ -871,13 +871,13 @@
 <footer role="contentinfo">
   <div class="footer-inner">
     <div class="footer-bottom">
-      <p>© 2026 GlobeTimeZone. 关税结果仅供参考，实际以海关核定为准。汇率基于公开市场数据。</p>
+      <p data-i18n="crossborder.footer">© 2026 GlobeTimeZone. 关税结果仅供参考，实际以海关核定为准。汇率基于公开市场数据。</p>
     </div>
   </div>
 </footer>
 
-<script data-cfasync="false" src="/scripts/cross-border.js?v=5"></script>
-<script data-cfasync="false" src="/scripts/cross-border-hooks.js?v=2"></script>
+<script data-cfasync="false" src="/scripts/cross-border.js?v=6" defer></script>
+<script data-cfasync="false" src="/scripts/cross-border-hooks.js?v=3" defer></script>
 <script src="/baidu-analytics.js" defer data-cfasync="false"></script>
 <script>
 
