@@ -82,3 +82,16 @@
 - **凭据状态**: ⚠️ 仍未配置。累计积压 Post #1~#5（5篇帖子）
 - **下次排期**: 2026-06-11 周四 → Post #6「加几个城市试试」(interactive)
 - **🔴 关键提醒**: 凭据问题已持续15天（5/31起），5篇帖子积压未发
+
+## 2026-06-11 (第10次执行)
+- **状态**: 帖子已生成，因缺少凭据未发布到平台
+- **日期**: 2026-06-11 周四，执行时间 14:02 CST
+- **当日排期**: Post #6「加几个城市试试」(interactive)
+- **Twitter 帖子**: 109字符，含 #Productivity #RemoteWork #Tip 标签
+- **LinkedIn 帖子**: 140字符，具体建议式长文
+- **发布结果**: 双平台均 FAIL — missing_credentials
+  - Twitter: 缺少 TWITTER_API_KEY / TWITTER_API_SECRET / TWITTER_ACCESS_TOKEN / TWITTER_ACCESS_SECRET
+  - LinkedIn: 缺少 LINKEDIN_ACCESS_TOKEN
+- **凭据状态**: ⚠️ 仍未配置。累计积压 Post #1~#6（6篇帖子）
+- **下次排期**: 2026-06-13 周六 → Post #7「免费时区API」(dev-tech)
+- **🔴 关键提醒**: 凭据问题已持续17天（5/31起），6篇帖子积压未发。日历仅剩 Post #7~#12（6篇），如凭据继续未配置，全部帖子将积压至过期
