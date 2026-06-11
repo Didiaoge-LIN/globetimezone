@@ -83,7 +83,7 @@ def check_seo(html, city):
         issues.append('缺少H1标签')
     elif city['name'] not in h1_match.group(1):
         issues.append('H1未包含城市名')
-    internal_links = re.findall(r'href="/time/[a-z0-9-]+/?"', html)
+    internal_links = re.findall(r'href="/city/[a-z0-9-]+/?"', html)
     if len(internal_links) < 5:
         issues.append('内链数量不足: ' + str(len(internal_links)) + '个')
     if 'rel="canonical"' not in html:
@@ -149,7 +149,7 @@ def build_faq_schema(city):
 def build_related_links(city):
     links = []
     for rc in city.get('relatedCities', []):
-        link = '        <a href="/time/' + rc['slug'] + '/" class="city-card-sm">\n          <h3>' + rc['name'] + '</h3>\n          <div class="city-time-sm" data-timezone="' + rc['timezone'] + '"></div>\n        </a>'
+        link = '        <a href="/city/' + rc['slug'] + '/" class="city-card-sm">\n          <h3>' + rc['name'] + '</h3>\n          <div class="city-time-sm" data-timezone="' + rc['timezone'] + '"></div>\n        </a>'
         links.append(link)
     return '\n'.join(links)
 
@@ -161,9 +161,9 @@ def build_hreflang_tags(slug):
     ]
     tags = []
     for hreflang, lang_code in langs:
-        tag = '  <link rel="alternate" hreflang="' + hreflang + '" href="https://globetimezone.com/' + lang_code + '/time/' + slug + '/" />'
+        tag = '  <link rel="alternate" hreflang="' + hreflang + '" href="https://globetimezone.com/' + lang_code + '/city/' + slug + '/" />'
         tags.append(tag)
-    tags.append('  <link rel="alternate" hreflang="x-default" href="https://globetimezone.com/time/' + slug + '/" />')
+    tags.append('  <link rel="alternate" hreflang="x-default" href="https://globetimezone.com/city/' + slug + '/" />')
     return '\n'.join(tags)
 
 
@@ -255,7 +255,7 @@ def generate_all(cities, limit=None, slug_filter=None, check_only=False):
             OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
             with open(output_path, 'w', encoding='utf-8') as f:
                 f.write(html)
-            print('生成成功: /time/' + slug + '.html')
+            print('生成成功: /city/' + slug + '.html')
             success += 1
         except Exception as e:
             print('写入失败 [' + slug + ']: ' + str(e))
@@ -276,7 +276,7 @@ def update_sitemap(cities):
     cities_sorted = sorted(cities, key=lambda x: x.get('searchVolume', 0), reverse=True)
     for city in cities_sorted:
         slug = city['slug']
-        url = SITE_URL + '/time/' + slug + '/'
+        url = SITE_URL + '/city/' + slug + '/'
         sv = city.get('searchVolume', 0)
         priority = '0.8' if sv > 20000 else '0.7' if sv > 10000 else '0.6'
         entry = '  <url>\n    <loc>' + url + '</loc>\n    <lastmod>' + now + '</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>' + priority + '</priority>\n  </url>'

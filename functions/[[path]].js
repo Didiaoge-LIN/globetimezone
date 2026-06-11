@@ -23,12 +23,12 @@ export async function onRequest(context) {
   const url = new URL(request.url);
   const pathname = url.pathname;
 
-  // 处理城市页面 /time/slug/ → 直接服务 /time/slug.html
+  // 处理城市页面 /city/slug/ → 直接服务 /city/slug.html
   const cityMatch = pathname.match(CITY_REGEX);
   if (cityMatch) {
     const slug = cityMatch[1];
     // 重写URL到实际的.html文件，交给静态文件服务
-    url.pathname = `/time/${slug}.html`;
+    url.pathname = `/city/${slug}.html`;
     const modifiedRequest = new Request(url.toString(), request);
     return fetch(modifiedRequest);
   }
