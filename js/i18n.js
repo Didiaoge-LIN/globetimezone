@@ -230,6 +230,8 @@
         try {
           TRANSLATIONS = JSON.parse(xhr.responseText);
           applyTranslations();
+          // 通知外部 JS：locale JSON 已加载完毕
+          window.dispatchEvent(new CustomEvent('gtz-i18n-ready', { detail: { lang: LANG } }));
         } catch (e) {
           console.error('[i18n] JSON parse error:', e);
         }

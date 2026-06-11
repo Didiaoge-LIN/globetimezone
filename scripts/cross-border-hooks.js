@@ -679,6 +679,12 @@ var HookSystem = (function() {
     init();
   }
 
+  // Re-render when i18n JSON loads (to get correct translations)
+  window.addEventListener('gtz-i18n-ready', function() {
+    renderShippingHistory();
+    renderTrackingHistory();
+  });
+
   return {
     showShippingValue:  showShippingValue,
     showTrackingValue:  showTrackingValue,
