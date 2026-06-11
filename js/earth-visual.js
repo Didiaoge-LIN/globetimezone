@@ -665,7 +665,8 @@
       ctx.font = '11px system-ui, -apple-system, sans-serif';
       ctx.textAlign = 'center';
       const tzStr = now.toUTCString().slice(17, 25) + ' UTC';
-      ctx.fillText(`实时昼夜分界 · ${tzStr}`, cx, H - 8);
+      const terminatorLabel = (typeof window.GTZ_T === 'function') ? window.GTZ_T('earth.terminator', '实时昼夜分界') : '实时昼夜分界';
+      ctx.fillText(`${terminatorLabel} · ${tzStr}`, cx, H - 8);
 
       requestAnimationFrame(render);
     }
