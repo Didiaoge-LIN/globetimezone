@@ -519,6 +519,7 @@
       card.className = 'city-status-card ' + st.cssClass;
       card.setAttribute('data-tz', tz);
       card.setAttribute('draggable', 'true');
+      card.style.position = 'relative';
 
       card.innerHTML =
         // 收藏⭐按钮（左上角）
@@ -1000,6 +1001,17 @@
       body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: var(--text) !important; }
       body.dark-mode nav a { color: var(--text) !important; }
       body.dark-mode #gtz-format-toggle, body.dark-mode #gtz-dark-toggle, body.dark-mode #lang-btn { color: var(--text-secondary) !important; border-color: var(--border) !important; }
+      /* 卡片按钮在暗色下可见 */
+      body.dark-mode .fav-btn { color: var(--text, #f1f5f9) !important; }
+      body.dark-mode .remove-btn { color: var(--text-muted, #64748b) !important; }
+      body.dark-mode .remove-btn:hover { color: #ef4444 !important; background: rgba(239,68,68,0.15) !important; }
+      /* 地球可视化 - 确保 canvas 在暗色下可见 */
+      body.dark-mode #earth-visual { background: transparent !important; }
+      body.dark-mode #earth-visual canvas { background: transparent !important; }
+      /* 广告容器暗色 */
+      body.dark-mode .ad-container, body.dark-mode .sidebar-ad { background: var(--bg-card) !important; }
+      body.dark-mode .converter-input { background: var(--bg-card) !important; color: var(--text) !important; border-color: var(--accent) !important; }
+      body.dark-mode .restore-btn { background: var(--bg-card) !important; color: var(--text-secondary) !important; border-color: var(--border) !important; }
     `;
     document.head.appendChild(style);
   }

@@ -277,13 +277,15 @@ header nav a:hover {
   position: relative;
   z-index: 1;
   animation: fadeSlideUp 0.7s ease-out 0.35s both;
+  min-height: 200px;
 }
-#earth-visual canvas {
+#earth-visual svg {
   border-radius: var(--radius-lg) !important;
   box-shadow: var(--shadow-lg), 0 0 60px rgba(10, 30, 60, 0.15) !important;
   transition: box-shadow var(--transition-slow);
+  background: transparent !important;
 }
-#earth-visual canvas:hover {
+#earth-visual svg:hover {
   box-shadow: var(--shadow-lg), 0 0 80px rgba(10, 40, 80, 0.25) !important;
 }
 
