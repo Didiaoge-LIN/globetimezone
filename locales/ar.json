@@ -963,5 +963,6 @@
   "custom.country.USA": "الولايات المتحدة",
   "custom.country.Canada": "كندا",
   "custom.country.Australia": "أستراليا",
-  "earth.terminator": "ليل/نهار مباشر"
+  "earth.terminator": "ليل/نهار مباشر",
+  "article.englishOnly": "هذا المقال متاح باللغة الإنجليزية فقط."
 }

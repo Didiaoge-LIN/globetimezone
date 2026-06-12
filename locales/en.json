@@ -963,5 +963,6 @@
   "custom.country.USA": "USA",
   "custom.country.Canada": "Canada",
   "custom.country.Australia": "Australia",
-  "earth.terminator": "Live Day/Night"
+  "earth.terminator": "Live Day/Night",
+  "article.englishOnly": "This article is available in English only."
 }

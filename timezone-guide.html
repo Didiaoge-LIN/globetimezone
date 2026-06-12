@@ -96,6 +96,19 @@
         <span style="background:#f3f4f6;color:#595959;padding:4px 12px;border-radius:20px;font-size:0.75rem;">15 min read</span>
       </div>
       <h1 style="font-size:2.2rem;font-weight:800;line-height:1.2;margin-bottom:16px;" data-i18n="timezoneguide.h1">Complete Guide to World Time Zones</h1>
+<!-- English-only article notice — hidden for EN, visible for other locales -->
+<div id="english-only-banner" style="display:none;background:#fef3c7;border-left:4px solid #f59e0b;padding:10px 16px;margin:12px 0 0;border-radius:0 8px 8px 0;font-size:0.9rem;color:#92400e;" aria-live="polite">
+  📌 <span data-i18n="article.englishOnly">This article is available in English only.</span>
+</div>
+<script data-cfasync="false">
+(function(){
+  var p=window.location.pathname;
+  if(/^\/(zh|de|fr|es|ja|ko|pt|ar)\//.test(p)||localStorage.getItem('gtz_lang_manual')){
+    var b=document.getElementById('english-only-banner');
+    if(b)b.style.display='block';
+  }
+})();
+</script>
       <p style="font-size:1.15rem;color:#595959;line-height:1.6;">From UTC offsets to the IANA database, from DST confusion to scheduling international meetings — this is everything you need to understand time zones in the modern world.</p>
     </header>
 

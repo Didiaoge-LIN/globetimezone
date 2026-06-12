@@ -66,6 +66,19 @@
 <main class="article-page" id="main-content" role="main">
   <article class="article-content">
     <h1 data-i18n="dst2025schedule.h1">2025 Global Daylight Saving Time Schedule: Complete Start & End Dates</h1>
+<!-- English-only article notice — hidden for EN, visible for other locales -->
+<div id="english-only-banner" style="display:none;background:#fef3c7;border-left:4px solid #f59e0b;padding:10px 16px;margin:12px 0 0;border-radius:0 8px 8px 0;font-size:0.9rem;color:#92400e;" aria-live="polite">
+  📌 <span data-i18n="article.englishOnly">This article is available in English only.</span>
+</div>
+<script data-cfasync="false">
+(function(){
+  var p=window.location.pathname;
+  if(/^\/(zh|de|fr|es|ja|ko|pt|ar)\//.test(p)||localStorage.getItem('gtz_lang_manual')){
+    var b=document.getElementById('english-only-banner');
+    if(b)b.style.display='block';
+  }
+})();
+</script>
 
     <p>Daylight saving time (DST) affects over <strong>1.6 billion people</strong> across 70+ countries. Knowing the exact dates when clocks spring forward or fall back is essential for international scheduling, travel planning, and remote team coordination. This guide provides the complete 2025 DST schedule for every major region.</p>
 
