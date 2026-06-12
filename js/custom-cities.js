@@ -253,7 +253,8 @@
 
   // ═══════ 当前语言 ═══════
   const LANG = (typeof window.GTZ_LANG === 'string') ? window.GTZ_LANG : 'zh';
-  const DATE_LOCALE = (LANG === 'zh') ? 'zh-CN' : LANG;
+  const LOCALE_MAP = { zh:'zh-CN', en:'en-US', de:'de-DE', fr:'fr-FR', es:'es-ES', ja:'ja-JP', ko:'ko-KR', pt:'pt-BR', ar:'ar-SA' };
+  const DATE_LOCALE = LOCALE_MAP[LANG] || 'en-US';
 
   // ═══════ 时间格式化（模块2）═══════
   function formatTimeStr(date, tz, fmt) {
@@ -376,7 +377,7 @@
     inp.className = 'converter-input';
     inp.value = hourEl.textContent.replace(/[^0-9:apmAPM\s上下午]/g,'').trim();
     inp.style.cssText = 'width:' + hourEl.offsetWidth + 'px;font-size:inherit;font-weight:inherit;text-align:center;border:2px solid var(--accent,#0066cc);border-radius:6px;background:var(--bg-card,#fff);color:var(--text,#333);padding:2px 4px;outline:none;';
-    inp.setAttribute('placeholder', '如 1430 / 2pm / 下午2点');
+    inp.setAttribute('placeholder', gtz_t('converter.placeholder', 'e.g. 1430 / 2pm / 14:00'));
 
     const restoreBtn = document.createElement('button');
     restoreBtn.className = 'restore-btn';
@@ -493,30 +494,35 @@
     if (!q) return [];
     const lowerQ = q.toLowerCase().trim();
     const results = [], seen = new Set();
-    for (const [cn, tz] of Object.entries(CN_NAMES)) {
-      if (cn.includes(lowerQ) || cn.toLowerCase().includes(lowerQ)) {
-        if (!seen.has(tz)) {
+
+    // 搜索 IANA 时区名
+    const allTZ = getAllTimezones();
+    for (const tz of allTZ) {
+      if (seen.has(tz)) continue;
+      const tzLower = tz.toLowerCase();
+      const i18nName = getCNName(tz); // 已含 i18n 翻译逻辑
+      const i18nLower = i18nName.toLowerCase();
+
+      if (tzLower.includes(lowerQ) || i18nLower.includes(lowerQ)) {
+        seen.add(tz);
+        const label = i18nName + ' — ' + tz.replace(/_/g,' ');
+        results.push({ tz, cnName: i18nName, label, score: tzLower.startsWith(lowerQ) ? 5 : (i18nLower.startsWith(lowerQ) ? 4 : 1) });
+      }
+    }
+
+    // 搜索中文名映射（仅中文语言时，或输入含 CJK 字符时）
+    const hasCJK = /[\u4e00-\u9fff\u3400-\u4dbf]/.test(q);
+    if (LANG === 'zh' || hasCJK) {
+      for (const [cn, tz] of Object.entries(CN_NAMES)) {
+        if (seen.has(tz)) continue;
+        if (cn.includes(lowerQ) || cn.toLowerCase().includes(lowerQ)) {
           seen.add(tz);
-          results.push({ tz, cnName: cn, label: cn + ' — ' + tz.replace(/_/g,' '), score: 10 });
+          const i18nName = getCNName(tz);
+          results.push({ tz, cnName: i18nName, label: cn + ' / ' + i18nName + ' — ' + tz.replace(/_/g,' '), score: 10 });
         }
       }
     }
-    const allTZ = getAllTimezones();
-    for (const tz of allTZ) {
-      const tzLower = tz.toLowerCase();
-      if (seen.has(tz)) continue;
-      const cnList = tzToCN[tz] || [];
-      if (tzLower.includes(lowerQ)) {
-        seen.add(tz);
-        const label = cnList.length > 0
-          ? cnList.slice(0,2).join(' / ') + ' — ' + tz.replace(/_/g,' ')
-          : tz.replace(/_/g,' ');
-        results.push({ tz, cnName: cnList[0] || tzLabelRaw(tz), label, score: tzLower.startsWith(lowerQ) ? 5 : 1 });
-      } else if (cnList.some(cn => cn.includes(lowerQ) || cn.toLowerCase().includes(lowerQ))) {
-        seen.add(tz);
-        results.push({ tz, cnName: cnList[0], label: cnList.slice(0,2).join(' / ') + ' — ' + tz.replace(/_/g,' '), score: 3 });
-      }
-    }
+
     results.sort((a,b) => b.score - a.score);
     return results.slice(0, 10);
   }
@@ -751,7 +757,7 @@
       if (localStorage.getItem(BOOKMARK_TIP_K) === 'true') return;
       const tip = document.createElement('div');
       tip.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#10b981;color:white;padding:10px 15px;border-radius:10px;font-size:13px;z-index:99998;max-width:260px;box-shadow:0 4px 16px rgba(0,0,0,0.2);';
-      tip.textContent = '💡 按 Ctrl+D (Mac: ⌘D) 将本站加入书签，一键查看全球时间';
+      tip.textContent = gtz_t('bookmark.tip', '💡 Press Ctrl+D (Mac: ⌘D) to bookmark this site for quick access to world time');
       document.body.appendChild(tip);
       localStorage.setItem(BOOKMARK_TIP_K, 'true');
       setTimeout(() => { tip.style.opacity = '0'; tip.style.transition = 'opacity 0.5s'; setTimeout(() => tip.remove(), 500); }, 2500);
@@ -769,7 +775,7 @@
     const f = getFormat();
     const btn = document.createElement('button');
     btn.id = 'gtz-format-toggle';
-    btn.title = '左键：12/24小时制 | 右键：日期格式';
+    btn.title = gtz_t('format.toggle_title', 'Left click: 12/24h | Right click: date format');
     btn.textContent = f.hour24 ? '24H' : '12H';
     btn.style.cssText = 'background:none;border:1px solid var(--border,#e2e8f0);border-radius:6px;padding:0.25rem 0.55rem;font-size:0.75rem;cursor:pointer;color:var(--text-secondary,#666);margin-left:4px;';
 
@@ -816,7 +822,7 @@
     if (!nav) return;
     const btn = document.createElement('button');
     btn.id = 'gtz-dark-toggle';
-    btn.title = '切换深色模式';
+    btn.title = gtz_t('dark.toggle_title', 'Toggle dark mode');
     btn.textContent = isDark ? '☀️' : '🌙';
     btn.style.cssText = 'background:none;border:1px solid var(--border,#e2e8f0);border-radius:6px;padding:0.25rem 0.45rem;font-size:0.8rem;cursor:pointer;color:var(--text-secondary,#666);margin-left:4px;';
     btn.addEventListener('click', () => {

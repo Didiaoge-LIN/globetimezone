@@ -306,19 +306,28 @@
 
   // ============== 城市数据 ==============
   const CITIES = [
-    { name: '北京', tz: 'Asia/Shanghai', lat: 39.9, lng: 116.4 },
-    { name: '上海', tz: 'Asia/Shanghai', lat: 31.2, lng: 121.5 },
-    { name: '东京', tz: 'Asia/Tokyo', lat: 35.7, lng: 139.7 },
-    { name: '悉尼', tz: 'Australia/Sydney', lat: -33.9, lng: 151.2 },
-    { name: '伦敦', tz: 'Europe/London', lat: 51.5, lng: -0.1 },
-    { name: '纽约', tz: 'America/New_York', lat: 40.7, lng: -74.0 },
-    { name: '旧金山', tz: 'America/Los_Angeles', lat: 37.8, lng: -122.4 },
-    { name: '迪拜', tz: 'Asia/Dubai', lat: 25.2, lng: 55.3 },
-    { name: '新加坡', tz: 'Asia/Singapore', lat: 1.3, lng: 103.8 },
-    { name: '巴黎', tz: 'Europe/Paris', lat: 48.9, lng: 2.3 },
-    { name: '莫斯科', tz: 'Europe/Moscow', lat: 55.8, lng: 37.6 },
-    { name: '洛杉矶', tz: 'America/Los_Angeles', lat: 34.1, lng: -118.2 },
+    { i18nKey: 'earth.city.beijing', tz: 'Asia/Shanghai', lat: 39.9, lng: 116.4 },
+    { i18nKey: 'earth.city.shanghai', tz: 'Asia/Shanghai', lat: 31.2, lng: 121.5 },
+    { i18nKey: 'earth.city.tokyo', tz: 'Asia/Tokyo', lat: 35.7, lng: 139.7 },
+    { i18nKey: 'earth.city.sydney', tz: 'Australia/Sydney', lat: -33.9, lng: 151.2 },
+    { i18nKey: 'earth.city.london', tz: 'Europe/London', lat: 51.5, lng: -0.1 },
+    { i18nKey: 'earth.city.newyork', tz: 'America/New_York', lat: 40.7, lng: -74.0 },
+    { i18nKey: 'earth.city.sanfrancisco', tz: 'America/Los_Angeles', lat: 37.8, lng: -122.4 },
+    { i18nKey: 'earth.city.dubai', tz: 'Asia/Dubai', lat: 25.2, lng: 55.3 },
+    { i18nKey: 'earth.city.singapore', tz: 'Asia/Singapore', lat: 1.3, lng: 103.8 },
+    { i18nKey: 'earth.city.paris', tz: 'Europe/Paris', lat: 48.9, lng: 2.3 },
+    { i18nKey: 'earth.city.moscow', tz: 'Europe/Moscow', lat: 55.8, lng: 37.6 },
+    { i18nKey: 'earth.city.losangeles', tz: 'America/Los_Angeles', lat: 34.1, lng: -118.2 },
   ];
+
+  function getCityName(city) {
+    if (typeof window.GTZ_T === 'function') {
+      const translated = window.GTZ_T(city.i18nKey, null);
+      if (translated && translated !== city.i18nKey) return translated;
+    }
+    // 回退：IANA 城市名
+    return city.tz.replace(/_/g, ' ').split('/').pop();
+  }
 
   // ============== 正交投影（true 3D globe） ==============
   function project(lng, lat, centerLng, R) {
@@ -623,7 +632,7 @@
 
         // hover 标签
         if (isHovered) {
-          const tagW = ctx.measureText(city.name).width + 14;
+          const tagW = ctx.measureText(getCityName(city)).width + 14;
           const tagX = pos.x - tagW / 2, tagY = pos.y - 20;
           const rr = 5;
           ctx.fillStyle = 'rgba(15, 23, 42, 0.92)';
@@ -645,7 +654,7 @@
           ctx.fillStyle = '#f0f4ff';
           ctx.font = '11px system-ui, -apple-system, sans-serif';
           ctx.textAlign = 'center';
-          ctx.fillText(city.name, pos.x, tagY + 15);
+          ctx.fillText(getCityName(city), pos.x, tagY + 15);
         }
       });
 
@@ -694,7 +703,7 @@
       if (hoveredCity) {
         const input = document.getElementById('decision-input');
         if (input) {
-          input.value = hoveredCity.name;
+          input.value = getCityName(hoveredCity);
           input.focus();
           input.dispatchEvent(new Event('input', { bubbles: true }));
         }
