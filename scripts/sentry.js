@@ -5,6 +5,11 @@
 // 3. 创建后复制 DSN (格式: https://xxx@o0.ingest.sentry.io/0)
 // 4. 复制 CDN 地址 (sentry-cdn.com/*.min.js)
 // 5. 替换下面两行, SENTRY_ENABLED 改为 true
+//
+// 采样率说明 (适配 Free Developer 计划, 5K events/月):
+// - tracesSampleRate: 0.1 (仅10%请求生成trace, 节省90%配额)
+// - replaysSessionSampleRate: 0 (关闭常规回放, 仅错误时录制)
+// - replaysOnErrorSampleRate: 0.5 (50%错误生成回放)
 
 (function() {
   'use strict';
@@ -13,7 +18,7 @@
   const SENTRY_DSN = 'https://550d400ef88588988c289a0226661bcb@o4511471570190336.ingest.us.sentry.io/4511471642345472';
   const SENTRY_CDN = 'https://js.sentry-cdn.com/550d400ef88588988c289a0226661bcb.min.js';
   const SENTRY_ENABLED = true; // ✅ Sentry 错误监控已激活 (2026-05-29)
-  
+
   if (!SENTRY_ENABLED) {
     console.log('[Sentry] Not enabled - set SENTRY_ENABLED=true and replace DSN in js/sentry.js');
     return;
@@ -28,9 +33,9 @@
         dsn: SENTRY_DSN,
         release: 'globetimezone@1.0.0',
         environment: window.location.hostname === 'globetimezone.com' ? 'production' : 'development',
-        tracesSampleRate: 1.0,
-        replaysSessionSampleRate: 0.1,
-        replaysOnErrorSampleRate: 1.0,
+        tracesSampleRate: 0.1,          // 1.0→0.1: 10%采样, 适配Free计划5K events/月 (2026-06-12)
+        replaysSessionSampleRate: 0,     // 0.1→0: 关闭常规回放, 节省配额 (2026-06-12)
+        replaysOnErrorSampleRate: 0.5,   // 1.0→0.5: 仅50%错误生成回放 (2026-06-12)
         integrations: [
           new window.Sentry.Integrations.BrowserTracing(),
         ],
