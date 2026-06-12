@@ -48,12 +48,12 @@
     const favs = getFavs();
     if (favs.includes(tz)) {
       saveFavs(favs.filter(t => t !== tz));
-      showToast('✅ 已取消收藏');
+      showToast(gtz_t('toast.fav_removed','✅ 已取消收藏'));
       trackEvent('favorite_remove', { city: tz });
       return false;
     } else {
       saveFavs([...favs, tz]);
-      showToast('✅ 已保存到本地，下次打开自动显示');
+      showToast(gtz_t('toast.fav_saved','✅ 已保存到本地，下次打开自动显示'));
       trackEvent('favorite_add', { city: tz });
       // 分发事件给书签引导
       document.dispatchEvent(new CustomEvent('favorite-added'));
@@ -251,11 +251,15 @@
     } catch {}
   }
 
+  // ═══════ 当前语言 ═══════
+  const LANG = (typeof window.GTZ_LANG === 'string') ? window.GTZ_LANG : 'zh';
+  const DATE_LOCALE = (LANG === 'zh') ? 'zh-CN' : LANG;
+
   // ═══════ 时间格式化（模块2）═══════
   function formatTimeStr(date, tz, fmt) {
     const f = fmt || getFormat();
     try {
-      return new Intl.DateTimeFormat('zh-CN', {
+      return new Intl.DateTimeFormat(DATE_LOCALE, {
         timeZone: tz,
         hour: '2-digit', minute: '2-digit', second: '2-digit',
         hour12: !f.hour24
@@ -265,7 +269,7 @@
   function formatDateStr(date, tz, fmt) {
     const f = fmt || getFormat();
     try {
-      const parts = new Intl.DateTimeFormat('en-US', {
+      const parts = new Intl.DateTimeFormat(DATE_LOCALE, {
         timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short'
       }).formatToParts(date);
       const pp = {};
@@ -376,7 +380,7 @@
 
     const restoreBtn = document.createElement('button');
     restoreBtn.className = 'restore-btn';
-    restoreBtn.textContent = '⏱️ 恢复实时';
+    restoreBtn.textContent = gtz_t('btn.restore_realtime','⏱️ 恢复实时');
     restoreBtn.style.cssText = 'display:block;margin:4px auto 0;font-size:11px;padding:3px 8px;border:1px solid var(--border,#e2e8f0);border-radius:12px;background:var(--bg,#fff);color:var(--text-secondary,#666);cursor:pointer;white-space:nowrap;';
 
     wrap.appendChild(inp);
@@ -439,22 +443,21 @@
     box.style.cssText = 'background:var(--bg-card,#fff);border-radius:16px;padding:24px;max-width:320px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.3);';
     box.innerHTML = `
       <h3 style="margin:0 0 16px;font-size:1rem;color:var(--text,#333)">
-        ⏰ 自定义工作时段<br><small style="font-weight:400;color:var(--text-secondary,#666)">${cityName}</small>
+        ${gtz_t('modal.custom_status_title','⏰ 自定义工作时段')}<br><small style="font-weight:400;color:var(--text-secondary,#666)">${cityName}</small>
       </h3>
       <div style="display:flex;gap:12px;margin-bottom:16px;align-items:center;">
-        <label style="font-size:13px;color:var(--text-secondary,#666)">上班</label>
+        <label style="font-size:13px;color:var(--text-secondary,#666)">${gtz_t('modal.custom_status_label_start','上班')}</label>
         <input type="number" id="gtz-work-start" min="0" max="23" value="${defStart}"
           style="width:60px;padding:6px;border:1px solid var(--border,#e2e8f0);border-radius:8px;text-align:center;font-size:14px;">
         <span style="color:var(--text-muted,#aaa)">—</span>
-        <label style="font-size:13px;color:var(--text-secondary,#666)">下班</label>
+        <label style="font-size:13px;color:var(--text-secondary,#666)">${gtz_t('modal.custom_status_label_end','下班')}</label>
         <input type="number" id="gtz-work-end" min="0" max="24" value="${defEnd}"
           style="width:60px;padding:6px;border:1px solid var(--border,#e2e8f0);border-radius:8px;text-align:center;font-size:14px;">
-        <span style="font-size:12px;color:var(--text-muted,#aaa)">时</span>
       </div>
       <div style="display:flex;gap:8px;">
-        <button id="gtz-status-save" style="flex:1;padding:8px;background:var(--accent,#0066cc);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px;">保存</button>
-        <button id="gtz-status-reset" style="flex:1;padding:8px;background:var(--bg,#f8fafc);color:var(--text-secondary,#666);border:1px solid var(--border,#e2e8f0);border-radius:8px;cursor:pointer;font-size:14px;">恢复默认</button>
-        <button id="gtz-status-cancel" style="padding:8px 12px;background:none;border:none;cursor:pointer;color:var(--text-muted,#aaa);font-size:14px;">✕</button>
+        <button id="gtz-status-save" style="flex:1;padding:8px;background:var(--accent,#0066cc);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px;">${gtz_t('modal.custom_status_save','保存')}</button>
+        <button id="gtz-status-reset" style="flex:1;padding:8px;background:var(--bg,#f8fafc);color:var(--text-secondary,#666);border:1px solid var(--border,#e2e8f0);border-radius:8px;cursor:pointer;font-size:14px;">${gtz_t('modal.custom_status_reset','恢复默认')}</button>
+        <button id="gtz-status-cancel" style="padding:8px 12px;background:none;border:none;cursor:pointer;color:var(--text-muted,#aaa);font-size:14px;">${gtz_t('modal.custom_status_cancel','✕')}</button>
       </div>
     `;
     overlay.appendChild(box);
@@ -464,12 +467,12 @@
       const s = parseInt(document.getElementById('gtz-work-start').value, 10);
       const e = parseInt(document.getElementById('gtz-work-end').value, 10);
       if (isNaN(s) || isNaN(e) || s < 0 || e > 24 || s >= e) {
-        showToast('⚠️ 请输入有效的时段（0-24，开始 < 结束）'); return;
+        showToast(gtz_t('toast.status_invalid','⚠️ 请输入有效的时段（0-24，开始 < 结束）')); return;
       }
       saveCustomStatus(tz, s, e);
       overlay.remove();
       render();
-      showToast('✅ 工作时段已保存');
+      showToast(gtz_t('toast.status_saved','✅ 工作时段已保存'));
     });
     document.getElementById('gtz-status-reset').addEventListener('click', () => {
       try {
@@ -479,7 +482,7 @@
       } catch {}
       overlay.remove();
       render();
-      showToast('✅ 已恢复默认时段');
+      showToast(gtz_t('toast.status_reset','✅ 已恢复默认时段'));
     });
     document.getElementById('gtz-status-cancel').addEventListener('click', () => overlay.remove());
     overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
@@ -561,18 +564,18 @@
 
       card.innerHTML =
         // 收藏⭐按钮（左上角）
-        '<button class="fav-btn" title="收藏" style="position:absolute;top:6px;left:8px;border:none;background:none;cursor:pointer;font-size:16px;z-index:2;line-height:1;padding:0;transition:transform 0.2s;">' +
+        '<button class="fav-btn" title="' + gtz_t('btn.fav_title','收藏') + '" style="position:absolute;top:6px;left:8px;border:none;background:none;cursor:pointer;font-size:16px;z-index:2;line-height:1;padding:0;transition:transform 0.2s;">' +
           (faved ? '⭐' : '☆') +
         '</button>' +
         // 删除×按钮（右上角）
-        '<button class="remove-btn" title="移除" style="position:absolute;top:6px;right:8px;border:none;background:none;cursor:pointer;font-size:16px;color:var(--text-muted,#94a3b8);z-index:2;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all 0.2s;">&times;</button>' +
+        '<button class="remove-btn" title="' + gtz_t('btn.remove_title','移除') + '" style="position:absolute;top:6px;right:8px;border:none;background:none;cursor:pointer;font-size:16px;color:var(--text-muted,#94a3b8);z-index:2;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all 0.2s;">&times;</button>' +
         // 城市名
         '<div class="card-city-name" style="padding-top:8px;">' + cityName + '</div>' +
         // 时间（可点击换算）
         '<div class="card-time city-hour" style="font-variant-numeric:tabular-nums;cursor:pointer;border-radius:6px;transition:background 0.2s;" title="点击换算时间"></div>' +
         '<div class="card-date city-date" style="font-size:11px;color:var(--text-muted,#94a3b8);"></div>' +
         // 状态标签（可点击自定义）
-        '<span class="status-badge" style="cursor:pointer;" title="点击自定义工作时段" data-tz="' + tz + '">' + st.emoji + ' ' + st.name + '</span>';
+        '<span class="status-badge" style="cursor:pointer;" title="' + gtz_t('btn.status_title','点击自定义工作时段') + '" data-tz="' + tz + '">' + st.emoji + ' ' + st.name + '</span>';
 
       // 收藏按钮事件
       card.querySelector('.fav-btn').addEventListener('click', (e) => {
@@ -735,7 +738,7 @@
         save(lst);
         render();
         const cityName = data.city || tzLabelRaw(tz);
-        showToast('🌍 已为你自动添加当前城市：' + cityName + '，点击☆收藏更多', 3000);
+        showToast(gtz_t('toast.ip_auto_added','🌍 已为你自动添加当前城市：') + cityName + '，' + gtz_t('toast.ip_auto_add_fav','点击☆收藏更多'), 3000);
       }
     } catch { /* 静默失败 */ }
   }
@@ -785,7 +788,7 @@
       const idx = formats.indexOf(fmt.dateFormat);
       fmt.dateFormat = formats[(idx + 1) % formats.length];
       saveFormat(fmt);
-      showToast('日期格式：' + fmt.dateFormat);
+      showToast(gtz_t('toast.date_format','日期格式：') + fmt.dateFormat);
       updateClocks();
     });
 
@@ -860,7 +863,7 @@
       if (existing) { existing.remove(); return; }
       const stamp = document.createElement('span');
       stamp.className = 'utc-stamp';
-      stamp.textContent = ' │ 时间戳：' + Date.now();
+      stamp.textContent = ' │ ' + gtz_t('utc.timestamp','时间戳：') + Date.now();
       stamp.style.cssText = 'color:#f9fafb;margin-left:12px;';
       bar.appendChild(stamp);
       setTimeout(() => stamp.remove(), 3000);
@@ -873,7 +876,7 @@
     const btn = document.createElement('button');
     btn.id = 'gtz-feedback-btn';
     btn.innerHTML = '💬';
-    btn.title = '提交反馈';
+    btn.title = gtz_t('btn.feedback_title','提交反馈');
     btn.style.cssText = 'position:fixed;bottom:20px;right:20px;width:44px;height:44px;border-radius:50%;border:none;background:#3b82f6;color:white;font-size:20px;cursor:pointer;z-index:9990;box-shadow:0 4px 12px rgba(59,130,246,0.4);transition:transform 0.2s;';
     btn.addEventListener('mouseenter', () => { btn.style.transform = 'scale(1.1)'; });
     btn.addEventListener('mouseleave', () => { btn.style.transform = 'scale(1)'; });
@@ -891,15 +894,15 @@
     box.style.cssText = 'background:var(--bg-card,#fff);border-radius:16px;padding:24px;max-width:360px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.3);';
     box.innerHTML = `
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-        <h3 style="margin:0;font-size:1rem;color:var(--text,#333)">💬 反馈建议</h3>
+        <h3 style="margin:0;font-size:1rem;color:var(--text,#333)">${gtz_t('modal.feedback_title','💬 反馈建议')}</h3>
         <button id="gtz-fb-close" style="background:none;border:none;cursor:pointer;font-size:20px;color:var(--text-muted,#aaa);">✕</button>
       </div>
-      <textarea id="gtz-fb-text" rows="4" placeholder="请输入您的反馈建议（不收集任何个人信息）"
+      <textarea id="gtz-fb-text" rows="4" placeholder="${gtz_t('modal.feedback_placeholder','请输入您的反馈建议（不收集任何个人信息）')}"
         style="width:100%;padding:10px;border:1px solid var(--border,#e2e8f0);border-radius:8px;font-size:14px;resize:vertical;box-sizing:border-box;background:var(--bg,#fff);color:var(--text,#333);"></textarea>
       <div style="display:flex;gap:8px;margin-top:12px;">
-        <button id="gtz-fb-submit" style="flex:1;padding:10px;background:#3b82f6;color:white;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;">提交</button>
+        <button id="gtz-fb-submit" style="flex:1;padding:10px;background:#3b82f6;color:white;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;">${gtz_t('modal.feedback_submit','提交')}</button>
       </div>
-      <p style="font-size:11px;color:var(--text-muted,#aaa);margin:8px 0 0;text-align:center;">匿名提交 · 仅发送反馈内容</p>
+      <p style="font-size:11px;color:var(--text-muted,#aaa);margin:8px 0 0;text-align:center;">${gtz_t('modal.feedback_anon','匿名提交 · 仅发送反馈内容')}</p>
     `;
     overlay.appendChild(box);
     document.body.appendChild(overlay);
@@ -909,7 +912,7 @@
 
     document.getElementById('gtz-fb-submit').addEventListener('click', () => {
       const text = document.getElementById('gtz-fb-text').value.trim();
-      if (!text) { showToast('⚠️ 请输入反馈内容'); return; }
+      if (!text) { showToast(gtz_t('toast.feedback_empty','⚠️ 请输入反馈内容')); return; }
       fetch('/api/feedback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -917,7 +920,7 @@
       }).catch(() => {});
       trackEvent('feedback_submitted');
       overlay.remove();
-      showToast('🙏 感谢您的反馈！');
+      showToast(gtz_t('toast.feedback_thanks','🙏 感谢您的反馈！'));
     });
   }
 
@@ -935,8 +938,8 @@
         const status = addCity(r.tz);
         input.value = '';
         dropdown.style.display = 'none';
-        if (status === 'exists') showToast(r.cnName + ' 已在列表中');
-        else showToast('已添加 ' + r.cnName);
+        if (status === 'exists') showToast(r.cnName + ' ' + gtz_t('toast.city_exists','已在列表中'));
+        else showToast(gtz_t('toast.city_added','已添加') + ' ' + r.cnName);
       });
       dropdown.appendChild(item);
     });
@@ -949,15 +952,15 @@
     const results = searchCities(q);
     if (!results.length) {
       if (dropdown) dropdown.style.display = 'none';
-      showToast('未找到匹配城市');
+      showToast(gtz_t('toast.city_not_found','未找到匹配城市'));
       return;
     }
     if (results.length === 1) {
       const status = addCity(results[0].tz);
       input.value = '';
       if (dropdown) dropdown.style.display = 'none';
-      if (status === 'exists') showToast(results[0].cnName + ' 已在列表中');
-      else showToast('已添加 ' + results[0].cnName);
+      if (status === 'exists') showToast(results[0].cnName + ' ' + gtz_t('toast.city_exists','已在列表中'));
+      else showToast(gtz_t('toast.city_added','已添加') + ' ' + results[0].cnName);
     } else if (dropdown) {
       showDropdown(dropdown, input, results);
     }
