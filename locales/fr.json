@@ -963,5 +963,6 @@
   "custom.country.USA": "États-Unis",
   "custom.country.Canada": "Canada",
   "custom.country.Australia": "Australie",
-  "earth.terminator": "Jour/Nuit en direct"
+  "earth.terminator": "Jour/Nuit en direct",
+  "article.englishOnly": "Cet article est disponible en anglais uniquement."
 }

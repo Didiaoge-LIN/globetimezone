@@ -64,6 +64,19 @@
 <main class="article-page" id="main-content" role="main">
   <article class="article-content">
     <h1 data-i18n="timezonehistory.h1">Fascinating Time Zone History: The Date Line, Lost Days, and Railroad Chaos</h1>
+<!-- English-only article notice — hidden for EN, visible for other locales -->
+<div id="english-only-banner" style="display:none;background:#fef3c7;border-left:4px solid #f59e0b;padding:10px 16px;margin:12px 0 0;border-radius:0 8px 8px 0;font-size:0.9rem;color:#92400e;" aria-live="polite">
+  📌 <span data-i18n="article.englishOnly">This article is available in English only.</span>
+</div>
+<script data-cfasync="false">
+(function(){
+  var p=window.location.pathname;
+  if(/^\/(zh|de|fr|es|ja|ko|pt|ar)\//.test(p)||localStorage.getItem('gtz_lang_manual')){
+    var b=document.getElementById('english-only-banner');
+    if(b)b.style.display='block';
+  }
+})();
+</script>
 
     <p>Every time you check the time in another city, you're relying on a system whose history is far stranger than most people realize. Time zones have caused international disputes, led countries to skip whole days, and were once so chaotic that American cities had <strong>over 300 different local times</strong>. Here are six of the most remarkable stories from the history of global timekeeping.</p>
 
