@@ -1,12 +1,11 @@
 /**
- * 城市动态OG图生成器（最终安全防刷版）
+ * 城市动态OG图生成器（Workers兼容版 v2）
  * 路由：/og/[city].png
- * 防护：前置白名单校验 + 无效请求直接返回静态图 + 强缓存 + 全异常兜底
+ * 方案：SVG动态渲染（Workers不支持OffscreenCanvas）
+ * 防护：前置白名单校验 + 无效请求返回默认SVG + 强缓存 + 全异常兜底
  */
 import { CITIES } from "../city/city-data.js";
 
-const CANVAS_WIDTH = 1200;
-const CANVAS_HEIGHT = 630;
 const CACHE = {
   maxAge: 86400,
   sMaxAge: 2592000,
@@ -62,109 +61,115 @@ function formatLocalTime(timezone) {
 }
 
 /**
- * 绘制OG图片
- * @param {object|null} city - 城市数据
- * @returns {Uint8Array} 图片二进制
+ * XML转义，防XSS
  */
-async function generateOgImage(city) {
-  const canvas = new OffscreenCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
-  const ctx = canvas.getContext("2d");
+function escapeXml(str) {
+  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+}
 
-  // 背景渐变
-  const bgGradient = ctx.createLinearGradient(0, 0, 0, CANVAS_HEIGHT);
-  bgGradient.addColorStop(0, "#0f172a");
-  bgGradient.addColorStop(1, "#1e293b");
-  ctx.fillStyle = bgGradient;
-  ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+/**
+ * 生成默认OG SVG
+ */
+function generateDefaultSvg() {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.85" cy="0.2" r="0.25">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <text x="80" y="95" font-family="system-ui,-apple-system,sans-serif" font-size="28" font-weight="bold" fill="#3b82f6">GlobeTimeZone</text>
+  <text x="600" y="330" font-family="system-ui,-apple-system,sans-serif" font-size="64" font-weight="bold" fill="#f8fafc" text-anchor="middle">Right Now Worldwide</text>
+  <text x="600" y="570" font-family="system-ui,-apple-system,sans-serif" font-size="20" fill="#cbd5e1" text-anchor="middle">globetimezone.com</text>
+</svg>`;
+}
 
-  // 装饰光斑
-  ctx.fillStyle = "rgba(59, 130, 246, 0.1)";
-  ctx.beginPath();
-  ctx.arc(CANVAS_WIDTH - 200, 150, 180, 0, Math.PI * 2);
-  ctx.fill();
+/**
+ * 生成城市OG SVG
+ */
+function generateCitySvg(city, timeResult) {
+  const cityName = escapeXml(city.name);
+  const timeStr = timeResult ? escapeXml(timeResult.time) : "";
+  const dateStr = timeResult ? escapeXml(timeResult.date) : "";
 
-  // 品牌标识
-  ctx.fillStyle = "#3b82f6";
-  ctx.font = "bold 28px system-ui, -apple-system, sans-serif";
-  ctx.textAlign = "left";
-  ctx.textBaseline = "top";
-  ctx.fillText("GlobeTimeZone", 80, 70);
-
-  if (!city) {
-    // 默认图
-    ctx.fillStyle = "#f8fafc";
-    ctx.font = "bold 64px system-ui, -apple-system, sans-serif";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText("Right Now Worldwide", CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
-  } else {
-    const timeResult = formatLocalTime(city.timezone);
-    const centerX = CANVAS_WIDTH / 2;
-
-    // 城市名称
-    ctx.fillStyle = "#f8fafc";
-    ctx.font = "bold 72px system-ui, -apple-system, sans-serif";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(city.name, centerX, 240);
-
-    // 时间
-    if (timeResult) {
-      ctx.fillStyle = "#3b82f6";
-      ctx.font = "600 48px system-ui, -apple-system, sans-serif";
-      ctx.fillText(timeResult.time, centerX, 380);
-
-      ctx.fillStyle = "#cbd5e1";
-      ctx.font = "24px system-ui, -apple-system, sans-serif";
-      ctx.fillText(timeResult.date, centerX, 440);
-    }
-
-    // 页脚
-    ctx.fillStyle = "rgba(203, 213, 225, 0.8)";
-    ctx.font = "20px system-ui, -apple-system, sans-serif";
-    ctx.fillText("globetimezone.com", centerX, CANVAS_HEIGHT - 70);
+  let timeBlock = "";
+  if (timeResult) {
+    timeBlock = `
+  <text x="600" y="380" font-family="system-ui,-apple-system,sans-serif" font-size="48" font-weight="600" fill="#3b82f6" text-anchor="middle">${timeStr}</text>
+  <text x="600" y="440" font-family="system-ui,-apple-system,sans-serif" font-size="24" fill="#cbd5e1" text-anchor="middle">${dateStr}</text>`;
   }
 
-  const blob = await canvas.convertToBlob({ type: "image/png" });
-  return new Uint8Array(await blob.arrayBuffer());
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.85" cy="0.2" r="0.25">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <text x="80" y="95" font-family="system-ui,-apple-system,sans-serif" font-size="28" font-weight="bold" fill="#3b82f6">GlobeTimeZone</text>
+  <text x="600" y="250" font-family="system-ui,-apple-system,sans-serif" font-size="72" font-weight="bold" fill="#f8fafc" text-anchor="middle">${cityName}</text>
+  ${timeBlock}
+  <text x="600" y="570" font-family="system-ui,-apple-system,sans-serif" font-size="20" fill="rgba(203,213,225,0.8)" text-anchor="middle">globetimezone.com</text>
+</svg>`;
+}
+
+/**
+ * 构建SVG响应
+ */
+function svgResponse(svgString, maxAge) {
+  return new Response(svgString, {
+    status: 200,
+    headers: {
+      "Content-Type": "image/svg+xml",
+      "Cache-Control": `public, max-age=${maxAge}, s-maxage=${CACHE.sMaxAge}, stale-while-revalidate=${CACHE.staleWhileRevalidate}`,
+      "Content-Length": new TextEncoder().encode(svgString).byteLength.toString()
+    }
+  });
 }
 
 /**
  * Cloudflare Pages 函数入口
  */
 export async function onRequestGet(context) {
-  const { params, env } = context;
+  const { params } = context;
   const citySlug = params.city || "default";
 
   try {
-    // 第1层快速拦截：无效城市直接返回静态默认图，零Canvas消耗
+    // 第1层快速拦截：无效城市直接返回默认SVG
     const city = getCityBySlug(citySlug);
     if (!city) {
-      return fetch(env.ASSETS, new Request("/og-default.png"));
+      return svgResponse(generateDefaultSvg(), CACHE.maxAge);
     }
 
-    // 第2层校验：时区无效直接兜底
+    // 第2层校验：时区无效返回默认SVG
     const timeResult = formatLocalTime(city.timezone);
     if (!timeResult) {
-      return fetch(env.ASSETS, new Request("/og-default.png"));
+      return svgResponse(generateDefaultSvg(), CACHE.maxAge);
     }
 
-    // 合法请求执行渲染
-    const imageBuffer = await generateOgImage(city);
-    return new Response(imageBuffer, {
-      status: 200,
-      headers: {
-        "Content-Type": "image/png",
-        "Cache-Control": `public, max-age=${CACHE.maxAge}, s-maxage=${CACHE.sMaxAge}, stale-while-revalidate=${CACHE.staleWhileRevalidate}`,
-        "Content-Length": imageBuffer.byteLength.toString()
-      }
-    });
+    // 合法请求生成城市SVG
+    return svgResponse(generateCitySvg(city, timeResult), CACHE.maxAge);
   } catch (error) {
-    // 所有异常统一兜底，永不返回500
+    // 全异常兜底：返回默认SVG，永不500
     try {
-      return fetch(env.ASSETS, new Request("/og-default.png"));
+      return svgResponse(generateDefaultSvg(), 300);
     } catch {
-      return new Response("Error generating image", { status: 500 });
+      return new Response(generateDefaultSvg(), {
+        status: 200,
+        headers: { "Content-Type": "image/svg+xml" }
+      });
     }
   }
 }
