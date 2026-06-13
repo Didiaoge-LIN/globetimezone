@@ -1,5 +1,24 @@
 /* ===== GlobeTimeZone.com - Main Stylesheet ===== */
 
+/* 跳转导航链接 */
+.skip-link {
+  position: absolute;
+  top: -48px;
+  left: 0;
+  padding: 10px 16px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 14px;
+  text-decoration: none;
+  z-index: 9999;
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: 0;
+  outline: 2px solid #ffffff;
+  outline-offset: -2px;
+}
+
 :root {
   --primary: #2563eb;
   --primary-dark: #1d4ed8;

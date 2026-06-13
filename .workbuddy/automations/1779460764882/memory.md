@@ -95,3 +95,16 @@
 - **凭据状态**: ⚠️ 仍未配置。累计积压 Post #1~#6（6篇帖子）
 - **下次排期**: 2026-06-13 周六 → Post #7「免费时区API」(dev-tech)
 - **🔴 关键提醒**: 凭据问题已持续17天（5/31起），6篇帖子积压未发。日历仅剩 Post #7~#12（6篇），如凭据继续未配置，全部帖子将积压至过期
+
+## 2026-06-13 (第11次执行)
+- **状态**: 帖子已生成，因缺少凭据未发布到平台
+- **日期**: 2026-06-13 周六，执行时间 19:30 CST
+- **当日排期**: Post #7「免费时区API」(dev-tech)
+- **Twitter 帖子**: 125字符，含 #Developers #API #Timezone #WebDev 标签
+- **LinkedIn 帖子**: 197字符，开发者向长文，介绍免费API+嵌入式时钟组件
+- **发布结果**: 双平台均 FAIL — missing_credentials
+  - Twitter: 缺少 TWITTER_API_KEY / TWITTER_API_SECRET / TWITTER_ACCESS_TOKEN / TWITTER_ACCESS_SECRET
+  - LinkedIn: 缺少 LINKEDIN_ACCESS_TOKEN
+- **凭据状态**: ⚠️ 仍未配置。累计积压 Post #1~#7（7篇帖子）
+- **下次排期**: 2026-06-16 周二 → Post #8「嵌入式时钟组件」(dev-tech)
+- **🔴 关键提醒**: 凭据问题已持续19天（5/31起），7篇帖子积压未发。日历仅剩 Post #8~#12（5篇，至6/25）

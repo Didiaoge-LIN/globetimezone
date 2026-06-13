@@ -6,7 +6,7 @@
 - 日历: content-calendar.json，12篇帖子，覆盖4周(05-30 ~ 06-25)，每周3次(Tue/Thu/Sat)
 - 双平台: Twitter + LinkedIn
 - **🔴 凭据问题持续未解决**: .env 仅含 Cloudflare 凭据，缺少 Twitter OAuth 1.0a 四件套和 LinkedIn Access Token
-- 累计积压: Post #1~#6 (6篇帖子未发布)，日历剩余 Post #7~#12
+- 累计积压: Post #1~#7 (7篇帖子未发布)，日历剩余 Post #8~#12（最后5篇，至6/25）
 - 每次自动化执行都生成帖子内容但因凭据缺失无法发布
 
 ## 技术栈
