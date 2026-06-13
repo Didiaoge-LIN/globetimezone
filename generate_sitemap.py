@@ -1,145 +1,79 @@
 #!/usr/bin/env python3
-"""GlobeTimeZone Sitemap Generator - Auto-generate complete sitemap.xml with all routes"""
-import os
-import json
+# -*- coding: utf-8 -*-
+"""
+全站Sitemap生成器（含全量城市页+多语言hreflang）
+- 自动同步城市数据源，无需手动维护
+- 标准XML格式，兼容主流搜索引擎
+- 支持多语言版本标注
+"""
+import re
 from datetime import datetime
+from pathlib import Path
 
-BASE_URL = "https://globetimezone.com"
-PAGES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "pages")
-TODAY = datetime.now().strftime("%Y-%m-%d")
+SITE_BASE = "https://globetimezone.com"
+LANGS = ["en", "zh", "de", "fr", "es", "ja", "ko", "pt"]
+CITY_DATA_PATH = Path("functions/city/city-data.js")
 
-# All known pages with metadata
-STATIC_PAGES = [
-    {"loc": "/", "changefreq": "daily", "priority": 1.0},
-    {"loc": "/zh/", "changefreq": "daily", "priority": 0.95, "alt_href": "/"},
-    {"loc": "/es/", "changefreq": "daily", "priority": 0.95, "alt_href": "/"},
-    {"loc": "/fr/", "changefreq": "daily", "priority": 0.9, "alt_href": "/"},
-    {"loc": "/de/", "changefreq": "daily", "priority": 0.9, "alt_href": "/"},
-    {"loc": "/ja/", "changefreq": "daily", "priority": 0.9, "alt_href": "/"},
-    {"loc": "/pt/", "changefreq": "daily", "priority": 0.85, "alt_href": "/"},
-    {"loc": "/ko/", "changefreq": "daily", "priority": 0.85, "alt_href": "/"},
-    {"loc": "/ar/", "changefreq": "daily", "priority": 0.85, "alt_href": "/"},
+# 基础页面配置
+BASE_PAGES = [
+    {"path": "", "priority": "1.0", "changefreq": "daily"},
+    {"path": "pro.html", "priority": "0.9", "changefreq": "weekly"},
+    {"path": "api.html", "priority": "0.8", "changefreq": "weekly"},
+    {"path": "about.html", "priority": "0.6", "changefreq": "monthly"},
+    {"path": "privacy.html", "priority": "0.3", "changefreq": "yearly"},
 ]
 
-# Pages under /pages/
-PAGES = [
-    # Core tools
-    {"loc": "/pages/world-clock.html", "changefreq": "hourly", "priority": 0.9},
-    {"loc": "/pages/meeting-scheduler.html", "changefreq": "weekly", "priority": 0.85, "alt_pages": ["/pages/meeting-scheduler-zh.html"]},
-    {"loc": "/pages/team-overlap.html", "changefreq": "weekly", "priority": 0.85},
-    {"loc": "/pages/embed-widget.html", "changefreq": "monthly", "priority": 0.7},
-    # Tools
-    {"loc": "/pages/world-map.html", "changefreq": "daily", "priority": 0.85, "alt_pages": ["/pages/world-map-zh.html"]},
-    {"loc": "/pages/countdown.html", "changefreq": "weekly", "priority": 0.8, "alt_pages": ["/pages/countdown-zh.html"]},
-    {"loc": "/pages/holidays.html", "changefreq": "weekly", "priority": 0.75, "alt_pages": ["/pages/holidays-zh.html"]},
-    {"loc": "/pages/time-units.html", "changefreq": "monthly", "priority": 0.7, "alt_pages": ["/pages/time-units-zh.html"]},
-    # Converters
-    {"loc": "/pages/est-to-cst-converter.html", "changefreq": "weekly", "priority": 0.8},
-    {"loc": "/pages/pst-to-est.html", "changefreq": "weekly", "priority": 0.8},
-    {"loc": "/pages/utc-8-to-utc-5.html", "changefreq": "weekly", "priority": 0.8},
-    {"loc": "/pages/cet-to-est.html", "changefreq": "weekly", "priority": 0.8},
-    {"loc": "/pages/ast-to-pst.html", "changefreq": "weekly", "priority": 0.75},
-    {"loc": "/pages/hawaii-to-est.html", "changefreq": "weekly", "priority": 0.75},
-    {"loc": "/pages/europe-australia-time-difference.html", "changefreq": "weekly", "priority": 0.75},
-    {"loc": "/pages/utc-to-cst-converter.html", "changefreq": "weekly", "priority": 0.8},
-    {"loc": "/pages/gmt-to-cst-converter.html", "changefreq": "weekly", "priority": 0.8},
-    {"loc": "/pages/ist-to-est-converter.html", "changefreq": "weekly", "priority": 0.8},
-    {"loc": "/pages/jst-to-cst-converter.html", "changefreq": "weekly", "priority": 0.8},
-    {"loc": "/pages/pst-to-cst-converter.html", "changefreq": "weekly", "priority": 0.8},
-    {"loc": "/pages/est-to-pst-converter.html", "changefreq": "weekly", "priority": 0.8},
-    {"loc": "/pages/us-china-time-difference.html", "changefreq": "weekly", "priority": 0.75},
-    # Articles / Knowledge Base
-    {"loc": "/pages/why-daylight-saving-time.html", "changefreq": "monthly", "priority": 0.75, "alt_pages": ["/pages/why-daylight-saving-time-zh.html"]},
-    {"loc": "/pages/timezone-guide.html", "changefreq": "monthly", "priority": 0.75, "alt_pages": ["/pages/timezone-guide-zh.html"]},
-    {"loc": "/pages/remote-work-timezone.html", "changefreq": "monthly", "priority": 0.7, "alt_pages": ["/pages/remote-work-timezone-zh.html"]},
-    {"loc": "/pages/distributed-team-time-culture.html", "changefreq": "monthly", "priority": 0.75},
-    {"loc": "/pages/remote-team-timezone-guide.html", "changefreq": "weekly", "priority": 0.85},
-    {"loc": "/pages/articles.html", "changefreq": "weekly", "priority": 0.7, "alt_pages": ["/pages/articles-zh.html"]},
-    # Developer & Monetization
-    {"loc": "/pages/api.html", "changefreq": "monthly", "priority": 0.8},
-    {"loc": "/pages/pro.html", "changefreq": "monthly", "priority": 0.6},
-    {"loc": "/pages/subscribe.html", "changefreq": "monthly", "priority": 0.5},
-    # Info pages
-    {"loc": "/pages/about.html", "changefreq": "monthly", "priority": 0.5, "alt_pages": ["/pages/about-zh.html"]},
-    {"loc": "/pages/contact.html", "changefreq": "monthly", "priority": 0.6},
-    {"loc": "/pages/privacy.html", "changefreq": "yearly", "priority": 0.3},
-    {"loc": "/pages/disclaimer.html", "changefreq": "yearly", "priority": 0.3},
-    {"loc": "/pages/terms.html", "changefreq": "yearly", "priority": 0.3},
-]
+def load_city_ids() -> list:
+    """从城市数据源提取ID"""
+    content = CITY_DATA_PATH.read_text(encoding="utf-8")
+    # 适配现有格式: CITIES = {"beijing":{...}, ...}
+    return re.findall(r'"([a-z0-9][a-z0-9-]*)":\s*\{', content, re.IGNORECASE)
 
-# City time pages
-CITY_PAGES = [
-    "new-york", "london", "beijing", "tokyo", "paris", "dubai",
-    "sydney", "singapore", "los-angeles", "seoul", "chicago", "toronto"
-]
+def build_url_entry(page: dict) -> str:
+    """构建单个URL条目"""
+    base_path = page["path"]
+    default_url = f"{SITE_BASE}/{base_path}" if base_path else SITE_BASE + "/"
+    lines = ["  <url>"]
+    lines.append(f"    <loc>{default_url}</loc>")
+    lines.append(f"    <lastmod>{datetime.now().strftime('%Y-%m-%d')}</lastmod>")
+    lines.append(f"    <changefreq>{page['changefreq']}</changefreq>")
+    lines.append(f"    <priority>{page['priority']}</priority>")
 
-LANGUAGES = {
-    "en": "/",
-    "zh": "/zh/",
-    "es": "/es/",
-    "fr": "/fr/",
-    "de": "/de/",
-    "ja": "/ja/",
-    "pt": "/pt/",
-    "ko": "/ko/",
-    "ar": "/ar/"
-}
+    for lang in LANGS:
+        if lang == "en":
+            href = default_url
+        else:
+            href = f"{SITE_BASE}/{lang}/{base_path}" if base_path else f"{SITE_BASE}/{lang}/"
+        lines.append(f'    <xhtml:link rel="alternate" hreflang="{lang}" href="{href}"/>')
 
-def build_url(loc, changefreq="daily", priority=0.5, hreflangs=None):
-    lines = []
-    lines.append("  <url>")
-    lines.append(f"    <loc>{BASE_URL}{loc}</loc>")
-    if hreflangs:
-        for lang, href in hreflangs.items():
-            lines.append(f'    <xhtml:link rel="alternate" hreflang="{lang}" href="{BASE_URL}{href}" />')
-    lines.append(f"    <lastmod>{TODAY}</lastmod>")
-    lines.append(f"    <changefreq>{changefreq}</changefreq>")
-    lines.append(f"    <priority>{priority}</priority>")
     lines.append("  </url>")
     return "\n".join(lines)
 
-def generate_sitemap():
-    urls = []
+def main():
+    city_ids = load_city_ids()
+    all_pages = BASE_PAGES.copy()
 
-    # Static root pages with hreflang
-    urls.append(build_url("/", "daily", 1.0, LANGUAGES))
+    # 追加所有城市页面
+    for city_id in city_ids:
+        all_pages.append({
+            "path": f"city/{city_id}/",
+            "priority": "0.8",
+            "changefreq": "daily"
+        })
 
-    # Other language homepages
-    lang_configs = [
-        ("/zh/", "daily", 0.95),
-        ("/es/", "daily", 0.95),
-        ("/fr/", "daily", 0.9),
-        ("/de/", "daily", 0.9),
-        ("/ja/", "daily", 0.9),
-        ("/pt/", "daily", 0.85),
-        ("/ko/", "daily", 0.85),
-        ("/ar/", "daily", 0.85),
-    ]
-    for loc, cf, pri in lang_configs:
-        urls.append(build_url(loc, cf, pri, LANGUAGES))
+    # XML头部与尾部
+    header = '''<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+'''
+    footer = "\n</urlset>"
 
-    # Pages
-    for page in PAGES:
-        urls.append(build_url(page["loc"], page["changefreq"], page["priority"]))
+    # 生成完整内容
+    entries = [build_url_entry(p) for p in all_pages]
+    sitemap_content = header + "\n".join(entries) + footer
 
-    # City pages
-    for city in CITY_PAGES:
-        urls.append(build_url(f"/pages/time-in/{city}.html", "daily", 0.9))
-
-    # Assemble XML
-    xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
-    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n'
-    xml += '        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n\n'
-    xml += "\n".join(urls)
-    xml += "\n</urlset>\n"
-
-    sitemap_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "sitemap.xml")
-    with open(sitemap_path, "w", encoding="utf-8") as f:
-        f.write(xml)
-
-    print(f"✅ Sitemap generated: {sitemap_path}")
-    print(f"   Total URLs: {len(urls)}")
-    return sitemap_path
+    Path("sitemap.xml").write_text(sitemap_content, encoding="utf-8")
+    print(f"✅ sitemap.xml 生成完成，共 {len(all_pages)} 个URL（含 {len(city_ids)} 个城市页）")
 
 if __name__ == "__main__":
-    generate_sitemap()
+    main()

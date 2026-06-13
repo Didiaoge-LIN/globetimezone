@@ -16,3 +16,11 @@
 /ko/*  /:splat  200
 /pt/*  /:splat  200
 /ar/*  /:splat  200
+
+# 重复页面合并301重定向
+/privacy-policy.html /privacy.html 301
+/api-guide.html /api.html 301
+
+# 多语言路径重定向
+/zh/privacy-policy.html /zh/privacy.html 301
+/de/privacy-policy.html /de/privacy.html 301

@@ -38,6 +38,50 @@
     .lang-picker #lang-drop.show { display: block !important; }
     .lang-picker #lang-drop a:hover { background: var(--bg-secondary, #f0f4f8); }
   </style>
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="GlobeTimeZone" />
+<meta property="og:title" content="GlobeTimeZone | Right Now Worldwide" />
+<meta property="og:description" content="Know what time it is, anywhere. Instantly. No math, no conversions." />
+<meta property="og:image" content="https://globetimezone.com/og-default.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="GlobeTimeZone | Right Now Worldwide" />
+<meta name="twitter:description" content="Know what time it is, anywhere. Instantly." />
+<meta name="twitter:image" content="https://globetimezone.com/og-default.png" />
+<link rel="preconnect" href="https://www.googletagmanager.com" />
+<link rel="preconnect" href="https://www.google-analytics.com" />
+<link rel="preconnect" href="https://js.sentry-cdn.com" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/manifest.json" />
+
+<meta name="description" content="GlobeTimeZone — Check the current time anywhere in the world instantly. Compare 200+ cities, schedule global meetings, see who&#x27;s working or sleeping at a glance." />
+
+<link rel="canonical" href="https://globetimezone.com/" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "GlobeTimeZone",
+  "url": "https://globetimezone.com",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "description": "Instant global time check across 200+ cities. Compare time zones and schedule global meetings at a glance.",
+  "featureList": "World clock, Time zone converter, Meeting scheduler, City time lookup",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock"
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "GlobeTimeZone"
+  }
+}
+</script>
 </head>
 <body>
   <a href="#main-content" class="skip-link" data-i18n="nav.skipToContent">跳到主内容</a>
@@ -172,8 +216,8 @@
     import { initSentry } from '/scripts/sentry-init.js';
     initSentry();
   </script>
-  <script src="/js/trust-dashboard.js" defer data-cfasync="false"></script>
-  <script src="/cookie-consent.js" defer data-cfasync="false"></script>
+  <script src="/js/trust-dashboard.js" integrity="sha384-yEzVqhu8+voc+O3k09keVVJTgQ1733PvRCLN7eLtmz1S/S0oaMB3s35ZkKd4BpHx" crossorigin="anonymous"  defer data-cfasync="false"></script>
+  <script src="/cookie-consent.js" integrity="sha384-7nsBADWj36LZG7Y9s6qILBYszciZ/l9kp42GfLfyMI2HycKDjF7zqNaSfuq/g5px" crossorigin="anonymous"  defer data-cfasync="false"></script>
   <script src="/ads-loader.js" defer data-cfasync="false"></script>
   <script>
     if ('serviceWorker' in navigator) {
@@ -182,6 +226,6 @@
       });
     }
   </script>
-  <script src="/baidu-analytics.js" defer data-cfasync="false"></script>
+  <script src="/baidu-analytics.js" integrity="sha384-0EfHWU8dZqDMg0Tik+MW4oeAn7hbPT9ow36DqdjMKhZkzVDavAaeFXtZaZvq43ZP" crossorigin="anonymous"  defer data-cfasync="false"></script>
 </body>
 </html>

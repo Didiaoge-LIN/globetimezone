@@ -1,0 +1,33 @@
+# 依赖目录
+node_modules/
+
+# 包管理文件
+package-lock.json
+yarn.lock
+
+# 敏感配置与密钥（严禁部署）
+.env*
+*.key
+*.pem
+*.secret
+credentials*
+wrangler.toml
+vite.config.*
+webpack.config.*
+
+# 工程脚本与审计文件
+*.py
+sri-manifest.json
+
+# 原始数据文件
+data/*.json
+locales_backup*/
+
+# 版本控制与编辑器
+.git/
+.gitignore
+.vscode/
+.DS_Store
+
+# 文档
+*.md
