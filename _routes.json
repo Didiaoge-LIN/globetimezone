@@ -1,5 +1,5 @@
 {
   "version": 1,
-  "include": ["/api/*", "/city/*", "/og/*", "/en/city/*", "/zh/city/*", "/de/city/*", "/fr/city/*", "/es/city/*", "/ja/city/*", "/ko/city/*", "/pt/city/*", "/ar/city/*"],
+  "include": ["/api/*", "/city/*", "/og/*", "/en/*", "/zh/*", "/de/*", "/fr/*", "/es/*", "/ja/*", "/ko/*", "/pt/*", "/ar/*"],
   "exclude": []
 }
