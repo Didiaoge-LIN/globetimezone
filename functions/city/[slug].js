@@ -164,7 +164,7 @@ async function generateEtag(content) {
  */
 function normalizeQueryParams(searchParams) {
   const filtered = new URLSearchParams();
-  CONSTANTS.ALLOWED_QUERY_PARAMS
+  [...CONSTANTS.ALLOWED_QUERY_PARAMS]
     .sort()
     .forEach(key => {
       if (searchParams.has(key)) {
