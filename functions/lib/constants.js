@@ -39,15 +39,19 @@ const CONSTANTS = Object.freeze({
 
   // Service Worker配置
   SW: Object.freeze({
-    CACHE_VERSION: 'v9',
+    CACHE_VERSION: 'v10',
     MAX_DYNAMIC_CACHE_ITEMS: 100,
     PRECACHE_ASSETS: Object.freeze([
       '/',
       '/index.html',
       '/styles/premium.css',
       '/js/gtz-utils.js',
+      '/js/custom-cities.js',
+      '/js/earth-visual.js',
       '/favicon.svg',
-      '/og-default.png'
+      '/favicon.ico',
+      '/og-default.png',
+      '/manifest.json'
     ])
   }),
 

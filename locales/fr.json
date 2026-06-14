@@ -1057,5 +1057,7 @@
   "social.cities": "Villes dans le monde",
   "social.langs": "Langues",
   "social.precision": "Précision milliseconde",
-  "social.standard": "Standard de fuseau horaire officiel"
+  "social.standard": "Standard de fuseau horaire officiel",
+  "hero.search.label": "Rechercher une ville",
+  "hero.city.label": "Ajouter une ville au tableau"
 }

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GlobeTimeZone</title>
+  <title data-i18n="meta.title">GlobeTimeZone — 全球时间决策工具</title>
   <meta data-i18n-attr="content:meta.description" name="description" content="一眼判断该不该联系、何时开会。实时感知全球节奏。">
   <!-- 浏览器语言自动检测（根路径引导，同步加载） -->
   <script src="/js/auto-lang.js?v=5" data-cfasync="false"></script>
@@ -133,6 +133,7 @@
       
       <!-- 智能搜索 -->
       <div class="smart-search" style="max-width:540px;margin:0 auto 1.8rem;position:relative;display:flex;gap:0.5rem;">
+        <label for="decision-input" class="visually-hidden" data-i18n="hero.search.label">搜索城市</label>
         <input type="text" id="decision-input" 
                data-i18n-attr="placeholder:hero.search.placeholder"
                placeholder="搜索任何城市… 东京、伦敦、New York、Paris…"
@@ -147,6 +148,7 @@
       <!-- 添加城市 -->
       <div style="max-width:540px;margin:1.2rem auto 0;position:relative;display:flex;gap:0.5rem;">
         <div style="flex:1;position:relative;">
+          <label for="city-search-input" class="visually-hidden" data-i18n="hero.city.label">添加城市</label>
           <input type="text" id="city-search-input" data-i18n-attr="placeholder:hero.city.placeholder" placeholder="添加城市到看板…（中英文均可）" autocomplete="off" style="width:100%;padding:0.7rem 1rem;font-size:0.9rem;border:1.5px solid var(--border);border-radius:var(--radius-sm);outline:none;box-sizing:border-box;">
           <div id="city-search-dropdown" style="display:none;position:absolute;top:100%;left:0;right:0;z-index:100;max-height:220px;overflow-y:auto;margin-top:4px;"></div>
         </div>
@@ -261,7 +263,7 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/sw.js?v=9').catch(function() {});
+        navigator.serviceWorker.register('/sw.js?v=10').catch(function() {});
       });
     }
   </script>

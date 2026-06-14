@@ -1057,5 +1057,7 @@
   "social.cities": "Cidades no mundo",
   "social.langs": "Idiomas",
   "social.precision": "Precisão de milissegundos",
-  "social.standard": "Padrão oficial de fuso horário"
+  "social.standard": "Padrão oficial de fuso horário",
+  "hero.search.label": "Buscar cidade",
+  "hero.city.label": "Adicionar cidade ao painel"
 }
