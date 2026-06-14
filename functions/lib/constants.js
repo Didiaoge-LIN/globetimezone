@@ -39,7 +39,7 @@ const CONSTANTS = Object.freeze({
 
   // Service Worker配置
   SW: Object.freeze({
-    CACHE_VERSION: 'v8',
+    CACHE_VERSION: 'v9',
     MAX_DYNAMIC_CACHE_ITEMS: 100,
     PRECACHE_ASSETS: Object.freeze([
       '/',
