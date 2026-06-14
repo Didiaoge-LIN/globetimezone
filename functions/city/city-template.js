@@ -501,9 +501,6 @@ export function renderCityPage(slug, city, allCities, lang = 'zh', config = {}) 
     ? `        <li><strong>${t.labelDstStart}</strong>${city.ds}</li>\n        <li><strong>${t.labelDstEnd}</strong>${city.de}</li>\n        <li><strong>${t.labelDstClock}</strong>${t.dstClock}</li>`
     : '';
 
-  const schemaFaq = faqSchema(city.f);
-  const faqSchemaStr = schemaFaq.map(q => safeJsonLd(q)).join(',');
-
   // 时钟脚本中的状态文本
   const statusMap = {
     working: t.statusWorking,
