@@ -503,11 +503,19 @@ export function renderCityPage(slug, city, allCities, lang = 'zh') {
   <meta property="og:url" content="https://globetimezone.com${prefix}/city/${slug}/">
   <meta property="og:site_name" content="GlobeTimeZone">
   <meta property="og:locale" content="${t.ogLocale}">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://globetimezone.com/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${t.twTitle(city, os)}">
   <meta name="twitter:description" content="${t.twDesc(city)}">
-  <link rel="icon" href="/favicon.ico">
+  <meta name="twitter:image" content="https://globetimezone.com/og-default.png">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="alternate icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.google-analytics.com">
+  <link rel="preconnect" href="https://js.sentry-cdn.com">
   <link rel="preconnect" href="https://pagead2.googlesyndication.com">
   <link rel="manifest" href="/manifest.json">
   <script type="application/ld+json">
@@ -703,6 +711,17 @@ ${relatedLinks(city.r, allCities, lang)}
     if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js?v=6').catch(function(){});});}
   </script>
   <script src="/baidu-analytics.js" defer data-cfasync="false"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX" data-cfasync="false"></script>
+  <script data-cfasync="false">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX', { anonymize_ip: true });
+  </script>
+  <script src="https://js.sentry-cdn.com/4511471642345472.min.js" crossorigin="anonymous" data-cfasync="false"></script>
+  <script data-cfasync="false">
+    if(typeof Sentry!=='undefined'){Sentry.init({dsn:'https://550d400ef88588988c289a0226661bcb@o4511471570190336.ingest.us.sentry.io/4511471642345472',tracesSampleRate:0.05,replaysSessionSampleRate:0,replaysOnErrorSampleRate:0.1});}
+  </script>
 </body>
 </html>`;
 }

@@ -140,36 +140,66 @@ function svgResponse(svgString, maxAge) {
 }
 
 /**
- * Cloudflare Pages 函数入口
+ * Cloudflare Pages 函数入口（支持 GET + HEAD）
  */
 export async function onRequestGet(context) {
-  const { params } = context;
+  const { params, request } = context;
   const citySlug = params.city || "default";
+  const method = request.method.toUpperCase();
 
   try {
     // 第1层快速拦截：无效城市直接返回默认SVG
     const city = getCityBySlug(citySlug);
     if (!city) {
-      return svgResponse(generateDefaultSvg(), CACHE.maxAge);
+      const defaultSvg = generateDefaultSvg();
+      const headers = {
+        "Content-Type": "image/svg+xml",
+        "Cache-Control": `public, max-age=${CACHE.maxAge}, s-maxage=${CACHE.sMaxAge}, stale-while-revalidate=${CACHE.staleWhileRevalidate}`,
+        "Content-Length": new TextEncoder().encode(defaultSvg).byteLength.toString()
+      };
+      return method === 'HEAD'
+        ? new Response(null, { status: 200, headers })
+        : svgResponse(defaultSvg, CACHE.maxAge);
     }
 
     // 第2层校验：时区无效返回默认SVG
     const timeResult = formatLocalTime(city.timezone);
     if (!timeResult) {
-      return svgResponse(generateDefaultSvg(), CACHE.maxAge);
+      const defaultSvg = generateDefaultSvg();
+      const headers = {
+        "Content-Type": "image/svg+xml",
+        "Cache-Control": `public, max-age=${CACHE.maxAge}, s-maxage=${CACHE.sMaxAge}, stale-while-revalidate=${CACHE.staleWhileRevalidate}`,
+        "Content-Length": new TextEncoder().encode(defaultSvg).byteLength.toString()
+      };
+      return method === 'HEAD'
+        ? new Response(null, { status: 200, headers })
+        : svgResponse(defaultSvg, CACHE.maxAge);
     }
 
     // 合法请求生成城市SVG
-    return svgResponse(generateCitySvg(city, timeResult), CACHE.maxAge);
+    const citySvg = generateCitySvg(city, timeResult);
+    const headers = {
+      "Content-Type": "image/svg+xml",
+      "Cache-Control": `public, max-age=${CACHE.maxAge}, s-maxage=${CACHE.sMaxAge}, stale-while-revalidate=${CACHE.staleWhileRevalidate}`,
+      "Content-Length": new TextEncoder().encode(citySvg).byteLength.toString()
+    };
+    return method === 'HEAD'
+      ? new Response(null, { status: 200, headers })
+      : svgResponse(citySvg, CACHE.maxAge);
   } catch (error) {
     // 全异常兜底：返回默认SVG，永不500
-    try {
-      return svgResponse(generateDefaultSvg(), 300);
-    } catch {
-      return new Response(generateDefaultSvg(), {
-        status: 200,
-        headers: { "Content-Type": "image/svg+xml" }
-      });
-    }
+    const defaultSvg = generateDefaultSvg();
+    const headers = {
+      "Content-Type": "image/svg+xml",
+      "Cache-Control": "public, max-age=300",
+      "Content-Length": new TextEncoder().encode(defaultSvg).byteLength.toString()
+    };
+    return method === 'HEAD'
+      ? new Response(null, { status: 200, headers })
+      : new Response(defaultSvg, { status: 200, headers });
   }
+}
+
+export async function onRequestHead(context) {
+  return onRequestGet(context);
 }
