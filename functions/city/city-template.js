@@ -532,6 +532,25 @@ export function renderCityPage(slug, city, allCities, lang = 'zh') {
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
+    "@type": "City",
+    "name": "${city.ne}",
+    "description": "${t.desc(city).substring(0, 160).replace(/"/g, '\\"')}",
+    "url": "https://globetimezone.com${prefix}/city/${slug}/",
+    "image": "https://globetimezone.com/og-default.png",
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "",
+      "longitude": ""
+    },
+    "containedInPlace": {
+      "@type": "AdministrativeArea",
+      "name": "${city.c}"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
     "@type": "Clock",
     "name": "${t.breadcrumb3(city)}",
     "description": "${t.desc(city).substring(0, 100)}",
@@ -588,7 +607,7 @@ export function renderCityPage(slug, city, allCities, lang = 'zh') {
     .city-card-sm h3{font-size:0.9rem;margin:0}
     .city-time-sm{font-size:0.8rem;color:var(--text-secondary);margin-top:0.2rem}
     @media(max-width:640px){.city-clock{font-size:2.5rem}.contact-cards{grid-template-columns:1fr}.city-grid-sm{grid-template-columns:repeat(2,1fr)}}
-    @media(prefers-color-scheme:dark){:root{--bg:#0f172a;--bg-secondary:#1e293b;--text:#f1f5f9;--text-secondary:#94a3b8;--border:#334155;--border-subtle:#1e293b}.status-working{background:#064e3b;color:#6ee7b7}.status-sleeping{background:#1e3a5f;color:#93c5fd}.status-personal{background:#422006;color:#fcd34d}.status-deep-sleep{background:#2e1065;color:#c4b5fd}}
+    @media(prefers-color-scheme:dark){:root{--bg:#0f172a;--bg-secondary:#1e293b;--text:#f1f5f9;--text-secondary:#cbd5e1;--border:#334155;--border-subtle:#1e293b}.status-working{background:#064e3b;color:#6ee7b7}.status-sleeping{background:#1e3a5f;color:#93c5fd}.status-personal{background:#422006;color:#fcd34d}.status-deep-sleep{background:#2e1065;color:#c4b5fd}}
   </style>
 </head>
 <body>

@@ -25,6 +25,7 @@
 ## 最近执行记录
 | 日期 | 城市组 | 发布状态 |
 |------|--------|----------|
+| 2026-06-14 | apac | 生成成功，凭据未配置 |
 | 2026-06-13 | us-eu | 生成成功，凭据未配置 |
 | 2026-06-09 | global | 生成成功，凭据未配置 |
 | 2026-06-08 | apac | 生成成功，凭据未配置 |
@@ -42,20 +43,20 @@
 | 2026-05-25 | apac | 生成成功，凭据未配置 |
 | 2026-05-24 | apac | 生成成功，凭据未配置 |
 
-## 今日帖子内容 (2026-06-13)
-**城市组**: us-eu
-**时间戳**: 2026-06-13T01:01:20.970Z
+## 今日帖子内容 (2026-06-14)
+**城市组**: apac
+**时间戳**: 2026-06-14T00:39:29.298Z
 
 **帖子文案**:
 ```
 🕐 What time is it for your team right now?
 
-🗽 New York 09:01 PM | 🌉 San Francisco 06:01 PM | 🇬🇧 London 02:01 AM | 🇩🇪 Berlin 03:01 AM
+🇨🇳 Beijing 08:39 AM | 🗼 Tokyo 09:39 AM | 🇸🇬 Singapore 08:39 AM | 🇦🇺 Sydney 10:39 AM
 
 See all time zones instantly → https://globetimezone.com
 ```
 
-**字符数**: 197
+**字符数**: 193
 
 ## 发布结果
 - **Twitter**: ⚠️ 缺少凭据 (TWITTER_API_KEY, TWITTER_API_SECRET, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET)
@@ -63,7 +64,7 @@ See all time zones instantly → https://globetimezone.com
 - **状态**: 优雅降级，仅生成帖子不发布
 
 ## 历史记录
-- social-posts.json 当前包含 19 条历史记录
+- social-posts.json 当前包含 20 条历史记录
 - 自动维护最近90天记录
 
 ## 依赖
@@ -73,5 +74,5 @@ See all time zones instantly → https://globetimezone.com
 - 每日自动任务正常运行
 - 缺少凭据时脚本会优雅降级（仅生成不发布，输出警告）
 - social-posts.json 自动维护最近90天记录
-- 下次城市组轮换：apac (2026-06-14)
+- 下次城市组轮换：global (2026-06-15)
 - 路径问题已解决：脚本已重命名为 .cjs 扩展名以兼容 ES module 项目
