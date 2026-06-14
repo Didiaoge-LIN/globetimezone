@@ -1,6 +1,6 @@
 # ============================================================
 # GlobeTimeZone - Cloudflare Pages Headers Configuration
-# v4.0 | 2026-06-14 — 修复 Cache-Control 合并冲突
+# v5.0 | 2026-06-14 — v8.0 生产终审版：全套安全头同步
 # 规则：/* 不设 Cache-Control，按路径分组，避免 CF 合并重复
 # ============================================================
 
@@ -8,10 +8,16 @@
 /*
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
   X-Content-Type-Options: nosniff
-  X-Frame-Options: SAMEORIGIN
+  X-Frame-Options: DENY
+  X-XSS-Protection: 0
+  X-Download-Options: noopen
+  X-Permitted-Cross-Domain-Policies: none
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://js.sentry-cdn.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://*.sentry.io https://*.firebaseio.com https://securetoken.googleapis.com https://firebaseinstallations.googleapis.com; font-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; worker-src 'self' blob:
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  Origin-Agent-Cluster: ?1
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://js.sentry-cdn.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://*.sentry.io https://*.firebaseio.com https://securetoken.googleapis.com https://firebaseinstallations.googleapis.com; font-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; worker-src 'self' blob:
   Vary: Accept-Encoding
 
 # === HTML 页面：4小时缓存 ===
@@ -21,6 +27,11 @@
 # === 首页 ===
 /
   Cache-Control: public, max-age=14400, stale-while-revalidate=86400
+
+# === 404页面：禁止索引 ===
+/404.html
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-store
 
 # === OG图：强缓存30天 ===
 /og/*
@@ -40,6 +51,10 @@
 /scripts/*
   Cache-Control: public, max-age=31536000, stale-while-revalidate=86400
 
+# === 静态资源：1年不可变缓存 ===
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
 # === 图标：30天缓存 ===
 /icons/*
   Cache-Control: public, max-age=2592000, immutable
@@ -56,11 +71,11 @@
 /og-default.png
   Cache-Control: public, max-age=2592000, immutable
 
-# === manifest：1天+must-revalidate（独立，不合并） ===
+# === manifest：1天+must-revalidate ===
 /manifest.json
   Cache-Control: public, max-age=86400, must-revalidate
 
-# === service worker：绝不缓存（独立，不合并） ===
+# === service worker：绝不缓存 ===
 /sw.js
   Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 
@@ -75,6 +90,8 @@
 /locales/*
   Cache-Control: public, max-age=3600, must-revalidate
 
-# === API 端点：不缓存 ===
+# === API 端点：不缓存 + CSP + 禁止索引 ===
 /api/*
+  Content-Security-Policy: default-src 'self'; frame-src 'none'; object-src 'none'
+  X-Robots-Tag: noindex, nofollow
   Cache-Control: no-cache, no-store, max-age=0

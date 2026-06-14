@@ -1,3 +1,31 @@
+/**
+ * 安全序列化 JSON-LD - 防止脚本注入
+ * @param {object} obj 结构化数据对象
+ * @returns {string} 安全的JSON字符串
+ */
+function safeJsonLd(obj) {
+  return JSON.stringify(obj)
+    .replace(/<\/script/gi, '\\x3C/script')
+    .replace(/<!--/g, '\\x3C!--');
+}
+
+/**
+ * 全量 HTML 转义 - 杜绝 XSS 风险
+ * @param {string} unsafe 原始字符串
+ * @returns {string} 转义后字符串
+ */
+function escapeHtml(unsafe) {
+  if (typeof unsafe !== 'string') return '';
+  return unsafe
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
+    .replace(/`/g, '&#96;')
+    .replace(/\//g, '&#x2F;');
+}
+
 // City page HTML template renderer
 // Used by functions/city/[slug].js and functions/[[path]].js
 // Supports lang parameter for i18n rendering
@@ -464,7 +492,7 @@ function hreflangTags(slug) {
   return tags.join('\n');
 }
 
-export function renderCityPage(slug, city, allCities, lang = 'zh') {
+export function renderCityPage(slug, city, allCities, lang = 'zh', config = {}) {
   const t = getT(lang);
   const os = offsetStr(city.o);
   const prefix = lang === 'zh' ? '' : `/${lang}`;
@@ -474,7 +502,7 @@ export function renderCityPage(slug, city, allCities, lang = 'zh') {
     : '';
 
   const schemaFaq = faqSchema(city.f);
-  const faqSchemaStr = schemaFaq.map(q => JSON.stringify(q)).join(',');
+  const faqSchemaStr = schemaFaq.map(q => safeJsonLd(q)).join(',');
 
   // 时钟脚本中的状态文本
   const statusMap = {
@@ -485,6 +513,65 @@ export function renderCityPage(slug, city, allCities, lang = 'zh') {
     prepSleep: t.statusPrepSleep || t.statusDeepSleep,
     deepSleep: t.statusDeepSleep,
   };
+
+  // GA4 埋点模块 - 无效配置时输出空
+  const gaId = config.GA_ID || '';
+  const gaBlock = gaId ? `
+  <script async src="https://www.googletagmanager.com/gtag/js?id=${gaId}" data-cfasync="false"></script>
+  <script data-cfasync="false">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '${gaId}', { anonymize_ip: true });
+  </script>` : '';
+
+  // 安全序列化所有 JSON-LD 结构化数据
+  const breadcrumbLd = safeJsonLd({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": t.breadcrumb1, "item": `https://globetimezone.com${prefix}/`},
+      {"@type": "ListItem", "position": 2, "name": t.breadcrumb2, "item": `https://globetimezone.com${prefix}/cities/`},
+      {"@type": "ListItem", "position": 3, "name": t.breadcrumb3(city), "item": `https://globetimezone.com${prefix}/city/${slug}/`}
+    ]
+  });
+
+  const cityLd = safeJsonLd({
+    "@context": "https://schema.org",
+    "@type": "City",
+    "name": city.ne,
+    "description": t.desc(city).substring(0, 160),
+    "url": `https://globetimezone.com${prefix}/city/${slug}/`,
+    "image": "https://globetimezone.com/og-default.png",
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "",
+      "longitude": ""
+    },
+    "containedInPlace": {
+      "@type": "AdministrativeArea",
+      "name": city.c
+    }
+  });
+
+  const clockLd = safeJsonLd({
+    "@context": "https://schema.org",
+    "@type": "Clock",
+    "name": t.breadcrumb3(city),
+    "description": t.desc(city).substring(0, 100),
+    "timezone": city.tz,
+    "url": `https://globetimezone.com${prefix}/city/${slug}/`
+  });
+
+  const faqLd = safeJsonLd({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": city.f.map(faq => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: { '@type': 'Answer', text: faq.answer }
+    }))
+  });
 
   return `<!DOCTYPE html>
 <html lang="${t.htmlLang}">
@@ -518,53 +605,10 @@ export function renderCityPage(slug, city, allCities, lang = 'zh') {
   <link rel="preconnect" href="https://js.sentry-cdn.com">
   <link rel="preconnect" href="https://pagead2.googlesyndication.com">
   <link rel="manifest" href="/manifest.json">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "${t.breadcrumb1}", "item": "https://globetimezone.com${prefix}/"},
-      {"@type": "ListItem", "position": 2, "name": "${t.breadcrumb2}", "item": "https://globetimezone.com${prefix}/cities/"},
-      {"@type": "ListItem", "position": 3, "name": "${t.breadcrumb3(city)}", "item": "https://globetimezone.com${prefix}/city/${slug}/"}
-    ]
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "City",
-    "name": "${city.ne}",
-    "description": "${t.desc(city).substring(0, 160).replace(/"/g, '\\"')}",
-    "url": "https://globetimezone.com${prefix}/city/${slug}/",
-    "image": "https://globetimezone.com/og-default.png",
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": "",
-      "longitude": ""
-    },
-    "containedInPlace": {
-      "@type": "AdministrativeArea",
-      "name": "${city.c}"
-    }
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Clock",
-    "name": "${t.breadcrumb3(city)}",
-    "description": "${t.desc(city).substring(0, 100)}",
-    "timezone": "${city.tz}",
-    "url": "https://globetimezone.com${prefix}/city/${slug}/"
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [${faqSchemaStr}]
-  }
-  </script>
+  <script type="application/ld+json">${breadcrumbLd}</script>
+  <script type="application/ld+json">${cityLd}</script>
+  <script type="application/ld+json">${clockLd}</script>
+  <script type="application/ld+json">${faqLd}</script>
   <link rel="stylesheet" href="/styles/premium.css?v=2">
   <style>
     .city-hero{text-align:center;padding:3rem 1rem 2rem;max-width:800px;margin:0 auto;background:linear-gradient(135deg,var(--bg,#fff) 0%,var(--bg-secondary,#f0f4f8) 100%);border-radius:0 0 2rem 2rem}
@@ -730,13 +774,7 @@ ${relatedLinks(city.r, allCities, lang)}
     if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js?v=6').catch(function(){});});}
   </script>
   <script src="/baidu-analytics.js" defer data-cfasync="false"></script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX" data-cfasync="false"></script>
-  <script data-cfasync="false">
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX', { anonymize_ip: true });
-  </script>
+  ${gaBlock}
   <script src="https://js.sentry-cdn.com/4511471642345472.min.js" crossorigin="anonymous" data-cfasync="false"></script>
   <script data-cfasync="false">
     if(typeof Sentry!=='undefined'){Sentry.init({dsn:'https://550d400ef88588988c289a0226661bcb@o4511471570190336.ingest.us.sentry.io/4511471642345472',tracesSampleRate:0.05,replaysSessionSampleRate:0,replaysOnErrorSampleRate:0.1});}
