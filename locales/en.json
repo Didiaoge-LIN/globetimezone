@@ -1053,5 +1053,9 @@
   "xb.weekday.sun": "Sun",
   "xb.weekday.thu": "Thu",
   "xb.weekday.tue": "Tue",
-  "xb.weekday.wed": "Wed"
+  "xb.weekday.wed": "Wed",
+  "social.cities": "Cities Worldwide",
+  "social.langs": "Languages",
+  "social.precision": "Millisecond Precision",
+  "social.standard": "Official Timezone Standard"
 }

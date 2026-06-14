@@ -1053,5 +1053,9 @@
   "xb.weekday.sun": "日曜",
   "xb.weekday.thu": "木曜",
   "xb.weekday.tue": "火曜",
-  "xb.weekday.wed": "水曜"
+  "xb.weekday.wed": "水曜",
+  "social.cities": "世界の都市",
+  "social.langs": "言語対応",
+  "social.precision": "ミリ秒精度",
+  "social.standard": "公式タイムゾーン標準"
 }

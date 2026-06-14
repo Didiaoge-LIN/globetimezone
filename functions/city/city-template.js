@@ -530,23 +530,27 @@ export function renderCityPage(slug, city, allCities, lang = 'zh', config = {}) 
     ]
   });
 
-  const cityLd = safeJsonLd({
+  // 显式构建 cityLd，geo 字段条件组装（不依赖 JSON.stringify 隐式 omit undefined）
+  const cityLdObj = {
     "@context": "https://schema.org",
     "@type": "City",
     "name": city.ne,
     "description": t.desc(city).substring(0, 160),
     "url": `https://globetimezone.com${prefix}/city/${slug}/`,
     "image": "https://globetimezone.com/og-default.png",
-    "geo": city.lat && city.lng ? {
-      "@type": "GeoCoordinates",
-      "latitude": city.lat,
-      "longitude": city.lng
-    } : undefined,
     "containedInPlace": {
       "@type": "AdministrativeArea",
       "name": city.c
     }
-  });
+  };
+  if (city.lat && city.lng) {
+    cityLdObj.geo = {
+      "@type": "GeoCoordinates",
+      "latitude": city.lat,
+      "longitude": city.lng
+    };
+  }
+  const cityLd = safeJsonLd(cityLdObj);
 
   const clockLd = safeJsonLd({
     "@context": "https://schema.org",

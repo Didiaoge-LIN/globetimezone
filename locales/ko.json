@@ -1053,5 +1053,9 @@
   "xb.weekday.sun": "일요일",
   "xb.weekday.thu": "목요일",
   "xb.weekday.tue": "화요일",
-  "xb.weekday.wed": "수요일"
+  "xb.weekday.wed": "수요일",
+  "social.cities": "전 세계 도시",
+  "social.langs": "언어 지원",
+  "social.precision": "밀리초 정밀도",
+  "social.standard": "공식 시간대 표준"
 }

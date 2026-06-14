@@ -1053,5 +1053,9 @@
   "xb.weekday.sun": "Dim",
   "xb.weekday.thu": "Jeu",
   "xb.weekday.tue": "Mar",
-  "xb.weekday.wed": "Mer"
+  "xb.weekday.wed": "Mer",
+  "social.cities": "Villes dans le monde",
+  "social.langs": "Langues",
+  "social.precision": "Précision milliseconde",
+  "social.standard": "Standard de fuseau horaire officiel"
 }
