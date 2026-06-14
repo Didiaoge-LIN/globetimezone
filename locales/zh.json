@@ -1053,5 +1053,9 @@
   "xb.weekday.sun": "周日",
   "xb.weekday.thu": "周四",
   "xb.weekday.tue": "周二",
-  "xb.weekday.wed": "周三"
+  "xb.weekday.wed": "周三",
+  "social.cities": "全球城市",
+  "social.langs": "语言支持",
+  "social.precision": "毫秒级精度",
+  "social.standard": "权威时区标准"
 }
