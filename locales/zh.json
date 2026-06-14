@@ -1057,5 +1057,7 @@
   "social.cities": "全球城市",
   "social.langs": "语言支持",
   "social.precision": "毫秒级精度",
-  "social.standard": "权威时区标准"
+  "social.standard": "权威时区标准",
+  "hero.search.label": "搜索城市",
+  "hero.city.label": "添加城市到看板"
 }

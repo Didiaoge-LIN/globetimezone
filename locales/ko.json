@@ -1057,5 +1057,7 @@
   "social.cities": "전 세계 도시",
   "social.langs": "언어 지원",
   "social.precision": "밀리초 정밀도",
-  "social.standard": "공식 시간대 표준"
+  "social.standard": "공식 시간대 표준",
+  "hero.search.label": "도시 검색",
+  "hero.city.label": "대시보드에 도시 추가"
 }

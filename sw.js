@@ -1,22 +1,32 @@
 'use strict';
 
 /**
- * Service Worker v9 — 真LRU淘汰 + 容量限制 + 容错安装 + 离线回退
- * v9升级：访问时重插（真LRU）+ 离线回退页 + trimDynamicCache串行化
+ * Service Worker v10 — 真LRU淘汰 + 容量限制 + 容错安装 + 离线回退
+ * v10升级：precache 补全核心交互脚本 + 版本号注释
+ *
+ * ⚠️ 版本号同步点（修改时必须同步以下 4 处）：
+ *   1. sw.js CACHE_VERSION（本文件）
+ *   2. functions/lib/constants.js CACHE_VERSION
+ *   3. index.html sw.js?v=X
+ *   4. functions/city/city-template.js sw.js?v=X
  */
-const CACHE_VERSION = 'v9';
+const CACHE_VERSION = 'v10';
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `dynamic-${CACHE_VERSION}`;
 const MAX_DYNAMIC_ENTRIES = 100;
 
-// 预缓存资源列表（路径全部修正，无404）
+// 预缓存资源列表（核心路径 + 关键交互脚本）
 const PRECACHE_ASSETS = [
   '/',
   '/index.html',
   '/styles/premium.css',
   '/js/gtz-utils.js',
+  '/js/custom-cities.js',
+  '/js/earth-visual.js',
   '/favicon.svg',
-  '/og-default.png'
+  '/favicon.ico',
+  '/og-default.png',
+  '/manifest.json'
 ];
 
 // 串行化修剪锁，防止并发trim导致超量

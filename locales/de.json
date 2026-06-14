@@ -1057,5 +1057,7 @@
   "social.cities": "Städte weltweit",
   "social.langs": "Sprachen",
   "social.precision": "Millisekunden-Genauigkeit",
-  "social.standard": "Offizieller Zeitzonenstandard"
+  "social.standard": "Offizieller Zeitzonenstandard",
+  "hero.search.label": "Stadt suchen",
+  "hero.city.label": "Stadt zum Dashboard hinzufügen"
 }

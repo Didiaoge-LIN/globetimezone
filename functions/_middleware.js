@@ -94,6 +94,9 @@ export async function onRequest(context) {
     });
 
     Object.entries(securityHeaders).forEach(([key, value]) => {
+      // 跳过 _headers 已注入的头（避免重复）
+      // X-Content-Type-Options 由 _headers 统一处理
+      if (key === 'X-Content-Type-Options') return;
       if (!newHeaders.has(key)) {
         newHeaders.set(key, value);
       }

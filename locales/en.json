@@ -1057,5 +1057,7 @@
   "social.cities": "Cities Worldwide",
   "social.langs": "Languages",
   "social.precision": "Millisecond Precision",
-  "social.standard": "Official Timezone Standard"
+  "social.standard": "Official Timezone Standard",
+  "hero.search.label": "Search city",
+  "hero.city.label": "Add city to dashboard"
 }

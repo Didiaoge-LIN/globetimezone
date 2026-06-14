@@ -1057,5 +1057,7 @@
   "social.cities": "مدن حول العالم",
   "social.langs": "اللغات",
   "social.precision": "دقة بالملي ثانية",
-  "social.standard": "معيار التوقيت الرسمي"
+  "social.standard": "معيار التوقيت الرسمي",
+  "hero.search.label": "البحث عن مدينة",
+  "hero.city.label": "إضافة مدينة إلى لوحة التحكم"
 }

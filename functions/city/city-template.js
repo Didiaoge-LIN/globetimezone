@@ -7,6 +7,8 @@
  */
 import { escapeHtml, safeJsonLd } from '../lib/security.js';
 import { getI18n, renderTemplate } from '../locales/city-i18n.js';
+import { CITY_FAQS } from '../city-faqs.js';
+import { CITY_RELATED } from '../city-related.js';
 
 const REFERENCE_CITIES = [
   { n: '北京', ne: 'Beijing', tz: 'Asia/Shanghai', o: 8 },
@@ -446,10 +448,10 @@ function faqItems(faqs) {
  * @param {string} lang 语言代码
  * @returns {Array<{question: string, answer: string}>}
  */
-function getLocalizedFaqs(city, lang) {
-  if (lang === 'zh') return city.f || [];
+function getLocalizedFaqs(city, lang, slug) {
+  if (lang === 'zh') return CITY_FAQS[slug] || [];
   const i18n = getI18n(lang);
-  if (!i18n || !i18n.faq) return city.f || [];
+  if (!i18n || !i18n.faq) return CITY_FAQS[slug] || [];
   const vars = { city: city.ne };
   return i18n.faq.map(f => ({
     question: renderTemplate(f.question, vars),
@@ -564,7 +566,7 @@ export function renderCityPage(slug, city, allCities, lang = 'zh', config = {}) 
   const faqLd = safeJsonLd({
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": getLocalizedFaqs(city, lang).map(faq => ({
+    "mainEntity": getLocalizedFaqs(city, lang, slug).map(faq => ({
       '@type': 'Question',
       name: faq.question,
       acceptedAnswer: { '@type': 'Answer', text: faq.answer }
@@ -713,12 +715,12 @@ ${dstExtra}
     </section>
     <section class="faq-section">
       <h2>${t.sectionFaq(city)}</h2>
-${faqItems(getLocalizedFaqs(city, lang))}
+${faqItems(getLocalizedFaqs(city, lang, slug))}
     </section>
     <section class="related-section">
       <h2>${t.sectionRelated}</h2>
       <div class="city-grid-sm">
-${relatedLinks(city.r, allCities, lang)}
+${relatedLinks(CITY_RELATED[slug] || [], allCities, lang)}
       </div>
     </section>
   </main>
@@ -775,7 +777,7 @@ ${relatedLinks(city.r, allCities, lang)}
   <script src="/cookie-consent.js" defer data-cfasync="false"></script>
   <script src="/ads-loader.js" defer data-cfasync="false"></script>
   <script data-cfasync="false">
-    if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js?v=9').catch(function(){});});}
+    if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js?v=10').catch(function(){});});}
   </script>
   <script src="/baidu-analytics.js" defer data-cfasync="false"></script>
   ${gaBlock}
