@@ -1,34 +1,11 @@
 /**
- * 安全序列化 JSON-LD - 防止脚本注入
- * @param {object} obj 结构化数据对象
- * @returns {string} 安全的JSON字符串
+ * City page HTML template renderer
+ * Used by functions/city/[slug].js and functions/[[path]].js
+ * Supports lang parameter for i18n rendering
+ *
+ * 安全工具函数已抽离到 lib/security.js，此文件仅保留渲染逻辑
  */
-function safeJsonLd(obj) {
-  return JSON.stringify(obj)
-    .replace(/<\/script/gi, '\\x3C/script')
-    .replace(/<!--/g, '\\x3C!--');
-}
-
-/**
- * 全量 HTML 转义 - 杜绝 XSS 风险
- * @param {string} unsafe 原始字符串
- * @returns {string} 转义后字符串
- */
-function escapeHtml(unsafe) {
-  if (typeof unsafe !== 'string') return '';
-  return unsafe
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;')
-    .replace(/`/g, '&#96;')
-    .replace(/\//g, '&#x2F;');
-}
-
-// City page HTML template renderer
-// Used by functions/city/[slug].js and functions/[[path]].js
-// Supports lang parameter for i18n rendering
+import { escapeHtml, safeJsonLd } from '../lib/security.js';
 
 const REFERENCE_CITIES = [
   { n: '北京', ne: 'Beijing', tz: 'Asia/Shanghai', o: 8 },
@@ -540,11 +517,11 @@ export function renderCityPage(slug, city, allCities, lang = 'zh', config = {}) 
     "description": t.desc(city).substring(0, 160),
     "url": `https://globetimezone.com${prefix}/city/${slug}/`,
     "image": "https://globetimezone.com/og-default.png",
-    "geo": {
+    "geo": city.lat && city.lng ? {
       "@type": "GeoCoordinates",
-      "latitude": "",
-      "longitude": ""
-    },
+      "latitude": city.lat,
+      "longitude": city.lng
+    } : undefined,
     "containedInPlace": {
       "@type": "AdministrativeArea",
       "name": city.c
@@ -673,13 +650,13 @@ export function renderCityPage(slug, city, allCities, lang = 'zh', config = {}) 
     </nav>
     <section class="city-hero">
       <h1>${t.heroH1(city, os)}</h1>
-      <div class="city-clock" id="city-clock" data-timezone="${city.tz}">--:--:--</div>
+      <div class="city-clock" id="city-clock" data-timezone="${city.tz}" role="timer" aria-live="polite" aria-atomic="true">--:--:--</div>
       <div class="city-date" id="city-date"></div>
       <div class="city-status status-working" id="city-status">${t.heroBadge(city)}</div>
     </section>
     <section class="time-diff-section">
       <h2>${t.sectionTimeDiff(city)}</h2>
-      <table class="time-diff-table">
+      <table class="time-diff-table" role="table" aria-label="${t.sectionTimeDiff(city)}">
         <thead><tr><th>${t.thCity}</th><th>${t.thDiff}</th><th>${t.thStatus}</th></tr></thead>
         <tbody>
 ${timeDiffRows({ o: city.o }, t)}
@@ -768,7 +745,7 @@ ${relatedLinks(city.r, allCities, lang)}
   <script src="/cookie-consent.js" defer data-cfasync="false"></script>
   <script src="/ads-loader.js" defer data-cfasync="false"></script>
   <script data-cfasync="false">
-    if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js?v=6').catch(function(){});});}
+    if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js?v=8').catch(function(){});});}
   </script>
   <script src="/baidu-analytics.js" defer data-cfasync="false"></script>
   ${gaBlock}
