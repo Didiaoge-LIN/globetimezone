@@ -6,6 +6,7 @@
  * 安全工具函数已抽离到 lib/security.js，此文件仅保留渲染逻辑
  */
 import { escapeHtml, safeJsonLd } from '../lib/security.js';
+import { getI18n, renderTemplate } from '../locales/city-i18n.js';
 
 const REFERENCE_CITIES = [
   { n: '北京', ne: 'Beijing', tz: 'Asia/Shanghai', o: 8 },
@@ -431,10 +432,29 @@ function timeDiffRows(city, t) {
 function faqItems(faqs) {
   return faqs.map((faq, i) =>
     `      <details class="faq-item"${i === 0 ? ' open' : ''}>
-        <summary class="faq-question">${faq.question}</summary>
-        <div class="faq-answer"><p>${faq.answer}</p></div>
+        <summary class="faq-question">${escapeHtml(faq.question)}</summary>
+        <div class="faq-answer"><p>${escapeHtml(faq.answer)}</p></div>
       </details>`
   ).join('\n');
+}
+
+/**
+ * 获取当前语言的FAQ列表
+ * zh语言：使用city.f原始中文数据
+ * 其他语言：使用city-i18n.js的模板FAQ + 城市名插值
+ * @param {object} city 城市数据
+ * @param {string} lang 语言代码
+ * @returns {Array<{question: string, answer: string}>}
+ */
+function getLocalizedFaqs(city, lang) {
+  if (lang === 'zh') return city.f || [];
+  const i18n = getI18n(lang);
+  if (!i18n || !i18n.faq) return city.f || [];
+  const vars = { city: city.ne };
+  return i18n.faq.map(f => ({
+    question: renderTemplate(f.question, vars),
+    answer: renderTemplate(f.answer, vars)
+  }));
 }
 
 function faqSchema(faqs) {
@@ -540,7 +560,7 @@ export function renderCityPage(slug, city, allCities, lang = 'zh', config = {}) 
   const faqLd = safeJsonLd({
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": city.f.map(faq => ({
+    "mainEntity": getLocalizedFaqs(city, lang).map(faq => ({
       '@type': 'Question',
       name: faq.question,
       acceptedAnswer: { '@type': 'Answer', text: faq.answer }
@@ -618,6 +638,7 @@ export function renderCityPage(slug, city, allCities, lang = 'zh', config = {}) 
     .faq-question::after{content:'+';font-size:1.2rem;color:var(--text-secondary)}
     details[open] .faq-question::after{content:'\\2212'}
     .faq-answer{padding:0 1.2rem 1rem;color:var(--text-secondary);line-height:1.7}
+    .cta-actions .cta-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(37,99,235,0.2)}
     .related-section{max-width:800px;margin:2rem auto 0;padding:0 1rem 2rem}
     .city-grid-sm{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:0.75rem;margin-top:1rem}
     .city-card-sm{display:block;padding:0.8rem;border-radius:10px;border:1px solid var(--border);text-decoration:none;color:var(--text);transition:transform 0.15s,box-shadow 0.15s}
@@ -669,6 +690,11 @@ ${timeDiffRows({ o: city.o }, t)}
         <div class="contact-card"><h3>${t.cardBiz}</h3><p>${city.bb}</p></div>
         <div class="contact-card"><h3>${t.cardPersonal}</h3><p>${city.bp}</p></div>
       </div>
+      <div class="cta-actions" style="display:flex;gap:0.75rem;margin-top:1.2rem;flex-wrap:wrap;">
+        <a href="${prefix}/meeting-planner/?tz=${city.tz}" class="cta-btn" style="flex:1;min-width:140px;display:flex;align-items:center;justify-content:center;gap:0.4rem;padding:0.7rem 1.2rem;border-radius:var(--radius,14px);background:var(--accent,#2563eb);color:#fff;text-decoration:none;font-weight:600;font-size:0.88rem;transition:all 0.15s;">📅 ${t.navMeeting}</a>
+        <a href="${prefix}/time-difference/?from=${city.tz}" class="cta-btn" style="flex:1;min-width:140px;display:flex;align-items:center;justify-content:center;gap:0.4rem;padding:0.7rem 1.2rem;border-radius:var(--radius,14px);border:1.5px solid var(--accent,#2563eb);color:var(--accent,#2563eb);text-decoration:none;font-weight:600;font-size:0.88rem;transition:all 0.15s;">⏱️ ${t.navTimeDiff}</a>
+        <a href="${prefix}/pricing/" class="cta-btn" style="flex:1;min-width:140px;display:flex;align-items:center;justify-content:center;gap:0.4rem;padding:0.7rem 1.2rem;border-radius:var(--radius,14px);border:1.5px solid var(--border,#e2e8f0);color:var(--text-secondary);text-decoration:none;font-weight:600;font-size:0.88rem;transition:all 0.15s;">⬆️ ${t.navPro}</a>
+      </div>
     </section>
     <section class="tz-info-section">
       <h2>${t.sectionTzInfo(city)}</h2>
@@ -683,7 +709,7 @@ ${dstExtra}
     </section>
     <section class="faq-section">
       <h2>${t.sectionFaq(city)}</h2>
-${faqItems(city.f)}
+${faqItems(getLocalizedFaqs(city, lang))}
     </section>
     <section class="related-section">
       <h2>${t.sectionRelated}</h2>
@@ -745,7 +771,7 @@ ${relatedLinks(city.r, allCities, lang)}
   <script src="/cookie-consent.js" defer data-cfasync="false"></script>
   <script src="/ads-loader.js" defer data-cfasync="false"></script>
   <script data-cfasync="false">
-    if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js?v=8').catch(function(){});});}
+    if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js?v=9').catch(function(){});});}
   </script>
   <script src="/baidu-analytics.js" defer data-cfasync="false"></script>
   ${gaBlock}

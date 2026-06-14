@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://pagead2.googlesyndication.com">
   <link rel="manifest" href="/manifest.json">
   <link rel="stylesheet" href="/styles/premium.css?v=2">
-  <style nonce="{{nonce}}">
+  <style>
     real-clock, smart-clock {
       display: inline-block; min-width: 60px; visibility: hidden;
     }
@@ -153,6 +153,25 @@
         <button id="city-search-btn" data-i18n-attr="aria-label:hero.city.button" aria-label="添加城市" style="padding:0 1.2rem;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);font-size:0.9rem;font-weight:600;cursor:pointer;white-space:nowrap;" data-i18n="hero.city.button">+ 添加</button>
       </div>
 
+      <!-- ═══════ 场景化快捷入口（CTA转化漏斗） ═══════ -->
+      <div class="cta-quick-actions" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;max-width:540px;margin:1.5rem auto 0;">
+        <a href="/time-difference/" data-i18n-attr="aria-label:cta.timeDiff.aria" class="cta-action-card" style="display:flex;flex-direction:column;align-items:center;gap:0.4rem;padding:1rem 0.6rem;border-radius:var(--radius);border:1px solid var(--border);text-decoration:none;color:var(--text);transition:all var(--transition-fast,0.15s);background:var(--bg-glass,rgba(255,255,255,0.72));">
+          <span style="font-size:1.5rem;">⏱️</span>
+          <strong style="font-size:0.85rem;" data-i18n="cta.timeDiff.title">查时差</strong>
+          <small style="font-size:0.72rem;color:var(--text-secondary);" data-i18n="cta.timeDiff.desc">两地时间对比</small>
+        </a>
+        <a href="/meeting-planner/" data-i18n-attr="aria-label:cta.meeting.aria" class="cta-action-card" style="display:flex;flex-direction:column;align-items:center;gap:0.4rem;padding:1rem 0.6rem;border-radius:var(--radius);border:1px solid var(--border);text-decoration:none;color:var(--text);transition:all var(--transition-fast,0.15s);background:var(--bg-glass,rgba(255,255,255,0.72));">
+          <span style="font-size:1.5rem;">📅</span>
+          <strong style="font-size:0.85rem;" data-i18n="cta.meeting.title">约会议</strong>
+          <small style="font-size:0.72rem;color:var(--text-secondary);" data-i18n="cta.meeting.desc">跨国会议排期</small>
+        </a>
+        <a href="/tools/cross-border/" data-i18n-attr="aria-label:cta.crossBorder.aria" class="cta-action-card" style="display:flex;flex-direction:column;align-items:center;gap:0.4rem;padding:1rem 0.6rem;border-radius:var(--radius);border:1px solid var(--border);text-decoration:none;color:var(--text);transition:all var(--transition-fast,0.15s);background:var(--bg-glass,rgba(255,255,255,0.72));">
+          <span style="font-size:1.5rem;">🌏</span>
+          <strong style="font-size:0.85rem;" data-i18n="cta.crossBorder.title">跨境通</strong>
+          <small style="font-size:0.72rem;color:var(--text-secondary);" data-i18n="cta.crossBorder.desc">外贸联系助手</small>
+        </a>
+      </div>
+
       <!-- 动态城市卡片 -->
       <div id="custom-city-cards" class="quick-cards" style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;margin-top:1.2rem;position:relative;z-index:1;"></div>
     </section>
@@ -222,7 +241,7 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/sw.js?v=6').catch(function() {});
+        navigator.serviceWorker.register('/sw.js?v=9').catch(function() {});
       });
     }
   </script>

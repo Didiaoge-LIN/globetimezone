@@ -414,3 +414,221 @@ footer a:hover {
   background: var(--accent-light);
   color: var(--accent);
 }
+
+/* ============== CTA快捷入口卡片 ============== */
+.cta-action-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow), 0 0 20px var(--accent-glow);
+  border-color: var(--accent);
+}
+@media (max-width: 640px) {
+  .cta-quick-actions {
+    grid-template-columns: 1fr !important;
+    gap: 0.5rem !important;
+  }
+  .cta-action-card {
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    gap: 0.8rem !important;
+    padding: 0.8rem 1rem !important;
+  }
+}
+
+/* ============== 深色模式（完整覆盖） ============== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f172a;
+    --bg-card: #1e293b;
+    --bg-glass: rgba(30, 41, 59, 0.72);
+    --text: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-muted: #94a3b8;
+    --accent: #3b82f6;
+    --accent-glow: rgba(59, 130, 246, 0.3);
+    --accent-light: #1e293b;
+    --border: #334155;
+    --border-subtle: #1e293b;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+    --shadow: 0 4px 16px rgba(0,0,0,0.4);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
+    --shadow-glow: 0 0 40px rgba(59, 130, 246, 0.2);
+  }
+
+  /* 全局背景 */
+  body {
+    background-image:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(59, 130, 246, 0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 90% 20%, rgba(56, 189, 248, 0.04) 0%, transparent 50%);
+  }
+
+  /* 导航栏深色 */
+  header {
+    background: rgba(15, 23, 42, 0.85);
+    border-bottom-color: var(--border);
+  }
+  header.scrolled {
+    background: rgba(15, 23, 42, 0.95);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+
+  /* Hero标题渐变深色版 */
+  .hero h1 {
+    background: linear-gradient(135deg, #f1f5f9 0%, #93c5fd 60%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero::before {
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 60%);
+  }
+
+  /* 搜索输入框深色 */
+  .smart-search input,
+  #city-search-input {
+    background: var(--bg-glass) !important;
+    border-color: var(--border) !important;
+    color: var(--text);
+  }
+  .smart-search input:focus,
+  #city-search-input:focus {
+    background: var(--bg-card) !important;
+    border-color: var(--accent) !important;
+  }
+
+  /* 搜索按钮保持蓝色但加深 */
+  .smart-search button,
+  #city-search-btn,
+  #decision-btn {
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+  }
+
+  /* 城市状态卡片深色 */
+  .city-status-card {
+    background: var(--bg-glass) !important;
+    border-color: var(--border) !important;
+    box-shadow: var(--shadow) !important;
+  }
+  .city-status-card:hover {
+    box-shadow: var(--shadow-lg), 0 0 30px rgba(59, 130, 246, 0.1) !important;
+  }
+  .city-status-card .card-time {
+    color: var(--text);
+  }
+
+  /* 状态颜色深色版 */
+  .status-working { background: #064e3b; color: #6ee7b7; }
+  .status-sleeping { background: #1e3a5f; color: #93c5fd; }
+  .status-personal { background: #422006; color: #fcd34d; }
+  .status-morning { background: #1e3a5f; color: #93c5fd; }
+  .status-lunch { background: #422006; color: #fcd34d; }
+  .status-night { background: #312e81; color: #a5b4fc; }
+  .status-sleep { background: #1e3a5f; color: #93c5fd; }
+  .status-off { background: #422006; color: #fcd34d; }
+  .status-deep-sleep { background: #2e1065; color: #c4b5fd; }
+
+  /* 卡片顶部渐变条深色版 */
+  .city-status-card.status-working::before { background: linear-gradient(90deg, #064e3b, #10b981); }
+  .city-status-card.status-off::before { background: linear-gradient(90deg, #422006, #f59e0b); }
+  .city-status-card.status-night::before { background: linear-gradient(90deg, #312e81, #818cf8); }
+  .city-status-card.status-sleep::before { background: linear-gradient(90deg, #1e3a8a, #3b82f6); }
+  .city-status-card.status-morning::before { background: linear-gradient(90deg, #1e3a8a, #60a5fa); }
+  .city-status-card.status-lunch::before { background: linear-gradient(90deg, #422006, #fbbf24); }
+
+  /* 地球容器深色 */
+  #earth-visual svg {
+    box-shadow: var(--shadow-lg), 0 0 60px rgba(10, 30, 60, 0.3) !important;
+  }
+  #earth-visual svg:hover {
+    box-shadow: var(--shadow-lg), 0 0 80px rgba(59, 130, 246, 0.15) !important;
+  }
+
+  /* Footer深色 */
+  footer {
+    background: rgba(15, 23, 42, 0.85);
+    border-top-color: var(--border) !important;
+  }
+
+  /* 搜索下拉深色 */
+  #city-search-dropdown {
+    background: rgba(30, 41, 59, 0.95) !important;
+    border-color: var(--border) !important;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4) !important;
+  }
+  #city-search-dropdown > div:hover {
+    background: var(--accent-light);
+  }
+
+  /* PRO按钮深色版 */
+  .pro-link {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+  }
+  .pro-link:hover {
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.5) !important;
+  }
+
+  /* UTC顶部栏深色 */
+  #gtz-utc-bar {
+    background: rgba(15, 23, 42, 0.9);
+  }
+
+  /* 反馈按钮深色 */
+  #gtz-feedback-btn {
+    background: rgba(30, 41, 59, 0.9);
+  }
+
+  /* 广告容器深色 */
+  .ad-container {
+    background: var(--bg-card);
+  }
+
+  /* 语言切换器深色 */
+  .lang-picker button {
+    background: var(--bg-card);
+    border-color: var(--border);
+    color: var(--text-secondary);
+  }
+  #lang-drop {
+    background: var(--bg-card) !important;
+    border-color: var(--border) !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4) !important;
+  }
+  #lang-drop a:hover {
+    background: var(--accent-light) !important;
+  }
+
+  /* 跳转链接深色 */
+  .skip-link {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  /* 换算器深色 */
+  .converter-input:focus {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 3px var(--accent-glow) !important;
+  }
+
+  /* 减少动画偏好 */
+  .hero::before { animation: none; }
+}
+
+/* ============== 减少动画偏好 ============== */
+@media (prefers-reduced-motion: reduce) {
+  .hero::before { animation: none; }
+  .hero-badge, .hero h1, .hero .subtitle, .smart-search, #earth-visual { animation: none; }
+  .status-badge::before { animation: none; }
+  .reveal { transition: none; opacity: 1; transform: none; }
+  .city-status-card, .pro-link, footer a, header nav a, .smart-search button,
+  .smart-search input, #city-search-input, #city-search-btn { transition: none; }
+}
+
+/* ============== 焦点可见性 ============== */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
