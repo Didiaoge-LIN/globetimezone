@@ -1,0 +1,40 @@
+/* 全局重置与基础样式 */
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',sans-serif;
+  color:#1f2937;
+  background:#f9fafb;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+.container{max-width:1000px;margin:0 auto;padding:0 20px}
+
+/* 导航栏 */
+.nav{
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid #e5e7eb;
+  background:#fff;
+}
+.logo{
+  font-size:20px;
+  font-weight:700;
+  color:#111827;
+  text-decoration:none;
+}
+.nav-links{display:flex;gap:24px}
+.nav-link{
+  color:#4b5563;
+  text-decoration:none;
+  font-size:14px;
+  transition:color 0.2s;
+}
+.nav-link:hover{color:#2563eb}
+
+/* 响应式 */
+@media(max-width:768px){
+  .container{padding:0 16px}
+  .nav-links{gap:16px}
+}

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>跨时区会议规划器 - 自动查找全员工作时间 | GlobeTimeZone</title>
+  <meta name="description" content="自动计算多个时区的工作时间重叠时段，一键生成会议邀请。支持2-10个时区，自动校准夏令时，无广告免注册。">
+  <link rel="canonical" href="https://globetimezone.com/meeting">
+  <link rel="stylesheet" href="/assets/css/common.css">
+  <link rel="stylesheet" href="/assets/css/meeting.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a href="/" class="logo">GlobeTimeZone</a>
+      <div class="nav-links">
+        <a href="/" class="nav-link">首页</a>
+        <a href="/meeting" class="nav-link">会议规划</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="meeting-page">
+    <div class="container">
+      <div class="meeting-header">
+        <h1>跨时区会议规划器</h1>
+        <p>自动查找所有参与者都在工作时间的会议时段</p>
+      </div>
+
+      <div id="meeting-app">
+        <div class="duration-selector">
+          <button type="button" class="duration-btn" data-duration="30">30分钟</button>
+          <button type="button" class="duration-btn active" data-duration="60">1小时</button>
+          <button type="button" class="duration-btn" data-duration="90">1.5小时</button>
+          <button type="button" class="duration-btn" data-duration="120">2小时</button>
+        </div>
+
+        <div class="city-picker" id="city-picker">
+          <!-- Cities populated by JS -->
+        </div>
+
+        <div class="timeline-container">
+          <div class="timeline-track" id="timeline-track">
+            <!-- Time slots rendered by JS -->
+          </div>
+        </div>
+
+        <div id="results-area">
+          <!-- Result cards rendered by JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="/assets/js/meeting-planner.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Parse initial cities from URL
+      var params = new URLSearchParams(window.location.search);
+      var citiesParam = params.get('cities') || '';
+      var initialCities = citiesParam.split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+
+      // Initialize planner
+      var planner = new MeetingPlanner({
+        containerId: 'meeting-app',
+        trackSelector: '#timeline-track',
+        initialCities: initialCities,
+        defaultDuration: 60
+      });
+
+      // Duration buttons
+      var durationBtns = document.querySelectorAll('.duration-btn');
+      durationBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          durationBtns.forEach(function(b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          planner.setDuration(parseInt(btn.dataset.duration, 10));
+        });
+      });
+
+      // City picker - add city support
+      var cityPicker = document.getElementById('city-picker');
+      var cityOptions = [
+        { tz: 'America/New_York', label: '纽约' },
+        { tz: 'America/Los_Angeles', label: '洛杉矶' },
+        { tz: 'Europe/London', label: '伦敦' },
+        { tz: 'Asia/Shanghai', label: '北京' },
+        { tz: 'Asia/Tokyo', label: '东京' },
+        { tz: 'Australia/Sydney', label: '悉尼' }
+      ];
+
+      var selectedCities = initialCities.slice();
+
+      function renderCityPicker() {
+        cityPicker.innerHTML = '';
+        cityOptions.forEach(function(city) {
+          var chip = document.createElement('button');
+          chip.type = 'button';
+          chip.className = 'city-chip' + (selectedCities.includes(city.tz) ? ' active' : '');
+          chip.textContent = city.label;
+          chip.addEventListener('click', function() {
+            var idx = selectedCities.indexOf(city.tz);
+            if (idx >= 0) {
+              selectedCities.splice(idx, 1);
+            } else {
+              selectedCities.push(city.tz);
+            }
+            renderCityPicker();
+            planner.updateCities(selectedCities);
+          });
+          cityPicker.appendChild(chip);
+        });
+      }
+
+      renderCityPicker();
+    });
+  </script>
+</body>
+</html>

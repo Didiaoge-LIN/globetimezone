@@ -1,5 +1,5 @@
 {
   "version": 1,
-  "include": ["/api/*", "/city/*", "/og/*", "/en/*", "/zh/*", "/de/*", "/fr/*", "/es/*", "/ja/*", "/ko/*", "/pt/*", "/ar/*"],
+  "include": ["/api/*", "/api/v1/*", "/city/*", "/og/*", "/sitemap/*", "/sitemap.xml", "/compare/*", "/en/*", "/zh/*", "/de/*", "/fr/*", "/es/*", "/ja/*", "/ko/*", "/pt/*", "/ar/*"],
   "exclude": []
 }
