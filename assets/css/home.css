@@ -1,0 +1,108 @@
+/* 首屏Hero区 */
+.hero{padding:64px 0 48px;text-align:center}
+.hero-badge{
+  display:inline-block;
+  background:#eff6ff;
+  color:#1d4ed8;
+  padding:6px 14px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:500;
+  margin-bottom:20px;
+}
+.hero-title{
+  font-size:44px;
+  font-weight:800;
+  line-height:1.2;
+  margin-bottom:16px;
+  letter-spacing:-0.02em;
+}
+.hero-title span{color:#2563eb}
+.hero-sub{
+  font-size:18px;
+  color:#6b7280;
+  margin-bottom:36px;
+  max-width:600px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+/* 快速操作区 */
+.quick-action{
+  max-width:640px;
+  margin:0 auto;
+  background:#fff;
+  border-radius:16px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.06);
+  padding:28px;
+  text-align:left;
+}
+.action-label{
+  font-size:14px;
+  font-weight:500;
+  color:#374151;
+  margin-bottom:10px;
+}
+.city-inputs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-bottom:20px;
+}
+.city-select{
+  width:100%;
+  padding:12px 14px;
+  border:1px solid #d1d5db;
+  border-radius:10px;
+  font-size:15px;
+  background:#f9fafb;
+  transition:all 0.2s;
+}
+.city-select:focus{
+  outline:none;
+  border-color:#2563eb;
+  background:#fff;
+  box-shadow:0 0 0 3px rgba(37,99,235,0.1);
+}
+.primary-btn{
+  width:100%;
+  padding:14px;
+  background:#2563eb;
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+  transition:background 0.2s;
+}
+.primary-btn:hover{background:#1d4ed8}
+.primary-btn:active{transform:translateY(1px)}
+
+/* 信任栏 */
+.trust-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:24px;
+  margin-top:24px;
+  font-size:13px;
+  color:#6b7280;
+}
+.trust-item{display:flex;align-items:center;gap:6px}
+.trust-dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#10b981;
+}
+
+/* 移动端适配 */
+@media(max-width:768px){
+  .hero{padding:40px 0 32px}
+  .hero-title{font-size:32px}
+  .hero-sub{font-size:16px}
+  .city-inputs{grid-template-columns:1fr}
+  .quick-action{padding:20px}
+  .trust-row{flex-wrap:wrap;gap:16px}
+}

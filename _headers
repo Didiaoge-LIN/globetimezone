@@ -92,3 +92,20 @@
 /api/*
   X-Robots-Tag: noindex, nofollow
   Cache-Control: no-cache, no-store, max-age=0
+
+# === 重叠时段API：5分钟边缘缓存 ===
+/api/v1/*
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: public, max-age=300, stale-while-revalidate=3600
+
+# === 对比页：短缓存保实时 ===
+/compare/*
+  Cache-Control: public, max-age=60, s-maxage=300, stale-while-revalidate=300
+
+# === 会议规划页 ===
+/meeting
+  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=86400
+
+# === 分片站点地图 ===
+/sitemap/*
+  Cache-Control: public, max-age=86400

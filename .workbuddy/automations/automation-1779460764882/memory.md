@@ -1,7 +1,7 @@
 # GlobeTimeZone 每日社交媒体帖子生成与发布 - 执行记录
 
 ## 最后执行时间
-2026-06-14 08:39 GMT+8
+2026-06-15 07:52 GMT+8
 
 ## 功能状态
 - ✅ 帖子生成：正常工作
@@ -25,6 +25,7 @@
 ## 最近执行记录
 | 日期 | 城市组 | 发布状态 |
 |------|--------|----------|
+| 2026-06-15 | apac | 生成成功，凭据未配置 |
 | 2026-06-14 | apac | 生成成功，凭据未配置 |
 | 2026-06-13 | us-eu | 生成成功，凭据未配置 |
 | 2026-06-09 | global | 生成成功，凭据未配置 |
@@ -43,15 +44,15 @@
 | 2026-05-25 | apac | 生成成功，凭据未配置 |
 | 2026-05-24 | apac | 生成成功，凭据未配置 |
 
-## 今日帖子内容 (2026-06-14)
+## 今日帖子内容 (2026-06-15)
 **城市组**: apac
-**时间戳**: 2026-06-14T00:39:29.298Z
+**时间戳**: 2026-06-14T23:57:26.439Z
 
 **帖子文案**:
 ```
 🕐 What time is it for your team right now?
 
-🇨🇳 Beijing 08:39 AM | 🗼 Tokyo 09:39 AM | 🇸🇬 Singapore 08:39 AM | 🇦🇺 Sydney 10:39 AM
+🇨🇳 Beijing 07:57 AM | 🗼 Tokyo 08:57 AM | 🇸🇬 Singapore 07:57 AM | 🇦🇺 Sydney 09:57 AM
 
 See all time zones instantly → https://globetimezone.com
 ```
@@ -64,7 +65,7 @@ See all time zones instantly → https://globetimezone.com
 - **状态**: 优雅降级，仅生成帖子不发布
 
 ## 历史记录
-- social-posts.json 当前包含 20 条历史记录
+- social-posts.json 当前包含 21 条历史记录
 - 自动维护最近90天记录
 
 ## 依赖
