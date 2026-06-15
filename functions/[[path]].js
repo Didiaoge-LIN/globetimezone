@@ -156,6 +156,44 @@ export async function onRequest(context) {
     return Response.redirect(url.toString(), 301);
   }
 
+  // ═══════ 2.5 i18n 通用页面：/<lang>/<path> → SSR 注入 lang/title/description ═══════
+  // 拦截所有语言前缀路径（首页已在 #0 处理，此捕获其他如 /zh/why-daylight-saving-time）
+  const langPageMatch = pathname.match(/^\/(en|zh|de|fr|es|ja|ko|pt|ar)\/(.+)$/);
+  if (langPageMatch) {
+    const lang = langPageMatch[1];
+    const seo = LANG_SEO[lang];
+    if (seo) {
+      // 获取原始静态文件（通过 _redirects rewrite 或直接文件服务）
+      const staticResp = await next();
+      if (staticResp.status !== 200) return staticResp;
+
+      const contentType = staticResp.headers.get('Content-Type') || '';
+      if (!contentType.includes('text/html')) return staticResp;
+
+      const html = await staticResp.text();
+      const localeMap = { en: 'en_US', zh: 'zh_CN', de: 'de_DE', fr: 'fr_FR', es: 'es_ES', ja: 'ja_JP', ko: 'ko_KR', pt: 'pt_BR', ar: 'ar_SA' };
+
+      let patched = html
+        .replace(/<html\s+lang="[^"]*"/, `<html lang="${seo.lang}"`)
+        .replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(seo.title)}</title>`)
+        .replace(/(<meta[^>]*name="description"[^>]*content=")[^"]*(")/, `$1${escapeHtml(seo.desc)}$2`)
+        .replace(/(<meta[^>]*property="og:title"[^>]*content=")[^"]*(")/, `$1${escapeHtml(seo.title)}$2`)
+        .replace(/(<meta[^>]*property="og:description"[^>]*content=")[^"]*(")/, `$1${escapeHtml(seo.desc)}$2`)
+        .replace(/(<meta[^>]*name="twitter:title"[^>]*content=")[^"]*(")/, `$1${escapeHtml(seo.title)}$2`)
+        .replace(/(<meta[^>]*name="twitter:description"[^>]*content=")[^"]*(")/, `$1${escapeHtml(seo.desc)}$2`);
+
+      if (localeMap[lang]) {
+        patched = patched.replace(/(<meta[^>]*property="og:locale"[^>]*content=")[^"]*(")/, `$1${localeMap[lang]}$2`);
+      }
+
+      const headers = new Headers(staticResp.headers);
+      headers.set('Content-Type', 'text/html; charset=utf-8');
+      headers.delete('Content-Length');
+
+      return new Response(patched, { status: 200, headers });
+    }
+  }
+
   // ═══════ 3. 其他请求 → 交给 _redirects / 静态文件服务 ═══════
   return next();
 }
