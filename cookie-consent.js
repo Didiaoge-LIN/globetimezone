@@ -10,7 +10,7 @@
 
   document.body.appendChild(banner);
 
-  document.getElementById('cookie-accept')!.addEventListener('click', () => {
+  document.getElementById('cookie-accept').addEventListener('click', () => {
     localStorage.setItem('cookie-consent', 'true');
     banner.remove();
   });
