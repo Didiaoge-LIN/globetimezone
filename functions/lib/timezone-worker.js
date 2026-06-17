@@ -10,7 +10,7 @@
  * @param {Date} [date=new Date()] 基准时间
  * @returns {number} UTC偏移分钟数，正数表示比UTC快
  */
-export function getUtcOffsetMinutes(timeZone, date = new Date()) {
+export const getUtcOffsetMinutes = (timeZone, date = new Date()) => {
   const formatter = new Intl.DateTimeFormat('en-US', {
     timeZone,
     year: 'numeric',
@@ -36,7 +36,7 @@ export function getUtcOffsetMinutes(timeZone, date = new Date()) {
   );
 
   return Math.round((localUtcTs - date.getTime()) / 60000);
-}
+};
 
 /**
  * 计算两个时区的时差
@@ -45,16 +45,16 @@ export function getUtcOffsetMinutes(timeZone, date = new Date()) {
  * @param {Date} [date=new Date()] 基准时间
  * @returns {number} 时差分钟数，正数表示A比B快
  */
-export function getTimeDifferenceMinutes(tzA, tzB, date = new Date()) {
+export const getTimeDifferenceMinutes = (tzA, tzB, date = new Date()) => {
   return getUtcOffsetMinutes(tzA, date) - getUtcOffsetMinutes(tzB, date);
-}
+};
 
 /**
  * 格式化时差为人类可读文本
  * @param {number} minutes 时差分钟数
  * @returns {string} 格式化文本
  */
-export function formatTimeDifference(minutes) {
+export const formatTimeDifference = (minutes) => {
   const abs = Math.abs(minutes);
   const hours = Math.floor(abs / 60);
   const mins = abs % 60;
@@ -63,7 +63,7 @@ export function formatTimeDifference(minutes) {
     return `${hours}小时`;
   }
   return `${hours}小时${mins}分钟`;
-}
+};
 
 /**
  * 将本地工作时段转换为UTC分钟区间（支持跨天）
@@ -73,7 +73,7 @@ export function formatTimeDifference(minutes) {
  * @param {Date} [date=new Date()] 基准日期
  * @returns {Array<{start: number, end: number}>} UTC分钟区间数组，跨天返回2段
  */
-export function getWorkWindowsUtc(timeZone, startHour = 9, endHour = 17, date = new Date()) {
+export const getWorkWindowsUtc = (timeZone, startHour = 9, endHour = 17, date = new Date()) => {
   const offset = getUtcOffsetMinutes(timeZone, date);
   const startLocalMin = startHour * 60;
   const endLocalMin = endHour * 60;
@@ -93,14 +93,14 @@ export function getWorkWindowsUtc(timeZone, startHour = 9, endHour = 17, date = 
       { start: 0, end: endUtcMin }
     ];
   }
-}
+};
 
 /**
  * 求多组区间的交集（支持每组多个区间、跨天场景）
  * @param {Array<Array<{start: number, end: number}>>} allWindows 所有时区的区间集合
  * @returns {Array<{start: number, end: number}>} 交集区间数组
  */
-export function intersectAllWindows(allWindows) {
+export const intersectAllWindows = (allWindows) => {
   if (allWindows.length === 0) return [];
   let result = allWindows[0];
 
@@ -123,4 +123,4 @@ export function intersectAllWindows(allWindows) {
   }
 
   return result;
-}
+};

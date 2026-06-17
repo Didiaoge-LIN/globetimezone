@@ -1,4 +1,4 @@
-import { escapeXml } from '../../workers/lib/security.js';
+import { escapeXml } from './lib/security.js';
 
 const BASE_URL = 'https://globetimezone.com';
 const CITIES = ['new-york', 'los-angeles', 'london', 'beijing', 'tokyo', 'sydney'];
