@@ -89,7 +89,6 @@ function buildComparePageHeaders(nonce, contentType, cacheControl, isBot) {
       "form-action 'self'"
     ].join('; '),
     'X-Frame-Options': 'DENY',
-    'X-Content-Type-Options': 'nosniff',
     'Referrer-Policy': 'strict-origin-when-cross-origin',
     'Permissions-Policy': 'geolocation=(), microphone=(), camera=(), payment=()'
   };
