@@ -37,3 +37,6 @@ temp/
 .wrangler/
 cache/
 locales_backup_20260611/
+
+# Legacy Workers directory (migrated to functions/ in V11)
+workers/
