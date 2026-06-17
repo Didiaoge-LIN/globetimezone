@@ -3,14 +3,13 @@ import {
   safeJsString,
   safeJsonLd,
   isValidSlug,
-  generateCspNonce,
   buildSecurityHeaders
 } from '../lib/security.js';
 import {
   getTimeDifferenceMinutes,
   formatTimeDifference
-} from '../lib/timezone.js';
-import { isSearchEngineBot } from '../lib/common.js';
+} from '../lib/timezone-worker.js';
+import { isSearchEngineBot } from '../lib/common-worker.js';
 
 /**
  * 城市白名单配置
@@ -62,9 +61,46 @@ const CITY_WHITELIST = {
 };
 
 /**
+ * 生成 CSP Nonce 用于放行内联脚本/样式
+ */
+function generateCspNonce() {
+  const bytes = new Uint8Array(16);
+  crypto.getRandomValues(bytes);
+  return btoa(String.fromCharCode(...bytes))
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=/g, '');
+}
+
+/**
+ * 构造对比页专用 CSP（使用 nonce 代替 unsafe-inline）
+ */
+function buildComparePageHeaders(nonce, contentType, cacheControl, isBot) {
+  const headers = {
+    'Content-Type': contentType,
+    'Cache-Control': cacheControl,
+    'Content-Security-Policy': [
+      "default-src 'self'",
+      `script-src 'nonce-${nonce}'`,
+      `style-src 'nonce-${nonce}'`,
+      "img-src 'self' data:",
+      "frame-ancestors 'none'",
+      "base-uri 'self'",
+      "form-action 'self'"
+    ].join('; '),
+    'X-Frame-Options': 'DENY',
+    'X-Content-Type-Options': 'nosniff',
+    'Referrer-Policy': 'strict-origin-when-cross-origin',
+    'Permissions-Policy': 'geolocation=(), microphone=(), camera=(), payment=()'
+  };
+  if (!isBot) {
+    headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains';
+  }
+  return headers;
+}
+
+/**
  * 渲染404页面
- * @param {string} nonce CSP随机值
- * @returns {string} HTML内容
  */
 function render404Page(nonce) {
   return `<!DOCTYPE html>
@@ -93,12 +129,6 @@ function render404Page(nonce) {
 
 /**
  * 渲染主对比页面
- * @param {object} cityA 城市A配置
- * @param {object} cityB 城市B配置
- * @param {string} slugA 城市A Slug
- * @param {string} slugB 城市B Slug
- * @param {string} nonce CSP随机值
- * @returns {string} HTML内容
  */
 function renderComparePage(cityA, cityB, slugA, slugB, nonce) {
   const diffMinutes = getTimeDifferenceMinutes(cityA.tz, cityB.tz);
@@ -111,7 +141,6 @@ function renderComparePage(cityA, cityB, slugA, slugB, nonce) {
   const canonicalUrl = `https://globetimezone.com/compare/${slugA}-and-${slugB}-time-difference`;
   const meetingUrl = `/meeting?cities=${encodeURIComponent(cityA.tz)},${encodeURIComponent(cityB.tz)}`;
 
-  // 所有输出变量统一安全转义
   const safe = {
     title: escapeHtml(pageTitle),
     description: escapeHtml(pageDesc),
@@ -128,7 +157,6 @@ function renderComparePage(cityA, cityB, slugA, slugB, nonce) {
     meetingUrl: escapeHtml(meetingUrl)
   };
 
-  // JSON-LD 结构化数据
   const schemaData = safeJsonLd({
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -230,55 +258,56 @@ function renderComparePage(cityA, cityB, slugA, slugB, nonce) {
 </html>`;
 }
 
-export default {
-  async fetch(request) {
-    const url = new URL(request.url);
-    const nonce = generateCspNonce();
-    const isBot = isSearchEngineBot(request);
+/**
+ * Pages Function 入口：/compare/* 路径处理
+ */
+export async function onRequest(context) {
+  const request = context.request;
+  const url = new URL(request.url);
+  const nonce = generateCspNonce();
+  const isBot = isSearchEngineBot(request);
 
-    // 路径规范化：解码+去后缀+去冗余斜杠，防编码绕过
-    let path = decodeURIComponent(url.pathname);
-    path = path.replace(/^\/compare\//, '').replace(/\.html?$/, '').replace(/\/+/g, '');
+  let path = decodeURIComponent(url.pathname);
+  path = path.replace(/^\/compare\//, '').replace(/\.html?$/, '').replace(/\/+/g, '');
 
-    // 第一层：路由格式校验
-    const pathMatch = path.match(/^([a-z0-9-]+)-and-([a-z0-9-]+)-time-difference$/);
-    if (!pathMatch) {
-      return new Response(render404Page(nonce), {
-        status: 404,
-        headers: buildSecurityHeaders(nonce, 'text/html; charset=utf-8', 'no-cache', isBot)
-      });
-    }
-
-    const [, slugA, slugB] = pathMatch;
-
-    // 第二层：Slug格式校验
-    if (!isValidSlug(slugA) || !isValidSlug(slugB)) {
-      return new Response(render404Page(nonce), {
-        status: 404,
-        headers: buildSecurityHeaders(nonce, 'text/html; charset=utf-8', 'no-cache', isBot)
-      });
-    }
-
-    // 第三层：白名单存在性校验
-    const cityA = CITY_WHITELIST[slugA];
-    const cityB = CITY_WHITELIST[slugB];
-    if (!cityA || !cityB) {
-      return new Response(render404Page(nonce), {
-        status: 404,
-        headers: buildSecurityHeaders(nonce, 'text/html; charset=utf-8', 'no-cache', isBot)
-      });
-    }
-
-    // 渲染页面
-    const html = renderComparePage(cityA, cityB, slugA, slugB, nonce);
-
-    // 分层缓存策略：爬虫长缓存收录，用户短缓存保实时
-    const cacheControl = isBot
-      ? 'public, max-age=43200, stale-while-revalidate=604800'
-      : 'public, max-age=60, stale-while-revalidate=300';
-
-    return new Response(html, {
-      headers: buildSecurityHeaders(nonce, 'text/html; charset=utf-8', cacheControl, isBot)
+  // 第一层：路由格式校验
+  const pathMatch = path.match(/^([a-z0-9-]+)-and-([a-z0-9-]+)-time-difference$/);
+  if (!pathMatch) {
+    return new Response(render404Page(nonce), {
+      status: 404,
+      headers: buildComparePageHeaders(nonce, 'text/html; charset=utf-8', 'no-cache', isBot)
     });
   }
-};
+
+  const [, slugA, slugB] = pathMatch;
+
+  // 第二层：Slug格式校验
+  if (!isValidSlug(slugA) || !isValidSlug(slugB)) {
+    return new Response(render404Page(nonce), {
+      status: 404,
+      headers: buildComparePageHeaders(nonce, 'text/html; charset=utf-8', 'no-cache', isBot)
+    });
+  }
+
+  // 第三层：白名单存在性校验
+  const cityA = CITY_WHITELIST[slugA];
+  const cityB = CITY_WHITELIST[slugB];
+  if (!cityA || !cityB) {
+    return new Response(render404Page(nonce), {
+      status: 404,
+      headers: buildComparePageHeaders(nonce, 'text/html; charset=utf-8', 'no-cache', isBot)
+    });
+  }
+
+  // 渲染页面
+  const html = renderComparePage(cityA, cityB, slugA, slugB, nonce);
+
+  // 分层缓存策略：爬虫长缓存收录，用户短缓存保实时
+  const cacheControl = isBot
+    ? 'public, max-age=43200, stale-while-revalidate=604800'
+    : 'public, max-age=60, stale-while-revalidate=300';
+
+  return new Response(html, {
+    headers: buildComparePageHeaders(nonce, 'text/html; charset=utf-8', cacheControl, isBot)
+  });
+}

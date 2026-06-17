@@ -128,6 +128,59 @@ export const buildSecurityHeaders = (options = {}) => {
 };
 
 /**
+ * JavaScript 字符串上下文安全序列化（防御JS注入）
+ * 适用场景：内联脚本中的字符串变量
+ * @param {any} input 待序列化内容
+ * @returns {string} 带引号的安全JS字符串
+ */
+export const safeJsString = (input) => {
+  return JSON.stringify(String(input ?? ''));
+};
+
+/**
+ * XML 上下文转义（防御XML格式崩坏与注入）
+ * 适用场景：Sitemap、RSS等XML格式输出
+ * @param {any} input 待转义内容
+ * @returns {string} 安全转义后的字符串
+ */
+export const escapeXml = (input) => {
+  const str = input == null ? '' : String(input);
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+};
+
+/**
+ * IANA 时区标识合法性校验
+ * @param {any} tz 待校验时区
+ * @returns {boolean} 是否合法
+ */
+export const isValidTimeZone = (tz) => {
+  if (typeof tz !== 'string') return false;
+  try {
+    Intl.DateTimeFormat(undefined, { timeZone: tz });
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+/**
+ * 站内URL安全校验（防御开放重定向漏洞）
+ * 仅允许站内相对路径与本站域名绝对路径
+ * @param {any} url 待校验URL
+ * @returns {boolean} 是否安全
+ */
+export const isSafeInternalUrl = (url) => {
+  if (typeof url !== 'string') return false;
+  if (url.startsWith('/') && !url.startsWith('//')) return true;
+  return url.startsWith('https://globetimezone.com/');
+};
+
+/**
  * 统一错误响应工厂（所有错误场景格式一致，零信息泄露）
  * @param {number} status HTTP状态码
  * @param {string} message 用户可见提示
