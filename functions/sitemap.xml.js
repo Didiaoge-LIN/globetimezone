@@ -1,10 +1,12 @@
 import { escapeXml } from './lib/security.js';
+import { getAllCities } from './city/data/index.js';
 
 const BASE_URL = 'https://globetimezone.com';
-const CITIES = ['new-york', 'los-angeles', 'london', 'beijing', 'tokyo', 'sydney'];
 const SUB_SITEMAP_LIMIT = 5000;
 const CACHE_TTL = 86400;
 const KV_NAMESPACE = 'SITEMAP_CACHE';
+
+const CITY_SLUGS = Object.keys(getAllCities());
 
 // 静态页面配置
 const STATIC_PAGES = [
@@ -64,8 +66,8 @@ export async function onRequestGet(context) {
   }
 
   // 计算动态页面总数
-  const cityPageCount = CITIES.length;
-  const comparePageCount = CITIES.length * (CITIES.length - 1) / 2;
+  const cityPageCount = CITY_SLUGS.length;
+  const comparePageCount = CITY_SLUGS.length * (CITY_SLUGS.length - 1) / 2;
   const totalDynamicPages = cityPageCount + comparePageCount;
   const subSitemapCount = Math.ceil(totalDynamicPages / SUB_SITEMAP_LIMIT);
 
@@ -79,14 +81,14 @@ export async function onRequestGet(context) {
       urlNodes.push(buildUrlNode(`${BASE_URL}${page.path}`, page.changefreq, page.priority, today));
     });
     // 城市详情页
-    CITIES.forEach(city => {
-      urlNodes.push(buildUrlNode(`${BASE_URL}/city/${city}`, 'daily', '0.6', today));
+    CITY_SLUGS.forEach(slug => {
+      urlNodes.push(buildUrlNode(`${BASE_URL}/city/${slug}`, 'daily', '0.6', today));
     });
     // 两两对比页
-    for (let i = 0; i < CITIES.length; i++) {
-      for (let j = i + 1; j < CITIES.length; j++) {
+    for (let i = 0; i < CITY_SLUGS.length; i++) {
+      for (let j = i + 1; j < CITY_SLUGS.length; j++) {
         urlNodes.push(buildUrlNode(
-          `${BASE_URL}/compare/${CITIES[i]}-and-${CITIES[j]}-time-difference`,
+          `${BASE_URL}/compare/${CITY_SLUGS[i]}-and-${CITY_SLUGS[j]}-time-difference`,
           'daily',
           '0.5',
           today
