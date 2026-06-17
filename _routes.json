@@ -1,5 +1,5 @@
 {
   "version": 1,
-  "include": ["/api/*", "/api/v1/*", "/city/*", "/og/*", "/sitemap/*", "/sitemap.xml", "/compare/*", "/en/city/*", "/zh/city/*", "/de/city/*", "/fr/city/*", "/es/city/*", "/ja/city/*", "/ko/city/*", "/pt/city/*", "/ar/city/*"],
+  "include": ["/api/*", "/city/*", "/og/*", "/sitemap/*", "/sitemap.xml", "/compare/*", "/en/city/*", "/zh/city/*", "/de/city/*", "/fr/city/*", "/es/city/*", "/ja/city/*", "/ko/city/*", "/pt/city/*", "/ar/city/*"],
   "exclude": []
 }
