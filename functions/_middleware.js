@@ -102,8 +102,8 @@ export async function onRequest(context) {
       }
     });
 
-    // 缓存策略
-    if (config.EDGE_CACHE_AGE > 0) {
+    // 缓存策略（仅当路由未设置时补充默认值）
+    if (config.EDGE_CACHE_AGE > 0 && !newHeaders.has('Cache-Control')) {
       newHeaders.set('Cache-Control', `public, max-age=${config.CACHE_MAX_AGE}, s-maxage=${config.EDGE_CACHE_AGE}, stale-while-revalidate=${CONSTANTS.CACHE.STALE_WHILE_REVALIDATE}, stale-if-error=${CONSTANTS.CACHE.STALE_IF_ERROR}`);
     }
   }
