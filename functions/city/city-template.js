@@ -7,8 +7,8 @@
  */
 import { escapeHtml, safeJsonLd } from '../lib/security.js';
 import { getI18n, renderTemplate } from '../locales/city-i18n.js';
-import { CITY_FAQS } from '../city-faqs.js';
-import { CITY_RELATED } from '../city-related.js';
+import { CITY_FAQS } from './city-faqs.js';
+import { CITY_RELATED } from './city-related.js';
 
 const REFERENCE_CITIES = [
   { n: '北京', ne: 'Beijing', tz: 'Asia/Shanghai', o: 8 },
