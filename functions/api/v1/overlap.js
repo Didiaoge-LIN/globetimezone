@@ -1,11 +1,11 @@
+/**
+ * 重叠时段 API
+ * 限流建议：通过 Cloudflare WAF 规则配置（免费版支持 10 条规则）
+ */
+
 import { isValidTimeZone, safeJsonLd } from '../../lib/security.js';
 import { getWorkWindowsUtc, intersectAllWindows } from '../../lib/timezone-worker.js';
-import { RateLimiter, jsonResponse } from '../../lib/common-worker.js';
-
-/**
- * 限流器：20次/分钟/每IP
- */
-const limiter = new RateLimiter(60000, 20);
+import { jsonResponse } from '../../lib/common-worker.js';
 
 /**
  * 请求参数校验与解析
@@ -71,12 +71,6 @@ export async function onRequest(context) {
   // 仅限GET
   if (request.method !== 'GET') {
     return new Response('Method Not Allowed', { status: 405 });
-  }
-
-  // 限流检查
-  const clientIp = request.headers.get('CF-Connecting-IP') || 'unknown';
-  if (!limiter.check(clientIp)) {
-    return jsonResponse({ error: '请求过于频繁，请稍后再试' }, 429, 'no-cache');
   }
 
   const url = new URL(request.url);
