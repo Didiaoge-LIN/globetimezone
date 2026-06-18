@@ -223,7 +223,7 @@
   // ─── 加载语言包 ──────────────────────────────────────
   function loadTranslations() {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', LOCALE_URL + '?v=' + (window.GTZ_VERSION || '4'), true);
+    xhr.open('GET', LOCALE_URL + '?v=' + (window.GTZ_VERSION || '5'), true);
     xhr.timeout = 5000;
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4 && xhr.status === 200) {
