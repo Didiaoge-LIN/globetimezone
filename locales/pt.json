@@ -1059,5 +1059,11 @@
   "social.precision": "Precisão de milissegundos",
   "social.standard": "Padrão oficial de fuso horário",
   "hero.search.label": "Buscar cidade",
-  "hero.city.label": "Adicionar cidade ao painel"
+  "hero.city.label": "Adicionar cidade ao painel",
+  "cta.timeDiff.title": "Diferença horária",
+  "cta.timeDiff.desc": "Comparar duas cidades",
+  "cta.meeting.title": "Planejar reunião",
+  "cta.meeting.desc": "Agendar entre fusos",
+  "cta.crossBorder.title": "Transfronteiriço",
+  "cta.crossBorder.desc": "Assistente de contato global"
 }

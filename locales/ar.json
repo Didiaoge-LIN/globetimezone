@@ -1059,5 +1059,11 @@
   "social.precision": "دقة بالملي ثانية",
   "social.standard": "معيار التوقيت الرسمي",
   "hero.search.label": "البحث عن مدينة",
-  "hero.city.label": "إضافة مدينة إلى لوحة التحكم"
+  "hero.city.label": "إضافة مدينة إلى لوحة التحكم",
+  "cta.timeDiff.title": "فرق التوقيت",
+  "cta.timeDiff.desc": "مقارنة مدينتين",
+  "cta.meeting.title": "مخطط الاجتماعات",
+  "cta.meeting.desc": "جدولة عبر المناطق الزمنية",
+  "cta.crossBorder.title": "عبر الحدود",
+  "cta.crossBorder.desc": "مساعد الاتصال العالمي"
 }

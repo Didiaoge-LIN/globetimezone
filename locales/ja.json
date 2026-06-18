@@ -1059,5 +1059,11 @@
   "social.precision": "ミリ秒精度",
   "social.standard": "公式タイムゾーン標準",
   "hero.search.label": "都市を検索",
-  "hero.city.label": "都市をダッシュボードに追加"
+  "hero.city.label": "都市をダッシュボードに追加",
+  "cta.timeDiff.title": "時差",
+  "cta.timeDiff.desc": "2都市を比較",
+  "cta.meeting.title": "会議計画",
+  "cta.meeting.desc": "時差を越えて日程調整",
+  "cta.crossBorder.title": "クロスボーダー",
+  "cta.crossBorder.desc": "グローバル連絡アシスタント"
 }
