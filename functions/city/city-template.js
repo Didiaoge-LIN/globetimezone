@@ -777,7 +777,7 @@ ${relatedLinks(CITY_RELATED[slug] || [], allCities, lang)}
   <script src="/cookie-consent.js" defer data-cfasync="false"></script>
   <script src="/ads-loader.js" defer data-cfasync="false"></script>
   <script data-cfasync="false">
-    if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js?v=10').catch(function(){});});}
+    if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('/sw.js?v=11').catch(function(){});});}
   </script>
   <script src="/baidu-analytics.js" defer data-cfasync="false"></script>
   ${gaBlock}

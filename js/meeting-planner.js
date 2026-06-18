@@ -231,17 +231,20 @@
   }
 
   function injectButton() {
-    if (document.getElementById('meeting-toggle')) return;
-    const hero = document.querySelector('.hero');
-    if (!hero) return;
-    const btn = document.createElement('button');
-    btn.id = 'meeting-toggle';
+    let btn = document.getElementById('meeting-toggle');
+    if (!btn) {
+      const hero = document.querySelector('.hero');
+      if (!hero) return;
+      btn = document.createElement('button');
+      btn.id = 'meeting-toggle';
+      btn.style.cssText = 'margin:0.8rem auto 0;display:block;padding:0.5rem 1.5rem;font-size:0.9rem;border:1.5px solid var(--accent);background:transparent;color:var(--accent);border-radius:8px;cursor:pointer;';
+      btn.addEventListener('mouseenter', () => { btn.style.background = 'var(--accent)'; btn.style.color = '#fff'; });
+      btn.addEventListener('mouseleave', () => { btn.style.background = 'transparent'; btn.style.color = 'var(--accent)'; });
+      btn.addEventListener('click', renderPanel);
+      hero.appendChild(btn);
+    }
+    // 刷新按钮文本（i18n 异步加载后更新）
     btn.textContent = t('meeting.toggle_btn','📅 会议规划模式');
-    btn.style.cssText = 'margin:0.8rem auto 0;display:block;padding:0.5rem 1.5rem;font-size:0.9rem;border:1.5px solid var(--accent);background:transparent;color:var(--accent);border-radius:8px;cursor:pointer;';
-    btn.addEventListener('mouseenter', () => { btn.style.background = 'var(--accent)'; btn.style.color = '#fff'; });
-    btn.addEventListener('mouseleave', () => { btn.style.background = 'transparent'; btn.style.color = 'var(--accent)'; });
-    btn.addEventListener('click', renderPanel);
-    hero.appendChild(btn);
   }
 
   if (document.readyState === 'loading') {
@@ -249,4 +252,12 @@
   } else {
     injectButton();
   }
+
+  // i18n 语言包异步加载完成后，刷新所有动态翻译文本
+  window.addEventListener('gtz-i18n-ready', function () {
+    injectButton();
+    // 如果面板已打开，刷新其内容
+    var panel = document.getElementById('meeting-panel');
+    if (panel && panel.style.display !== 'none') renderPanel();
+  });
 })();

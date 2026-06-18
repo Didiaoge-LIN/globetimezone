@@ -10,7 +10,7 @@
  *   3. index.html sw.js?v=X
  *   4. functions/city/city-template.js sw.js?v=X
  */
-const CACHE_VERSION = 'v10';
+const CACHE_VERSION = 'v11';
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `dynamic-${CACHE_VERSION}`;
 const MAX_DYNAMIC_ENTRIES = 100;
