@@ -26,7 +26,7 @@ const I18N = {
   en: {
     htmlLang: 'en',
     ogLocale: 'en_US',
-    title: (c) => `${c.ne} Time - Current Time, Time Difference, DST | GlobeTimeZone`,
+    title: (c, os) => `${c.ne} Time, ${c.c} (${os}) - Current Time, Time Difference, DST | GlobeTimeZone`,
     desc: (c) => `Check current time in ${c.ne} accurate to the second. Compare time difference with Beijing, New York, London, Tokyo, Sydney. Best business contact hours, DST dates. GlobeTimeZone covers 200+ cities.`,
     keywords: (c) => `${c.ne} time, ${c.ne} time difference, ${c.ne} current time, ${c.ne} DST, ${c.ne} timezone`,
     ogTitle: (c, os) => `${c.ne} Current Time - ${os} Timezone | GlobeTimeZone`,
@@ -86,7 +86,7 @@ const I18N = {
   zh: {
     htmlLang: 'zh',
     ogLocale: 'zh_CN',
-    title: (c) => `${c.n}时间 - 现在几点、时差查询、夏令时 | GlobeTimeZone`,
+    title: (c, os) => `${c.n}时间 (${os}, ${c.c}) - 现在几点、时差查询、夏令时 | GlobeTimeZone`,
     desc: (c) => `实时查询${c.n}当前时间，精准到秒。查看${c.n}与北京、纽约、伦敦、东京、悉尼的时差对比，最佳商务联系时间，夏令时切换日期。GlobeTimeZone提供全球200+城市实时时间查询。`,
     keywords: (c) => `${c.n}时间, ${c.n}时差, ${c.n}现在几点, ${c.n}夏令时, ${c.ne} time`,
     ogTitle: (c, os) => `${c.n}现在几点 - ${os}时区实时时间 | GlobeTimeZone`,
@@ -156,7 +156,7 @@ I18N.ja = {
   ...I18N.en,
   htmlLang: 'ja',
   ogLocale: 'ja_JP',
-  title: (c) => `${c.ne}の現在時刻 - 時差・夏時間 | GlobeTimeZone`,
+  title: (c, os) => `${c.ne}の現在時刻 (${os}, ${c.c}) - 時差・夏時間 | GlobeTimeZone`,
   desc: (c) => `${c.ne}の現在時刻を秒単位で確認。北京、ニューヨーク、ロンドン、東京、シドニーとの時差比較、最適な連絡時間、夏時間情報。`,
   keywords: (c) => `${c.ne} 現在時刻, ${c.ne} 時差, ${c.ne} 夏時間, ${c.ne} timezone`,
   ogTitle: (c, os) => `${c.ne}の現在時刻 - ${os} | GlobeTimeZone`,
@@ -219,7 +219,7 @@ I18N.ko = {
   ...I18N.en,
   htmlLang: 'ko',
   ogLocale: 'ko_KR',
-  title: (c) => `${c.ne} 시간 - 현재 시각, 시차, 서머타임 | GlobeTimeZone`,
+  title: (c, os) => `${c.ne} 시간 (${os}, ${c.c}) - 현재 시각, 시차, 서머타임 | GlobeTimeZone`,
   desc: (c) => `${c.ne}의 현재 시간을 초 단위로 확인. 베이징, 뉴욕, 런던, 도쿄, 시드니와의 시차 비교, 최적 연락 시간, 서머타임 정보.`,
   breadcrumb1: '홈',
   breadcrumb2: '도시 시간',
@@ -253,7 +253,7 @@ I18N.de = {
   ...I18N.en,
   htmlLang: 'de',
   ogLocale: 'de_DE',
-  title: (c) => `${c.ne} Zeit - Aktuelle Uhrzeit, Zeitverschiebung, Sommerzeit | GlobeTimeZone`,
+  title: (c, os) => `${c.ne} Zeit (${os}, ${c.c}) - Aktuelle Uhrzeit, Zeitverschiebung, Sommerzeit | GlobeTimeZone`,
   desc: (c) => `Aktuelle Uhrzeit in ${c.ne} auf die Sekunde genau. Zeitverschiebung zu Peking, New York, London, Tokio, Sydney. Beste Geschäftszeiten, Sommerzeit-Info.`,
   breadcrumb1: 'Startseite', breadcrumb2: 'Stadtzeit',
   breadcrumb3: (c) => `${c.ne} Zeit`,
@@ -285,7 +285,7 @@ I18N.fr = {
   ...I18N.en,
   htmlLang: 'fr',
   ogLocale: 'fr_FR',
-  title: (c) => `Heure ${c.ne} - Heure actuelle, d\u00e9calage horaire, heure d'\u00e9t\u00e9 | GlobeTimeZone`,
+  title: (c, os) => `Heure ${c.ne} (${os}, ${c.c}) - Heure actuelle, d\u00e9calage horaire, heure d'\u00e9t\u00e9 | GlobeTimeZone`,
   desc: (c) => `Heure actuelle \u00e0 ${c.ne} \u00e0 la seconde pr\u00e8s. D\u00e9calage horaire avec P\u00e9kin, New York, Londres, Tokyo, Sydney. Meilleures heures de contact, infos heure d'\u00e9t\u00e9.`,
   breadcrumb1: 'Accueil', breadcrumb2: 'Heure des villes',
   breadcrumb3: (c) => `Heure ${c.ne}`,
@@ -317,7 +317,7 @@ I18N.es = {
   ...I18N.en,
   htmlLang: 'es',
   ogLocale: 'es_ES',
-  title: (c) => `Hora ${c.ne} - Hora actual, diferencia horaria, horario de verano | GlobeTimeZone`,
+  title: (c, os) => `Hora ${c.ne} (${os}, ${c.c}) - Hora actual, diferencia horaria, horario de verano | GlobeTimeZone`,
   desc: (c) => `Hora actual en ${c.ne} con precisi\u00f3n de segundos. Diferencia horaria con Pek\u00edn, Nueva York, Londres, Tokio, S\u00eddney. Mejor hora de contacto, info horario de verano.`,
   breadcrumb1: 'Inicio', breadcrumb2: 'Hora de ciudades',
   breadcrumb3: (c) => `Hora ${c.ne}`,
@@ -349,7 +349,7 @@ I18N.pt = {
   ...I18N.en,
   htmlLang: 'pt',
   ogLocale: 'pt_BR',
-  title: (c) => `Hora ${c.ne} - Hora atual, diferen\u00e7a hor\u00e1ria, hor\u00e1rio de ver\u00e3o | GlobeTimeZone`,
+  title: (c, os) => `Hora ${c.ne} (${os}, ${c.c}) - Hora atual, diferen\u00e7a hor\u00e1ria, hor\u00e1rio de ver\u00e3o | GlobeTimeZone`,
   desc: (c) => `Hora atual em ${c.ne} com precis\u00e3o de segundos. Diferen\u00e7a hor\u00e1ria com Pequim, Nova York, Londres, T\u00f3quio, Sydney. Melhor hora de contato, info hor\u00e1rio de ver\u00e3o.`,
   breadcrumb1: 'In\u00edcio', breadcrumb2: 'Hora das cidades',
   breadcrumb3: (c) => `Hora ${c.ne}`,
@@ -381,7 +381,7 @@ I18N.ar = {
   ...I18N.en,
   htmlLang: 'ar',
   ogLocale: 'ar_SA',
-  title: (c) => `\u0648\u0642\u062a ${c.ne} - \u0627\u0644\u0648\u0642\u062a \u0627\u0644\u062d\u0627\u0644\u064a\u060c \u0641\u0627\u0631\u0642 \u0627\u0644\u0648\u0642\u062a\u060c \u0627\u0644\u062a\u0648\u0642\u064a\u062a \u0627\u0644\u0635\u064a\u0641\u064a | GlobeTimeZone`,
+  title: (c, os) => `\u0648\u0642\u062a ${c.ne} (\u064a\u062a\u0633 ${os}\u060c ${c.c}) - \u0627\u0644\u0648\u0642\u062a \u0627\u0644\u062d\u0627\u0644\u064a\u060c \u0641\u0627\u0631\u0642 \u0627\u0644\u0648\u0642\u062a\u060c \u0627\u0644\u062a\u0648\u0642\u064a\u062a \u0627\u0644\u0635\u064a\u0641\u064a | GlobeTimeZone`,
   desc: (c) => `\u0627\u0644\u0648\u0642\u062a \u0627\u0644\u062d\u0627\u0644\u064a \u0641\u064a ${c.ne} \u0628\u062f\u0642\u0629 \u0627\u0644\u062b\u0627\u0646\u064a\u0629. \u0641\u0627\u0631\u0642 \u0627\u0644\u0648\u0642\u062a \u0645\u0639 \u0628\u0643\u064a\u0646\u060c \u0646\u064a\u0648\u064a\u0648\u0631\u0643\u060c \u0644\u0646\u062f\u0646\u060c \u0637\u0648\u0643\u064a\u0648\u060c \u0633\u064a\u062f\u0646\u064a. \u0623\u0641\u0636\u0644 \u0623\u0648\u0642\u0627\u062a \u0627\u0644\u0627\u062a\u0635\u0627\u0644\u060c \u0645\u0639\u0644\u0648\u0645\u0627\u062a \u0627\u0644\u062a\u0648\u0642\u064a\u062a \u0627\u0644\u0635\u064a\u0641\u064a.`,
   breadcrumb1: '\u0627\u0644\u0631\u0626\u064a\u0633\u064a\u0629', breadcrumb2: '\u0648\u0642\u062a \u0627\u0644\u0645\u062f\u0646',
   breadcrumb3: (c) => `\u0648\u0642\u062a ${c.ne}`,
@@ -578,7 +578,7 @@ export function renderCityPage(slug, city, allCities, lang = 'zh', config = {}) 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${t.title(city)}</title>
+  <title>${t.title(city, os)}</title>
   <meta name="description" content="${t.desc(city)}">
   <meta name="keywords" content="${t.keywords(city)}">
   <link rel="canonical" href="https://globetimezone.com${prefix}/city/${slug}/">
