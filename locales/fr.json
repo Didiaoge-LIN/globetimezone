@@ -1059,5 +1059,11 @@
   "social.precision": "Précision milliseconde",
   "social.standard": "Standard de fuseau horaire officiel",
   "hero.search.label": "Rechercher une ville",
-  "hero.city.label": "Ajouter une ville au tableau"
+  "hero.city.label": "Ajouter une ville au tableau",
+  "cta.timeDiff.title": "Décalage horaire",
+  "cta.timeDiff.desc": "Comparez deux villes",
+  "cta.meeting.title": "Planif. réunion",
+  "cta.meeting.desc": "Planifier entre fuseaux",
+  "cta.crossBorder.title": "Transfrontalier",
+  "cta.crossBorder.desc": "Assistant contact global"
 }

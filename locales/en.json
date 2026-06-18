@@ -1059,5 +1059,11 @@
   "social.precision": "Millisecond Precision",
   "social.standard": "Official Timezone Standard",
   "hero.search.label": "Search city",
-  "hero.city.label": "Add city to dashboard"
+  "hero.city.label": "Add city to dashboard",
+  "cta.timeDiff.title": "Time Difference",
+  "cta.timeDiff.desc": "Compare two cities side by side",
+  "cta.meeting.title": "Meeting Planner",
+  "cta.meeting.desc": "Schedule across time zones",
+  "cta.crossBorder.title": "Cross-Border",
+  "cta.crossBorder.desc": "Global contact assistant"
 }

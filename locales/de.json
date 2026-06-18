@@ -1059,5 +1059,11 @@
   "social.precision": "Millisekunden-Genauigkeit",
   "social.standard": "Offizieller Zeitzonenstandard",
   "hero.search.label": "Stadt suchen",
-  "hero.city.label": "Stadt zum Dashboard hinzufügen"
+  "hero.city.label": "Stadt zum Dashboard hinzufügen",
+  "cta.timeDiff.title": "Zeitdifferenz",
+  "cta.timeDiff.desc": "Zwei Städte vergleichen",
+  "cta.meeting.title": "Meetingplaner",
+  "cta.meeting.desc": "Termine weltweit planen",
+  "cta.crossBorder.title": "Grenzüberschreitend",
+  "cta.crossBorder.desc": "Globaler Kontaktassistent"
 }

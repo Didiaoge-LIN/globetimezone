@@ -1059,5 +1059,11 @@
   "social.precision": "毫秒级精度",
   "social.standard": "权威时区标准",
   "hero.search.label": "搜索城市",
-  "hero.city.label": "添加城市到看板"
+  "hero.city.label": "添加城市到看板",
+  "cta.timeDiff.title": "查时差",
+  "cta.timeDiff.desc": "两地时间实时对比",
+  "cta.meeting.title": "约会议",
+  "cta.meeting.desc": "跨国会议自动排期",
+  "cta.crossBorder.title": "跨境通",
+  "cta.crossBorder.desc": "全球联系助手"
 }

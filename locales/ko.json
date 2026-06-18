@@ -1059,5 +1059,11 @@
   "social.precision": "밀리초 정밀도",
   "social.standard": "공식 시간대 표준",
   "hero.search.label": "도시 검색",
-  "hero.city.label": "대시보드에 도시 추가"
+  "hero.city.label": "대시보드에 도시 추가",
+  "cta.timeDiff.title": "시차",
+  "cta.timeDiff.desc": "두 도시 비교",
+  "cta.meeting.title": "회의 계획",
+  "cta.meeting.desc": "시간대 간 일정 조율",
+  "cta.crossBorder.title": "국경 간",
+  "cta.crossBorder.desc": "글로벌 연락 도우미"
 }
