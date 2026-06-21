@@ -24,8 +24,10 @@ export function initSentry() {
         replaysSessionSampleRate: 0,
         replaysOnErrorSampleRate: 0.5,
         integrations: [
-          new window.Sentry.Integrations.BrowserTracing(),
-        ],
+          window.Sentry.Integrations && window.Sentry.Integrations.BrowserTracing
+            ? new window.Sentry.Integrations.BrowserTracing()
+            : undefined,
+        ].filter(Boolean),
         beforeSend(event) {
           if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
             return null;
