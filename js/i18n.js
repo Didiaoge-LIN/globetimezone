@@ -230,15 +230,23 @@
         try {
           TRANSLATIONS = JSON.parse(xhr.responseText);
           applyTranslations();
-          // 通知外部 JS：locale JSON 已加载完毕
           window.dispatchEvent(new CustomEvent('gtz-i18n-ready', { detail: { lang: LANG } }));
         } catch (e) {
           console.error('[i18n] JSON parse error:', e);
+          window.dispatchEvent(new CustomEvent('gtz-i18n-ready', { detail: { lang: LANG, failed: true } }));
         }
       }
     };
     xhr.ontimeout = function () {
       console.warn('[i18n] Locale load timeout:', LOCALE_URL);
+      window.dispatchEvent(new CustomEvent('gtz-i18n-ready', { detail: { lang: LANG, failed: true } }));
+    };
+    xhr.onerror = function () {
+      console.warn('[i18n] Locale load failed:', LOCALE_URL);
+      window.dispatchEvent(new CustomEvent('gtz-i18n-ready', { detail: { lang: LANG, failed: true } }));
+    };
+    xhr.onabort = function () {
+      console.warn('[i18n] Locale load aborted:', LOCALE_URL);
     };
     xhr.send();
   }
