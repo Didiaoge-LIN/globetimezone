@@ -65,6 +65,13 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+// 接收页面消息：立即接管
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.action === 'skipWaiting') {
+    self.skipWaiting();
+  }
+});
+
 // --------------------------
 // 工具函数：真LRU — 先删除再重插（移到队尾）
 // --------------------------
