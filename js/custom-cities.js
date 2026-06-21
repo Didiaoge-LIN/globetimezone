@@ -251,16 +251,18 @@
     } catch {}
   }
 
-  // ═══════ 当前语言 ═══════
-  const LANG = (typeof window.GTZ_LANG === 'string') ? window.GTZ_LANG : 'zh';
-  const LOCALE_MAP = { zh:'zh-CN', en:'en-US', de:'de-DE', fr:'fr-FR', es:'es-ES', ja:'ja-JP', ko:'ko-KR', pt:'pt-BR', ar:'ar-SA' };
-  const DATE_LOCALE = LOCALE_MAP[LANG] || 'en-US';
+  // ═══════ 当前语言（动态读取，支持语言切换后更新）═══════
+  function getCurrentLocale() {
+    var lang = (typeof window.GTZ_LANG === 'string') ? window.GTZ_LANG : 'zh';
+    var map = { zh:'zh-CN', en:'en-US', de:'de-DE', fr:'fr-FR', es:'es-ES', ja:'ja-JP', ko:'ko-KR', pt:'pt-BR', ar:'ar-SA' };
+    return map[lang] || 'en-US';
+  }
 
   // ═══════ 时间格式化（模块2）═══════
   function formatTimeStr(date, tz, fmt) {
     const f = fmt || getFormat();
     try {
-      return new Intl.DateTimeFormat(DATE_LOCALE, {
+      return new Intl.DateTimeFormat(getCurrentLocale(), {
         timeZone: tz,
         hour: '2-digit', minute: '2-digit', second: '2-digit',
         hour12: !f.hour24
@@ -270,7 +272,7 @@
   function formatDateStr(date, tz, fmt) {
     const f = fmt || getFormat();
     try {
-      const parts = new Intl.DateTimeFormat(DATE_LOCALE, {
+      const parts = new Intl.DateTimeFormat(getCurrentLocale(), {
         timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short'
       }).formatToParts(date);
       const pp = {};
@@ -512,7 +514,7 @@
 
     // 搜索中文名映射（仅中文语言时，或输入含 CJK 字符时）
     const hasCJK = /[\u4e00-\u9fff\u3400-\u4dbf]/.test(q);
-    if (LANG === 'zh' || hasCJK) {
+    if ((typeof window.GTZ_LANG === 'string' ? window.GTZ_LANG : 'zh') === 'zh' || hasCJK) {
       for (const [cn, tz] of Object.entries(CN_NAMES)) {
         if (seen.has(tz)) continue;
         if (cn.includes(lowerQ) || cn.toLowerCase().includes(lowerQ)) {
