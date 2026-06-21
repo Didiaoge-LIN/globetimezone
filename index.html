@@ -261,10 +261,29 @@
   <script src="/js/trust-dashboard.js" integrity="sha384-yEzVqhu8+voc+O3k09keVVJTgQ1733PvRCLN7eLtmz1S/S0oaMB3s35ZkKd4BpHx" crossorigin="anonymous"  defer data-cfasync="false"></script>
   <script src="/cookie-consent.js" integrity="sha384-7nsBADWj36LZG7Y9s6qILBYszciZ/l9kp42GfLfyMI2HycKDjF7zqNaSfuq/g5px" crossorigin="anonymous"  defer data-cfasync="false"></script>
   <script src="/ads-loader.js" defer data-cfasync="false"></script>
-  <script>
+  <script data-cfasync="false">
+    // ─── Service Worker 注册 + 自动更新 ───
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/sw.js?v=11').catch(function() {});
+        navigator.serviceWorker.register('/sw.js?v=11').then(function(reg) {
+          // 检测到新 SW 版本 → 立即激活
+          reg.addEventListener('updatefound', function() {
+            var newSW = reg.installing;
+            newSW.addEventListener('statechange', function() {
+              if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
+                // 新版本已安装，通知用户刷新或自动更新
+                console.log('[SW] 新版本已就绪');
+                // 发送消息让新 SW 接管
+                newSW.postMessage({ action: 'skipWaiting' });
+              }
+            });
+          });
+        }).catch(function() {});
+
+        // 当新 SW 接管页面后，刷新页面
+        navigator.serviceWorker.addEventListener('controllerchange', function() {
+          window.location.reload();
+        });
       });
     }
   </script>
