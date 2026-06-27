@@ -55,6 +55,7 @@
       saveFavs([...favs, tz]);
       showToast(gtz_t('toast.fav_saved','✅ 已保存到本地，下次打开自动显示'));
       trackEvent('favorite_add', { city: tz });
+      trackEvent('add_bookmark', { city: tz, source: 'favorite' });
       // 分发事件给书签引导
       document.dispatchEvent(new CustomEvent('favorite-added'));
       return true;
@@ -398,6 +399,7 @@
         clearInterval(window.__gtz_clock_timer);
         updateAllCitiesTime(tz, t);
         trackEvent('converter_used');
+      trackEvent('timezone_convert', { source: 'converter' });
       }
     }
 

@@ -1,0 +1,619 @@
+/**
+ * GlobeTimeZone 广告解锁权益体系 — CSS样式
+ * 文档版本：V3.0 §3.5 交互与视觉像素级规范
+ * 
+ * 所有视觉规范严格按照文档定义：
+ *   弹窗：桌面480px/移动自适应/圆角12px/遮罩rgba(0,0,0,0.5)
+ *   按钮：主按钮44px/#165DFF/次按钮#F5F7FA/禁用40%/加载旋转16px
+ *   骨架屏：渐变呼吸1.5s循环
+ *   视频播放器：无拖拽/无快进/静音默认
+ *   权益卡片：剩余时间+打卡进度
+ */
+
+/* ============================================================================
+   解锁弹窗基础
+   文档§3.5：桌面480px/移动自适应/圆角12px/遮罩rgba(0,0,0,0.5)
+   ============================================================================ */
+.gtz-ad-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.gtz-ad-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.gtz-ad-modal {
+  width: 480px;
+  min-height: 320px;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+  padding: 32px;
+  position: relative;
+  animation: gtz-modal-enter 0.3s ease;
+}
+
+@keyframes gtz-modal-enter {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ============================================================================
+   移动端适配
+   文档§3.5：左右边距20px/宽度自适应/圆角10px/内边距24px
+   ============================================================================ */
+@media (max-width: 640px) {
+  .gtz-ad-modal {
+    width: calc(100% - 40px);
+    border-radius: 10px;
+    padding: 24px 20px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+  }
+}
+
+/* ============================================================================
+   弹窗标题
+   文档§3.5：桌面18px/600/移动16px/600
+   ============================================================================ */
+.gtz-ad-modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1D2129;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+@media (max-width: 640px) {
+  .gtz-ad-modal-title {
+    font-size: 16px;
+  }
+}
+
+/* ============================================================================
+   弹窗正文
+   文档§3.5：桌面14px/行高1.6/移动13px/行高1.5
+   ============================================================================ */
+.gtz-ad-modal-body {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #4E5969;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 640px) {
+  .gtz-ad-modal-body {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+}
+
+/* ============================================================================
+   关闭按钮
+   文档§3.4：右上角仅保留关闭按钮
+   ============================================================================ */
+.gtz-ad-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #86909C;
+  font-size: 20px;
+  transition: background 0.2s;
+}
+
+.gtz-ad-close-btn:hover {
+  background: #F5F7FA;
+}
+
+.gtz-ad-close-btn::after {
+  content: '×';
+}
+
+/* ============================================================================
+   按钮
+   文档§3.5：
+   主按钮：44px高度/8px圆角/#165DFF背景/白色文字
+   次按钮：44px高度/8px圆角/#F5F7FA背景/#1D2129文字
+   文字链接：14px/#86909C/hover #165DFF
+   禁用态：40%透明度/not-allowed
+   加载态：16px旋转动画/文字变「加载中...」
+   ============================================================================ */
+.gtz-ad-btn-primary {
+  height: 44px;
+  border-radius: 8px;
+  background: #165DFF;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 0 24px;
+  transition: background 0.2s, opacity 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.gtz-ad-btn-primary:hover:not(:disabled) {
+  background: #0E42D2;
+}
+
+.gtz-ad-btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.gtz-ad-btn-primary.loading {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .gtz-ad-btn-primary {
+    height: 40px;
+  }
+}
+
+.gtz-ad-btn-secondary {
+  height: 44px;
+  border-radius: 8px;
+  background: #F5F7FA;
+  color: #1D2129;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 0 24px;
+  transition: background 0.2s;
+}
+
+.gtz-ad-btn-secondary:hover {
+  background: #E8EAEF;
+}
+
+@media (max-width: 640px) {
+  .gtz-ad-btn-secondary {
+    height: 40px;
+  }
+}
+
+.gtz-ad-btn-link {
+  font-size: 14px;
+  color: #86909C;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.gtz-ad-btn-link:hover {
+  color: #165DFF;
+}
+
+@media (max-width: 640px) {
+  .gtz-ad-btn-link {
+    font-size: 13px;
+  }
+}
+
+/* ============================================================================
+   加载旋转动画
+   文档§3.5：16px旋转加载动画
+   ============================================================================ */
+.gtz-ad-loader {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid #ffffff;
+  border-radius: 50%;
+  animation: gtz-spin 0.8s linear infinite;
+}
+
+@keyframes gtz-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================================================
+   骨架屏
+   文档§3.5：渐变呼吸效果，1.5秒循环
+   ============================================================================ */
+.gtz-ad-skeleton {
+  background: #F5F7FA;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.gtz-ad-skeleton::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.04), transparent);
+  animation: gtz-skeleton-breathe 1.5s ease-in-out infinite;
+}
+
+@keyframes gtz-skeleton-breathe {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.gtz-ad-skeleton-text {
+  height: 14px;
+  background: #E8EAEF;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.gtz-ad-skeleton-video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #E8EAEF;
+  border-radius: 8px;
+}
+
+/* ============================================================================
+   视频播放器
+   文档§3.4：静音/无拖拽/无快进/无倍速/右上角仅关闭按钮
+   ============================================================================ */
+.gtz-ad-video-container {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000000;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.gtz-ad-video-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 视频静音标识 */
+.gtz-ad-muted-badge {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* 视频倒计时进度条 */
+.gtz-ad-video-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background: #165DFF;
+  transition: width 0.1s linear;
+  border-radius: 2px;
+}
+
+/* ============================================================================
+   解锁成功动画
+   ============================================================================ */
+.gtz-ad-success-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #165DFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 24px;
+  margin: 0 auto 16px;
+  animation: gtz-success-pop 0.4s ease;
+}
+
+@keyframes gtz-success-pop {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* ============================================================================
+   兜底提示
+   文档§9.5核心文案：「Slow network? We've unlocked 10min for you」
+   ============================================================================ */
+.gtz-ad-fallback-tip {
+  background: #FFF7E8;
+  border: 1px solid #FFD666;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #4E5969;
+  line-height: 1.6;
+}
+
+.gtz-ad-fallback-tip-title {
+  font-weight: 600;
+  color: #1D2129;
+  margin-bottom: 4px;
+}
+
+/* ============================================================================
+   权益卡片
+   文档§2.5：实时显示剩余时间+打卡进度
+   ============================================================================ */
+.gtz-right-card {
+  background: #F5F7FA;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.gtz-right-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.gtz-right-card-scene {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1D2129;
+}
+
+.gtz-right-card-time {
+  font-size: 13px;
+  color: #165DFF;
+  font-weight: 500;
+}
+
+.gtz-right-card-type {
+  font-size: 12px;
+  color: #86909C;
+  padding: 2px 8px;
+  background: #E8EAEF;
+  border-radius: 4px;
+}
+
+.gtz-right-card-bar {
+  height: 4px;
+  background: #E8EAEF;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.gtz-right-card-bar-fill {
+  height: 100%;
+  background: #165DFF;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* ============================================================================
+   打卡进度
+   文档§2.5：进度条可视化，已完成高亮，未完成置灰
+   ============================================================================ */
+.gtz-checkin-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.gtz-checkin-day {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.3s, color 0.3s;
+}
+
+.gtz-checkin-day.completed {
+  background: #165DFF;
+  color: #ffffff;
+}
+
+.gtz-checkin-day.pending {
+  background: #E8EAEF;
+  color: #86909C;
+}
+
+.gtz-checkin-connector {
+  width: 16px;
+  height: 2px;
+  background: #E8EAEF;
+  transition: background 0.3s;
+}
+
+.gtz-checkin-connector.completed {
+  background: #165DFF;
+}
+
+.gtz-checkin-text {
+  font-size: 13px;
+  color: #4E5969;
+  text-align: center;
+}
+
+.gtz-checkin-text strong {
+  color: #165DFF;
+}
+
+/* ============================================================================
+   解锁入口按钮（在进阶功能旁显示）
+   文档§9.5核心文案：「Watch 8s to unlock」
+   ============================================================================ */
+.gtz-unlock-entry {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #165DFF;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s;
+}
+
+.gtz-unlock-entry:hover {
+  background: #0E42D2;
+}
+
+.gtz-unlock-entry-icon {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gtz-unlock-entry-icon::before {
+  content: '▶';
+  font-size: 10px;
+}
+
+/* ============================================================================
+   深色模式适配
+   ============================================================================ */
+@media (prefers-color-scheme: dark) {
+  .gtz-ad-modal {
+    background: #1D2129;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .gtz-ad-modal-title {
+    color: #ffffff;
+  }
+
+  .gtz-ad-modal-body {
+    color: #CBD5E1;
+  }
+
+  .gtz-ad-close-btn {
+    color: #CBD5E1;
+  }
+
+  .gtz-ad-close-btn:hover {
+    background: #2A2F3B;
+  }
+
+  .gtz-ad-btn-secondary {
+    background: #2A2F3B;
+    color: #CBD5E1;
+  }
+
+  .gtz-ad-btn-secondary:hover {
+    background: #3A3F4B;
+  }
+
+  .gtz-ad-skeleton {
+    background: #2A2F3B;
+  }
+
+  .gtz-ad-skeleton-text,
+  .gtz-ad-skeleton-video {
+    background: #3A3F4B;
+  }
+
+  .gtz-ad-fallback-tip {
+    background: #2A2F3B;
+    border-color: #B8860B;
+    color: #CBD5E1;
+  }
+
+  .gtz-ad-fallback-tip-title {
+    color: #ffffff;
+  }
+
+  .gtz-right-card {
+    background: #2A2F3B;
+  }
+
+  .gtz-right-card-scene {
+    color: #ffffff;
+  }
+
+  .gtz-right-card-type {
+    background: #3A3F4B;
+    color: #CBD5E1;
+  }
+
+  .gtz-checkin-day.pending {
+    background: #3A3F4B;
+    color: #CBD5E1;
+  }
+
+  .gtz-checkin-connector {
+    background: #3A3F4B;
+  }
+}
+
+/* ============================================================================
+   功能锁定遮罩（进阶功能未解锁时的视觉提示）
+   ============================================================================ */
+.gtz-feature-locked-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  z-index: 10;
+}
+
+@media (prefers-color-scheme: dark) {
+  .gtz-feature-locked-overlay {
+    background: rgba(29, 33, 41, 0.85);
+  }
+}
+
+/* ============================================================================
+   SEO红线纪律
+   文档§2.1：SEO核心落地页（单城市时间查询页）永久无任何广告元素
+   城市页面 (/city/*) 不加载ad-unlock模块
+   ============================================================================ */

@@ -28,6 +28,8 @@
   <link rel="preconnect" href="https://pagead2.googlesyndication.com">
   <link rel="manifest" href="/manifest.json">
   <link rel="stylesheet" href="/styles/premium.css?v=2">
+  <!-- 广告解锁权益体系 CSS（文档§2.1 SEO红线：仅首页加载，城市页不加载） -->
+  <link rel="stylesheet" href="/styles/ad-unlock.css?v=1">
   <style>
     real-clock, smart-clock {
       display: inline-block; min-width: 60px; visibility: hidden;
@@ -251,9 +253,36 @@
   </script>
 
   <script src="/js/earth-visual.js?v=20260611" defer data-cfasync="false"></script>
-  <script src="/js/custom-cities.js?v=12" defer data-cfasync="false"></script>
-  <script src="/js/meeting-planner.js?v=3" defer data-cfasync="false"></script>
-  <script type="module" src="/scripts/app.js" defer></script>
+  <script src="/js/ga4-events.js?v=1" defer data-cfasync="false"></script>
+  <script src="/js/custom-cities.js?v=13" defer data-cfasync="false"></script>
+  <script src="/js/meeting-planner.js?v=4" defer data-cfasync="false"></script>
+  <!-- 广告解锁权益体系入口（文档§2.1 SEO红线：仅首页加载） -->
+  <script type="module" defer data-cfasync="false">
+    import { initAdUnlock, UnlockEntry, FeatureLockOverlay } from '/js/ad-unlock/ui-components.js';
+    import { FunctionScene, RightType } from '/js/ad-unlock/constants.js';
+    import { scheduleCalibration } from '/js/ad-unlock/time-calibrate.js';
+
+    // 初始化广告解锁体系
+    const { rightsManager, checkinManager } = initAdUnlock();
+    
+    // 启动时间校准定期刷新
+    scheduleCalibration();
+
+    // 功能门控：进阶功能需解锁
+    // 会议计划器 → 轻量档解锁（8秒视频=1小时）
+    const meetingPlannerContainer = document.getElementById('meeting-planner');
+    if (meetingPlannerContainer) {
+      const meetingOverlay = new FeatureLockOverlay(
+        FunctionScene.MEETING_PLANNER,
+        RightType.LIGHT,
+        meetingPlannerContainer
+      );
+      meetingOverlay.render();
+    }
+
+    // 打卡入口
+    // 后续在其他进阶功能旁添加 UnlockEntry
+  </script>
   <script type="module" defer>
     import { initSentry } from '/scripts/sentry-init.js';
     initSentry();
@@ -265,7 +294,7 @@
     // ─── Service Worker 注册 + 自动更新 ───
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/sw.js?v=11').then(function(reg) {
+        navigator.serviceWorker.register('/sw.js?v=12').then(function(reg) {
           // 检测到新 SW 版本 → 立即激活
           reg.addEventListener('updatefound', function() {
             var newSW = reg.installing;

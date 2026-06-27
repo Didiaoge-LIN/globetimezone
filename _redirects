@@ -2,6 +2,8 @@
 # 所有语言路径重写到根目录文件（200 = rewrite，不跳转）
 # JS 根据 URL 路径加载对应语言包
 
+# /api/health 平台报错，统一重定向到 /api/status（外部监控用）
+/api/health /api/status 302
 # 旧样式路径重定向 — 修复 /styles/main.css 404
 /styles/main.css /styles/premium.css 301
 

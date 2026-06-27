@@ -14,8 +14,12 @@ export async function onRequest(context) {
 
   // --------------------------
   // 1. HTTP方法校验（前置短路）
+  // /api/ad/* 允许 POST 方法；其他路径仅 GET/HEAD/OPTIONS
   // --------------------------
-  const allowedMethods = ['GET', 'HEAD', 'OPTIONS'];
+  const isAdApi = url.pathname.startsWith('/api/ad/');
+  const allowedMethods = isAdApi
+    ? ['GET', 'POST', 'HEAD', 'OPTIONS']
+    : ['GET', 'HEAD', 'OPTIONS'];
   if (!allowedMethods.includes(request.method.toUpperCase())) {
     return buildErrorResponse(405, 'Method Not Allowed', {
       allow: allowedMethods.join(', '),
@@ -25,14 +29,18 @@ export async function onRequest(context) {
 
   // --------------------------
   // 2. CORS预检请求处理
+  // /api/ad/* 允许 POST Content-Type
   // --------------------------
   if (request.method.toUpperCase() === 'OPTIONS') {
+    const adApiCorsHeaders = isAdApi
+      ? 'Content-Type, X-Device-Fingerprint, X-Session-Id'
+      : 'Content-Type';
     return new Response(null, {
       status: 204,
       headers: {
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, HEAD, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Methods': isAdApi ? 'GET, POST, HEAD, OPTIONS' : 'GET, HEAD, OPTIONS',
+        'Access-Control-Allow-Headers': adApiCorsHeaders,
         'Access-Control-Max-Age': '86400',
         'Cache-Control': 'public, max-age=86400'
       }
@@ -79,7 +87,17 @@ export async function onRequest(context) {
   const response = await next();
 
   // --------------------------
-  // 5. 注入全局安全头
+  // 4.5 静态资源直接透传（关键优化：保留CF原生边缘缓存）
+  // CSS/JS/图片/字体等不走 Response 重包装，让 CF CDN 缓存层正常命中
+  // 预期效果：静态资源缓存命中率从 ~2% 提升到 90%+
+  // --------------------------
+  const STATIC_ASSET_RE = /\.(css|js|png|jpe?g|svg|gif|ico|woff2?|ttf|eot|webp|avif)(\?.*)?$/i;
+  if (STATIC_ASSET_RE.test(url.pathname)) {
+    return response;
+  }
+
+  // --------------------------
+  // 5. 注入全局安全头（仅HTML响应）
   // --------------------------
   const newHeaders = new Headers(response.headers);
 
@@ -102,8 +120,10 @@ export async function onRequest(context) {
       }
     });
 
-    // 缓存策略（仅当路由未设置时补充默认值）
-    if (config.EDGE_CACHE_AGE > 0 && !newHeaders.has('Cache-Control')) {
+    // 缓存策略：HTML 强制注入 s-maxage（CF 边缘缓存前提）
+    // 即使路由已设 max-age=0,must-revalidate，也要补上 s-maxage
+    const existingCC = newHeaders.get('Cache-Control') || '';
+    if (config.EDGE_CACHE_AGE > 0 && !existingCC.includes('s-maxage')) {
       newHeaders.set('Cache-Control', `public, max-age=${config.CACHE_MAX_AGE}, s-maxage=${config.EDGE_CACHE_AGE}, stale-while-revalidate=${CONSTANTS.CACHE.STALE_WHILE_REVALIDATE}, stale-if-error=${CONSTANTS.CACHE.STALE_IF_ERROR}`);
     }
   }

@@ -1,8 +1,8 @@
 'use strict';
 
 /**
- * Service Worker v10 — 真LRU淘汰 + 容量限制 + 容错安装 + 离线回退
- * v10升级：precache 补全核心交互脚本 + 版本号注释
+ * Service Worker v12 — 真LRU淘汰 + 容量限制 + 容错安装 + 离线回退
+ * v12升级：precache 补全 ad-unlock 权益体系模块（12文件+CSS）
  *
  * ⚠️ 版本号同步点（修改时必须同步以下 4 处）：
  *   1. sw.js CACHE_VERSION（本文件）
@@ -10,19 +10,33 @@
  *   3. index.html sw.js?v=X
  *   4. functions/city/city-template.js sw.js?v=X
  */
-const CACHE_VERSION = 'v11';
+const CACHE_VERSION = 'v12';
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `dynamic-${CACHE_VERSION}`;
 const MAX_DYNAMIC_ENTRIES = 100;
 
-// 预缓存资源列表（核心路径 + 关键交互脚本）
+// 预缓存资源列表（核心路径 + 关键交互脚本 + ad-unlock权益体系模块）
 const PRECACHE_ASSETS = [
   '/',
   '/index.html',
   '/styles/premium.css',
+  '/styles/ad-unlock.css',
   '/js/gtz-utils.js',
   '/js/custom-cities.js',
   '/js/earth-visual.js',
+  // ad-unlock 权益体系模块（12文件）
+  '/js/ad-unlock/constants.js',
+  '/js/ad-unlock/scene-video-map.js',
+  '/js/ad-unlock/secure-storage.js',
+  '/js/ad-unlock/time-calibrate.js',
+  '/js/ad-unlock/fingerprint.js',
+  '/js/ad-unlock/track.js',
+  '/js/ad-unlock/unlock-session.js',
+  '/js/ad-unlock/rights-manager.js',
+  '/js/ad-unlock/checkin-manager.js',
+  '/js/ad-unlock/ad-adapter.js',
+  '/js/ad-unlock/ui-components.js',
+  '/js/ad-unlock/index.js',
   '/favicon.svg',
   '/favicon.ico',
   '/og-default.png',

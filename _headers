@@ -26,6 +26,24 @@
 /
   Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=86400
 
+# === 目录型 HTML 页面（不带 .html 后缀）边缘5分钟缓存 ===
+/time-difference/*
+  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=86400
+/pricing/*
+  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=86400
+/tools/*
+  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=86400
+/team-clock/*
+  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=86400
+/widget/*
+  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=86400
+/meeting-planner/*
+  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=86400
+/privacy/*
+  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=86400
+/blog/*
+  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=86400
+
 # === 404页面：禁止索引 ===
 /404.html
   X-Robots-Tag: noindex, nofollow
