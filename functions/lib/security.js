@@ -73,12 +73,15 @@ export const buildSecurityHeaders = (options = {}) => {
   const excludeSet = new Set(excludeHeaders.map(h => h.toLowerCase().trim()));
 
   // CSP核心规则：无nonce，彻底解决与缓存的冲突
+  // media-src: 广告解锁权益体系视频素材（/assets/videos/ 同源）
+  //            未来若迁移至R2/外部CDN，需在此追加域名白名单
   const cspRules = [
     "default-src 'self'",
     "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.googletagmanager.com https://*.google-analytics.com https://js.sentry-cdn.com",
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: https: https://*.google-analytics.com https://*.googletagmanager.com",
     "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.sentry.io https://*.firebaseio.com https://securetoken.googleapis.com https://firebaseinstallations.googleapis.com",
+    "media-src 'self'",
     "font-src 'self' data:",
     "frame-src 'none'",
     "frame-ancestors 'none'",
