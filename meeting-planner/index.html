@@ -1337,28 +1337,39 @@
 </script>
 <!-- 广告解锁权益体系：会议规划功能门控 -->
 <link rel="stylesheet" href="/styles/ad-unlock.css?v=2">
-<script type="module" defer data-cfasync="false">
-    import { initAdUnlock, FeatureLockOverlay } from '/js/ad-unlock/ui-components.js';
-    import { FunctionScene, RightType } from '/js/ad-unlock/constants.js';
-    import { scheduleCalibration } from '/js/ad-unlock/time-calibrate.js';
+<script>
+    // 等待DOM加载完成后动态加载ad-unlock模块
+    (function() {
+      async function initAdUnlockOverlay() {
+        const mpAddCard = document.getElementById('mpAddCard');
+        if (!mpAddCard) {
+          console.warn('[meeting-planner] mpAddCard not found, retry in 200ms');
+          setTimeout(initAdUnlockOverlay, 200);
+          return;
+        }
+        try {
+          const uiMod = await import('/js/ad-unlock/ui-components.js');
+          const constMod = await import('/js/ad-unlock/constants.js');
+          uiMod.initAdUnlock();
 
-    // 初始化广告解锁体系
-    const { rightsManager, checkinManager } = initAdUnlock();
-
-    // 启动时间校准
-    scheduleCalibration();
-
-    // 功能门控：锁定"添加参会者"核心功能区块
-    // 用户需看8秒广告解锁1小时使用权限
-    const mpAddCard = document.getElementById('mpAddCard');
-    if (mpAddCard) {
-      const overlay = new FeatureLockOverlay(
-        FunctionScene.MEETING_PLANNER,
-        RightType.LIGHT,
-        mpAddCard
-      );
-      overlay.render();
-    }
+          // 功能门控：锁定"添加参会者"核心功能区块
+          const overlay = new uiMod.FeatureLockOverlay(
+            constMod.FunctionScene.MEETING_PLANNER,
+            constMod.RightType.LIGHT,
+            mpAddCard
+          );
+          overlay.render();
+          console.log('[meeting-planner] FeatureLockOverlay rendered');
+        } catch (e) {
+          console.error('[meeting-planner] ad-unlock load error:', e);
+        }
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initAdUnlockOverlay);
+      } else {
+        initAdUnlockOverlay();
+      }
+    })();
 </script>
 </body>
 </html>
