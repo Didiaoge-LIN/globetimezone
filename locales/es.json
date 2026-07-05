@@ -1065,5 +1065,10 @@
   "cta.meeting.title": "Planificar reunión",
   "cta.meeting.desc": "Programar entre zonas",
   "cta.crossBorder.title": "Transfronterizo",
-  "cta.crossBorder.desc": "Asistente de contacto global"
+  "cta.crossBorder.desc": "Asistente de contacto global",
+  "pricing.feat.adfree_unlock": "Gratis con anuncios",
+  "pricing.feat.adfree_unlock_lim": "8s video = 1 hora",
+  "pricing.feat.unlock": "Desbloquear con anuncio",
+  "pricing.unlock.hint": "Mira un anuncio para usar todas las funciones gratis",
+  "pricing.unlock.btn": "▶ Ver anuncio para desbloquear todo"
 }
