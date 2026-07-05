@@ -3,7 +3,6 @@
 import CONSTANTS from './lib/constants.js';
 import { buildSecurityHeaders, buildErrorResponse } from './lib/security.js';
 import { initConfig, normalizeQueryParams } from './lib/utils.js';
-import { checkRequest, buildBlockResponse, BOT_SIGNALS } from './lib/anti-bot.js';
 
 /**
  * 全局请求中间件
@@ -46,20 +45,6 @@ export async function onRequest(context) {
         'Cache-Control': 'public, max-age=86400'
       }
     });
-  }
-
-  // --------------------------
-  // 2.5 反爬虫检测（三层防御：UA黑名单 → 行为特征 → 速率限制）
-  //     在 URL 归一化之前执行，尽早拦截恶意流量节省计算资源
-  // --------------------------
-  const botCheck = await checkRequest(request, env);
-  if (botCheck.blocked) {
-    // 对 UA 黑名单和可疑路径返回硬拦截，对速率限制返回挑战页面
-    if (botCheck.signal === BOT_SIGNALS.RATE_LIMITED) {
-      const { buildChallengeResponse } = await import('./lib/anti-bot.js');
-      return buildChallengeResponse();
-    }
-    return buildBlockResponse(botCheck);
   }
 
   // --------------------------
