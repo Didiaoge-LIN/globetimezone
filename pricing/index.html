@@ -298,12 +298,16 @@
           <li><span class="pr-check">✓</span> <span data-i18n="pricing.feat.1">双城市时差查询</span></li>
           <li><span class="pr-check">✓</span> <span data-i18n="pricing.feat.2">世界时钟挂件</span></li>
           <li><span class="pr-check">✓</span> <span data-i18n="pricing.feat.3">跨境物流工具</span></li>
-          <li><span class="pr-cross">✗</span> <span class="feature-name" data-i18n="pricing.feat.4">含广告</span></li>
-          <li><span class="pr-cross">✗</span> <span class="feature-name" data-i18n="pricing.feat.5">时区提醒</span><span class="feature-limit" data-i18n="pricing.feat.5lim">3个</span></li>
-          <li><span class="pr-cross">✗</span> <span class="feature-name" data-i18n="pricing.feat.6">会议规划</span><span class="feature-limit" data-i18n="pricing.feat.6lim">3个城市</span></li>
-          <li><span class="pr-cross">✗</span> <span data-i18n="pricing.feat.7">团队时钟</span></li>
-          <li><span class="pr-cross">✗</span> <span data-i18n="pricing.feat.8">数据导出</span></li>
+          <li><span class="pr-check">✓</span> <span class="feature-name">看广告免费用</span><span class="feature-limit">8秒视频=1小时</span></li>
+          <li><span class="pr-check">✓</span> <span class="feature-name">会议规划</span><span class="feature-limit">看广告解锁</span></li>
+          <li><span class="pr-check">✓</span> <span class="feature-name">时区提醒</span><span class="feature-limit">看广告解锁</span></li>
+          <li><span class="pr-check">✓</span> <span class="feature-name">团队时钟</span><span class="feature-limit">看广告解锁</span></li>
+          <li><span class="pr-check">✓</span> <span class="feature-name">数据导出</span><span class="feature-limit">看广告解锁</span></li>
         </ul>
+        <div style="margin-top:16px;padding:12px;background:rgba(22,93,255,0.06);border-radius:8px;border:1px solid rgba(22,93,255,0.15);text-align:center;">
+          <p style="font-size:13px;color:#165DFF;margin:0 0 8px;font-weight:500;">看广告即可免费使用全部功能</p>
+          <button id="pricing-unlock-btn" class="gtz-unlock-entry" style="width:100%;justify-content:center;">▶ 看广告解锁全部功能</button>
+        </div>
       </div>
 
       <!-- PRO -->
@@ -491,6 +495,26 @@
         btn.setAttribute('aria-expanded', 'false');
       }
     });
+</script>
+<!-- 广告解锁权益体系：定价页看广告解锁全部功能 -->
+<link rel="stylesheet" href="/styles/ad-unlock.css?v=2">
+<script type="module" defer data-cfasync="false">
+    import { initAdUnlock, UnlockModal } from '/js/ad-unlock/ui-components.js';
+    import { FunctionScene, RightType } from '/js/ad-unlock/constants.js';
+    import { scheduleCalibration } from '/js/ad-unlock/time-calibrate.js';
+
+    const { rightsManager, checkinManager } = initAdUnlock();
+    scheduleCalibration();
+
+    // 定价页"看广告解锁全部功能"按钮
+    const unlockBtn = document.getElementById('pricing-unlock-btn');
+    if (unlockBtn) {
+      unlockBtn.addEventListener('click', function() {
+        // 弹出广告解锁弹窗（LIGHT档=8秒视频=1小时全功能）
+        const modal = new UnlockModal(FunctionScene.MEETING_PLANNER, RightType.LIGHT);
+        modal.show();
+      });
+    }
 </script>
 </body>
 </html>
