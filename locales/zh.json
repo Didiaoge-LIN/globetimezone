@@ -1065,5 +1065,10 @@
   "cta.meeting.title": "约会议",
   "cta.meeting.desc": "跨国会议自动排期",
   "cta.crossBorder.title": "跨境通",
-  "cta.crossBorder.desc": "全球联系助手"
+  "cta.crossBorder.desc": "全球联系助手",
+  "pricing.feat.adfree_unlock": "看广告免费用",
+  "pricing.feat.adfree_unlock_lim": "8秒视频=1小时",
+  "pricing.feat.unlock": "看广告解锁",
+  "pricing.unlock.hint": "看广告即可免费使用全部功能",
+  "pricing.unlock.btn": "▶ 看广告解锁全部功能"
 }

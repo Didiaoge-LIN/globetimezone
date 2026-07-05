@@ -1065,5 +1065,10 @@
   "cta.meeting.title": "مخطط الاجتماعات",
   "cta.meeting.desc": "جدولة عبر المناطق الزمنية",
   "cta.crossBorder.title": "عبر الحدود",
-  "cta.crossBorder.desc": "مساعد الاتصال العالمي"
+  "cta.crossBorder.desc": "مساعد الاتصال العالمي",
+  "pricing.feat.adfree_unlock": "مجاني مع إعلان",
+  "pricing.feat.adfree_unlock_lim": "8ث فيديو = 1 ساعة",
+  "pricing.feat.unlock": "فتح بالإعلان",
+  "pricing.unlock.hint": "شاهد إعلاناً لاستخدام جميع الميزات مجاناً",
+  "pricing.unlock.btn": "▶ شاهد إعلاناً لفتح جميع الميزات"
 }

@@ -1065,5 +1065,10 @@
   "cta.meeting.title": "会議計画",
   "cta.meeting.desc": "時差を越えて日程調整",
   "cta.crossBorder.title": "クロスボーダー",
-  "cta.crossBorder.desc": "グローバル連絡アシスタント"
+  "cta.crossBorder.desc": "グローバル連絡アシスタント",
+  "pricing.feat.adfree_unlock": "広告視聴で無料",
+  "pricing.feat.adfree_unlock_lim": "8秒動画=1時間",
+  "pricing.feat.unlock": "広告で解除",
+  "pricing.unlock.hint": "広告を見て全機能を無料で利用",
+  "pricing.unlock.btn": "▶ 広告を見て全機能をアンロック"
 }

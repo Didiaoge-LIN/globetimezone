@@ -1065,5 +1065,10 @@
   "cta.meeting.title": "회의 계획",
   "cta.meeting.desc": "시간대 간 일정 조율",
   "cta.crossBorder.title": "국경 간",
-  "cta.crossBorder.desc": "글로벌 연락 도우미"
+  "cta.crossBorder.desc": "글로벌 연락 도우미",
+  "pricing.feat.adfree_unlock": "광고로 무료 사용",
+  "pricing.feat.adfree_unlock_lim": "8초 영상=1시간",
+  "pricing.feat.unlock": "광고로 잠금 해제",
+  "pricing.unlock.hint": "광고를 보고 모든 기능을 무료로 사용하세요",
+  "pricing.unlock.btn": "▶ 광고 보고 모든 기능 잠금 해제"
 }

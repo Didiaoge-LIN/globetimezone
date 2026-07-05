@@ -1065,5 +1065,10 @@
   "cta.meeting.title": "Meetingplaner",
   "cta.meeting.desc": "Termine weltweit planen",
   "cta.crossBorder.title": "Grenzüberschreitend",
-  "cta.crossBorder.desc": "Globaler Kontaktassistent"
+  "cta.crossBorder.desc": "Globaler Kontaktassistent",
+  "pricing.feat.adfree_unlock": "Kostenlos mit Werbung",
+  "pricing.feat.adfree_unlock_lim": "8s Video = 1 Stunde",
+  "pricing.feat.unlock": "Mit Werbung freischalten",
+  "pricing.unlock.hint": "Werbung ansehen, um alle Funktionen gratis zu nutzen",
+  "pricing.unlock.btn": "▶ Werbung ansehen, um alle Funktionen freizuschalten"
 }

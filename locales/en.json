@@ -1090,5 +1090,10 @@
   "crossborder.faq.a1": "Cross-border shipping from China to the US typically takes 10-15 days via air and 25-35 days via sea. Actual times depend on customs clearance and carrier.",
   "crossborder.faq.a2": "The final price depends on product weight, dimensions, shipping method, and destination. Use our shipping calculator for an instant estimate.",
   "crossborder.faq.a3": "We support door-to-door tracking across all major carriers including USPS, FedEx, UPS, DHL, and China Post. Enter your tracking number to get real-time updates.",
-  "crossborder.faq.a4": "Import duties and taxes are determined by the destination country customs. Our platform provides estimated duty calculations but final charges are at the discretion of local customs authorities."
+  "crossborder.faq.a4": "Import duties and taxes are determined by the destination country customs. Our platform provides estimated duty calculations but final charges are at the discretion of local customs authorities.",
+  "pricing.feat.adfree_unlock": "Free with ads",
+  "pricing.feat.adfree_unlock_lim": "8s video = 1 hour",
+  "pricing.feat.unlock": "Unlock with ad",
+  "pricing.unlock.hint": "Watch an ad to use all features for free",
+  "pricing.unlock.btn": "▶ Watch ad to unlock all features"
 }
