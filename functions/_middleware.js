@@ -3,6 +3,7 @@
 import CONSTANTS from './lib/constants.js';
 import { buildSecurityHeaders, buildErrorResponse } from './lib/security.js';
 import { initConfig, normalizeQueryParams } from './lib/utils.js';
+import { checkRequest, buildBlockResponse, BOT_SIGNALS, buildChallengeResponse } from './lib/anti-bot.js';
 
 /**
  * 全局请求中间件
@@ -48,7 +49,21 @@ export async function onRequest(context) {
   }
 
   // --------------------------
-  // 3. URL全量归一化（301永久重定向，根治重复内容）
+  // 2.5 反爬虫检测（三层防御：UA黑名单 → 行为特征 → 速率限制）
+  //     在 URL 归一化之前执行，尽早拦截恶意流量节省计算资源
+  //     try-catch保护：anti-bot任何异常不阻断正常请求
+  // --------------------------
+  try {
+    const botCheck = await checkRequest(request, env);
+    if (botCheck.blocked) {
+      if (botCheck.signal === BOT_SIGNALS.RATE_LIMITED) {
+        return buildChallengeResponse();
+      }
+      return buildBlockResponse(botCheck);
+    }
+  } catch (e) {
+    // anti-bot异常时放行，不阻断业务
+  }
   //    仅对 /city/* 路径执行，避免影响其他静态页面
   // --------------------------
   if (url.pathname.startsWith('/city/') || url.pathname.match(/^\/(en|zh|de|fr|es|ja|ko|pt|ar)\/city\//)) {
