@@ -4,6 +4,9 @@ import CONSTANTS from './lib/constants.js';
 import { buildSecurityHeaders, buildErrorResponse } from './lib/security.js';
 import { initConfig, normalizeQueryParams } from './lib/utils.js';
 
+// anti-bot 反爬虫防御（三层防御：UA黑名单→行为特征→速率限制）
+import { checkRequest, buildBlockResponse, BOT_SIGNALS, buildChallengeResponse } from './lib/anti-bot.js';
+
 /**
  * 全局请求中间件
  * 执行顺序：方法校验 → CORS预检 → URL归一化 → 安全头注入 → 缓存策略 → 转发到路由
@@ -45,6 +48,22 @@ export async function onRequest(context) {
         'Cache-Control': 'public, max-age=86400'
       }
     });
+  }
+
+  // --------------------------
+  // 2.5 反爬虫检测（三层防御：UA黑名单 → 行为特征 → 速率限制）
+  //     在 URL 归一化之前执行，尽早拦截恶意流量节省计算资源
+  // --------------------------
+  try {
+    const botCheck = await checkRequest(request, env);
+    if (botCheck.blocked) {
+      if (botCheck.signal === BOT_SIGNALS.RATE_LIMITED) {
+        return buildChallengeResponse();
+      }
+      return buildBlockResponse(botCheck);
+    }
+  } catch (e) {
+    // anti-bot异常时降级放行，不阻断业务
   }
 
   // --------------------------
