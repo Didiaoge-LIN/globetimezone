@@ -1335,5 +1335,30 @@
       }
     });
 </script>
+<!-- 广告解锁权益体系：会议规划功能门控 -->
+<link rel="stylesheet" href="/styles/ad-unlock.css?v=2">
+<script type="module" defer data-cfasync="false">
+    import { initAdUnlock, FeatureLockOverlay } from '/js/ad-unlock/ui-components.js';
+    import { FunctionScene, RightType } from '/js/ad-unlock/constants.js';
+    import { scheduleCalibration } from '/js/ad-unlock/time-calibrate.js';
+
+    // 初始化广告解锁体系
+    const { rightsManager, checkinManager } = initAdUnlock();
+
+    // 启动时间校准
+    scheduleCalibration();
+
+    // 功能门控：锁定"添加参会者"核心功能区块
+    // 用户需看8秒广告解锁1小时使用权限
+    const mpAddCard = document.getElementById('mpAddCard');
+    if (mpAddCard) {
+      const overlay = new FeatureLockOverlay(
+        FunctionScene.MEETING_PLANNER,
+        RightType.LIGHT,
+        mpAddCard
+      );
+      overlay.render();
+    }
+</script>
 </body>
 </html>
