@@ -496,42 +496,5 @@
       }
     });
 </script>
-<!-- 广告解锁权益体系：定价页看广告解锁全部功能 -->
-<link rel="stylesheet" href="/styles/ad-unlock.css?v=2">
-<script data-cfasync="false">
-    // 等待DOM加载完成后绑定按钮
-    (function() {
-      function bindUnlockButton() {
-        const unlockBtn = document.getElementById('pricing-unlock-btn');
-        if (!unlockBtn) {
-          console.warn('[pricing] unlock button not found, retry in 200ms');
-          setTimeout(bindUnlockButton, 200);
-          return;
-        }
-        // 用动态import异步加载ES Module
-        unlockBtn.addEventListener('click', async function() {
-          try {
-            const uiMod = await import('/js/ad-unlock/ui-components.js');
-            const constMod = await import('/js/ad-unlock/constants.js');
-            uiMod.initAdUnlock();
-            const modal = new uiMod.UnlockModal(
-              constMod.FunctionScene.MEETING_PLANNER,
-              constMod.RightType.LIGHT
-            );
-            modal.show();
-          } catch (e) {
-            console.error('[pricing] unlock error:', e);
-            alert('解锁功能加载失败，请刷新页面重试');
-          }
-        });
-        console.log('[pricing] unlock button bound');
-      }
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', bindUnlockButton);
-      } else {
-        bindUnlockButton();
-      }
-    })();
-</script>
 </body>
 </html>

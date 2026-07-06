@@ -1070,5 +1070,8 @@
   "pricing.feat.adfree_unlock_lim": "8ث فيديو = 1 ساعة",
   "pricing.feat.unlock": "فتح بالإعلان",
   "pricing.unlock.hint": "شاهد إعلاناً لاستخدام جميع الميزات مجاناً",
-  "pricing.unlock.btn": "▶ شاهد إعلاناً لفتح جميع الميزات"
+  "pricing.unlock.btn": "▶ شاهد إعلاناً لفتح جميع الميزات",
+  "home.unlock.hint": "شاهد إعلاناً لاستخدام جميع الميزات مجاناً",
+  "home.unlock.btn": "▶ شاهد إعلاناً لفتح جميع الميزات",
+  "home.unlock.sub": "8ث فيديو = 1 ساعة وصول كامل"
 }

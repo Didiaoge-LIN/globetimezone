@@ -1070,5 +1070,8 @@
   "pricing.feat.adfree_unlock_lim": "8s Video = 1 Stunde",
   "pricing.feat.unlock": "Mit Werbung freischalten",
   "pricing.unlock.hint": "Werbung ansehen, um alle Funktionen gratis zu nutzen",
-  "pricing.unlock.btn": "▶ Werbung ansehen, um alle Funktionen freizuschalten"
+  "pricing.unlock.btn": "▶ Werbung ansehen, um alle Funktionen freizuschalten",
+  "home.unlock.hint": "Werbung ansehen, um alle Funktionen gratis zu nutzen",
+  "home.unlock.btn": "▶ Werbung ansehen, um alle Funktionen freizuschalten",
+  "home.unlock.sub": "8s Video = 1 Stunde Vollzugang"
 }

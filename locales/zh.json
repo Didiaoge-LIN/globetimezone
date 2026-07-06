@@ -1070,5 +1070,8 @@
   "pricing.feat.adfree_unlock_lim": "8秒视频=1小时",
   "pricing.feat.unlock": "看广告解锁",
   "pricing.unlock.hint": "看广告即可免费使用全部功能",
-  "pricing.unlock.btn": "▶ 看广告解锁全部功能"
+  "pricing.unlock.btn": "▶ 看广告解锁全部功能",
+  "home.unlock.hint": "看广告即可免费使用全部功能",
+  "home.unlock.btn": "▶ 看广告解锁全部功能",
+  "home.unlock.sub": "8秒视频 = 1小时全功能免费使用"
 }

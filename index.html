@@ -197,6 +197,13 @@
         </a>
       </div>
 
+      <!-- ═══════ 看广告解锁全部功能 ═══════ -->
+      <div style="max-width:540px;margin:1.5rem auto 0;padding:16px;background:rgba(22,93,255,0.06);border-radius:12px;border:1px solid rgba(22,93,255,0.15);text-align:center;">
+        <p style="font-size:14px;color:#165DFF;margin:0 0 10px;font-weight:600;" data-i18n="home.unlock.hint">看广告即可免费使用全部功能</p>
+        <button data-gtz-unlock data-gtz-scene="meeting_planner" data-gtz-right="light" class="gtz-unlock-entry" style="padding:10px 24px;font-size:14px;border:none;border-radius:8px;background:#165DFF;color:#fff;cursor:pointer;" data-i18n="home.unlock.btn">▶ 看广告解锁全部功能</button>
+        <p style="font-size:12px;color:var(--text-secondary);margin:8px 0 0;" data-i18n="home.unlock.sub">8秒视频 = 1小时全功能免费使用</p>
+      </div>
+
       <!-- 动态城市卡片 -->
       <div id="custom-city-cards" class="quick-cards" style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;margin-top:1.2rem;position:relative;z-index:1;"></div>
     </section>
@@ -256,33 +263,9 @@
   <script src="/js/ga4-events.js?v=1" defer data-cfasync="false"></script>
   <script src="/js/custom-cities.js?v=13" defer data-cfasync="false"></script>
   <script src="/js/meeting-planner.js?v=4" defer data-cfasync="false"></script>
-  <!-- 广告解锁权益体系入口（文档§2.1 SEO红线：仅首页加载） -->
-  <script type="module" defer data-cfasync="false">
-    import { initAdUnlock, UnlockEntry, FeatureLockOverlay } from '/js/ad-unlock/ui-components.js';
-    import { FunctionScene, RightType } from '/js/ad-unlock/constants.js';
-    import { scheduleCalibration } from '/js/ad-unlock/time-calibrate.js';
-
-    // 初始化广告解锁体系
-    const { rightsManager, checkinManager } = initAdUnlock();
-    
-    // 启动时间校准定期刷新
-    scheduleCalibration();
-
-    // 功能门控：进阶功能需解锁
-    // 会议计划器 → 轻量档解锁（8秒视频=1小时）
-    const meetingPlannerContainer = document.getElementById('meeting-planner');
-    if (meetingPlannerContainer) {
-      const meetingOverlay = new FeatureLockOverlay(
-        FunctionScene.MEETING_PLANNER,
-        RightType.LIGHT,
-        meetingPlannerContainer
-      );
-      meetingOverlay.render();
-    }
-
-    // 打卡入口
-    // 后续在其他进阶功能旁添加 UnlockEntry
-  </script>
+  <!-- 广告解锁权益体系（外部loader，避免Rocket Loader拦截import） -->
+  <link rel="stylesheet" href="/styles/ad-unlock.css?v=2">
+  <script src="/js/ad-unlock-loader.js?v=1" defer data-cfasync="false"></script>
   <script type="module" defer>
     import { initSentry } from '/scripts/sentry-init.js';
     initSentry();

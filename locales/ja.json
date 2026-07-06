@@ -1070,5 +1070,8 @@
   "pricing.feat.adfree_unlock_lim": "8秒動画=1時間",
   "pricing.feat.unlock": "広告で解除",
   "pricing.unlock.hint": "広告を見て全機能を無料で利用",
-  "pricing.unlock.btn": "▶ 広告を見て全機能をアンロック"
+  "pricing.unlock.btn": "▶ 広告を見て全機能をアンロック",
+  "home.unlock.hint": "広告を見て全機能を無料で利用",
+  "home.unlock.btn": "▶ 広告を見て全機能をアンロック",
+  "home.unlock.sub": "8秒動画 = 1時間フルアクセス"
 }
