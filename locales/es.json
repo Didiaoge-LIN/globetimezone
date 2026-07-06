@@ -1070,5 +1070,8 @@
   "pricing.feat.adfree_unlock_lim": "8s video = 1 hora",
   "pricing.feat.unlock": "Desbloquear con anuncio",
   "pricing.unlock.hint": "Mira un anuncio para usar todas las funciones gratis",
-  "pricing.unlock.btn": "▶ Ver anuncio para desbloquear todo"
+  "pricing.unlock.btn": "▶ Ver anuncio para desbloquear todo",
+  "home.unlock.hint": "Mira un anuncio para usar todas las funciones gratis",
+  "home.unlock.btn": "▶ Ver anuncio para desbloquear todo",
+  "home.unlock.sub": "8s video = 1 hora acceso completo"
 }

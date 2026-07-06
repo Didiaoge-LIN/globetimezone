@@ -1095,5 +1095,8 @@
   "pricing.feat.adfree_unlock_lim": "8s video = 1 hour",
   "pricing.feat.unlock": "Unlock with ad",
   "pricing.unlock.hint": "Watch an ad to use all features for free",
-  "pricing.unlock.btn": "▶ Watch ad to unlock all features"
+  "pricing.unlock.btn": "▶ Watch ad to unlock all features",
+  "home.unlock.hint": "Watch an ad to use all features for free",
+  "home.unlock.btn": "▶ Watch ad to unlock all features",
+  "home.unlock.sub": "8s video = 1 hour full access"
 }

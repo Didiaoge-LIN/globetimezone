@@ -1070,5 +1070,8 @@
   "pricing.feat.adfree_unlock_lim": "8초 영상=1시간",
   "pricing.feat.unlock": "광고로 잠금 해제",
   "pricing.unlock.hint": "광고를 보고 모든 기능을 무료로 사용하세요",
-  "pricing.unlock.btn": "▶ 광고 보고 모든 기능 잠금 해제"
+  "pricing.unlock.btn": "▶ 광고 보고 모든 기능 잠금 해제",
+  "home.unlock.hint": "광고를 보고 모든 기능을 무료로 사용하세요",
+  "home.unlock.btn": "▶ 광고 보고 모든 기능 잠금 해제",
+  "home.unlock.sub": "8초 영상 = 1시간 전체 액세스"
 }

@@ -1070,5 +1070,8 @@
   "pricing.feat.adfree_unlock_lim": "8s vidéo = 1 heure",
   "pricing.feat.unlock": "Débloquer avec pub",
   "pricing.unlock.hint": "Regardez une pub pour utiliser toutes les fonctions gratuitement",
-  "pricing.unlock.btn": "▶ Regarder une pub pour débloquer"
+  "pricing.unlock.btn": "▶ Regarder une pub pour débloquer",
+  "home.unlock.hint": "Regardez une pub pour utiliser toutes les fonctions gratuitement",
+  "home.unlock.btn": "▶ Regarder une pub pour débloquer",
+  "home.unlock.sub": "8s vidéo = 1 heure accès complet"
 }
