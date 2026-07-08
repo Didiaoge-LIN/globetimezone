@@ -29,7 +29,7 @@
   <link rel="manifest" href="/manifest.json">
   <link rel="stylesheet" href="/styles/premium.css?v=2">
   <!-- 广告解锁权益体系 CSS（文档§2.1 SEO红线：仅首页加载，城市页不加载） -->
-  <link rel="stylesheet" href="/styles/ad-unlock.css?v=1">
+  <link rel="stylesheet" href="/styles/ad-unlock.css?v=2">
   <style>
     real-clock, smart-clock {
       display: inline-block; min-width: 60px; visibility: hidden;
@@ -264,8 +264,7 @@
   <script src="/js/custom-cities.js?v=13" defer data-cfasync="false"></script>
   <script src="/js/meeting-planner.js?v=4" defer data-cfasync="false"></script>
   <!-- 广告解锁权益体系（外部loader，避免Rocket Loader拦截import） -->
-  <link rel="stylesheet" href="/styles/ad-unlock.css?v=2">
-  <script src="/js/ad-unlock-loader.js?v=1" defer data-cfasync="false"></script>
+  <script src="/js/ad-unlock-loader.js?v=2" defer data-cfasync="false"></script>
   <script type="module" defer>
     import { initSentry } from '/scripts/sentry-init.js';
     initSentry();
@@ -277,7 +276,7 @@
     // ─── Service Worker 注册 + 自动更新 ───
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/sw.js?v=12').then(function(reg) {
+        navigator.serviceWorker.register('/sw.js?v=13').then(function(reg) {
           // 检测到新 SW 版本 → 立即激活
           reg.addEventListener('updatefound', function() {
             var newSW = reg.installing;

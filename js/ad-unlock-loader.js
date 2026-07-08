@@ -14,8 +14,8 @@
   function preloadModules() {
     if (AD_UNLOCK_READY) return Promise.resolve();
     return Promise.all([
-      import('/js/ad-unlock/ui-components.js'),
-      import('/js/ad-unlock/constants.js')
+      import('/js/ad-unlock/ui-components.js?v=2'),
+      import('/js/ad-unlock/constants.js?v=2')
     ]).then(function(results) {
       uiMod = results[0];
       constMod = results[1];

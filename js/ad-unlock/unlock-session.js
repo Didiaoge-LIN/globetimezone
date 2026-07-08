@@ -28,12 +28,13 @@ import { trackEvent } from './track.js';
 // 解锁会话管理器
 // ============================================================================
 export class UnlockSession {
-  constructor(scene, rightType, onSuccess, onFallback) {
+  constructor(scene, rightType, onSuccess, onFallback, videoContainer) {
     this.scene = scene;
     this.rightType = rightType;
     this.onSuccess = onSuccess;
     this.onFallback = onFallback;
-    
+    this._videoContainer = videoContainer || null;
+
     // 文档§3.3：会话状态存入内部对象（等效于useRef）
     this._state = {
       sessionId: '',
@@ -43,10 +44,10 @@ export class UnlockSession {
       countdownTimer: null,
       videoElement: null
     };
-    
+
     // 外部可观察的按钮状态
     this.buttonState = 'normal';  // normal | loading | playing | success | fallback
-    
+
     // 视频配置
     this._videoConfig = getVideoConfig(scene);
     this._videoUrl = getVideoUrl(scene);
@@ -112,7 +113,7 @@ export class UnlockSession {
   // ============================================================================
   _handleCanPlay = () => {
     if (this._state.hasTriggeredFallback) return;
-    
+
     // 清除兜底倒计时
     if (this._state.countdownTimer) {
       clearTimeout(this._state.countdownTimer);
@@ -121,14 +122,25 @@ export class UnlockSession {
 
     this.buttonState = 'playing';
     this._state.hasPlayed = true;
-    
+
+    // 自动播放（已静音，浏览器允许 muted autoplay）
+    var video = this._state.videoElement;
+    if (video) {
+      var playPromise = video.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(function(e) {
+          console.error('[ad-unlock] video play failed:', e);
+        });
+      }
+    }
+
     trackEvent('PLAY_START', {
       scene: this.scene,
       right_type: this.rightType,
       video_id: this._videoConfig.videoId,
-      bitrate: (navigator.connection?.effectiveType) || 'unknown'
+      bitrate: (navigator.connection && navigator.connection.effectiveType) || 'unknown'
     });
-    
+
     // 通知外部状态变化
     this._notifyStateChange();
   };
@@ -189,7 +201,15 @@ export class UnlockSession {
     video.muted = true;                         // 文档§2.1：视频播放全程静音
     video.playsInline = true;
     video.preload = 'auto';
+    video.setAttribute('disablepictureinpicture', '');
+    video.setAttribute('disableremoteplayback', '');
+    video.controls = false;                     // 禁止用户控制（文档§3.4）
     this._state.videoElement = video;
+
+    // 4.5 将视频元素挂载到容器（插入最前面，badge/progress 叠在上层）
+    if (this._videoContainer) {
+      this._videoContainer.insertBefore(video, this._videoContainer.firstChild);
+    }
 
     // 5. 绑定视频事件
     video.addEventListener('canplaythrough', this._handleCanPlay);
