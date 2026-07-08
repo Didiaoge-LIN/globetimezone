@@ -1,8 +1,8 @@
 'use strict';
 
 /**
- * Service Worker v12 — 真LRU淘汰 + 容量限制 + 容错安装 + 离线回退
- * v12升级：precache 补全 ad-unlock 权益体系模块（12文件+CSS）
+ * Service Worker v13 — 真LRU淘汰 + 容量限制 + 容错安装 + 离线回退
+ * v13升级：修复 ad-unlock 视频播放bug（video元素挂载DOM + play()调用）
  *
  * ⚠️ 版本号同步点（修改时必须同步以下 4 处）：
  *   1. sw.js CACHE_VERSION（本文件）
@@ -10,7 +10,7 @@
  *   3. index.html sw.js?v=X
  *   4. functions/city/city-template.js sw.js?v=X
  */
-const CACHE_VERSION = 'v12';
+const CACHE_VERSION = 'v13';
 const STATIC_CACHE = `static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `dynamic-${CACHE_VERSION}`;
 const MAX_DYNAMIC_ENTRIES = 100;

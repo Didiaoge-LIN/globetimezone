@@ -1348,8 +1348,8 @@
           return;
         }
         try {
-          const uiMod = await import('/js/ad-unlock/ui-components.js');
-          const constMod = await import('/js/ad-unlock/constants.js');
+          const uiMod = await import('/js/ad-unlock/ui-components.js?v=2');
+          const constMod = await import('/js/ad-unlock/constants.js?v=2');
           uiMod.initAdUnlock();
 
           // 功能门控：锁定"添加参会者"核心功能区块

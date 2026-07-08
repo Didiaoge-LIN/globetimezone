@@ -159,7 +159,8 @@ export class UnlockModal {
       this.scene,
       this.rightType,
       () => this._onUnlockSuccess(),   // 成功回调
-      () => this._onUnlockFallback()    // 兜底回调
+      () => this._onUnlockFallback(),  // 兜底回调
+      this._videoContainer             // 视频容器（video元素挂载目标）
     );
 
     this._session.onStateChange = (state) => this._updateUI(state);
