@@ -87,15 +87,8 @@ export function getVideoConfig(scene) {
  */
 export function getVideoUrl(scene) {
   const config = getVideoConfig(scene);
-  // navigator.connection 是 Network Information API，部分浏览器支持
-  const connection = navigator.connection || navigator.mozConnection || null;
-  const effectiveType = connection ? connection.effectiveType : '4g';
-  
-  // 文档规则：网络环境为4g/WiFi时使用高码率，其他使用低码率
-  if (effectiveType === '4g' || !connection) {
-    // 无connection信息默认走高码率（多数桌面端浏览器无此API）
-    return config.highBitrateUrl;
-  }
+  // 暂时强制使用 low 版本（high 版本 FMP4 编码 Chrome 不支持，待重新生成 H.264）
+  // TODO: high 版本重新生成 H.264 后恢复网络自适应逻辑
   return config.lowBitrateUrl;
 }
 
