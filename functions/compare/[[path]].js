@@ -10,55 +10,23 @@ import {
   formatTimeDifference
 } from '../lib/timezone-worker.js';
 import { isSearchEngineBot } from '../lib/common-worker.js';
+import { getAllCities } from '../city/data/index.js';
 
 /**
- * 城市白名单配置
- * 扩展城市按此格式添加，key为URL Slug，必须唯一
+ * 城市白名单：由 getAllCities() 动态构建（200 城市）
+ * 字段映射：tz→tz, n→nameZh, ne→nameEn, c→countryZh, cc→countryEn
+ * （模板实际消费 tz/nameZh/countryZh，其余保留兼容）
  */
-const CITY_WHITELIST = {
-  'new-york': {
-    tz: 'America/New_York',
-    nameZh: '纽约',
-    nameEn: 'New York',
-    countryZh: '美国',
-    countryEn: 'United States'
-  },
-  'los-angeles': {
-    tz: 'America/Los_Angeles',
-    nameZh: '洛杉矶',
-    nameEn: 'Los Angeles',
-    countryZh: '美国',
-    countryEn: 'United States'
-  },
-  'london': {
-    tz: 'Europe/London',
-    nameZh: '伦敦',
-    nameEn: 'London',
-    countryZh: '英国',
-    countryEn: 'United Kingdom'
-  },
-  'beijing': {
-    tz: 'Asia/Shanghai',
-    nameZh: '北京',
-    nameEn: 'Beijing',
-    countryZh: '中国',
-    countryEn: 'China'
-  },
-  'tokyo': {
-    tz: 'Asia/Tokyo',
-    nameZh: '东京',
-    nameEn: 'Tokyo',
-    countryZh: '日本',
-    countryEn: 'Japan'
-  },
-  'sydney': {
-    tz: 'Australia/Sydney',
-    nameZh: '悉尼',
-    nameEn: 'Sydney',
-    countryZh: '澳大利亚',
-    countryEn: 'Australia'
-  }
-};
+const CITY_WHITELIST = {};
+for (const [slug, c] of Object.entries(getAllCities())) {
+  CITY_WHITELIST[slug] = {
+    tz: c.tz,
+    nameZh: c.n,
+    nameEn: c.ne,
+    countryZh: c.c,
+    countryEn: c.cc
+  };
+}
 
 /**
  * 生成 CSP Nonce 用于放行内联脚本/样式

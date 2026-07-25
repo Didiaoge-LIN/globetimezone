@@ -51,7 +51,7 @@ export async function onRequestGet(context) {
   // 城市详情页
   for (const city of CITY_SLUGS) {
     if (currentIndex >= startIndex && currentIndex < endIndex) {
-      urlNodes.push(buildUrlNode(`${BASE_URL}/city/${city}`, 'daily', '0.6', today));
+      urlNodes.push(buildUrlNode(`${BASE_URL}/city/${city}/`, 'daily', '0.6', today));
     }
     currentIndex++;
   }

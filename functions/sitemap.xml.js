@@ -82,7 +82,7 @@ export async function onRequestGet(context) {
     });
     // 城市详情页
     CITY_SLUGS.forEach(slug => {
-      urlNodes.push(buildUrlNode(`${BASE_URL}/city/${slug}`, 'daily', '0.6', today));
+      urlNodes.push(buildUrlNode(`${BASE_URL}/city/${slug}/`, 'daily', '0.6', today));
     });
     // 两两对比页
     for (let i = 0; i < CITY_SLUGS.length; i++) {
