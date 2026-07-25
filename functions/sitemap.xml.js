@@ -3,7 +3,7 @@ import { getAllCities } from './city/data/index.js';
 
 const BASE_URL = 'https://globetimezone.com';
 const SUB_SITEMAP_LIMIT = 5000;
-const CACHE_TTL = 86400;
+const CACHE_TTL = 3600;
 const KV_NAMESPACE = 'SITEMAP_CACHE';
 
 const CITY_SLUGS = Object.keys(getAllCities());
@@ -48,7 +48,7 @@ ${sitemaps}</sitemapindex>`;
 export async function onRequestGet(context) {
   const { env } = context;
   const today = new Date().toISOString().split('T')[0];
-  const cacheKey = 'sitemap:compare-index';
+  const cacheKey = 'sitemap:v2:compare-index';
 
   // 优先读取KV缓存
   try {

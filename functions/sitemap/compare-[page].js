@@ -3,7 +3,7 @@ import { getAllCities } from '../city/data/index.js';
 
 const BASE_URL = 'https://globetimezone.com';
 const SUB_SITEMAP_LIMIT = 5000;
-const CACHE_TTL = 86400;
+const CACHE_TTL = 3600;
 const KV_NAMESPACE = 'SITEMAP_CACHE';
 
 const CITY_SLUGS = Object.keys(getAllCities());
@@ -27,7 +27,7 @@ export async function onRequestGet(context) {
     return new Response('Not Found', { status: 404 });
   }
 
-  const cacheKey = `sitemap:compare:${pageNum}`;
+  const cacheKey = `sitemap:v2:compare:${pageNum}`;
 
   // 读缓存
   try {
