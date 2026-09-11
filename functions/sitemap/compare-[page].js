@@ -2,7 +2,7 @@
  * /sitemap/compare-{n}.xml — 历史分片地址兼容
  *
  * v3.0 起 sitemap 重构为 pages / cities / compare 三个分片。
- * 旧分片地址（compare-1..5）保留 302 跳转，避免搜索引擎
+ * 旧分片地址（compare-1..5）保留 301 永久跳转，避免搜索引擎
  * 继续抓取到 404 影响 sitemap 健康度。
  */
 
@@ -14,5 +14,5 @@ export async function onRequestGet(context) {
   if (!/^\d+$/.test(page)) {
     return new Response('Not Found', { status: 404 });
   }
-  return Response.redirect(`${SITE_BASE}/sitemap/compare.xml`, 302);
+  return Response.redirect(`${SITE_BASE}/sitemap/compare.xml`, 301);
 }
