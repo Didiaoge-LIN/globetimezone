@@ -1,119 +1,29 @@
-import { escapeXml } from './lib/security.js';
-import { getAllCities } from './city/data/index.js';
+/**
+ * ============================================================
+ * /sitemap.xml — 站点地图索引
+ *
+ * v3.0（2026-09-11 权重治理）
+ *
+ * 旧版问题：索引只指向 5 个 compare 分片，19,900 条同构薄页占满整个
+ * sitemap，而 200 个城市页、46 个工具页一条都没提交 —— 权重结构失衡。
+ *
+ * 新版：按页面价值分片，只提交真实内容。
+ *   /sitemap/pages.xml   静态核心页 + 工具页
+ *   /sitemap/cities.xml  城市页（zh 默认 + 8 语言）
+ *   /sitemap/compare.xml 对比页（仅 Tier 1 核心枢纽组合）
+ * ============================================================
+ */
 
-const BASE_URL = 'https://globetimezone.com';
-const SUB_SITEMAP_LIMIT = 5000;
-const CACHE_TTL = 3600;
-const KV_NAMESPACE = 'SITEMAP_CACHE';
+import { SITE_BASE, buildSitemapIndex, serveXml, todayStr } from './lib/sitemap-utils.js';
 
-const CITY_SLUGS = Object.keys(getAllCities());
-
-// 静态页面配置
-const STATIC_PAGES = [
-  { path: '', changefreq: 'weekly', priority: '1.0' },
-  { path: '/meeting', changefreq: 'weekly', priority: '0.9' },
-  { path: '/daylight-saving/usa-2026', changefreq: 'monthly', priority: '0.8' },
-  { path: '/amazon/north-america-schedule-2026', changefreq: 'monthly', priority: '0.8' }
+const ENTRIES = [
+  { loc: `${SITE_BASE}/sitemap/pages.xml` },
+  { loc: `${SITE_BASE}/sitemap/cities.xml` },
+  { loc: `${SITE_BASE}/sitemap/compare.xml` }
 ];
 
-/**
- * 生成单个URL节点
- */
-function buildUrlNode(loc, changefreq, priority, lastmod) {
-  return `  <url>
-    <loc>${escapeXml(loc)}</loc>
-    <lastmod>${escapeXml(lastmod)}</lastmod>
-    <changefreq>${escapeXml(changefreq)}</changefreq>
-    <priority>${escapeXml(priority)}</priority>
-  </url>`;
-}
-
-/**
- * 生成站点地图索引文件
- */
-function buildSitemapIndex(count) {
-  const today = new Date().toISOString().split('T')[0];
-  let sitemaps = '';
-  for (let i = 1; i <= count; i++) {
-    sitemaps += `  <sitemap>
-    <loc>${escapeXml(`${BASE_URL}/sitemap/compare-${i}.xml`)}</loc>
-    <lastmod>${escapeXml(today)}</lastmod>
-  </sitemap>\n`;
-  }
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${sitemaps}</sitemapindex>`;
-}
-
 export async function onRequestGet(context) {
-  const { env } = context;
-  const today = new Date().toISOString().split('T')[0];
-  const cacheKey = 'sitemap:v2:compare-index';
-
-  // 优先读取KV缓存
-  try {
-    const cached = await env[KV_NAMESPACE].get(cacheKey);
-    if (cached) {
-      return new Response(cached, {
-        headers: {
-          'Content-Type': 'application/xml; charset=utf-8',
-          'Cache-Control': `public, max-age=${CACHE_TTL}`
-        }
-      });
-    }
-  } catch (e) {
-    // KV异常降级为实时生成，不中断服务
-  }
-
-  // 计算动态页面总数
-  const cityPageCount = CITY_SLUGS.length;
-  const comparePageCount = CITY_SLUGS.length * (CITY_SLUGS.length - 1) / 2;
-  const totalDynamicPages = cityPageCount + comparePageCount;
-  const subSitemapCount = Math.ceil(totalDynamicPages / SUB_SITEMAP_LIMIT);
-
-  let xmlContent;
-
-  if (subSitemapCount <= 1) {
-    // 页面量少，直接合并输出单文件
-    const urlNodes = [];
-    // 静态页面
-    STATIC_PAGES.forEach(page => {
-      urlNodes.push(buildUrlNode(`${BASE_URL}${page.path}`, page.changefreq, page.priority, today));
-    });
-    // 城市详情页
-    CITY_SLUGS.forEach(slug => {
-      urlNodes.push(buildUrlNode(`${BASE_URL}/city/${slug}/`, 'daily', '0.6', today));
-    });
-    // 两两对比页
-    for (let i = 0; i < CITY_SLUGS.length; i++) {
-      for (let j = i + 1; j < CITY_SLUGS.length; j++) {
-        urlNodes.push(buildUrlNode(
-          `${BASE_URL}/compare/${CITY_SLUGS[i]}-and-${CITY_SLUGS[j]}-time-difference`,
-          'daily',
-          '0.5',
-          today
-        ));
-      }
-    }
-
-    xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urlNodes.join('\n')}
-</urlset>`;
-  } else {
-    // 页面量大，输出索引文件
-    xmlContent = buildSitemapIndex(subSitemapCount);
-  }
-
-  // 写入KV缓存，失败不影响响应
-  try {
-    await env[KV_NAMESPACE].put(cacheKey, xmlContent, { expirationTtl: CACHE_TTL });
-  } catch (e) {}
-
-  return new Response(xmlContent, {
-    headers: {
-      'Content-Type': 'application/xml; charset=utf-8',
-      'Cache-Control': `public, max-age=${CACHE_TTL}`
-    }
+  return serveXml(context, 'sitemap:v3:index', async () => {
+    return buildSitemapIndex(ENTRIES, todayStr());
   });
 }

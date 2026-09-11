@@ -1,7 +1,12 @@
 # GlobeTimeZone.com - robots.txt
+# 更新：2026-09-11（权重治理：城市页 / 工具页全面放开，对比页按分级收录）
+
 User-agent: *
 Allow: /
-Disallow: /og/
-Disallow: /api/
 
+# 接口与动态图片端点无需收录
+Disallow: /api/
+Disallow: /og/
+
+# 站点地图索引
 Sitemap: https://globetimezone.com/sitemap.xml

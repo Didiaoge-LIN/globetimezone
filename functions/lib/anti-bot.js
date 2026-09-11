@@ -1,23 +1,66 @@
 'use strict';
 
 /**
- * 反爬虫 / 恶意流量防护模块 (精简版)
- * 三层防御：UA黑名单 → 行为特征 → 速率限制(KV)
+ * 反爬虫 / 恶意流量防护模块
+ * 三层防御：UA 白名单放行 → UA 黑名单 → 行为特征 → 速率限制(KV)
+ *
+ * 2026-09-11 更新（站点流量分析驱动）：
+ *   实测 7 天 9.07 万次请求中，HeadlessChrome 占 45.3%，
+ *   且把首页 25 个静态依赖逐个精确刷约 1,600 次。
+ *   而原规则因 LEGIT_UA 含 'chrome' 使其全部放行 —— 本次补齐拦截，
+ *   同时把自有监控（SentryUptimeBot）等合法机器人显式放行，
+ *   避免误伤。
+ *
+ * ⚠️ CF Pages 构建兼容约束：
+ *   - 不使用预编译 new RegExp / 复杂模板字符串
+ *   - UA 规则统一用普通字符串数组 + includes 匹配
  */
 
+// ---------------------------------------------------------------------------
+// 白名单：合法机器人（必须最先判定，避免被后续规则误杀）
+//   - 搜索引擎：SEO 命脉，绝不拦截
+//   - 可用性监控：DIAO 自建的 SentryUptimeBot 等，拦截会导致监控误报站点宕机
+// ---------------------------------------------------------------------------
+const ALLOWED_BOT_UA = [
+  // 搜索引擎
+  'googlebot', 'bingbot', 'baiduspider', 'yandexbot', 'duckduckbot',
+  'applebot', 'sogou', 'so.com', 'sm.cn', 'exabot', 'slurp',
+  // 搜索/AI 索引型爬虫（已在本站正常抓取内容页，放行以维持外链数据）
+  'amzn-searchbot', 'ahrefsbot', 'exasearchbot',
+  // 可用性监控
+  'sentryuptimebot', 'uptimerobot', 'pingdom', 'statuscake',
+  'betteruptime', 'hetrixtools', 'freshping', 'uptime-kuma',
+  'site24x7', 'checkly', 'hyperping', 'webpagetest', 'monitis',
+  'nodeping', 'pagemonitor', 'internetseer'
+];
+
+// ---------------------------------------------------------------------------
+// 黑名单：爬虫框架 / 无头浏览器 / 协议探测器
+// ---------------------------------------------------------------------------
 const UA_BLACKLIST = [
+  // HTTP 客户端 / 脚本
   'python-requests', 'python-urllib', 'scrapy/', 'httpclient', 'okhttp',
   'apache-httpclient', 'go-http-client', 'node-superagent', 'node-fetch/',
-  'axios/', 'got/', 'undici', 'ahrefsbot', 'semrushbot', 'mj12bot',
-  'dotbot', 'rushbot', 'domaincrawler', 'ccbot', 'chatgpt-user', 'gptbot',
-  'googleother', 'bingpreview', 'nikto', 'sqlmap', 'nmap', 'masscan',
-  'zgrab', 'nuclei', 'xenu link sleuth', 'linkcheck', 'wget', 'curl/',
-  'libwww-perl', 'java/'
+  'axios/', 'got/', 'undici', 'libwww-perl', 'java/', 'wget', 'curl/',
+  // SEO 工具 / 内容抓取器
+  'mj12bot', 'dotbot', 'rushbot', 'domaincrawler', 'ccbot', 'semrushbot',
+  'chatgpt-user', 'gptbot', 'googleother', 'bingpreview', 'bytespider',
+  'petalbot', 'dataforseo', 'serpstat', 'blexbot', 'megaindex',
+  // 无头浏览器 / 自动化（2026-09-11 新增，最大流量来源）
+  'headlesschrome', 'headless chromium', 'headless firefox',
+  'phantomjs', 'puppeteer', 'playwright', 'selenium', 'electron/',
+  'splash/', 'htmlunit', 'jsdom',
+  // 性能审计工具
+  'lighthouse', 'chrome-lighthouse', 'pagespeed', 'gtmetrix',
+  // 协议探测 / 扫描器
+  'nginx-ssl', 'early hints', 'nikto', 'sqlmap', 'nmap', 'masscan',
+  'zgrab', 'nuclei', 'xenu link sleuth', 'linkcheck', 'gobuster',
+  'dirbuster', 'wpscan', 'acunetix', 'nessus'
 ];
 
 const SUSPICIOUS_PATHS = [
   /\.env$/, /\.git/, /\.svn/, /wp-admin/, /wp-login/, /phpmyadmin/,
-  /\/admin\//, /graphql/, /actuator/
+  /\/admin\//, /graphql/, /actuator/, /\.php$/, /\.sql$/, /\.bak$/
 ];
 
 const LEGIT_UA = [
@@ -27,6 +70,7 @@ const LEGIT_UA = [
 ];
 
 export const BOT_SIGNALS = Object.freeze({
+  ALLOWED_BOT: 'allowed_bot',
   UA_BLACKLISTED: 'ua_blacklisted',
   SUSPICIOUS_PATH: 'suspicious_path',
   MISSING_BROWSER: 'missing_browser_headers',
@@ -39,9 +83,20 @@ const RATE_LIMIT = { windowSeconds: 60, maxRequests: 30, kvPrefix: 'rl:' };
 export async function checkRequest(request, env) {
   const url = new URL(request.url);
   const ua = request.headers.get('User-Agent') || '';
+  const uaLower = ua.toLowerCase();
+
+  // ---------------------------------------------------------------------
+  // Layer 0: 白名单放行（搜索引擎 + 可用性监控）
+  // 必须先于黑名单判定：监控 UA 往往不含浏览器标识，
+  // 若被 Layer 2.5 拦掉会让自有监控误报站点宕机。
+  // ---------------------------------------------------------------------
+  for (let i = 0; i < ALLOWED_BOT_UA.length; i++) {
+    if (uaLower.includes(ALLOWED_BOT_UA[i])) {
+      return { blocked: false, signal: BOT_SIGNALS.ALLOWED_BOT, reason: 'Allowed bot: ' + ALLOWED_BOT_UA[i] };
+    }
+  }
 
   // Layer 1: UA 黑名单
-  const uaLower = ua.toLowerCase();
   for (let i = 0; i < UA_BLACKLIST.length; i++) {
     if (uaLower.includes(UA_BLACKLIST[i])) {
       return { blocked: true, signal: BOT_SIGNALS.UA_BLACKLISTED, reason: 'Blocked UA: ' + UA_BLACKLIST[i] };
@@ -119,6 +174,7 @@ export function buildChallengeResponse() {
 }
 
 export const ANTI_BOT_CONFIG = Object.freeze({
+  allowedBotCount: ALLOWED_BOT_UA.length,
   uaBlacklistCount: UA_BLACKLIST.length,
   suspiciousPathCount: SUSPICIOUS_PATHS.length,
   rateLimit: RATE_LIMIT,

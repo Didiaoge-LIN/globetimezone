@@ -480,12 +480,15 @@ function relatedLinks(related, allCities, lang) {
 }
 
 function hreflangTags(slug) {
+  // zh-CN 指向不带语言前缀的默认地址（/city/{slug}/）。
+  // 原因：/zh/city/{slug}/ 与默认页内容一致且 canonical 指向默认页，
+  // 若把 hreflang 指向它，会形成 hreflang 与 canonical 互相矛盾。
   const langs = [
-    ['en', 'en'], ['zh-CN', 'zh'], ['de', 'de'], ['fr', 'fr'],
+    ['en', 'en'], ['zh-CN', ''], ['de', 'de'], ['fr', 'fr'],
     ['es', 'es'], ['ja', 'ja'], ['ko', 'ko'], ['pt-BR', 'pt'], ['ar', 'ar']
   ];
   const tags = langs.map(([hreflang, code]) =>
-    `  <link rel="alternate" hreflang="${hreflang}" href="https://globetimezone.com/${code}/city/${slug}/" />`
+    `  <link rel="alternate" hreflang="${hreflang}" href="https://globetimezone.com${code ? '/' + code : ''}/city/${slug}/" />`
   );
   tags.push(`  <link rel="alternate" hreflang="x-default" href="https://globetimezone.com/city/${slug}/" />`);
   return tags.join('\n');
