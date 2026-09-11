@@ -21,14 +21,31 @@ export const SUB_SITEMAP_LIMIT = 5000;
 export const INDEXABLE_LANGS = ['en', 'de', 'fr', 'es', 'ja', 'ko', 'pt', 'ar'];
 
 /**
+ * ⚠️ 自带 noindex 的页面黑名单 —— 绝不能进 sitemap
+ *
+ * 这些页面自身声明 <meta name="robots" content="noindex">，
+ * 若被提交进 sitemap，GSC 会报 "Submitted URL marked 'noindex'" 并降低
+ * sitemap 整体信任度。（2026-09-11 线上实测发现并修正）
+ *
+ * 维护规则：新增 STATIC_PAGES 前，先确认目标页**没有** noindex；
+ *          若页面确需 noindex（分享页/付费墙/法务页），必须登记到此处。
+ */
+export const NOINDEX_PATHS = new Set([
+  '/team-clock/',   // 分享链接动态页：noindex 且 canonical 指向首页
+  '/pro',           // 付费墙页：canonical 自指却声明 noindex，自相矛盾
+  '/disclaimer'     // 免责声明：noindex 且无 canonical
+]);
+
+/**
  * 静态核心页（全部为线上返回 200 的规范地址，且 canonical 自洽）
  * priority 依据页面商业/流量价值设定
+ *
+ * 注意：此处不含任何 NOINDEX_PATHS 中的路径（由页面过滤器兜底剔除）
  */
 export const STATIC_PAGES = [
   { path: '', changefreq: 'daily', priority: '1.0' },
   { path: '/meeting-planner/', changefreq: 'weekly', priority: '0.9' },
   { path: '/time-difference/', changefreq: 'weekly', priority: '0.9' },
-  { path: '/team-clock/', changefreq: 'weekly', priority: '0.8' },
   { path: '/world-clock', changefreq: 'weekly', priority: '0.8' },
   { path: '/team-overlap', changefreq: 'weekly', priority: '0.8' },
   { path: '/meeting', changefreq: 'weekly', priority: '0.8' },
@@ -46,7 +63,6 @@ export const STATIC_PAGES = [
   { path: '/remote-team-timezone-guide', changefreq: 'monthly', priority: '0.6' },
   { path: '/articles', changefreq: 'weekly', priority: '0.6' },
   { path: '/api', changefreq: 'monthly', priority: '0.6' },
-  { path: '/pro', changefreq: 'monthly', priority: '0.6' },
   { path: '/tools/cross-border/', changefreq: 'monthly', priority: '0.6' },
   // 时区换算器（长尾搜索主力）
   { path: '/est-to-pst-converter', changefreq: 'monthly', priority: '0.6' },
@@ -74,8 +90,7 @@ export const STATIC_PAGES = [
   { path: '/contact', changefreq: 'monthly', priority: '0.4' },
   { path: '/subscribe', changefreq: 'monthly', priority: '0.3' },
   { path: '/privacy', changefreq: 'yearly', priority: '0.3' },
-  { path: '/terms', changefreq: 'yearly', priority: '0.3' },
-  { path: '/disclaimer', changefreq: 'yearly', priority: '0.3' }
+  { path: '/terms', changefreq: 'yearly', priority: '0.3' }
 ];
 
 /** 首页的多语言版本 */
