@@ -85,7 +85,9 @@ export const STATIC_PAGES = [
   { path: '/remote-team-timezone-tools', changefreq: 'monthly', priority: '0.5' },
   { path: '/remote-work-timezone', changefreq: 'monthly', priority: '0.5' },
   { path: '/distributed-team-time-culture', changefreq: 'monthly', priority: '0.5' },
-  { path: '/widget/', changefreq: 'monthly', priority: '0.5' },
+  // 已移除 /widget/：widget/ 目录下只有 world-clock.html，无 index.html，
+  // Preview 环境实测返回 404；生产环境被域名边缘规则覆盖返回反爬拦截页。
+  // 该地址从未是有效页面，不应提交。（2026-09-11 实测）
   { path: '/about', changefreq: 'monthly', priority: '0.4' },
   { path: '/contact', changefreq: 'monthly', priority: '0.4' },
   { path: '/subscribe', changefreq: 'monthly', priority: '0.3' },
@@ -145,25 +147,21 @@ export const XML_HEADERS = {
   'Cache-Control': 'public, max-age=1800, s-maxage=3600, stale-while-revalidate=86400'
 };
 
-export const KV_NAMESPACE = 'SITEMAP_CACHE';
-export const CACHE_TTL = 3600;
-
 /**
- * 统一响应包装（带 KV 缓存）
+ * 生成 XML 响应
+ *
+ * ⚠️ 刻意不使用 KV 缓存。
+ *
+ * 原因（2026-09-11 线上实测踩坑）：KV 缓存 key 是静态字符串，
+ * 代码更新后 key 不变 -> 线上长期返回旧内容。实测 STATIC_PAGES
+ * 已从 49 降到 46，线上 /sitemap/pages.xml 仍返回 49 条（含 noindex 页）。
+ *
+ * sitemap 生成只是内存字符串拼接（几十 KB，毫秒级），与 KV 读写成本相当，
+ * 因此直接实时生成，只输出 HTTP 缓存头交给 CDN / 浏览器按 TTL 缓存。
+ * 这样代码一部署即生效，不存在「已修复但线上没变」的问题。
  */
-export async function serveXml(context, cacheKey, producer) {
-  const { env } = context;
-  try {
-    const cached = await env?.[KV_NAMESPACE]?.get(cacheKey);
-    if (cached) return new Response(cached, { headers: XML_HEADERS });
-  } catch (e) { /* KV 异常降级为实时生成 */ }
-
+export async function serveXml(context, producer) {
   const xml = await producer();
-
-  try {
-    await env?.[KV_NAMESPACE]?.put(cacheKey, xml, { expirationTtl: CACHE_TTL });
-  } catch (e) { /* 写缓存失败不影响响应 */ }
-
   return new Response(xml, { headers: XML_HEADERS });
 }
 

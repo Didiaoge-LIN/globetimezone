@@ -28,7 +28,7 @@ function alternatesFor(slug) {
 }
 
 export async function onRequestGet(context) {
-  return serveXml(context, 'sitemap:v3:cities', async () => {
+  return serveXml(context, async () => {
     const today = todayStr();
     const nodes = [];
 

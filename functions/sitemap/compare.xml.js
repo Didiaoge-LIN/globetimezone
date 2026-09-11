@@ -17,7 +17,7 @@ const CITY_SLUGS = Object.keys(getAllCities());
 const PAIRS = getIndexableComparePairs(CITY_SLUGS);
 
 export async function onRequestGet(context) {
-  return serveXml(context, 'sitemap:v3:compare', async () => {
+  return serveXml(context, async () => {
     const today = todayStr();
     const nodes = PAIRS.slice(0, SUB_SITEMAP_LIMIT).map(([a, b]) =>
       buildUrlNode(

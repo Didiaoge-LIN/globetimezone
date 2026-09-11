@@ -23,7 +23,7 @@ const ENTRIES = [
 ];
 
 export async function onRequestGet(context) {
-  return serveXml(context, 'sitemap:v3:index', async () => {
+  return serveXml(context, async () => {
     return buildSitemapIndex(ENTRIES, todayStr());
   });
 }

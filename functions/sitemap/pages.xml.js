@@ -11,7 +11,7 @@ import {
 } from '../lib/sitemap-utils.js';
 
 export async function onRequestGet(context) {
-  return serveXml(context, 'sitemap:v3:pages', async () => {
+  return serveXml(context, async () => {
     const today = todayStr();
     // 防御性过滤：任何自带 noindex 的页面都不提交，
     // 否则 GSC 会报 "Submitted URL marked 'noindex'"
