@@ -1094,5 +1094,9 @@
   "pricing.unlock.btn": "▶ Werbung ansehen, um alle Funktionen freizuschalten",
   "home.unlock.hint": "Werbung ansehen, um alle Funktionen gratis zu nutzen",
   "home.unlock.btn": "▶ Werbung ansehen, um alle Funktionen freizuschalten",
-  "home.unlock.sub": "8s Video = 1 Stunde Vollzugang"
+  "home.unlock.sub": "8s Video = 1 Stunde Vollzugang",
+  "crossborder.faq.a1": "Der grenzüberschreitende Versand von China in die USA dauert per Luftfracht in der Regel 10–15 Tage und per Seefracht 25–35 Tage. Die tatsächliche Dauer hängt von der Zollabfertigung und dem gewählten Versanddienstleister ab.",
+  "crossborder.faq.a2": "Der Endpreis richtet sich nach Gewicht, Abmessungen, Versandart und Zielort. Nutzen Sie unseren Versandkosten-Rechner für eine sofortige Schätzung.",
+  "crossborder.faq.a3": "Wir unterstützen die Sendungsverfolgung von Tür zu Tür über alle großen Versanddienstleister, darunter USPS, FedEx, UPS, DHL und China Post. Geben Sie Ihre Sendungsnummer ein, um Echtzeit-Updates zu erhalten.",
+  "crossborder.faq.a4": "Einfuhrzölle und Steuern werden vom Zoll des Empfangslands festgelegt. Unsere Plattform liefert geschätzte Zollberechnungen, die endgültigen Gebühren obliegen jedoch der örtlichen Zollbehörde."
 }

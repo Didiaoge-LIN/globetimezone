@@ -38,10 +38,10 @@
   "blog.card.4.tag": "API",
   "blog.card.4.time": "5 分钟",
   "blog.card.4.title": "时区 API 开发者指南",
-  "blog.card.5.excerpt": "A comprehensive, searchable list of which countries observe DST, when clocks change, and how it impacts global business scheduling.",
+  "blog.card.5.excerpt": "一份详尽的可检索清单：哪些国家实行夏令时、时钟何时调整，以及它如何影响全球商务排期。",
   "blog.card.5.tag": "指南",
   "blog.card.5.time": "6 分钟",
-  "blog.card.5.title": "Daylight Saving Time: Countries List",
+  "blog.card.5.title": "夏令时：适用国家列表",
   "blog.cat.all": "全部",
   "blog.cat.api": "🔴 API",
   "blog.cat.basics": "🟢 基础",
@@ -595,7 +595,7 @@
   "pricing.profeat.3": "会议规划",
   "pricing.profeat.3lim": "无限参与者",
   "pricing.profeat.4": "团队时钟",
-  "pricing.profeat.4tag": "NEW",
+  "pricing.profeat.4tag": "新功能",
   "pricing.profeat.5": "自定义城市列表",
   "pricing.profeat.6": "数据导出（.ics/CSV）",
   "pricing.profeat.7": "暗色主题",
@@ -1094,5 +1094,9 @@
   "pricing.unlock.btn": "▶ 看广告解锁全部功能",
   "home.unlock.hint": "看广告即可免费使用全部功能",
   "home.unlock.btn": "▶ 看广告解锁全部功能",
-  "home.unlock.sub": "8秒视频 = 1小时全功能免费使用"
+  "home.unlock.sub": "8秒视频 = 1小时全功能免费使用",
+  "crossborder.faq.a1": "从中国到美国的跨境运输，空运通常需 10–15 天，海运需 25–35 天。实际时效取决于清关与承运商。",
+  "crossborder.faq.a2": "最终价格取决于商品重量、体积、运输方式与目的地。使用我们的运费计算器可即时估算。",
+  "crossborder.faq.a3": "我们支持全链路（门到门）追踪，覆盖 USPS、FedEx、UPS、DHL 及中国邮政等主流承运商。输入运单号即可获取实时更新。",
+  "crossborder.faq.a4": "进口关税与税费由目的国海关决定。本平台提供关税估算，但最终费用以当地海关核定为准。"
 }

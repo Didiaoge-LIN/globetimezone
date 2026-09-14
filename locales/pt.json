@@ -1094,5 +1094,9 @@
   "pricing.unlock.btn": "▶ Ver anúncio para desbloquear tudo",
   "home.unlock.hint": "Assista um anúncio para usar todas as funções grátis",
   "home.unlock.btn": "▶ Ver anúncio para desbloquear tudo",
-  "home.unlock.sub": "8s vídeo = 1 hora acesso completo"
+  "home.unlock.sub": "8s vídeo = 1 hora acesso completo",
+  "crossborder.faq.a1": "O envio internacional da China para os EUA leva normalmente de 10 a 15 dias pelo ar e de 25 a 35 dias pelo mar. Os prazos reais dependem do desembaraço aduaneiro e da transportadora.",
+  "crossborder.faq.a2": "O preço final depende do peso, das dimensões, do modo de envio e do destino. Use a nossa calculadora de frete para uma estimativa instantânea.",
+  "crossborder.faq.a3": "Oferecemos rastreamento porta a porta com todas as principais transportadoras, incluindo USPS, FedEx, UPS, DHL e China Post. Insira o seu número de rastreio para obter atualizações em tempo real.",
+  "crossborder.faq.a4": "Os impostos e direitos de importação são determinados pela alfândega do país de destino. A nossa plattforma fornece cálculos estimados de direitos, mas as taxas finais ficam a critério das autoridades aduaneiras locais."
 }

@@ -1094,5 +1094,9 @@
   "pricing.unlock.btn": "▶ Ver anuncio para desbloquear todo",
   "home.unlock.hint": "Mira un anuncio para usar todas las funciones gratis",
   "home.unlock.btn": "▶ Ver anuncio para desbloquear todo",
-  "home.unlock.sub": "8s video = 1 hora acceso completo"
+  "home.unlock.sub": "8s video = 1 hora acceso completo",
+  "crossborder.faq.a1": "El envío transfronterizo de China a EE. UU. suele tardar de 10 a 15 días por vía aérea y de 25 a 35 días por vía marítima. Los plazos reales dependen del despacho de aduana y del transportista.",
+  "crossborder.faq.a2": "El precio final depende del peso, las dimensiones, el método de envío y el destino. Use nuestra calculadora de envío para obtener una estimación al instante.",
+  "crossborder.faq.a3": "Ofrecemos seguimiento de puerta a puerta con todas las principales transportistas, incluidas USPS, FedEx, UPS, DHL y China Post. Introduzca su número de seguimiento para recibir actualizaciones en tiempo real.",
+  "crossborder.faq.a4": "Los aranceles y las tasas de importación los determina la aduana del país de destino. Nuestra plataforma ofrece cálculos estimados de aranceles, pero los cargos finales quedan a discreción de las autoridades aduaneras locales."
 }

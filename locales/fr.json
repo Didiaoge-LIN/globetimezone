@@ -1094,5 +1094,9 @@
   "pricing.unlock.btn": "▶ Regarder une pub pour débloquer",
   "home.unlock.hint": "Regardez une pub pour utiliser toutes les fonctions gratuitement",
   "home.unlock.btn": "▶ Regarder une pub pour débloquer",
-  "home.unlock.sub": "8s vidéo = 1 heure accès complet"
+  "home.unlock.sub": "8s vidéo = 1 heure accès complet",
+  "crossborder.faq.a1": "L'expédition transfrontalière de Chine vers les États-Unis prend généralement 10 à 15 jours par voie aérienne et 25 à 35 jours par voie maritime. Les délais réels dépendent du dédouanement et du transporteur.",
+  "crossborder.faq.a2": "Le prix final dépend du poids, des dimensions, du mode d'expédition et de la destination. Utilisez notre calculateur d'expédition pour une estimation instantanée.",
+  "crossborder.faq.a3": "Nous prenons en charge le suivi porte-à-porte via les principaux transporteurs, dont USPS, FedEx, UPS, DHL et China Post. Saisissez votre numéro de suivi pour obtenir des mises à jour en temps réel.",
+  "crossborder.faq.a4": "Les droits de douane et les taxes à l'importation sont fixés par les douanes du pays de destination. Notre plateforme fournit une estimation des droits, mais les frais définitifs restent à la discrétion des autorités douanières locales."
 }
