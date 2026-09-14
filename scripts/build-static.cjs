@@ -20,7 +20,29 @@
  *   复制完成后做一次反向校验：若 dist/ 中仍出现工程文件特征（*.toml、
  *   package.json、.cfignore、src/ 等），直接失败退出，避免漏排静默上线。
  *
- * 启用方式（需在 Cloudflare Dashboard 操作一次，本脚本已就绪）：
+ * ⚠️ 启用状态（2026-09-14 实测）：【暂不可启用】—— 会在 CF Pages 构建阶段失败。
+ *
+ *   已完整验证过一轮，结论记录在此，避免重复踩坑：
+ *     · 脚本本身没问题：在本地「干净克隆」（无 dist、无 node_modules）下
+ *       成功产出 402 个文件 / 33.2 MB，退出码 0。
+ *     · 设成 Build command = node scripts/build-static.cjs、输出目录 = dist
+ *       后，CF Pages 的 build 阶段连续 4 次失败（a6705e98 / ce3d8522 /
+ *       82a8a0a1 / 465878b3），每次约 11 秒，deploy 阶段保持 idle。
+ *     · 二分定位（用 preview 分支，不影响生产）：把构建命令改成必然成功的
+ *       `node -v`、输出目录改回 `.`，**同样失败** —— 说明失败与脚本、
+ *       与 dist 目录都无关，而是「一旦设置了 build command，Pages 就会先
+ *       执行依赖安装」，而本仓库 package.json 含 playwright（postinstall
+ *       需下载浏览器）、wrangler、typescript 等重型依赖，装不上即判失败。
+ *     · 期间生产未受影响：构建失败时 Pages 继续服务上一个成功部署。
+ *
+ *   后续可行路线（任选其一，均需评估后再动）：
+ *     1) 让 npm install 能在 Pages 构建环境成功（清理/瘦身依赖、提交
+ *        lockfile、去掉 postinstall 下载）后再启用本脚本；
+ *     2) 改用「main 分支只放可部署内容」的分支分离方案（工程文件移到
+ *        其它分支/仓库），这样无需 build command，也就不会触发安装；
+ *     3) 维持现状：仓库根部署 + _redirects 屏蔽段（线上实测 32/32 全阻断）。
+ *
+ * 启用方式（待上述阻塞解除后，在 Cloudflare Dashboard 操作一次）：
  *   Pages 项目 → Settings → Builds & deployments
  *     Build command          : node scripts/build-static.cjs
  *     Build output directory : dist
