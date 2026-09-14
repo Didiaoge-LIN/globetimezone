@@ -1,6 +1,6 @@
 // ===== GlobeTimeZone Sentry ES Module Entry =====
 // 供 index.html / blog/index.html 通过 import { initSentry } 引用
-// 实际初始化逻辑复用 scripts/sentry.js（IIFE 自执行模式）
+// 实际初始化逻辑复用 js/sentry.js（IIFE 自执行模式）
 //
 // 采样率已适配 Free Developer 计划 (5K events/月):
 // - tracesSampleRate: 0.1 (10%采样)

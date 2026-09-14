@@ -98,6 +98,8 @@ const FILES = [
   'wrangler.timezone-api.toml',
   'wrangler.tz-watcher.toml',
   'wrangler.widget.toml',
+  'user-auth.js',
+  'user-auth.min.js',
 ];
 
 /** 工程目录（根路径形式 `/<dir>/*`） */
@@ -106,7 +108,7 @@ const DIRS = [
   '.wrangler',
   '.playwright-cli',
   'src',
-  'scripts/legacy',
+  'scripts',
   'templates',
   'extension',
   'extension-chrome',
@@ -127,7 +129,11 @@ const DIRS = [
  * 只能逐语言展开（8 条/目录），受 100 条规则上限约束，故仅覆盖最敏感者。
  * 其余目录的语言前缀暴露，由「站点产物与工程源码分离」根治。
  */
-const PREFIX_DIRS = ['.workbuddy', 'src', 'docs'];
+// 逐语言展开的目录（每条 × 9 语言，是最贵的规则，受 100 条总上限约束）。
+// 取舍说明：scripts/ 内含真实 Firebase API key，风险最高，必须覆盖语言前缀；
+// docs/ 已扫描确认仅含占位符、无真实密钥，故降级为仅根路径屏蔽（/docs/*），
+// 把语言前缀预算让给 scripts/。日后若 docs/ 出现敏感内容，此处需再平衡。
+const PREFIX_DIRS = ['.workbuddy', 'src', 'scripts'];
 
 const LANGS = ['en', 'zh', 'de', 'fr', 'es', 'ja', 'ko', 'pt', 'ar'];
 

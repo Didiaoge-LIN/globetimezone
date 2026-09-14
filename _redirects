@@ -93,13 +93,15 @@
 /*wrangler.timezone-api.toml /404 302
 /*wrangler.tz-watcher.toml /404 302
 /*wrangler.widget.toml /404 302
+/*user-auth.js /404 302
+/*user-auth.min.js /404 302
 
 # 工程目录（根路径）
 /.workbuddy/* /404 302
 /.wrangler/* /404 302
 /.playwright-cli/* /404 302
 /src/* /404 302
-/scripts/legacy/* /404 302
+/scripts/* /404 302
 /templates/* /404 302
 /extension/* /404 302
 /extension-chrome/* /404 302
@@ -116,31 +118,31 @@
 # 工程目录（语言前缀）—— CF 不支持双 * 通配，只能逐语言展开
 /en/.workbuddy/* /404 302
 /en/src/* /404 302
-/en/docs/* /404 302
+/en/scripts/* /404 302
 /zh/.workbuddy/* /404 302
 /zh/src/* /404 302
-/zh/docs/* /404 302
+/zh/scripts/* /404 302
 /de/.workbuddy/* /404 302
 /de/src/* /404 302
-/de/docs/* /404 302
+/de/scripts/* /404 302
 /fr/.workbuddy/* /404 302
 /fr/src/* /404 302
-/fr/docs/* /404 302
+/fr/scripts/* /404 302
 /es/.workbuddy/* /404 302
 /es/src/* /404 302
-/es/docs/* /404 302
+/es/scripts/* /404 302
 /ja/.workbuddy/* /404 302
 /ja/src/* /404 302
-/ja/docs/* /404 302
+/ja/scripts/* /404 302
 /ko/.workbuddy/* /404 302
 /ko/src/* /404 302
-/ko/docs/* /404 302
+/ko/scripts/* /404 302
 /pt/.workbuddy/* /404 302
 /pt/src/* /404 302
-/pt/docs/* /404 302
+/pt/scripts/* /404 302
 /ar/.workbuddy/* /404 302
 /ar/src/* /404 302
-/ar/docs/* /404 302
+/ar/scripts/* /404 302
 # === SECURITY-BLOCKLIST:END ===
 
 # === SECURITY-BLOCKLIST:INSERT-BEFORE ===
