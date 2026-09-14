@@ -127,3 +127,20 @@
 # === 分片站点地图 ===
 /sitemap/*
   Cache-Control: public, max-age=86400
+
+# === 语言子页：语义错配防控（2026-09-14）===
+# 结论：不做 X-Robots-Tag 通配标注。
+#
+# 原因（实测）：CF Pages 的 _headers 对同一响应头是「按文件顺序拼接」
+#   而非「更具体者覆盖」。给 /en/* 标 noindex、再给 /en/ 标 index，
+#   首页实际收到的是 `noindex, follow, index, follow` —— 两条指令互相冲突，
+#   有可能让已上线的首页 SSR 被判为 noindex，风险不可接受，故回退。
+#
+# 现状评估：该问题已由 canonical 缓解。
+#   /de/world-clock 实际返回的是默认语言文件（world-clock.html），其
+#   <html lang="en"> 与正文一致，且 canonical 指向 /world-clock ——
+#   搜索引擎会把它归并为 /world-clock 的副本，不会作为德语页收录。
+#   语言切换依赖这些 URL 存在，因此也不能改成 301。
+#
+# 根治方向：整站服务端本地化 —— 让 /<lang>/xxx 返回真正本地化的正文与元数据，
+#   而不是把默认语言文件代理过去。属架构级改动，见 docs/ 下的审计报告。

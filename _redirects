@@ -1,6 +1,124 @@
 # Cloudflare Pages _redirects
-# 所有语言路径重写到根目录文件（200 = rewrite，不跳转）
+#
+# ⚠️ 顺序即优先级：本地实测确认，规则按文件顺序匹配，先命中者生效。
+#   语言通配 rewrite（/en/* → /:splat，200 代理）会直接代理到目标文件，
+#   且【不会重新走一遍规则匹配】。因此「安全屏蔽」段必须排在其之前，
+#   否则带语言前缀的工程文件请求会被代理放行
+#   （实测：/en/wrangler.toml、/de/package.json 曾返回 200）。
+#
+# 语言路径重写到根目录文件（200 = rewrite，不跳转）
 # JS 根据 URL 路径加载对应语言包
+
+# ============================================================
+# 安全屏蔽：内部工程文件与目录（2026-09-14 整理上线）
+#
+# 背景：本仓库同时充当「工程仓库」与「部署源」（wrangler.toml 的
+#   [build] publish = "."），工程文件直接位于站点根目录。实测部署实际
+#   遵守 .gitignore 而非 .cfignore（反证：/sri-manifest.json 在 .cfignore
+#   中已排除却仍返回 200；而 .env / package-lock.json 因在 .gitignore 中
+#   而未部署），因此凡是「已提交」的内部文件都会随部署公开暴露。
+#   实测暴露面：/.workbuddy/memory/MEMORY.md、/wrangler.toml、/src/app.ts、
+#   /package.json、/.env.example、/.cfignore 等均曾返回 200。
+#
+# 处置：302 到 /404.html。CF Pages 的 _redirects 仅支持
+#   301/302/303/307/308 与 200（代理），「404」等其它状态码会被静默忽略
+#   （官方文档 "Rewrites (other status codes) ❌"）——首版曾误用 404 规则，
+#   实测完全不生效。重定向则「always followed, regardless of whether an
+#   asset matches」，可稳定覆盖静态文件。/404.html 已在 _headers 中标注
+#   X-Robots-Tag: noindex, nofollow，该链路不会被搜索引擎收录。
+#
+# 语言前缀绕过（2026-09-14 二次审计发现并修复）：
+#   上面那条 rewrite 不重新走规则匹配，导致只写根路径的屏蔽规则全部被绕过。
+#   故本段规则一律覆盖 8 个语言前缀 —— 文件类用 /*<name> 一条覆盖，
+#   目录类因 CF 不支持双 * 通配而逐语言展开。整段由脚本生成，勿手改：
+#     scripts/gen-security-redirects.cjs
+#   新增工程文件/目录时改该脚本的清单并重跑，--check 可用于 CI 门禁。
+#
+# 根治方向：站点产物与工程源码分离（构建产物与源码分目录），使工程文件
+#   根本不进入部署产物；届时本段可退化为纵深防御。
+# ============================================================
+# === SECURITY-BLOCKLIST:BEGIN ===
+# 本段由 scripts/gen-security-redirects.cjs 生成 —— 勿手改。
+# 新增工程文件/目录时改该脚本的清单，再重跑。
+#
+# 规则数受 _redirects 上限（100 条，超出静默丢弃）约束，
+# 故目录类的语言前缀只覆盖最敏感者（PREFIX_DIRS）。
+
+# 工程文件：`/*<name>` 覆盖根路径 + 全部 8 个语言前缀
+/*package.json /404.html 302
+/*package-lock.json /404.html 302
+/*tsconfig.json /404.html 302
+/*sri-manifest.json /404.html 302
+/*.cfignore /404.html 302
+/*.gitignore /404.html 302
+/*.env.example /404.html 302
+/*content-calendar.json /404.html 302
+/*social-posts.json /404.html 302
+/*timezone-offsets.json /404.html 302
+/*minify-js.js /404.html 302
+/*wrangler.toml /404.html 302
+/*wrangler.api-admin.toml /404.html 302
+/*wrangler.config.toml /404.html 302
+/*wrangler.gateway.toml /404.html 302
+/*wrangler.ntp-calibrator.toml /404.html 302
+/*wrangler.referral-api.toml /404.html 302
+/*wrangler.reminder-api.toml /404.html 302
+/*wrangler.reminder-scheduler.toml /404.html 302
+/*wrangler.share-handler.toml /404.html 302
+/*wrangler.static.toml /404.html 302
+/*wrangler.time-signer.toml /404.html 302
+/*wrangler.timezone-api.toml /404.html 302
+/*wrangler.tz-watcher.toml /404.html 302
+/*wrangler.widget.toml /404.html 302
+
+# 工程目录（根路径）
+/.workbuddy/* /404.html 302
+/.wrangler/* /404.html 302
+/.playwright-cli/* /404.html 302
+/src/* /404.html 302
+/scripts/legacy/* /404.html 302
+/templates/* /404.html 302
+/extension/* /404.html 302
+/extension-chrome/* /404.html 302
+/extension-firefox/* /404.html 302
+/docs/* /404.html 302
+/ops/* /404.html 302
+/outreach/* /404.html 302
+/link-building/* /404.html 302
+/guest-blog-kit/* /404.html 302
+/product-hunt/* /404.html 302
+/email-templates/* /404.html 302
+/data/* /404.html 302
+
+# 工程目录（语言前缀）—— CF 不支持双 * 通配，只能逐语言展开
+/en/.workbuddy/* /404.html 302
+/en/src/* /404.html 302
+/en/docs/* /404.html 302
+/zh/.workbuddy/* /404.html 302
+/zh/src/* /404.html 302
+/zh/docs/* /404.html 302
+/de/.workbuddy/* /404.html 302
+/de/src/* /404.html 302
+/de/docs/* /404.html 302
+/fr/.workbuddy/* /404.html 302
+/fr/src/* /404.html 302
+/fr/docs/* /404.html 302
+/es/.workbuddy/* /404.html 302
+/es/src/* /404.html 302
+/es/docs/* /404.html 302
+/ja/.workbuddy/* /404.html 302
+/ja/src/* /404.html 302
+/ja/docs/* /404.html 302
+/ko/.workbuddy/* /404.html 302
+/ko/src/* /404.html 302
+/ko/docs/* /404.html 302
+/pt/.workbuddy/* /404.html 302
+/pt/src/* /404.html 302
+/pt/docs/* /404.html 302
+/ar/.workbuddy/* /404.html 302
+/ar/src/* /404.html 302
+/ar/docs/* /404.html 302
+# === SECURITY-BLOCKLIST:END ===
 
 # ⚠️ 此规则当前【不生效】，仅作防御性兜底保留。
 # 实测（2026-09-14）：/api/health 在自定义域名上被 CF 边缘层拦截并直接返回
@@ -15,8 +133,14 @@
 # 根治：在 CF Dashboard 移除 /api/health 的网关 Worker 路由（或补齐其
 #   API_KEYS / ADMIN_API_KEY 绑定）。详见 docs/ 下的审计报告。
 /api/health /api/status 302
+
 # 旧样式路径重定向 — 修复 /styles/main.css 404
 /styles/main.css /styles/premium.css 301
+
+# /widget/ 目录本身无 index.html，此前落到 Functions catch-all 后返回
+#   200 + 空响应体（soft-404：状态码说成功、内容为空）。
+#   该目录下的组件 /widget/world-clock.html 不受影响。
+/widget/ /404.html 302
 
 # 城市页面：/city/slug/ → /city/slug.html（美化URL）
 /city/* /city/:splat.html 200
@@ -42,77 +166,3 @@
 # 多语言路径重定向
 /zh/privacy-policy.html /zh/privacy.html 301
 /de/privacy-policy.html /de/privacy.html 301
-
-# ============================================================
-# 安全屏蔽：内部工程文件与目录（2026-09-14 整理上线）
-#
-# 背景：本仓库同时充当「工程仓库」与「部署源」，工程文件直接位于
-#   站点根目录。实测部署实际遵守 .gitignore 而非 .cfignore
-#   （反证：/sri-manifest.json 在 .cfignore 中已排除却仍返回 200；
-#   而 .env / package-lock.json 因在 .gitignore 中而未部署），
-#   因此凡是「已提交」的内部文件都会随部署公开暴露。
-#   实测暴露面：/.workbuddy/memory/MEMORY.md、/wrangler.toml、
-#   /src/app.ts、/package.json、/.env.example、/.cfignore 等均返回 200。
-#
-# 处置：此处以 302 重定向到 404 页面来阻断访问（不改变仓库结构，可随时回滚）。
-#   注意 —— CF Pages 的 _redirects 仅支持 301/302/303/307/308 与 200（代理），
-#   「404」等其它状态码会被静默忽略（官方文档 "Rewrites (other status codes) ❌"）。
-#   首版本曾误用 404 规则，实测完全不生效。重定向则「always followed,
-#   regardless of whether an asset matches」，可稳定覆盖静态文件。
-#   /404.html 已在 _headers 中标注 X-Robots-Tag: noindex, nofollow，
-#   因此该链路不会被搜索引擎收录。
-#   根治方向见 docs/ 中的整理报告 —— 建议将站点产物与工程源码分离
-#   （如 publish 指向 dist/），从源头消除暴露面。
-# ============================================================
-
-# 平台与工程数据（含内部记忆与自动化配置）
-/.workbuddy/* /404.html 302
-/.wrangler/* /404.html 302
-/.playwright-cli/* /404.html 302
-
-# 工程源码、构建脚本与模板
-/src/* /404.html 302
-/scripts/legacy/* /404.html 302
-/templates/* /404.html 302
-
-# 浏览器扩展工程
-/extension/* /404.html 302
-/extension-chrome/* /404.html 302
-/extension-firefox/* /404.html 302
-
-# 文档与审计归档
-/docs/* /404.html 302
-
-# 运营与营销素材
-/ops/* /404.html 302
-/outreach/* /404.html 302
-/link-building/* /404.html 302
-/guest-blog-kit/* /404.html 302
-/product-hunt/* /404.html 302
-/email-templates/* /404.html 302
-
-# 工程数据（仅由 Functions 打包内联读取，无需 HTTP 服务；共约 785KB）
-/data/* /404.html 302
-
-# 工程配置与清单
-/package.json /404.html 302
-/package-lock.json /404.html 302
-/tsconfig.json /404.html 302
-/sri-manifest.json /404.html 302
-/.cfignore /404.html 302
-/.gitignore /404.html 302
-/.env.example /404.html 302
-/wrangler.toml /404.html 302
-/wrangler.api-admin.toml /404.html 302
-/wrangler.config.toml /404.html 302
-/wrangler.gateway.toml /404.html 302
-/wrangler.ntp-calibrator.toml /404.html 302
-/wrangler.referral-api.toml /404.html 302
-/wrangler.reminder-api.toml /404.html 302
-/wrangler.reminder-scheduler.toml /404.html 302
-/wrangler.share-handler.toml /404.html 302
-/wrangler.static.toml /404.html 302
-/wrangler.time-signer.toml /404.html 302
-/wrangler.timezone-api.toml /404.html 302
-/wrangler.tz-watcher.toml /404.html 302
-/wrangler.widget.toml /404.html 302
