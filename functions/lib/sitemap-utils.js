@@ -43,7 +43,9 @@ export const NOINDEX_PATHS = new Set([
  * 注意：此处不含任何 NOINDEX_PATHS 中的路径（由页面过滤器兜底剔除）
  */
 export const STATIC_PAGES = [
-  { path: '', changefreq: 'daily', priority: '1.0' },
+  // 首页：path 用 '/' 而非 ''，保证 <loc> 与页面 canonical（https://globetimezone.com/）
+  // 完全一致，避免 GSC 把「带斜杠」与「不带斜杠」当作两个 URL。
+  { path: '/', changefreq: 'daily', priority: '1.0' },
   { path: '/meeting-planner/', changefreq: 'weekly', priority: '0.9' },
   { path: '/time-difference/', changefreq: 'weekly', priority: '0.9' },
   { path: '/world-clock', changefreq: 'weekly', priority: '0.8' },
@@ -95,7 +97,7 @@ export const STATIC_PAGES = [
   { path: '/terms', changefreq: 'yearly', priority: '0.3' }
 ];
 
-/** 首页的多语言版本 */
+/** 首页的多语言版本（与 index.html <head> 中的 hreflang 集群保持一致，含 x-default） */
 export const HOME_LANGS = [
   { hreflang: 'en', path: '/en/' },
   { hreflang: 'zh-CN', path: '/' },
@@ -105,7 +107,8 @@ export const HOME_LANGS = [
   { hreflang: 'ja', path: '/ja/' },
   { hreflang: 'ko', path: '/ko/' },
   { hreflang: 'pt-BR', path: '/pt/' },
-  { hreflang: 'ar', path: '/ar/' }
+  { hreflang: 'ar', path: '/ar/' },
+  { hreflang: 'x-default', path: '/' }
 ];
 
 /** 构造单个 <url> 节点 */

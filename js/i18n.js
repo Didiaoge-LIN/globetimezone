@@ -36,8 +36,16 @@
 
   var LANG = detectLanguage();
 
-  // 设置 <html lang>（同步，立刻生效）
+  // 设置 <html lang> / <html dir>（同步，立刻生效）
+  // 必须与服务端 functions/lib/home-i18n.js 的 RTL_LANGS 保持完全一致：
+  // 两端不一致会导致「首屏 LTR → JS 执行后变 RTL」的布局跳动。
+  var RTL_LANGS = ['ar'];
   document.documentElement.lang = LANG;
+  if (RTL_LANGS.indexOf(LANG) !== -1) {
+    document.documentElement.setAttribute('dir', 'rtl');
+  } else {
+    document.documentElement.removeAttribute('dir');
+  }
 
   // ─── 【同步】内部链接加语言前缀 ────────────────────────
   // 这是最关键的功能：用户在 /en/ 页面点链接，

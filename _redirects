@@ -2,7 +2,18 @@
 # 所有语言路径重写到根目录文件（200 = rewrite，不跳转）
 # JS 根据 URL 路径加载对应语言包
 
-# /api/health 平台报错，统一重定向到 /api/status（外部监控用）
+# ⚠️ 此规则当前【不生效】，仅作防御性兜底保留。
+# 实测（2026-09-14）：/api/health 在自定义域名上被 CF 边缘层拦截并直接返回
+#   500 {"error":"Service configuration error","request_id":...,"retry_after":null}
+#   该响应的 X-Request-Id 头与 body 结构来自网关 Worker 的 errorResponse()
+#   （dist-gateway/index.js），推测为 zone 级 Worker 路由绑定了精确 URL
+#   /api/health，且网关环境变量 API_KEYS / ADMIN_API_KEY 未绑定 → 配置校验失败。
+# 证据：/api/health?x=1 与 /api/health/ 均正常回到 Pages（200），仅「无 query 的
+#   精确路径」被拦截 → 拦截规则的作用域是精确 URL，而非路径前缀。
+# 影响：请求根本到不了 Pages，所以这条 302 不会被求值；外部监控若探测
+#   /api/health 会判站点 DOWN。监控请改用 /api/status。
+# 根治：在 CF Dashboard 移除 /api/health 的网关 Worker 路由（或补齐其
+#   API_KEYS / ADMIN_API_KEY 绑定）。详见 docs/ 下的审计报告。
 /api/health /api/status 302
 # 旧样式路径重定向 — 修复 /styles/main.css 404
 /styles/main.css /styles/premium.css 301

@@ -12,8 +12,10 @@
   <script src="/js/i18n.js?v=6" defer data-cfasync="false"></script>
 
   <!-- Hreflang 多语言 SEO -->
+  <!-- 注意：zh-CN 必须指向根路径 /（中文为默认语言，/zh/ 只是别名，canonical 指向 /）。
+       若此处写成 /zh/，会造成「hreflang 指向非规范地址」而被搜索引擎忽略整组 hreflang。 -->
   <link rel="alternate" hreflang="en" href="https://globetimezone.com/en/" />
-  <link rel="alternate" hreflang="zh-CN" href="https://globetimezone.com/zh/" />
+  <link rel="alternate" hreflang="zh-CN" href="https://globetimezone.com/" />
   <link rel="alternate" hreflang="de" href="https://globetimezone.com/de/" />
   <link rel="alternate" hreflang="fr" href="https://globetimezone.com/fr/" />
   <link rel="alternate" hreflang="es" href="https://globetimezone.com/es/" />
@@ -44,6 +46,9 @@
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="GlobeTimeZone" />
+<!-- og:locale / og:url：SSR 会按语言改写（见 functions/lib/home-i18n.js），此处为中文默认值 -->
+<meta property="og:locale" content="zh_CN" />
+<meta property="og:url" content="https://globetimezone.com/" />
 <meta property="og:title" content="GlobeTimeZone | Right Now Worldwide" />
 <meta property="og:description" content="Know what time it is, anywhere. Instantly. No math, no conversions." />
 <meta property="og:image" content="https://globetimezone.com/og-default.png" />

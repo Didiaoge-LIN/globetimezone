@@ -12,31 +12,21 @@
  * ============================================================
  */
 
-import { isValidSlug, escapeHtml, safeJsonLd, buildErrorResponse } from './lib/security.js';
+import { isValidSlug, buildErrorResponse } from './lib/security.js';
 import { initConfig, minifyHtml, generateEtag, handleConditionalRequest, buildCacheHeaders } from './lib/utils.js';
-import CONSTANTS from './lib/constants.js';
 import { getAllCities, getValidSlugs } from './city/data/index.js';
 import { renderCityPage } from './city/city-template.js';
+import { renderLocalizedHome, hasHomeI18n } from './lib/home-i18n.js';
 
-const LANG_SET = new Set(CONSTANTS.VALIDATION.ALLOWED_LANGS);
 const VALID_SLUGS = getValidSlugs();
 
 const LANG_HTML_REGEX = /^\/(en|zh|de|fr|es|ja|ko|pt|ar)\/(.+)\.html$/;
 const LANG_CITY_REGEX = /^\/(en|zh|de|fr|es|ja|ko|pt|ar)\/city\/([a-zA-Z0-9%-]+)\/?$/;
 const LANG_HOME_REGEX = /^\/(en|zh|de|fr|es|ja|ko|pt|ar)\/?$/;
 
-// i18n 首页 SEO 元数据（搜索引擎不执行 JS，必须 SSR 注入）
-const LANG_SEO = {
-  en: { lang: 'en', title: 'GlobeTimeZone — Global Time Zone Converter & Meeting Planner', desc: 'Instantly know whether to reach out or schedule a meeting. Real-time global time zones at your fingertips.' },
-  zh: { lang: 'zh', title: 'GlobeTimeZone — 全球时区转换 | 200+城市实时时间', desc: '一眼判断该不该联系、何时开会。实时感知全球节奏。' },
-  de: { lang: 'de', title: 'GlobeTimeZone — Weltweiter Zeitzonen-Konverter & Meeting-Planer', desc: 'Sofort wissen, ob Sie sich melden oder ein Meeting planen sollten. Echtzeit-Zeitzonen weltweit.' },
-  fr: { lang: 'fr', title: 'GlobeTimeZone — Convertisseur de fuseaux horaires & Planificateur de réunions', desc: 'Sachez instantanément s\'il faut contacter ou planifier une réunion. Fuseaux horaires en temps réel.' },
-  es: { lang: 'es', title: 'GlobeTimeZone — Conversor de zonas horarias & Planificador de reuniones', desc: 'Sepa al instante si contactar o programar una reunión. Zonas horarias en tiempo real.' },
-  ja: { lang: 'ja', title: 'GlobeTimeZone — 世界のタイムゾーン変換 & ミーティングプランナー', desc: '連絡すべきか、会議を予定すべきか、すぐに判断。リアルタイムの世界のタイムゾーン。' },
-  ko: { lang: 'ko', title: 'GlobeTimeZone — 글로벌 시간대 변환 & 미팅 플래너', desc: '연락할지 회의를 잡을지 즉시 판단. 실시간 글로벌 시간대.' },
-  pt: { lang: 'pt', title: 'GlobeTimeZone — Conversor de fusos horários & Planejador de reuniões', desc: 'Saiba instantaneamente se deve entrar em contato ou agendar uma reunião. Fusos horários em tempo real.' },
-  ar: { lang: 'ar', title: 'GlobeTimeZone — محول المناطق الزمنية العالمية ومخطط الاجتماعات', desc: 'اعرف فورًا ما إذا كان يجب عليك التواصل أو جدولة اجتماع. المناطق الزمنية في الوقت الفعلي.' },
-};
+// 语言版首页的 SEO 文案与正文翻译统一由 functions/lib/home-i18n.js 提供，
+// 数据源为 locales/*.json（经 scripts/build-home-i18n.cjs 抽取），
+// 不再在本文件内维护独立文案表（原 LANG_SEO 已移除，避免两处文案漂移）。
 
 export async function onRequest(context) {
   const { request, next, env } = context;
@@ -44,42 +34,44 @@ export async function onRequest(context) {
   const pathname = url.pathname;
   const method = request.method.toUpperCase();
 
-  // ═══════ 0. i18n 首页：/<lang>/ → 动态注入 lang/title/description ═══════
+  // ═══════ 0. i18n 首页：/<lang>/ → 整页服务端本地化渲染 ═══════
   const homeMatch = pathname.match(LANG_HOME_REGEX);
   if (homeMatch) {
     const lang = homeMatch[1];
-    const seo = LANG_SEO[lang];
-    if (seo) {
-      // 获取静态 index.html 内容
-      const staticResp = await next();
+
+    // 该语言是否有首页 SSR 数据（home-i18n-data.js，由 scripts/build-home-i18n.cjs 生成）
+    if (hasHomeI18n(lang)) {
+      if (method !== 'GET' && method !== 'HEAD') {
+        return buildErrorResponse(405, 'Method Not Allowed', { allow: 'GET, HEAD' });
+      }
+
+      // 1) 取根 index.html。优先走 _redirects 的 rewrite（/<lang>/* → /:splat），
+      //    失败时直接读取静态资源，避免 rewrite 未生效时 404
+      let staticResp = await next();
+      if (staticResp.status !== 200) {
+        try {
+          staticResp = await env.ASSETS.fetch(
+            new Request(new URL('/index.html', url.origin), request)
+          );
+        } catch (e) {
+          // ASSETS 不可用时保持原响应
+        }
+      }
       if (staticResp.status !== 200) return staticResp;
 
+      const contentType = staticResp.headers.get('Content-Type') || '';
+      if (!contentType.includes('text/html')) return staticResp;
+
       const html = await staticResp.text();
-
-      // SSR 注入：替换 lang 属性 + title + meta description + og:title + og:description + twitter:title + twitter:description
-      let patched = html
-        .replace(/<html\s+lang="zh"/, `<html lang="${seo.lang}"`)
-        .replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(seo.title)}</title>`)
-        .replace(/(<meta[^>]*name="description"[^>]*content=")[^"]*(")/, `$1${escapeHtml(seo.desc)}$2`)
-        .replace(/(<meta[^>]*property="og:title"[^>]*content=")[^"]*(")/, `$1${escapeHtml(seo.title)}$2`)
-        .replace(/(<meta[^>]*property="og:description"[^>]*content=")[^"]*(")/, `$1${escapeHtml(seo.desc)}$2`)
-        .replace(/(<meta[^>]*name="twitter:title"[^>]*content=")[^"]*(")/, `$1${escapeHtml(seo.title)}$2`)
-        .replace(/(<meta[^>]*name="twitter:description"[^>]*content=")[^"]*(")/, `$1${escapeHtml(seo.desc)}$2`);
-
-      // 修复 og:locale
-      const localeMap = { en: 'en_US', zh: 'zh_CN', de: 'de_DE', fr: 'fr_FR', es: 'es_ES', ja: 'ja_JP', ko: 'ko_KR', pt: 'pt_BR', ar: 'ar_SA' };
-      if (localeMap[lang]) {
-        patched = patched.replace(/(<meta[^>]*property="og:locale"[^>]*content=")[^"]*(")/, `$1${localeMap[lang]}$2`);
-      }
+      // 整页本地化：正文 data-i18n + head（lang/title/description/canonical/og/hreflang/dir）
+      const localized = renderLocalizedHome(html, lang);
 
       const headers = new Headers(staticResp.headers);
       headers.set('Content-Type', 'text/html; charset=utf-8');
       headers.delete('Content-Length');
 
-      return new Response(patched, {
-        status: 200,
-        headers,
-      });
+      if (method === 'HEAD') return new Response(null, { status: 200, headers });
+      return new Response(localized, { status: 200, headers });
     }
   }
 
@@ -156,43 +148,18 @@ export async function onRequest(context) {
     return Response.redirect(url.toString(), 301);
   }
 
-  // ═══════ 2.5 i18n 通用页面：/<lang>/<path> → SSR 注入 lang/title/description ═══════
-  // 拦截所有语言前缀路径（首页已在 #0 处理，此捕获其他如 /zh/why-daylight-saving-time）
-  const langPageMatch = pathname.match(/^\/(en|zh|de|fr|es|ja|ko|pt|ar)\/(.+)$/);
-  if (langPageMatch) {
-    const lang = langPageMatch[1];
-    const seo = LANG_SEO[lang];
-    if (seo) {
-      // 获取原始静态文件（通过 _redirects rewrite 或直接文件服务）
-      const staticResp = await next();
-      if (staticResp.status !== 200) return staticResp;
-
-      const contentType = staticResp.headers.get('Content-Type') || '';
-      if (!contentType.includes('text/html')) return staticResp;
-
-      const html = await staticResp.text();
-      const localeMap = { en: 'en_US', zh: 'zh_CN', de: 'de_DE', fr: 'fr_FR', es: 'es_ES', ja: 'ja_JP', ko: 'ko_KR', pt: 'pt_BR', ar: 'ar_SA' };
-
-      let patched = html
-        .replace(/<html\s+lang="[^"]*"/, `<html lang="${seo.lang}"`)
-        .replace(/<title>[^<]*<\/title>/, `<title>${escapeHtml(seo.title)}</title>`)
-        .replace(/(<meta[^>]*name="description"[^>]*content=")[^"]*(")/, `$1${escapeHtml(seo.desc)}$2`)
-        .replace(/(<meta[^>]*property="og:title"[^>]*content=")[^"]*(")/, `$1${escapeHtml(seo.title)}$2`)
-        .replace(/(<meta[^>]*property="og:description"[^>]*content=")[^"]*(")/, `$1${escapeHtml(seo.desc)}$2`)
-        .replace(/(<meta[^>]*name="twitter:title"[^>]*content=")[^"]*(")/, `$1${escapeHtml(seo.title)}$2`)
-        .replace(/(<meta[^>]*name="twitter:description"[^>]*content=")[^"]*(")/, `$1${escapeHtml(seo.desc)}$2`);
-
-      if (localeMap[lang]) {
-        patched = patched.replace(/(<meta[^>]*property="og:locale"[^>]*content=")[^"]*(")/, `$1${localeMap[lang]}$2`);
-      }
-
-      const headers = new Headers(staticResp.headers);
-      headers.set('Content-Type', 'text/html; charset=utf-8');
-      headers.delete('Content-Length');
-
-      return new Response(patched, { status: 200, headers });
-    }
-  }
+  // ═══════ 2.5 其它语言前缀页面：/<lang>/<path> → 交给静态服务 ═══════
+  //
+  // 【2026-09-14 移除原 SSR 注入逻辑】
+  // 原实现在此把**任意** /<lang>/<path> 页面的 title / description / og:title
+  // 统一替换为「首页」的 LANG_SEO 文案。该逻辑当前不可达（_routes.json 未包含
+  // 语言通配路由），但一旦将来启用 /<lang>/* 通配，就会把全站语言页的标题
+  // 全部覆盖成首页标题 —— 属于高破坏性 SEO 事故。故移除。
+  //
+  // 现状说明：站点仅「首页」与「城市页」具备真正的多语言版本；
+  // /en/about、/en/pricing 等其它语言前缀路径经 _redirects 重写到默认语言页，
+  // 内容与默认语言页一致，不做改写（改写 lang 却保留中文正文会造成语义错配）。
+  // 若后续要做整站 i18n，应改为按页面逐页取词，而非复用首页文案。
 
   // ═══════ 3. 其他请求 → 交给 _redirects / 静态文件服务 ═══════
   return next();
