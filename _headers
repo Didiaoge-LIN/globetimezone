@@ -74,6 +74,18 @@
 /scripts/*
   Cache-Control: public, max-age=31536000, immutable
 
+# === 根目录首方脚本（无版本号查询串，给适中缓存而非 immutable）===
+# 这些文件以 integrity SRI 引用、不带 ?v 版本号，故不宜标 immutable，
+# 否则改动无法经 CDN 失效；用 1 天 + SWR 兼顾命中率与可更新性。
+/baidu-analytics.js
+  Cache-Control: public, max-age=86400, stale-while-revalidate=86400
+
+/ads-loader.js
+  Cache-Control: public, max-age=86400, stale-while-revalidate=86400
+
+/cookie-consent.js
+  Cache-Control: public, max-age=86400, stale-while-revalidate=86400
+
 # === 静态资源：1年不可变缓存 ===
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
