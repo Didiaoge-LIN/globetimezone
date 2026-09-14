@@ -27,7 +27,8 @@ export async function onRequestGet(context) {
 
     // 防御性过滤：任何自带 noindex 的页面都不提交，
     // 否则 GSC 会报 "Submitted URL marked 'noindex'"
-    const nodes = STATIC_PAGES
+    const staticNodes = STATIC_PAGES
+      .filter(page => page.path !== '/') // 首页由下面的语言集群统一产出，避免重复 <loc>
       .filter(page => !NOINDEX_PATHS.has(page.path))
       .map(page =>
         buildUrlNode(
@@ -35,9 +36,27 @@ export async function onRequestGet(context) {
           page.changefreq,
           page.priority,
           today,
-          page.path === '/' ? homeAlternates : null
+          null
         )
       );
-    return buildUrlset(nodes);
+
+    // 【2026-09-14】首页的 9 个语言版本各自作为独立 URL 提交。
+    //   这些页面已由 functions/lib/home-i18n.js 做整服务端本地化，
+    //   lang / title / description / canonical 均自指，属合法独立页面；
+    //   此前只在 <head> 内声明 hreflang，未列入 sitemap，
+    //   搜索引擎只能靠 hreflang 发现 —— 显式提交更稳。
+    const homeNodes = HOME_LANGS
+      .filter(l => l.hreflang !== 'x-default')
+      .map(l =>
+        buildUrlNode(
+          `${SITE_BASE}${l.path}`,
+          'daily',
+          '1.0',
+          today,
+          homeAlternates
+        )
+      );
+
+    return buildUrlset([...homeNodes, ...staticNodes]);
   });
 }
