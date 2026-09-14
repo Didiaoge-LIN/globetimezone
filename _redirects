@@ -60,10 +60,6 @@
 #   该目录下的组件 /widget/world-clock.html 不受影响。
 /widget/ /404.html 302
 
-# 城市页面：/city/slug/ → /city/slug.html（美化URL）
-/city/* /city/:splat.html 200
-/city/*/ /city/:splat.html 200
-
 # === SECURITY-BLOCKLIST:BEGIN ===
 # 本段由 scripts/gen-security-redirects.cjs 生成 —— 勿手改。
 # 新增工程文件/目录时改该脚本的清单，再重跑。
@@ -148,10 +144,15 @@
 # === SECURITY-BLOCKLIST:END ===
 
 # === SECURITY-BLOCKLIST:INSERT-BEFORE ===
-# ↑ 安全屏蔽段由脚本生成到本行【之前】。
-#   必须在下面这些语言 rewrite 之前：/en/* → /:splat 是 200 代理，
-#   代理后【不再重新匹配规则】，屏蔽段排其后会被整体绕过
-#   （实测 /en/wrangler.toml、/de/package.json 曾返回 200）。
+# ↑ 安全屏蔽段由脚本生成到本行【之前】，务必保持在本行之前。
+#   本锚点必须早于下面所有 200 代理 rewrite（/city/*、/en/* 等）：
+#   200 代理命中后【不再重新匹配规则】，屏蔽段排其后即被整体绕过
+#   （实测 /en/wrangler.toml、/de/package.json、/en/src/app.ts 曾返回 200）。
+
+# 城市页面：/city/slug/ → /city/slug.html（美化URL）
+/city/* /city/:splat.html 200
+/city/*/ /city/:splat.html 200
+
 /en/*  /:splat  200
 /zh/*  /:splat  200
 /de/*  /:splat  200
