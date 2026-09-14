@@ -116,25 +116,59 @@ function shouldCopy(src) {
   return true;
 }
 
+/** 收集目录下所有文件路径 */
 function walk(dir, out = []) {
-  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
-    const p = path.join(dir, e.name);
-    if (e.isDirectory()) walk(p, out);
+  for (const name of fs.readdirSync(dir)) {
+    const p = path.join(dir, name);
+    if (fs.statSync(p).isDirectory()) walk(p, out);
     else out.push(p);
   }
   return out;
 }
 
+/**
+ * 递归复制（自实现，不用 fs.cpSync）。
+ *
+ * 为什么不用 fs.cpSync：
+ *   · cpSync 是 Node 16.7+ 才有的 API。CF Pages 构建环境的 Node 版本由
+ *     项目配置决定（可能低于 16.7），一旦不可用会直接导致构建失败 ——
+ *     而构建命令一旦失败，整站部署就中断了。这里用 mkdirSync/copyFileSync/
+ *     readdirSync（Node 8.5+ 全支持）换取最大版本兼容性。
+ *   · 顺带避开 cpSync 的另一个坑：不支持把目录复制到自身的子目录
+ *     （dist 在 ROOT 下，会抛 ERR_FS_CP_EINVAL），本实现由 shouldCopy
+ *     排除 'dist' 目录来规避。
+ */
+function copyRecursive(src, dest) {
+  if (!shouldCopy(src)) return;
+  const st = fs.statSync(src);
+  if (st.isDirectory()) {
+    fs.mkdirSync(dest, { recursive: true });
+    for (const name of fs.readdirSync(src)) {
+      copyRecursive(path.join(src, name), path.join(dest, name));
+    }
+  } else {
+    fs.mkdirSync(path.dirname(dest), { recursive: true });
+    fs.copyFileSync(src, dest);
+  }
+}
+
+/** 递归删除目录（不用 fs.rmSync，同样为版本兼容） */
+function rmRecursive(p) {
+  if (!fs.existsSync(p)) return;
+  const st = fs.lstatSync(p);
+  if (st.isDirectory()) {
+    for (const name of fs.readdirSync(p)) rmRecursive(path.join(p, name));
+    fs.rmdirSync(p);
+  } else {
+    fs.unlinkSync(p);
+  }
+}
+
 function main() {
-  fs.rmSync(DIST, { recursive: true, force: true });
+  rmRecursive(DIST);
   fs.mkdirSync(DIST, { recursive: true });
 
-  // 逐条目复制：cpSync 不允许把目录复制到自身子目录（ERR_FS_CP_EINVAL）
-  for (const e of fs.readdirSync(ROOT, { withFileTypes: true })) {
-    const src = path.join(ROOT, e.name);
-    if (!shouldCopy(src)) continue;
-    fs.cpSync(src, path.join(DIST, e.name), { recursive: true, filter: shouldCopy });
-  }
+  copyRecursive(ROOT, DIST);
 
   const files = walk(DIST);
   const hits = [];
