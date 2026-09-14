@@ -19,7 +19,10 @@
  *       （日志：Parsed 100 valid redirect rules / Found 1 invalid redirect rule）。
  *       首版曾展开为 195 条，直接导致 /en/* 等正常 rewrite 规则丢失、
  *       全站语言页 404 —— 这是本段必须保持精简的原因。
- *     · 本段必须排在语言 rewrite 规则【之前】，否则代理先命中。
+ *     · 【位置必须排在语言 rewrite 规则之前】—— 实测（本地 wrangler pages dev）：
+ *       屏蔽段放在语言 rewrite 之后时，/en/wrangler.toml、/de/package.json、
+ *       /en/src/app.ts、/en/.workbuddy/** 全部返回 200（被 /en/* → /:splat 代理放行）。
+ *       故本段由锚点 SECURITY-BLOCKLIST:INSERT-BEFORE 定位于语言 rewrite 之前。
  *
  *   应对：一律使用 `/*<后缀>` 形式 —— 一个星号同时覆盖根路径与全部 8 个
  *   语言前缀，用最少的规则数换取完整覆盖。目录同名规则同理由
@@ -43,6 +46,12 @@ const ROOT = path.join(__dirname, '..');
 const FILE = path.join(ROOT, '_redirects');
 const BEGIN = '# === SECURITY-BLOCKLIST:BEGIN ===';
 const END = '# === SECURITY-BLOCKLIST:END ===';
+/**
+ * 插入锚点：屏蔽段会被生成到该标记【之前】。
+ * 该锚点在 _redirects 中位于语言 rewrite（/en/* → /:splat 200）之前，
+ * 因为 200 代理不重新走规则匹配 —— 屏蔽段若在其后则完全失效。
+ */
+const ANCHOR = '# === SECURITY-BLOCKLIST:INSERT-BEFORE ===';
 const TARGET = '/404.html';
 
 /** _redirects 有效规则上限（超出静默丢弃） */
@@ -147,8 +156,23 @@ function main() {
 
   const b = src.indexOf(BEGIN);
   const e = src.indexOf(END);
-  if (b === -1 || e === -1) {
-    console.error(`[x] 未找到标记：${BEGIN} / ${END}`);
+  const hasBegin = b !== -1;
+  const hasEnd = e !== -1;
+  if (hasBegin !== hasEnd) {
+    console.error(`[x] 屏蔽段标记不配对：${BEGIN} / ${END}`);
+    process.exit(1);
+  }
+
+  // 先摘除旧屏蔽段（若有），再按锚点重新插入 —— 保证幂等且位置永远正确。
+  const stripped = (
+    hasBegin ? src.slice(0, b) + src.slice(e + END.length) : src
+  )
+    .replace(/\n{3,}/g, '\n\n')
+    .replace(/\s+$/, '');
+
+  const anchor = stripped.indexOf(ANCHOR);
+  if (anchor === -1) {
+    console.error(`[x] 未找到插入锚点（${ANCHOR}）—— 该锚点必须位于语言 rewrite 之前`);
     process.exit(1);
   }
 
@@ -161,7 +185,9 @@ function main() {
     process.exit(1);
   }
 
-  const next = src.slice(0, b + BEGIN.length) + '\n' + body + '\n' + src.slice(e);
+  // 把屏蔽段插入到锚点之前（锚点行本身保留）。
+  const block = BEGIN + '\n' + body + '\n' + END + '\n\n';
+  const next = stripped.slice(0, anchor) + block + stripped.slice(anchor) + '\n';
 
   if (check) {
     if (next === src) {
@@ -178,7 +204,9 @@ function main() {
   }
 
   fs.writeFileSync(FILE, next, 'utf8');
-  console.log(`[ok] 已写入屏蔽段：${rules} 条（${FILES.length} 文件 + ${DIRS.length} 目录），预算 ${budget} 条`);
+  console.log(
+    `[ok] 已写入屏蔽段（锚点前，位于语言 rewrite 之前）：${rules} 条（${FILES.length} 文件 + ${DIRS.length} 目录），预算 ${budget} 条`
+  );
 }
 
 main();
