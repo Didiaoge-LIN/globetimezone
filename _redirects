@@ -60,6 +60,11 @@
 #   该目录下的组件 /widget/world-clock.html 不受影响。
 /widget/ /404 302
 
+# /pro 是遗留半成品页：三个定价按钮都是 alert('...coming soon!')，
+#   没有真实支付链路；/pricing/ 才是接了 buy.stripe.com 的正式定价页。
+#   该页已 noindex 且不进 sitemap，这里 301 兜住任何外部直达流量。
+/pro /pricing/ 301
+
 # === SECURITY-BLOCKLIST:BEGIN ===
 # 本段由 scripts/gen-security-redirects.cjs 生成 —— 勿手改。
 # 新增工程文件/目录时改该脚本的清单，再重跑。
