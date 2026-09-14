@@ -98,8 +98,9 @@ const FILES = [
   'wrangler.timezone-api.toml',
   'wrangler.tz-watcher.toml',
   'wrangler.widget.toml',
-  'user-auth.js',
-  'user-auth.min.js',
+  // 注：user-auth.js / user-auth.min.js 已于 2026-09-14 从仓库删除
+  // （含真实 Firebase apiKey，且全站无任何引用 = 死代码）。
+  // 若将来重新引入 Firebase 前端鉴权，密钥必须走运行时注入，禁止再入库。
 ];
 
 /** 工程目录（根路径形式 `/<dir>/*`） */

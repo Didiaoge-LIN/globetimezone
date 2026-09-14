@@ -98,8 +98,6 @@
 /*wrangler.timezone-api.toml /404 302
 /*wrangler.tz-watcher.toml /404 302
 /*wrangler.widget.toml /404 302
-/*user-auth.js /404 302
-/*user-auth.min.js /404 302
 
 # 工程目录（根路径）
 /.workbuddy/* /404 302

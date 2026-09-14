@@ -80,7 +80,9 @@ export const buildSecurityHeaders = (options = {}) => {
     "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://*.googletagmanager.com https://*.google-analytics.com https://js.sentry-cdn.com",
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: https: https://*.google-analytics.com https://*.googletagmanager.com",
-    "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.sentry.io https://*.firebaseio.com https://securetoken.googleapis.com https://firebaseinstallations.googleapis.com",
+    // Firebase 相关源已于 2026-09-14 移除：全站无任何 Firebase 前端调用，
+    // 且原 user-auth.js 因含 apiKey 已从仓库删除。保留无用源只会扩大攻击面。
+    "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.sentry.io",
     "media-src 'self'",
     "font-src 'self' data:",
     "frame-src 'none'",
