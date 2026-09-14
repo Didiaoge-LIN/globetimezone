@@ -1,0 +1,16 @@
+{
+  "scanned": 283,
+  "missingTitle": 0,
+  "missingDescription": 1,
+  "missingCanonical": 2,
+  "duplicateCanonical": 0,
+  "wrongCanonical": 2,
+  "noindexOnIndexable": 3,
+  "hreflangMissing": 39,
+  "hreflangNoXDefault": 0,
+  "hreflangEnMismatch": 0,
+  "jsonldPresent": 253,
+  "jsonldMissingSuggested": 3,
+  "orphans": 137,
+  "notInSitemap": 34
+}
