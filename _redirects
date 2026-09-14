@@ -54,59 +54,65 @@
 #   实测暴露面：/.workbuddy/memory/MEMORY.md、/wrangler.toml、
 #   /src/app.ts、/package.json、/.env.example、/.cfignore 等均返回 200。
 #
-# 处置：此处以 404 规则强制阻断访问（不改变仓库结构，可随时回滚）。
+# 处置：此处以 302 重定向到 404 页面来阻断访问（不改变仓库结构，可随时回滚）。
+#   注意 —— CF Pages 的 _redirects 仅支持 301/302/303/307/308 与 200（代理），
+#   「404」等其它状态码会被静默忽略（官方文档 "Rewrites (other status codes) ❌"）。
+#   首版本曾误用 404 规则，实测完全不生效。重定向则「always followed,
+#   regardless of whether an asset matches」，可稳定覆盖静态文件。
+#   /404.html 已在 _headers 中标注 X-Robots-Tag: noindex, nofollow，
+#   因此该链路不会被搜索引擎收录。
 #   根治方向见 docs/ 中的整理报告 —— 建议将站点产物与工程源码分离
 #   （如 publish 指向 dist/），从源头消除暴露面。
 # ============================================================
 
 # 平台与工程数据（含内部记忆与自动化配置）
-/.workbuddy/* /404.html 404
-/.wrangler/* /404.html 404
-/.playwright-cli/* /404.html 404
+/.workbuddy/* /404.html 302
+/.wrangler/* /404.html 302
+/.playwright-cli/* /404.html 302
 
 # 工程源码、构建脚本与模板
-/src/* /404.html 404
-/scripts/legacy/* /404.html 404
-/templates/* /404.html 404
+/src/* /404.html 302
+/scripts/legacy/* /404.html 302
+/templates/* /404.html 302
 
 # 浏览器扩展工程
-/extension/* /404.html 404
-/extension-chrome/* /404.html 404
-/extension-firefox/* /404.html 404
+/extension/* /404.html 302
+/extension-chrome/* /404.html 302
+/extension-firefox/* /404.html 302
 
 # 文档与审计归档
-/docs/* /404.html 404
+/docs/* /404.html 302
 
 # 运营与营销素材
-/ops/* /404.html 404
-/outreach/* /404.html 404
-/link-building/* /404.html 404
-/guest-blog-kit/* /404.html 404
-/product-hunt/* /404.html 404
-/email-templates/* /404.html 404
+/ops/* /404.html 302
+/outreach/* /404.html 302
+/link-building/* /404.html 302
+/guest-blog-kit/* /404.html 302
+/product-hunt/* /404.html 302
+/email-templates/* /404.html 302
 
 # 工程数据（仅由 Functions 打包内联读取，无需 HTTP 服务；共约 785KB）
-/data/* /404.html 404
+/data/* /404.html 302
 
 # 工程配置与清单
-/package.json /404.html 404
-/package-lock.json /404.html 404
-/tsconfig.json /404.html 404
-/sri-manifest.json /404.html 404
-/.cfignore /404.html 404
-/.gitignore /404.html 404
-/.env.example /404.html 404
-/wrangler.toml /404.html 404
-/wrangler.api-admin.toml /404.html 404
-/wrangler.config.toml /404.html 404
-/wrangler.gateway.toml /404.html 404
-/wrangler.ntp-calibrator.toml /404.html 404
-/wrangler.referral-api.toml /404.html 404
-/wrangler.reminder-api.toml /404.html 404
-/wrangler.reminder-scheduler.toml /404.html 404
-/wrangler.share-handler.toml /404.html 404
-/wrangler.static.toml /404.html 404
-/wrangler.time-signer.toml /404.html 404
-/wrangler.timezone-api.toml /404.html 404
-/wrangler.tz-watcher.toml /404.html 404
-/wrangler.widget.toml /404.html 404
+/package.json /404.html 302
+/package-lock.json /404.html 302
+/tsconfig.json /404.html 302
+/sri-manifest.json /404.html 302
+/.cfignore /404.html 302
+/.gitignore /404.html 302
+/.env.example /404.html 302
+/wrangler.toml /404.html 302
+/wrangler.api-admin.toml /404.html 302
+/wrangler.config.toml /404.html 302
+/wrangler.gateway.toml /404.html 302
+/wrangler.ntp-calibrator.toml /404.html 302
+/wrangler.referral-api.toml /404.html 302
+/wrangler.reminder-api.toml /404.html 302
+/wrangler.reminder-scheduler.toml /404.html 302
+/wrangler.share-handler.toml /404.html 302
+/wrangler.static.toml /404.html 302
+/wrangler.time-signer.toml /404.html 302
+/wrangler.timezone-api.toml /404.html 302
+/wrangler.tz-watcher.toml /404.html 302
+/wrangler.widget.toml /404.html 302
