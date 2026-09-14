@@ -3,7 +3,6 @@ node_modules/
 package-lock.json
 
 # Build outputs
-dist/
 dist-firefox/
 dist-chrome/
 *.zip
