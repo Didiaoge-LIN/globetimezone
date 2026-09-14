@@ -52,7 +52,14 @@ const END = '# === SECURITY-BLOCKLIST:END ===';
  * 因为 200 代理不重新走规则匹配 —— 屏蔽段若在其后则完全失效。
  */
 const ANCHOR = '# === SECURITY-BLOCKLIST:INSERT-BEFORE ===';
-const TARGET = '/404.html';
+/**
+ * 屏蔽落地页。用 /404 而非 /404.html：
+ *   CF Pages 的 html_handling 会把 /404.html 再 308 跳到 /404，
+ *   直接指向 /404 可省掉这一跳（302 → 308 → 200 变为 302 → 200）。
+ *   线上实测：/404 = 200（4990 字节真实 404 页），/en/404、/de/404 同样 200。
+ *   404.html 已由 _headers 标注 X-Robots-Tag: noindex, nofollow，不会被收录。
+ */
+const TARGET = '/404';
 
 /** _redirects 有效规则上限（超出静默丢弃） */
 const MAX_RULES = 100;

@@ -45,7 +45,14 @@
   Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=86400
 
 # === 404页面：禁止索引 ===
+# 屏蔽规则（_redirects）统一 302 到 /404 —— 因为 CF 的 html_handling 会把
+#   /404.html 再 308 跳到 /404，直接指向 /404 可省掉 302→308→200 的一跳。
+#   两个路径都标注，避免任一形态被收录。
 /404.html
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-store
+
+/404
   X-Robots-Tag: noindex, nofollow
   Cache-Control: no-store
 
