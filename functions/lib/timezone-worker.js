@@ -4,6 +4,28 @@
  * 兼容夏令时、跨天、跨时区所有场景
  */
 
+// 模块级 Intl.DateTimeFormat 缓存：时区集合有限（~400 个 IANA 时区），
+// 避免 getUtcOffsetMinutes 每次调用都重建 formatter（对比页每请求调用 ~6 次）。
+const OFFSET_FMT_CACHE = new Map();
+
+function getOffsetFormatter(timeZone) {
+  let f = OFFSET_FMT_CACHE.get(timeZone);
+  if (!f) {
+    f = new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false
+    });
+    OFFSET_FMT_CACHE.set(timeZone, f);
+  }
+  return f;
+}
+
 /**
  * 获取指定时区的UTC偏移量
  * @param {string} timeZone IANA时区标识
@@ -11,16 +33,7 @@
  * @returns {number} UTC偏移分钟数，正数表示比UTC快
  */
 export const getUtcOffsetMinutes = (timeZone, date = new Date()) => {
-  const formatter = new Intl.DateTimeFormat('en-US', {
-    timeZone,
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false
-  });
+  const formatter = getOffsetFormatter(timeZone);
 
   const parts = Object.fromEntries(
     formatter.formatToParts(date).map(part => [part.type, part.value])

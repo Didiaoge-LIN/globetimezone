@@ -660,10 +660,13 @@ export async function onRequest(context) {
   const tier = getCompareTier(slugA, slugB);
   const html = renderComparePage(cityA, cityB, slugA, slugB, nonce, tier);
 
-  // 分层缓存：爬虫长缓存，用户短缓存保实时
+  // 分层缓存：爬虫长缓存，用户短缓存保实时。
+  // 注意：必须显式带 s-maxage。_middleware.js 仅在 Cache-Control 缺 s-maxage 时追加
+  // 自身的 s-maxage=300 并覆盖整条指令，会令下方 bot 的长缓存意图失效。
+  // 显式声明后中间件不再覆盖，对比页（1,540 个 Tier1 页，爬虫高频命中）即可享受 12h 边缘缓存。
   const cacheControl = isBot
-    ? 'public, max-age=43200, stale-while-revalidate=604800'
-    : 'public, max-age=300, stale-while-revalidate=1800';
+    ? 'public, max-age=43200, s-maxage=43200, stale-while-revalidate=604800'
+    : 'public, max-age=300, s-maxage=300, stale-while-revalidate=1800';
 
   return new Response(html, {
     headers: buildComparePageHeaders(nonce, 'text/html; charset=utf-8', cacheControl, isBot, tier === 2)

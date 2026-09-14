@@ -20,6 +20,11 @@ import { renderLocalizedHome, hasHomeI18n } from './lib/home-i18n.js';
 
 const VALID_SLUGS = getValidSlugs();
 
+// 首页本地化结果缓存：index.html 是部署期不可变静态资源，本地化输出仅由 lang 决定。
+// 首页（含 9 语言版）是爬虫命中率最高的 URL 集合；缓存后可跳过「ASSETS 抓取 + 7 次全文档正则」
+// 的重复开销，直接命中返回。缓存按部署隔离（isolate 生命周期内有效，部署即失效），无陈旧风险。
+const HOME_CACHE = new Map();
+
 const LANG_HTML_REGEX = /^\/(en|zh|de|fr|es|ja|ko|pt|ar)\/(.+)\.html$/;
 const LANG_CITY_REGEX = /^\/(en|zh|de|fr|es|ja|ko|pt|ar)\/city\/([a-zA-Z0-9%-]+)\/?$/;
 const LANG_HOME_REGEX = /^\/(en|zh|de|fr|es|ja|ko|pt|ar)\/?$/;
@@ -62,9 +67,20 @@ export async function onRequest(context) {
       const contentType = staticResp.headers.get('Content-Type') || '';
       if (!contentType.includes('text/html')) return staticResp;
 
+      // 命中本地化缓存：跳过「读取全文 + 7 次全文档正则」的重复开销
+      const cached = HOME_CACHE.get(lang);
+      if (cached !== undefined) {
+        const headers = new Headers(staticResp.headers);
+        headers.set('Content-Type', 'text/html; charset=utf-8');
+        headers.delete('Content-Length');
+        if (method === 'HEAD') return new Response(null, { status: 200, headers });
+        return new Response(cached, { status: 200, headers });
+      }
+
       const html = await staticResp.text();
       // 整页本地化：正文 data-i18n + head（lang/title/description/canonical/og/hreflang/dir）
       const localized = renderLocalizedHome(html, lang);
+      HOME_CACHE.set(lang, localized);
 
       const headers = new Headers(staticResp.headers);
       headers.set('Content-Type', 'text/html; charset=utf-8');
