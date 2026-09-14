@@ -1,1 +1,0 @@
-This folder contains the built output assets for the worker "globetimezone-gateway-production" generated at 2026-06-04T15:03:26.227Z.

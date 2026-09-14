@@ -31,3 +31,31 @@ locales_backup*/
 
 # 文档
 *.md
+
+# ============================================================
+# 2026-09-14 整理：内部工程文件与目录
+#
+# 注意：实测本项目的部署实际遵守 .gitignore 而非本文件
+#   （反证：sri-manifest.json 在此已排除，线上仍返回 200）。
+#   故以下条目为「意图登记」；实际的访问阻断由 _redirects 中的
+#   404 规则承接（见该文件「安全屏蔽」段落）。二者应保持同步。
+# ============================================================
+.workbuddy/
+.wrangler/
+.playwright-cli/
+src/
+scripts/legacy/
+templates/
+extension/
+extension-chrome/
+extension-firefox/
+docs/
+ops/
+outreach/
+link-building/
+guest-blog-kit/
+product-hunt/
+email-templates/
+tsconfig.json
+package.json
+wrangler.*.toml

@@ -40,3 +40,6 @@ locales_backup_20260611/
 
 # Legacy Workers directory (migrated to functions/ in V11)
 workers/
+
+# WorkBuddy 平台数据（本地记忆与自动化配置，绝不入库、绝不部署）
+.workbuddy/

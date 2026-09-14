@@ -42,3 +42,71 @@
 # 多语言路径重定向
 /zh/privacy-policy.html /zh/privacy.html 301
 /de/privacy-policy.html /de/privacy.html 301
+
+# ============================================================
+# 安全屏蔽：内部工程文件与目录（2026-09-14 整理上线）
+#
+# 背景：本仓库同时充当「工程仓库」与「部署源」，工程文件直接位于
+#   站点根目录。实测部署实际遵守 .gitignore 而非 .cfignore
+#   （反证：/sri-manifest.json 在 .cfignore 中已排除却仍返回 200；
+#   而 .env / package-lock.json 因在 .gitignore 中而未部署），
+#   因此凡是「已提交」的内部文件都会随部署公开暴露。
+#   实测暴露面：/.workbuddy/memory/MEMORY.md、/wrangler.toml、
+#   /src/app.ts、/package.json、/.env.example、/.cfignore 等均返回 200。
+#
+# 处置：此处以 404 规则强制阻断访问（不改变仓库结构，可随时回滚）。
+#   根治方向见 docs/ 中的整理报告 —— 建议将站点产物与工程源码分离
+#   （如 publish 指向 dist/），从源头消除暴露面。
+# ============================================================
+
+# 平台与工程数据（含内部记忆与自动化配置）
+/.workbuddy/* /404.html 404
+/.wrangler/* /404.html 404
+/.playwright-cli/* /404.html 404
+
+# 工程源码、构建脚本与模板
+/src/* /404.html 404
+/scripts/legacy/* /404.html 404
+/templates/* /404.html 404
+
+# 浏览器扩展工程
+/extension/* /404.html 404
+/extension-chrome/* /404.html 404
+/extension-firefox/* /404.html 404
+
+# 文档与审计归档
+/docs/* /404.html 404
+
+# 运营与营销素材
+/ops/* /404.html 404
+/outreach/* /404.html 404
+/link-building/* /404.html 404
+/guest-blog-kit/* /404.html 404
+/product-hunt/* /404.html 404
+/email-templates/* /404.html 404
+
+# 工程数据（仅由 Functions 打包内联读取，无需 HTTP 服务；共约 785KB）
+/data/* /404.html 404
+
+# 工程配置与清单
+/package.json /404.html 404
+/package-lock.json /404.html 404
+/tsconfig.json /404.html 404
+/sri-manifest.json /404.html 404
+/.cfignore /404.html 404
+/.gitignore /404.html 404
+/.env.example /404.html 404
+/wrangler.toml /404.html 404
+/wrangler.api-admin.toml /404.html 404
+/wrangler.config.toml /404.html 404
+/wrangler.gateway.toml /404.html 404
+/wrangler.ntp-calibrator.toml /404.html 404
+/wrangler.referral-api.toml /404.html 404
+/wrangler.reminder-api.toml /404.html 404
+/wrangler.reminder-scheduler.toml /404.html 404
+/wrangler.share-handler.toml /404.html 404
+/wrangler.static.toml /404.html 404
+/wrangler.time-signer.toml /404.html 404
+/wrangler.timezone-api.toml /404.html 404
+/wrangler.tz-watcher.toml /404.html 404
+/wrangler.widget.toml /404.html 404
