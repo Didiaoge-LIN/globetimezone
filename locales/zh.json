@@ -543,7 +543,7 @@
   "pricing.cmp.col_pro": "PRO",
   "pricing.compare.sub": "一目了然，PRO 多了什么",
   "pricing.compare.title": "功能对比",
-  "pricing.cta.btn": "立即升级 PRO →",
+  "pricing.cta.btn": "通知我 PRO 开通 →",
   "pricing.cta.desc": "30天内不满意全额退款。零风险，随时取消。",
   "pricing.cta.title": "每月 $3.99，还不如一杯咖啡贵",
   "pricing.faq.a1": "PRO 版去除了所有广告，提供了无限时区提醒、无限会议规划参与者、团队时钟、自定义城市列表、数据导出、暗色主题和更高频率的 API 访问。免费版可以永久使用基本功能，但会有广告和数量限制。",
@@ -584,7 +584,7 @@
   "pricing.plan.free": "免费版",
   "pricing.plan.free_price": "免费<span class=\"pr-price-cycle\">/永久</span>",
   "pricing.plan.pro": "PRO",
-  "pricing.plan.pro_cta": "立即升级 PRO →",
+  "pricing.plan.pro_cta": "通知我 PRO 开通 →",
   "pricing.plan.pro_cycle": "/月",
   "pricing.plan.pro_save": "年付仅 $39.99（省$7.89）",
   "pricing.profeat.0": "免费版全部功能",
@@ -1098,5 +1098,7 @@
   "crossborder.faq.a1": "从中国到美国的跨境运输，空运通常需 10–15 天，海运需 25–35 天。实际时效取决于清关与承运商。",
   "crossborder.faq.a2": "最终价格取决于商品重量、体积、运输方式与目的地。使用我们的运费计算器可即时估算。",
   "crossborder.faq.a3": "我们支持全链路（门到门）追踪，覆盖 USPS、FedEx、UPS、DHL 及中国邮政等主流承运商。输入运单号即可获取实时更新。",
-  "crossborder.faq.a4": "进口关税与税费由目的国海关决定。本平台提供关税估算，但最终费用以当地海关核定为准。"
+  "crossborder.faq.a4": "进口关税与税费由目的国海关决定。本平台提供关税估算，但最终费用以当地海关核定为准。",
+  "pricing.waitlist.note": "支付通道开通中。留下邮箱，上线第一时间通知你，并附早鸟优惠。",
+  "pricing.waitlist.placeholder": "输入你的邮箱…"
 }

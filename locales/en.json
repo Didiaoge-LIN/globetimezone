@@ -525,7 +525,7 @@
   "pricing.cmp.col_pro": "PRO",
   "pricing.compare.sub": "See exactly what PRO adds",
   "pricing.compare.title": "Feature Comparison",
-  "pricing.cta.btn": "Upgrade to PRO →",
+  "pricing.cta.btn": "Notify me when PRO launches →",
   "pricing.cta.desc": "Full refund within 30 days if not satisfied. Zero risk, cancel anytime.",
   "pricing.cta.title": "$3.99/month — Less Than a Cup of Coffee",
   "pricing.faq.a1": "PRO removes all ads and provides unlimited time zone reminders, unlimited meeting participants, team clocks, custom city lists, data export, dark theme, and higher API rate limits. The Free version works forever with core features but includes ads and usage limits.",
@@ -566,7 +566,7 @@
   "pricing.plan.free": "Free",
   "pricing.plan.free_price": "Free<span class=\"pr-price-cycle\">/forever</span>",
   "pricing.plan.pro": "PRO",
-  "pricing.plan.pro_cta": "Upgrade to PRO →",
+  "pricing.plan.pro_cta": "Notify me when PRO launches →",
   "pricing.plan.pro_cycle": "/month",
   "pricing.plan.pro_save": "Annual $39.99 (Save $7.89)",
   "pricing.profeat.0": "Everything in Free",
@@ -1098,5 +1098,7 @@
   "pricing.unlock.btn": "▶ Watch ad to unlock all features",
   "home.unlock.hint": "Watch an ad to use all features for free",
   "home.unlock.btn": "▶ Watch ad to unlock all features",
-  "home.unlock.sub": "8s video = 1 hour full access"
+  "home.unlock.sub": "8s video = 1 hour full access",
+  "pricing.waitlist.note": "Payment opens soon. Leave your email and we will notify you the moment PRO goes live — with an early-bird discount.",
+  "pricing.waitlist.placeholder": "Enter your email…"
 }

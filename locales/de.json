@@ -543,7 +543,7 @@
   "pricing.cmp.col_pro": "PRO",
   "pricing.compare.sub": "Auf einen Blick: Was PRO mehr bietet",
   "pricing.compare.title": "Funktionsvergleich",
-  "pricing.cta.btn": "PRO upgraden →",
+  "pricing.cta.btn": "Benachrichtige mich beim PRO-Start →",
   "pricing.cta.desc": "Volle Rückerstattung innerhalb von 30 Tagen bei Nichtgefallen. Kein Risiko, jederzeit kündbar.",
   "pricing.cta.title": "3,99 $/Monat — Weniger als ein Kaffee",
   "pricing.faq.a1": "PRO entfernt alle Werbung und bietet unbegrenzte Zeitzonen-Erinnerungen, unbegrenzte Besprechungsteilnehmer, Team-Uhren, eigene Stadtlisten, Datenexport, Dunkelmodus und höhere API-Ratenlimits. Die kostenlose Version ist dauerhaft nutzbar mit Grundfunktionen, hat aber Werbung und Mengenbeschränkungen.",
@@ -584,7 +584,7 @@
   "pricing.plan.free": "Kostenlos",
   "pricing.plan.free_price": "Kostenlos<span class=\"pr-price-cycle\">/für immer</span>",
   "pricing.plan.pro": "PRO",
-  "pricing.plan.pro_cta": "PRO upgraden →",
+  "pricing.plan.pro_cta": "Benachrichtige mich beim PRO-Start →",
   "pricing.plan.pro_cycle": "/Monat",
   "pricing.plan.pro_save": "Jährlich nur $39.99 (spare $7.89)",
   "pricing.profeat.0": "Alles aus Free",
@@ -1098,5 +1098,7 @@
   "crossborder.faq.a1": "Der grenzüberschreitende Versand von China in die USA dauert per Luftfracht in der Regel 10–15 Tage und per Seefracht 25–35 Tage. Die tatsächliche Dauer hängt von der Zollabfertigung und dem gewählten Versanddienstleister ab.",
   "crossborder.faq.a2": "Der Endpreis richtet sich nach Gewicht, Abmessungen, Versandart und Zielort. Nutzen Sie unseren Versandkosten-Rechner für eine sofortige Schätzung.",
   "crossborder.faq.a3": "Wir unterstützen die Sendungsverfolgung von Tür zu Tür über alle großen Versanddienstleister, darunter USPS, FedEx, UPS, DHL und China Post. Geben Sie Ihre Sendungsnummer ein, um Echtzeit-Updates zu erhalten.",
-  "crossborder.faq.a4": "Einfuhrzölle und Steuern werden vom Zoll des Empfangslands festgelegt. Unsere Plattform liefert geschätzte Zollberechnungen, die endgültigen Gebühren obliegen jedoch der örtlichen Zollbehörde."
+  "crossborder.faq.a4": "Einfuhrzölle und Steuern werden vom Zoll des Empfangslands festgelegt. Unsere Plattform liefert geschätzte Zollberechnungen, die endgültigen Gebühren obliegen jedoch der örtlichen Zollbehörde.",
+  "pricing.waitlist.note": "Die Zahlungsabwicklung öffnet bald. Hinterlasse deine E-Mail und wir informieren dich sofort zum PRO-Start – mit Frühbucher-Rabatt.",
+  "pricing.waitlist.placeholder": "Deine E-Mail…"
 }

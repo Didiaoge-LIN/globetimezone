@@ -543,7 +543,7 @@
   "pricing.cmp.col_pro": "PRO",
   "pricing.compare.sub": "Vea exactamente qué añade PRO",
   "pricing.compare.title": "Comparación de funciones",
-  "pricing.cta.btn": "Actualizar a PRO →",
+  "pricing.cta.btn": "Avísame cuando PRO esté disponible →",
   "pricing.cta.desc": "Reembolso completo dentro de 30 días si no está satisfecho. Cero riesgo, cancele en cualquier momento.",
   "pricing.cta.title": "3,99 $/mes — Menos que un café",
   "pricing.faq.a1": "PRO elimina todos los anuncios y ofrece recordatorios de zona horaria ilimitados, participantes de reunión ilimitados, relojes de equipo, listas de ciudades personalizadas, exportación de datos, modo oscuro y límites de solicitudes API más altos. La versión gratuita se puede usar para siempre con funciones básicas, pero tiene anuncios y límites de cantidad.",
@@ -584,7 +584,7 @@
   "pricing.plan.free": "Gratis",
   "pricing.plan.free_price": "Gratis<span class=\"pr-price-cycle\">/para siempre</span>",
   "pricing.plan.pro": "PRO",
-  "pricing.plan.pro_cta": "Actualizar a PRO →",
+  "pricing.plan.pro_cta": "Avísame cuando PRO esté disponible →",
   "pricing.plan.pro_cycle": "/mes",
   "pricing.plan.pro_save": "Anual $39.99 (ahorra $7.89)",
   "pricing.profeat.0": "Todo lo de Gratis",
@@ -1098,5 +1098,7 @@
   "crossborder.faq.a1": "El envío transfronterizo de China a EE. UU. suele tardar de 10 a 15 días por vía aérea y de 25 a 35 días por vía marítima. Los plazos reales dependen del despacho de aduana y del transportista.",
   "crossborder.faq.a2": "El precio final depende del peso, las dimensiones, el método de envío y el destino. Use nuestra calculadora de envío para obtener una estimación al instante.",
   "crossborder.faq.a3": "Ofrecemos seguimiento de puerta a puerta con todas las principales transportistas, incluidas USPS, FedEx, UPS, DHL y China Post. Introduzca su número de seguimiento para recibir actualizaciones en tiempo real.",
-  "crossborder.faq.a4": "Los aranceles y las tasas de importación los determina la aduana del país de destino. Nuestra plataforma ofrece cálculos estimados de aranceles, pero los cargos finales quedan a discreción de las autoridades aduaneras locales."
+  "crossborder.faq.a4": "Los aranceles y las tasas de importación los determina la aduana del país de destino. Nuestra plataforma ofrece cálculos estimados de aranceles, pero los cargos finales quedan a discreción de las autoridades aduaneras locales.",
+  "pricing.waitlist.note": "El pago abre pronto. Deja tu email y te avisaremos en cuanto PRO esté disponible, con descuento de lanzamiento.",
+  "pricing.waitlist.placeholder": "Introduce tu correo…"
 }

@@ -543,7 +543,7 @@
   "pricing.cmp.col_pro": "PRO",
   "pricing.compare.sub": "Veja exatamente o que o PRO adiciona",
   "pricing.compare.title": "Comparação de recursos",
-  "pricing.cta.btn": "Atualizar para PRO →",
+  "pricing.cta.btn": "Avise-me quando o PRO abrir →",
   "pricing.cta.desc": "Reembolso integral em 30 dias se não estiver satisfeito. Risco zero, cancele a qualquer momento.",
   "pricing.cta.title": "3,99 $/mês — Menos que um café",
   "pricing.faq.a1": "PRO remove todos os anúncios e oferece lembretes de fuso horário ilimitados, participantes de reunião ilimitados, relógios de equipe, listas de cidades personalizadas, exportação de dados, modo escuro e limites de requisições API mais altos. A versão gratuita pode ser usada para sempre com funcionalidades básicas, mas tem anúncios e limites de quantidade.",
@@ -584,7 +584,7 @@
   "pricing.plan.free": "Gratuito",
   "pricing.plan.free_price": "Gratuito<span class=\"pr-price-cycle\">/para sempre</span>",
   "pricing.plan.pro": "PRO",
-  "pricing.plan.pro_cta": "Atualizar para PRO →",
+  "pricing.plan.pro_cta": "Avise-me quando o PRO abrir →",
   "pricing.plan.pro_cycle": "/mês",
   "pricing.plan.pro_save": "Anual $39.99 (economize $7.89)",
   "pricing.profeat.0": "Tudo do plano Grátis",
@@ -1098,5 +1098,7 @@
   "crossborder.faq.a1": "O envio internacional da China para os EUA leva normalmente de 10 a 15 dias pelo ar e de 25 a 35 dias pelo mar. Os prazos reais dependem do desembaraço aduaneiro e da transportadora.",
   "crossborder.faq.a2": "O preço final depende do peso, das dimensões, do modo de envio e do destino. Use a nossa calculadora de frete para uma estimativa instantânea.",
   "crossborder.faq.a3": "Oferecemos rastreamento porta a porta com todas as principais transportadoras, incluindo USPS, FedEx, UPS, DHL e China Post. Insira o seu número de rastreio para obter atualizações em tempo real.",
-  "crossborder.faq.a4": "Os impostos e direitos de importação são determinados pela alfândega do país de destino. A nossa plattforma fornece cálculos estimados de direitos, mas as taxas finais ficam a critério das autoridades aduaneiras locais."
+  "crossborder.faq.a4": "Os impostos e direitos de importação são determinados pela alfândega do país de destino. A nossa plattforma fornece cálculos estimados de direitos, mas as taxas finais ficam a critério das autoridades aduaneiras locais.",
+  "pricing.waitlist.note": "O pagamento abre em breve. Deixe seu e-mail e avisaremos assim que o PRO for lançado, com desconto de lançamento.",
+  "pricing.waitlist.placeholder": "Digite seu e-mail…"
 }

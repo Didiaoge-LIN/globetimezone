@@ -543,7 +543,7 @@
   "pricing.cmp.col_pro": "PRO",
   "pricing.compare.sub": "FreeとPROの違いを一目で確認",
   "pricing.compare.title": "機能比較",
-  "pricing.cta.btn": "PROにアップグレード →",
+  "pricing.cta.btn": "PRO 開始時に通知を受け取る →",
   "pricing.cta.desc": "30日間全額返金保証。リスクゼロ、いつでもキャンセル可能。",
   "pricing.cta.title": "月額$3.99 — コーヒーより安い",
   "pricing.faq.a1": "PROは広告をすべて削除し、無制限のタイムゾーンリマインダー、無制限の会議参加者、チーム時計、カスタム都市リスト、データエクスポート、ダークモード、より高いAPIレート制限を提供します。無料版は基本機能を永続的に利用できますが、広告と数量制限があります。",
@@ -584,7 +584,7 @@
   "pricing.plan.free": "無料",
   "pricing.plan.free_price": "無料<span class=\"pr-price-cycle\">/ずっと</span>",
   "pricing.plan.pro": "PRO",
-  "pricing.plan.pro_cta": "PROにアップグレード →",
+  "pricing.plan.pro_cta": "PRO 開始時に通知を受け取る →",
   "pricing.plan.pro_cycle": "/月",
   "pricing.plan.pro_save": "年払い $39.99（$7.89お得）",
   "pricing.profeat.0": "Free版の全機能",
@@ -1098,5 +1098,7 @@
   "crossborder.faq.a1": "中国から米国への国際配送は、航空便で通常10〜15日、海上便で25〜35日かかります。実際の所要日数は通関と配送業者によります。",
   "crossborder.faq.a2": "最終的な料金は、商品の重量・寸法・配送方法・配送先により決まります。当社の送料計算ツールで即時見積もりをご確認いただけます。",
   "crossborder.faq.a3": "当社はUSPS、FedEx、UPS、DHL、中国郵政など主要な配送業者すべてに対応し、ドアツードアの追跡が可能です。追跡番号を入力するとリアルタイムで状況を更新します。",
-  "crossborder.faq.a4": "輸入関税および税金は、仕向け先国の税関によって決定されます。当プラットフォームでは関税の概算を提供しますが、最終的な料金は現地税関の判断に委ねられます。"
+  "crossborder.faq.a4": "輸入関税および税金は、仕向け先国の税関によって決定されます。当プラットフォームでは関税の概算を提供しますが、最終的な料金は現地税関の判断に委ねられます。",
+  "pricing.waitlist.note": "決済は準備中です。メールを登録すれば、PRO 公開と同時に早期割引とともにお知らせします。",
+  "pricing.waitlist.placeholder": "メールアドレスを入力…"
 }

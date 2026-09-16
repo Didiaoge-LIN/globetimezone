@@ -543,7 +543,7 @@
   "pricing.cmp.col_pro": "PRO",
   "pricing.compare.sub": "Comparez clairement Free et PRO",
   "pricing.compare.title": "Comparaison des fonctionnalités",
-  "pricing.cta.btn": "Passer à PRO →",
+  "pricing.cta.btn": "Prévenez-moi au lancement de PRO →",
   "pricing.cta.desc": "Remboursement intégral sous 30 jours si non satisfait. Zéro risque, annulation à tout moment.",
   "pricing.cta.title": "3,99 $/mois — Moins qu'un café",
   "pricing.faq.a1": "PRO supprime toutes les publicités et offre des rappels de fuseau horaire illimités, des participants de réunion illimités, des horloges d'équipe, des listes de villes personnalisées, l'export de données, le mode sombre et des limites de requêtes API supérieures. La version gratuite est utilisable indéfiniment avec les fonctionnalités de base, mais contient des publicités et des limitations.",
@@ -584,7 +584,7 @@
   "pricing.plan.free": "Gratuit",
   "pricing.plan.free_price": "Gratuit<span class=\"pr-price-cycle\">/pour toujours</span>",
   "pricing.plan.pro": "PRO",
-  "pricing.plan.pro_cta": "Passer à PRO →",
+  "pricing.plan.pro_cta": "Prévenez-moi au lancement de PRO →",
   "pricing.plan.pro_cycle": "/mois",
   "pricing.plan.pro_save": "Annuel $39.99 (économisez $7.89)",
   "pricing.profeat.0": "Tout ce qui est dans Free",
@@ -1098,5 +1098,7 @@
   "crossborder.faq.a1": "L'expédition transfrontalière de Chine vers les États-Unis prend généralement 10 à 15 jours par voie aérienne et 25 à 35 jours par voie maritime. Les délais réels dépendent du dédouanement et du transporteur.",
   "crossborder.faq.a2": "Le prix final dépend du poids, des dimensions, du mode d'expédition et de la destination. Utilisez notre calculateur d'expédition pour une estimation instantanée.",
   "crossborder.faq.a3": "Nous prenons en charge le suivi porte-à-porte via les principaux transporteurs, dont USPS, FedEx, UPS, DHL et China Post. Saisissez votre numéro de suivi pour obtenir des mises à jour en temps réel.",
-  "crossborder.faq.a4": "Les droits de douane et les taxes à l'importation sont fixés par les douanes du pays de destination. Notre plateforme fournit une estimation des droits, mais les frais définitifs restent à la discrétion des autorités douanières locales."
+  "crossborder.faq.a4": "Les droits de douane et les taxes à l'importation sont fixés par les douanes du pays de destination. Notre plateforme fournit une estimation des droits, mais les frais définitifs restent à la discrétion des autorités douanières locales.",
+  "pricing.waitlist.note": "Le paiement ouvre bientôt. Laissez votre e-mail et nous vous préviendrons dès le lancement de PRO, avec une réduction de lancement.",
+  "pricing.waitlist.placeholder": "Votre e-mail…"
 }

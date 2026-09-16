@@ -543,7 +543,7 @@
   "pricing.cmp.col_pro": "PRO",
   "pricing.compare.sub": "Free와 PRO의 차이를 한눈에 확인",
   "pricing.compare.title": "기능 비교",
-  "pricing.cta.btn": "PRO로 업그레이드 →",
+  "pricing.cta.btn": "PRO 오픈 시 알림 받기 →",
   "pricing.cta.desc": "30일 이내 전액 환불 보장. 제로 리스크, 언제든 취소 가능.",
   "pricing.cta.title": "월 3.99달러 — 커피 한 잔보다 저렴",
   "pricing.faq.a1": "PRO는 모든 광고를 제거하고 무제한 시간대 알림, 무제한 회의 참가자, 팀 시계, 커스텀 도시 목록, 데이터 내보내기, 다크 모드, 더 높은 API 요청 제한을 제공합니다. 무료 버전은 기본 기능을 영구적으로 사용할 수 있지만 광고와 수량 제한이 있습니다.",
@@ -584,7 +584,7 @@
   "pricing.plan.free": "무료",
   "pricing.plan.free_price": "무료<span class=\"pr-price-cycle\">/영구</span>",
   "pricing.plan.pro": "PRO",
-  "pricing.plan.pro_cta": "PRO로 업그레이드 →",
+  "pricing.plan.pro_cta": "PRO 오픈 시 알림 받기 →",
   "pricing.plan.pro_cycle": "/월",
   "pricing.plan.pro_save": "연간 $39.99 ($7.89 절약)",
   "pricing.profeat.0": "무료 버전 전체 기능",
@@ -1098,5 +1098,7 @@
   "crossborder.faq.a1": "중국에서 미국으로 가는 국제 배송은 항공편 기준 보통 10~15일, 해상편 기준 25~35일이 소요됩니다. 실제 소요 시간은 통관 및 배송업체에 따라 다릅니다.",
   "crossborder.faq.a2": "최종 가격은 상품 중량, 부피, 배송 방식, 목적지에 따라 달라집니다. 배송비 계산기로 즉시 견적을 확인하세요.",
   "crossborder.faq.a3": "당사는 USPS, FedEx, UPS, DHL, 중국우정 등 주요 배송업체 전체에 대해 문 앞까지 추적을 지원합니다. 운송장 번호를 입력하면 실시간으로 업데이트를 받을 수 있습니다.",
-  "crossborder.faq.a4": "수입 관세 및 세금은 목적국 세관이 결정합니다. 당사 플랫폼은 관세 추정액을 제공하지만, 최종 비용은 현지 세관 당국의 재량에 따릅니다."
+  "crossborder.faq.a4": "수입 관세 및 세금은 목적국 세관이 결정합니다. 당사 플랫폼은 관세 추정액을 제공하지만, 최종 비용은 현지 세관 당국의 재량에 따릅니다.",
+  "pricing.waitlist.note": "결제는 준비 중입니다. 이메일을 남기시면 PRO 오픈 즉시 얼리버드 할인과 함께 알려드립니다.",
+  "pricing.waitlist.placeholder": "이메일 입력…"
 }
