@@ -87,25 +87,27 @@
       margin-bottom: 28px; cursor: pointer;
     }
     /* PRO 候补名单表单（支付通道开通前替代死链） */
-    .pr-waitlist { display: flex; gap: 8px; margin-bottom: 10px; }
-    .pr-waitlist input[type=email] {
-      flex: 1 1 auto; min-width: 0; padding: 12px 14px; border-radius: 10px;
+    .pr-waitlist { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+    .pr-waitlist input[type=email] { grid-column: 1 / -1; }
+    .pr-waitlist input[type=email], .pr-waitlist select {
+      width: 100%; min-width: 0; padding: 12px 14px; border-radius: 10px;
       border: 1.5px solid var(--border); background: var(--bg); color: var(--text);
-      font-size: 0.9rem; font-family: inherit; outline: none;
+      font-size: 0.88rem; font-family: inherit; outline: none;
     }
-    .pr-waitlist input[type=email]:focus { border-color: #d97706; }
+    .pr-waitlist select { padding: 10px 12px; font-size: 0.82rem; color: var(--text-muted); cursor: pointer; }
+    .pr-waitlist input[type=email]:focus, .pr-waitlist select:focus { border-color: #d97706; }
     .pr-waitlist button {
-      flex: 0 0 auto; padding: 12px 18px; border-radius: 10px; border: none; cursor: pointer;
+      grid-column: 1 / -1; padding: 12px 18px; border-radius: 10px; border: none; cursor: pointer;
       background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff;
       font-size: 0.9rem; font-weight: 700; font-family: inherit; white-space: nowrap;
     }
     .pr-waitlist button:hover { filter: brightness(1.06); }
     .pr-waitlist-note { font-size: 0.78rem; color: var(--text-muted); text-align: center; line-height: 1.5; }
-    .pr-cta-bar .pr-waitlist { justify-content: center; max-width: 460px; margin: 0 auto 10px; }
+    .pr-cta-bar .pr-waitlist { max-width: 520px; margin: 0 auto 10px; }
     .pr-cta-bar .pr-waitlist button {
       background: linear-gradient(135deg, #f59e0b, #d97706); padding: 14px 26px; font-size: 0.95rem;
     }
-    @media (max-width: 420px) { .pr-waitlist { flex-direction: column; } }
+    @media (max-width: 420px) { .pr-waitlist { grid-template-columns: 1fr; } }
     .pr-plan.free .pr-cta {
       background: var(--bg); border: 1.5px solid var(--border); color: var(--text);
     }
@@ -206,6 +208,8 @@
     .pr-specials { max-width: 900px; margin: 0 auto 56px; }
     .pr-specials h2 { font-size: 1.4rem; font-weight: 800; text-align: center; margin-bottom: 28px; }
     .pr-special-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 18px; }
+    .pr-special-grid.g2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    @media (max-width: 640px) { .pr-special-grid.g2 { grid-template-columns: 1fr; } }
     .pr-special-card {
       background: var(--card); border-radius: 14px; border: 1px solid var(--border);
       padding: 24px; transition: all 0.2s;
@@ -214,6 +218,20 @@
     .pr-special-card .pr-special-icon { font-size: 1.8rem; margin-bottom: 10px; }
     .pr-special-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
     .pr-special-card p  { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+    .pr-special-card.edge { border-left: 3px solid #f59e0b; }
+
+    /* Live service status strip */
+    .pr-status {
+      display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px;
+      padding: 8px 16px; border-radius: 100px; background: var(--bg);
+      border: 1px solid var(--border); font-size: 0.82rem; color: var(--text-muted);
+    }
+    .pr-status[hidden] { display: none; }
+    .pr-status .pr-dot { width: 8px; height: 8px; border-radius: 50%; background: #94a3b8; flex-shrink: 0; }
+    .pr-status.is-ok .pr-dot { background: #10b981; box-shadow: 0 0 0 3px rgba(16,185,129,0.18); }
+    .pr-status.is-bad .pr-dot { background: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.18); }
+    .pr-status .pr-ms { font-weight: 700; color: var(--text); }
+    .pr-proof-note { text-align: center; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 28px; }
 
     /* Mobile */
     @media (max-width: 600px) {
@@ -339,8 +357,21 @@
           <div class="pr-price">$3.99<span class="pr-price-cycle" data-i18n="pricing.plan.pro_cycle">/月</span></div>
           <div class="pr-save-tag" data-i18n="pricing.plan.pro_save">年付仅 $39.99（省$7.89）</div>
         </div>
-        <form class="pr-waitlist" action="https://app.kit.com/forms/8ac7a5e6ee/subscriptions" method="post" target="_blank">
+        <form class="pr-waitlist" action="https://app.kit.com/forms/8ac7a5e6ee/subscriptions" method="post" target="_blank" data-wl="pro_card">
           <input type="email" name="email_address" data-i18n-attr="placeholder:pricing.waitlist.placeholder" placeholder="输入你的邮箱…" required aria-label="email">
+          <select name="fields[current_solution]" aria-label="current solution">
+            <option value="" data-i18n="pricing.waitlist.q1">你现在怎么安排跨时区？</option>
+            <option value="timezone_site" data-i18n="pricing.waitlist.q1o1">时差网站/世界时钟</option>
+            <option value="calendar_manual" data-i18n="pricing.waitlist.q1o2">日历手动算</option>
+            <option value="ask_or_guess" data-i18n="pricing.waitlist.q1o3">直接问对方/凭感觉</option>
+          </select>
+          <select name="fields[planned_tier]" aria-label="planned tier">
+            <option value="" data-i18n="pricing.waitlist.q2">开通后你选？</option>
+            <option value="monthly" data-i18n="pricing.waitlist.q2o1">$3.99 / 月</option>
+            <option value="yearly" data-i18n="pricing.waitlist.q2o2">$39.99 / 年</option>
+            <option value="lifetime" data-i18n="pricing.waitlist.q2o3">买断 $99</option>
+            <option value="free" data-i18n="pricing.waitlist.q2o4">免费就够</option>
+          </select>
           <button type="submit" data-i18n="pricing.plan.pro_cta">通知我 PRO 开通 →</button>
         </form>
         <div class="pr-waitlist-note" data-i18n="pricing.waitlist.note">支付通道开通中。留下邮箱，上线第一时间通知你，并附早鸟优惠。</div>
@@ -356,6 +387,66 @@
           <li><span class="pr-check">✓</span> <span data-i18n="pricing.profeat.8">API 访问（更高频率）</span></li>
           <li><span class="pr-check">✓</span> <span data-i18n="pricing.profeat.9">优先客服支持</span></li>
         </ul>
+      </div>
+    </div>
+
+    <!-- System stability (verifiable, not slogans) -->
+    <div class="pr-specials">
+      <h2 data-i18n="pricing.stability.title">系统稳定，可当场验证</h2>
+      <p class="pr-section-sub" data-i18n="pricing.stability.sub">不喊口号。下面的状态每刷新一次就重测一次，接口对外公开，你自己能查。</p>
+      <div style="text-align:center;">
+        <div class="pr-status" id="pr-status" hidden><span class="pr-dot"></span><span class="pr-status-text" data-i18n="pricing.status.checking">正在检测服务状态…</span></div>
+      </div>
+      <p class="pr-proof-note" data-i18n="pricing.status.note">状态接口 <code>/api/status</code> 公开，任何人可随时查验。</p>
+      <div class="pr-special-grid g2">
+        <div class="pr-special-card">
+          <div class="pr-special-icon">🛡️</div>
+          <h3 data-i18n="pricing.stab.1.t">边缘架构，无单点</h3>
+          <p data-i18n="pricing.stab.1.d">全站静态 + Cloudflare 边缘函数，全球节点就近响应。没有一台会挂掉的中心服务器，也没有数据库要维护。</p>
+        </div>
+        <div class="pr-special-card">
+          <div class="pr-special-icon">🕒</div>
+          <h3 data-i18n="pricing.stab.2.t">时区数据官方同步</h3>
+          <p data-i18n="pricing.stab.2.d">基于 IANA 时区数据库，各国夏令时调整自动生效，不用你手动修正，也不会出现「去年还是 13 小时」的偏差。</p>
+        </div>
+        <div class="pr-special-card">
+          <div class="pr-special-icon">🔒</div>
+          <h3 data-i18n="pricing.stab.3.t">不追踪，可带走</h3>
+          <p data-i18n="pricing.stab.3.d">不保存你的查询历史，无第三方追踪脚本。你的会议与城市数据随时可导出，不锁定、不绑架。</p>
+        </div>
+        <div class="pr-special-card">
+          <div class="pr-special-icon">📈</div>
+          <h3 data-i18n="pricing.stab.4.t">一人公司，活得久</h3>
+          <p data-i18n="pricing.stab.4.d">没有融资、没有烧钱、没有广告主压力。成本极低，所以不需要靠卖数据或卖广告活下去——付费用户就是唯一收入来源。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Why us -->
+    <div class="pr-specials">
+      <h2 data-i18n="pricing.edge.title">和别的时区网站有什么不同</h2>
+      <p class="pr-section-sub" data-i18n="pricing.edge.sub">同样查时差，我们多走一步：把时间数字变成你能直接做的决定。</p>
+      <div class="pr-special-grid g2">
+        <div class="pr-special-card edge">
+          <div class="pr-special-icon">🎯</div>
+          <h3 data-i18n="pricing.edge.1.t">给结论，不只给数字</h3>
+          <p data-i18n="pricing.edge.1.d">别人告诉你「相差 13 小时」，我们告诉你「周三 21:00–22:30 是三方都在工作时间的唯一窗口」。</p>
+        </div>
+        <div class="pr-special-card edge">
+          <div class="pr-special-icon">📦</div>
+          <h3 data-i18n="pricing.edge.2.t">为真实业务场景算</h3>
+          <p data-i18n="pricing.edge.2.d">物流截单、航班落地、海外仓作业、跨境直播排期——按业务节点算时间，不是让你自己心算。</p>
+        </div>
+        <div class="pr-special-card edge">
+          <div class="pr-special-icon">🧩</div>
+          <h3 data-i18n="pricing.edge.3.t">能塞进你的工作流</h3>
+          <p data-i18n="pricing.edge.3.d">免费挂件 + 开放 API，可嵌入 Notion、飞书、Shopify 后台或你自己的脚本，不用每次来开网页。</p>
+        </div>
+        <div class="pr-special-card edge">
+          <div class="pr-special-icon">🌍</div>
+          <h3 data-i18n="pricing.edge.4.t">9 种语言，一个链接</h3>
+          <p data-i18n="pricing.edge.4.d">把链接丢给海外同事或客户，他们打开就是自己的语言，不用你解释「这是北京时间」。</p>
+        </div>
       </div>
     </div>
 
@@ -432,8 +523,21 @@
     <div class="pr-cta-bar">
       <h2 data-i18n="pricing.cta.title">每月 $3.99，还不如一杯咖啡贵</h2>
       <p data-i18n="pricing.cta.desc">30天内不满意全额退款。零风险，随时取消。</p>
-      <form class="pr-waitlist" action="https://app.kit.com/forms/8ac7a5e6ee/subscriptions" method="post" target="_blank">
+      <form class="pr-waitlist" action="https://app.kit.com/forms/8ac7a5e6ee/subscriptions" method="post" target="_blank" data-wl="cta_bar">
         <input type="email" name="email_address" data-i18n-attr="placeholder:pricing.waitlist.placeholder" placeholder="输入你的邮箱…" required aria-label="email">
+        <select name="fields[current_solution]" aria-label="current solution">
+          <option value="" data-i18n="pricing.waitlist.q1">你现在怎么安排跨时区？</option>
+          <option value="timezone_site" data-i18n="pricing.waitlist.q1o1">时差网站/世界时钟</option>
+          <option value="calendar_manual" data-i18n="pricing.waitlist.q1o2">日历手动算</option>
+          <option value="ask_or_guess" data-i18n="pricing.waitlist.q1o3">直接问对方/凭感觉</option>
+        </select>
+        <select name="fields[planned_tier]" aria-label="planned tier">
+          <option value="" data-i18n="pricing.waitlist.q2">开通后你选？</option>
+          <option value="monthly" data-i18n="pricing.waitlist.q2o1">$3.99 / 月</option>
+          <option value="yearly" data-i18n="pricing.waitlist.q2o2">$39.99 / 年</option>
+          <option value="lifetime" data-i18n="pricing.waitlist.q2o3">买断 $99</option>
+          <option value="free" data-i18n="pricing.waitlist.q2o4">免费就够</option>
+        </select>
         <button type="submit" data-i18n="pricing.cta.btn">通知我 PRO 开通 →</button>
       </form>
       <div class="pr-waitlist-note" data-i18n="pricing.waitlist.note">支付通道开通中。留下邮箱，上线第一时间通知你，并附早鸟优惠。</div>
@@ -524,6 +628,56 @@
         btn.setAttribute('aria-expanded', 'false');
       }
     });
+</script>
+<script data-cfasync="false">
+(function () {
+  function t(k, fb) { return (window.GTZ_T ? window.GTZ_T(k, fb) : fb); }
+
+  /* 1) 实时服务状态（数据来自 /api/status，失败就隐藏，绝不伪造） */
+  var el = document.getElementById('pr-status');
+  var state = null;
+  function render() {
+    if (!el || !state) return;
+    var txt = el.querySelector('.pr-status-text');
+    txt.removeAttribute('data-i18n');
+    el.hidden = false;
+    if (state.ok) {
+      el.classList.add('is-ok');
+      txt.innerHTML = t('pricing.status.ok', '服务正常') + ' · <span class="pr-ms">' + state.ms + ' ms</span> · ' + state.ver;
+    } else {
+      el.classList.add('is-bad');
+      txt.textContent = t('pricing.status.down', '本次检测失败，请刷新重试');
+    }
+  }
+  window.addEventListener('gtz-i18n-ready', render);
+  if (el) {
+    var t0 = performance.now();
+    fetch('/api/status?cb=' + Date.now(), { cache: 'no-store' })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (d) {
+        state = { ok: true, ms: Math.round(performance.now() - t0), ver: d.version || '' };
+        render();
+      })
+      .catch(function () { state = { ok: false }; render(); });
+  }
+
+  /* 2) 候补名单提交：把两个调研字段打进 GA4（不含邮箱等 PII） */
+  var forms = document.querySelectorAll('form.pr-waitlist');
+  for (var i = 0; i < forms.length; i++) {
+    forms[i].addEventListener('submit', function () {
+      var sol  = this.querySelector('select[name="fields[current_solution]"]');
+      var tier = this.querySelector('select[name="fields[planned_tier]"]');
+      if (typeof gtag === 'function') {
+        gtag('event', 'waitlist_submit', {
+          form_location:   this.getAttribute('data-wl') || 'unknown',
+          current_solution: sol  ? (sol.value  || 'unset') : 'none',
+          planned_tier:     tier ? (tier.value || 'unset') : 'none',
+          page_lang:        document.documentElement.lang || 'unknown'
+        });
+      }
+    });
+  }
+})();
 </script>
 </body>
 </html>
