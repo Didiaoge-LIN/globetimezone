@@ -643,7 +643,9 @@
     el.hidden = false;
     if (state.ok) {
       el.classList.add('is-ok');
-      txt.innerHTML = t('pricing.status.ok', '服务正常') + ' · <span class="pr-ms">' + state.ms + ' ms</span> · ' + state.ver;
+      // 只在延迟合理时展示数字（首屏拥塞会污染首次测量）
+      var speed = (state.ms > 0 && state.ms < 3000) ? ' · <span class="pr-ms">' + state.ms + ' ms</span>' : '';
+      txt.innerHTML = t('pricing.status.ok', '服务正常') + speed + ' · ' + state.ver;
     } else {
       el.classList.add('is-bad');
       txt.textContent = t('pricing.status.down', '本次检测失败，请刷新重试');
@@ -651,14 +653,19 @@
   }
   window.addEventListener('gtz-i18n-ready', render);
   if (el) {
-    var t0 = performance.now();
-    fetch('/api/status?cb=' + Date.now(), { cache: 'no-store' })
-      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-      .then(function (d) {
-        state = { ok: true, ms: Math.round(performance.now() - t0), ver: d.version || '' };
-        render();
-      })
-      .catch(function () { state = { ok: false }; render(); });
+    // 延后一会儿再探测：首屏资源加载完后再测量，数值才接近真实的边缘延迟
+    var probe = function (attempt) {
+      var t0 = performance.now();
+      return fetch('/api/status?cb=' + Date.now(), { cache: 'no-store' })
+        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function (d) { return { ok: true, ms: Math.round(performance.now() - t0), ver: d.version || '' }; })
+        .catch(function (e) { if (attempt < 2) return probe(attempt + 1); throw e; });
+    };
+    setTimeout(function () {
+      probe(1)
+        .then(function (s) { state = s; render(); })
+        .catch(function () { state = { ok: false }; render(); });
+    }, 900);
   }
 
   /* 2) 候补名单提交：把两个调研字段打进 GA4（不含邮箱等 PII） */
