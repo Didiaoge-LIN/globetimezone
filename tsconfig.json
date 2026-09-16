@@ -1,16 +1,58 @@
 {
+  // ============================================================
+  // 2026-09-16 修正
+  // 原配置 include = ["workers/**/*"]，但 workers/ 当时被 .gitignore 排除、
+  // 磁盘上根本不存在；同时 exclude 又排除了实际存在的 src/。
+  // 结果：`npm run typecheck` 报 TS18003「No inputs were found」完全失效。
+  //
+  // 现态：workers/ 已恢复入库（13 个独立 Worker + 2 个无配置目录），
+  //       include 恢复指向 workers/，typecheck 可正常工作。
+  //
+  // ⚠️ 首次跑通后的实测结果（2026-09-16）：修复配置后暴露 50 个真实类型错误，
+  //    说明这批 worker 代码从未被类型检查过。按文件分布：
+  //      gateway/index.ts          21 处 ← 线上部署中
+  //      gateway/index-optimized.ts 12 处 ← 无 wrangler 配置引用（历史变体）
+  //      share-handler/index.ts     7 处 ← 线上部署中
+  //      gateway/kv-optimized.ts    7 处 ← 无 wrangler 配置引用（历史变体）
+  //      api-admin/index.ts         3 处 ← 线上部署中
+  //    → 其中 31 处落在「正在部署」的文件上。错误以 Hono CORS 回调返回
+  //      boolean（应为 string|undefined）、KV list 的 cursor 属性、
+  //      ExecutionContext 泛型为主，属系统性模式，可批量修。
+  //    本配置文件只负责「让检查真正跑起来」，不含代码修复。
+  //
+  // TODO（待裁决）：src/ 的 17 个 TS 文件从未被部署（index.html 只加载
+  //   js/ 与根目录脚本），其去留未定。纳入检查会暴露 3 个真实类型错误：
+  //     - src/components/index.ts 引用了 ./real-clock 的 default（不存在）
+  //     - src/components/smart-clock.ts 不是模块
+  //     - src/utils/ads-loader.ts 的 Element.style 不存在
+  //   裁决为「废弃」→ 删 src/ 并保持本配置；裁决为「纳入构建」→
+  //   在 include 中追加 "src/**/*" 并先修掉上述 3 个错误。
+  // ============================================================
   "compilerOptions": {
     "target": "ES2022",
     "module": "ES2022",
-    "lib": ["ES2022", "WebWorker"],
+    "lib": ["ES2022"],
+    // 原配置只有 lib:["WebWorker"]，从未引入 @cloudflare/workers-types
+    // → KVNamespace / DurableObjectNamespace / ExecutionContext /
+    //   ScheduledController / Fetcher 等全部报 TS2304（78 处）。
+    // workers-types 官方要求：不要同时启用 DOM / WebWorker lib，类型由其提供。
+    "types": ["@cloudflare/workers-types"],
+    // worker 代码存在显式 .ts 扩展名 import（如 '../share-handler/index.ts'）
+    "allowImportingTsExtensions": true,
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
+    // 仓库锁定 typescript@^6.0.3。TS6 起 moduleResolution=node10 已废弃并报
+    // TS5107（TS7.0 将彻底移除）。此处保留原解析行为（worker 代码按 node10
+    // 语义编写，存在无扩展名与显式 .ts 扩展名混用的 import），仅消除报错。
+    // 后续要迁移，建议改 "bundler" 并同时开启 allowImportingTsExtensions。
+    "ignoreDeprecations": "6.0",
     "outDir": "./dist",
-    "rootDir": "."
+    "rootDir": ".",
+    "noEmit": true
   },
   "include": ["workers/**/*"],
-  "exclude": ["node_modules", "dist", "src", "public"]
+  "exclude": ["node_modules", "dist", "public", "src", "js", "functions"]
 }
