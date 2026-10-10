@@ -20,39 +20,31 @@
  *   复制完成后做一次反向校验：若 dist/ 中仍出现工程文件特征（*.toml、
  *   package.json、.cfignore、src/ 等），直接失败退出，避免漏排静默上线。
  *
- * ⚠️ 启用状态（2026-09-14 实测）：【暂不可启用】—— 会在 CF Pages 构建阶段失败。
+ * 部署模式与启用方式（2026-10-10 修订）：
+ *   本仓库通过 `wrangler pages publish .` **直接上传**部署（非 Git 连接构建），
+ *   因此【不涉及 CF Pages 的 build command / npm install】—— 注释里记录的
+ *   "build 阶段 npm install 失败" 阻塞对本模式不适用。启用方式改为：
+ *     本地：node scripts/build-static.cjs   →  产出 dist/
+ *     部署：wrangler pages publish dist --project-name globetimezone-web
+ *   即在本地生成仅含公开产物的 dist/，再上传 dist/ 而非整个仓库根，
+ *   工程文件（wrangler.*.toml / src / workers / scripts / package.json …）
+ *   根本不进入部署产物，根治泄露。
  *
- *   已完整验证过一轮，结论记录在此，避免重复踩坑：
- *     · 脚本本身没问题：在本地「干净克隆」（无 dist、无 node_modules）下
- *       成功产出 402 个文件 / 33.2 MB，退出码 0。
- *     · 设成 Build command = node scripts/build-static.cjs、输出目录 = dist
- *       后，CF Pages 的 build 阶段连续 4 次失败（a6705e98 / ce3d8522 /
- *       82a8a0a1 / 465878b3），每次约 11 秒，deploy 阶段保持 idle。
- *     · 二分定位（用 preview 分支，不影响生产）：把构建命令改成必然成功的
- *       `node -v`、输出目录改回 `.`，**同样失败** —— 说明失败与脚本、
- *       与 dist 目录都无关，而是「一旦设置了 build command，Pages 就会先
- *       执行依赖安装」，而本仓库 package.json 含 playwright（postinstall
- *       需下载浏览器）、wrangler、typescript 等重型依赖，装不上即判失败。
- *     · 期间生产未受影响：构建失败时 Pages 继续服务上一个成功部署。
- *
- *   后续可行路线（任选其一，均需评估后再动）：
- *     1) 让 npm install 能在 Pages 构建环境成功（清理/瘦身依赖、提交
- *        lockfile、去掉 postinstall 下载）后再启用本脚本；
- *     2) 改用「main 分支只放可部署内容」的分支分离方案（工程文件移到
- *        其它分支/仓库），这样无需 build command，也就不会触发安装；
- *     3) 维持现状：仓库根部署 + _redirects 屏蔽段（线上实测 32/32 全阻断）。
- *
- * 启用方式（待上述阻塞解除后，在 Cloudflare Dashboard 操作一次）：
- *   Pages 项目 → Settings → Builds & deployments
- *     Build command          : node scripts/build-static.cjs
- *     Build output directory : dist
- *   （wrangler.toml 中的 [build] publish 为已废弃字段，实测会被忽略并告警，
- *     真正的构建配置以 Dashboard 为准。）
+ *   历史验证存档（2026-09-14，git 连接 + build command 模式下的失败，仅作记录）：
+ *     · 脚本本身没问题：干净克隆下成功产出 402 文件 / 33.2 MB，退出码 0。
+ *     · 设 Build command = node scripts/build-static.cjs、输出 = dist 后，
+ *       CF Pages build 阶段连续 4 次失败，二分定位为「一旦设置 build
+ *       command，Pages 先跑 npm install」，而本仓库 package.json 含
+ *       playwright/wrangler/typescript 等重型依赖装不上即判失败。
+ *     · 该阻塞仅存在于「Git 连接 + build command」模式；直接上传模式绕开。
  *
  * 注意：
- *   · functions/ 仍需留在仓库根 —— Pages Functions 从仓库根读取，与 publish
- *     目录相互独立，不受本次分离影响。
- *   · _headers / _redirects 必须复制进 dist/，Pages 只从 publish 目录读取它们。
+ *   · functions/ 必须【保留在 dist/ 内】—— 本仓库走 `wrangler pages publish
+ *     dist` 直接上传，Pages Functions 从发布目录的 functions/ 编译，与
+ *     publish 目录是同一份；排除它会让 sitemap/og/api/语言中间件等全挂。
+ *     函数源码由 CF 编译为服务端代码，不会作为静态文件公开，故非泄露。
+ *   · _headers / _redirects / _routes.json 必须复制进 dist/，Pages 只从
+ *     publish 目录读取它们（脚本不会排除这三份文件）。
  *   · 启用后，_redirects 中的安全屏蔽段可退化为纵深防御，
  *     并由 scripts/gen-security-redirects.cjs --check 在 CI 中守住不漂移。
  *
@@ -74,9 +66,9 @@ const EXCLUDE_DIRS = [
   '.playwright-cli',
   'node_modules',
   'dist',
-  // functions/ 必须留在仓库根 —— Pages Functions 从仓库根编译，
-  // 与 publish 目录相互独立；若复制进 dist/ 会作为静态文件暴露函数源码。
-  'functions',
+  // ⚠️ functions/ 必须【保留】—— 本仓库通过 `wrangler pages publish dist`
+  //    直接上传部署，Pages Functions 从发布目录的 functions/ 编译，
+  //    与 publish 目录是同一份；若排除它，sitemap/og/api/语言中间件等全挂。
   'src',
   'docs',
   'ops',
@@ -90,7 +82,12 @@ const EXCLUDE_DIRS = [
   'extension-chrome',
   'extension-firefox',
   'data',
-  'scripts/legacy',
+  // ⚠️ workers/ 是 Cloudflare Workers 源码（含 .ts），会被当静态文件公开，
+  //    属真实泄露（实测 /workers/gateway/index.ts 返回 200），必须排除。
+  'workers',
+  // ⚠️ scripts/ 是构建/审计工具（含 .cjs/.py/.sh），非站点运行时且含源码，
+  //    全部排除（原仅排除 scripts/legacy，仍会漏 scripts/*.cjs 等）。
+  'scripts',
 ];
 
 /** 按文件名排除的工程文件 */
@@ -121,8 +118,10 @@ const FORBIDDEN = [
   { re: /(^|\/)\.gitignore$/, what: 'git 忽略文件' },
   { re: /(^|\/)\.env/, what: '环境变量文件' },
   { re: /(^|\/)sri-manifest\.json$/, what: 'SRI 清单' },
-  { re: /^\/(src|docs|ops|outreach|data|templates)\//, what: '工程目录' },
+  { re: /^\/(src|docs|ops|outreach|data|templates|workers|scripts)\//, what: '工程目录' },
   { re: /(^|\/)minify-js\.js$/, what: '构建脚本' },
+  // 构建/脚本类文件（无论位于哪个目录，均不应进入静态产物）
+  { re: /\.(cjs|mjs|py|sh)$/, what: '构建/脚本文件' },
 ];
 
 function relOf(p) {
@@ -214,9 +213,9 @@ function main() {
   console.log(`[ok] dist/ 构建完成：${files.length} 个文件，${(bytes / 1024 / 1024).toFixed(1)} MB`);
   console.log('     校验通过：未包含任何工程文件特征。');
   console.log('');
-  console.log('     启用部署（在 Cloudflare Dashboard 操作一次）：');
-  console.log('       Build command          : node scripts/build-static.cjs');
-  console.log('       Build output directory : dist');
+  console.log('     部署（直接上传模式，无需改 Dashboard）：');
+  console.log('       node scripts/build-static.cjs   # 生成 dist/');
+  console.log('       wrangler pages publish dist --project-name globetimezone-web');
 }
 
 main();

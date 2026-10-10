@@ -122,6 +122,7 @@ const DIRS = [
   'product-hunt',
   'email-templates',
   'data',
+  'workers',
 ];
 
 /**

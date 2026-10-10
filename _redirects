@@ -65,6 +65,8 @@
 #   该页已 noindex 且不进 sitemap，这里 301 兜住任何外部直达流量。
 /pro /pricing/ 301
 
+
+
 # === SECURITY-BLOCKLIST:BEGIN ===
 # 本段由 scripts/gen-security-redirects.cjs 生成 —— 勿手改。
 # 新增工程文件/目录时改该脚本的清单，再重跑。
@@ -117,6 +119,7 @@
 /product-hunt/* /404 302
 /email-templates/* /404 302
 /data/* /404 302
+/workers/* /404 302
 
 # 工程目录（语言前缀）—— CF 不支持双 * 通配，只能逐语言展开
 /en/.workbuddy/* /404 302
